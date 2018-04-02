@@ -1,0 +1,6 @@
+temp/
+library/
+local/
+packages/
+.idea/
+build/
