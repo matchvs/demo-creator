@@ -1,32 +1,40 @@
 var engine;
 var response = {};
-var MatchInfo;
-var CreateRoomInfo;
+var MsMatchInfo;
+var MsCreateRoomInfo;
+var MsRoomFilterEx;
 
-var GetRoomListExReq;
 try {
+	console.log("load matchvs JSB  a ");
     engine = Matchvs.MatchvsEngine.getInstance();
-    MatchInfo = Matchvs.MatchInfo;
-    CreateRoomInfo = Matchvs.CreateRoomInfo;
-
-    MsRoomFilterEx  = Matchvs.MsRoomFilterEx ;
+	console.log("load matchvs JSB  a1 ");
+    MsMatchInfo = Matchvs.MatchInfo;
+	console.log("load matchvs JSB  a2 ");
+    MsCreateRoomInfo = Matchvs.CreateRoomInfo;
+	console.log("load matchvs JSB  a3 ");
+    MsRoomFilterEx  = Matchvs.RoomFilterEx ;
+	console.log("load matchvs JSB b ");
 } catch (e) {
+	console.error("load matchvs JSB fail,"+e.message);
     try {
         var jsMatchvs = require("matchvs.all");
         engine = new jsMatchvs.MatchvsEngine();
         response = new jsMatchvs.MatchvsResponse();
-        MatchInfo = jsMatchvs.MatchInfo;
-        CreateRoomInfo = jsMatchvs.CreateRoomInfo;
+        MsMatchInfo = jsMatchvs.MsMatchInfo;
+        MsCreateRoomInfo = jsMatchvs.MsCreateRoomInfo;
         MsRoomFilterEx  = jsMatchvs.MsRoomFilterEx ;
+		console.log("load matchvs.all.js");
     } catch (e) {
+		console.error(e);
         var MatchVSEngine = require('MatchvsEngine');
+		console.log("load matchvs JSB");
         engine = new MatchVSEngine();
     }
 }
 module.exports = {
     engine: engine,
     response: response,
-    MatchInfo: MatchInfo,
-    CreateRoomInfo: CreateRoomInfo,
-    MsRoomFilterEx :MsRoomFilterEx ,
+    MsMatchInfo: MsMatchInfo,
+    MsCreateRoomInfo: MsCreateRoomInfo,
+    MsRoomFilterEx :MsRoomFilterEx 
 };

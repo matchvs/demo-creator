@@ -9,6 +9,7 @@ cc.Class({
         secret: cc.Node,
         alphaRadio: cc.Node,
         confirm: cc.Node,
+        clear: cc.Node,
         labelInfo: {
             default: null,
             type: cc.Label
@@ -19,14 +20,14 @@ cc.Class({
         this.labelInfo.string += '\n' + info;
     },
 
-    onLoad () {
+    onLoad :function() {
         var self = this;
         this.alphaRadio.getComponent(cc.Toggle).isChecked = true;
         this.confirm.on(cc.Node.EventType.TOUCH_END, function(event){
             // 获取用户输入的参数
-            GLB.gameId = Number(self.gameIdInput.getComponent(cc.EditBox).string);
-            GLB.appKey = self.appKeyInput.getComponent(cc.EditBox).string;
-            GLB.secret = self.secret.getComponent(cc.EditBox).string;
+            // GLB.gameId = Number(self.gameIdInput.getComponent(cc.EditBox).string);
+            // GLB.appKey = self.appKeyInput.getComponent(cc.EditBox).string;
+            // GLB.secret = self.secret.getComponent(cc.EditBox).string;
             var alpha = self.alphaRadio.getComponent(cc.Toggle).isChecked;
             if (alpha === true) {
                 GLB.platform = 'alpha';
@@ -42,9 +43,15 @@ cc.Class({
                 return self.labelLog('初始化失败,错误码:' + result);
             }
         });
+
+        this.clear.on(cc.Node.EventType.TOUCH_END, function(event){
+            cc.sys.localStorage.removeItem("id");
+            cc.sys.localStorage.removeItem("token");
+            console.log("clear user info cache");
+        });
     },
 
-    start () {
+    start:function () {
 
     },
 
@@ -79,18 +86,18 @@ cc.Class({
         mvs.response.loginResponse = this.loginResponse.bind(this); // 用户登录之后的回调
         var deviceId = 'abcdef';
         var gatewayId = 0;
-        this.labelLog('开始登录,用户Id:' + id)
+        this.labelLog('开始登录,用户Id:' + id+" gameId "+GLB.gameId);
         var result = mvs.engine.login(id, token,
             GLB.gameId, GLB.gameVersion,
             GLB.appKey, GLB.secret,
             deviceId, gatewayId);
         if (result !== 0)
-            return this.labelLog('登录失败,错误码:' + status);
+            return this.labelLog('登录失败,错误码:' + result);
     },
 
     loginResponse: function (info) {
         if (info.status !== 200)
-            return this.labelLog('登录失败,异步回调错误码:' + info.status)
+            return this.labelLog('登录失败,异步回调错误码:' + info.status);
         else {
             if (info.roomID != null) {
                 var result = mvs.engine.reconnect();

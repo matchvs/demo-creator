@@ -32,7 +32,8 @@ cc.Class({
             default: null,
             type: cc.Label
         },
-        leaveRoom: cc.Node
+        leaveRoom: cc.Node,
+		joinopen: cc.Node
     },
 
     labelLog: function (info) {
@@ -66,6 +67,13 @@ cc.Class({
             mvs.engine.leaveRoom("");
             cc.director.loadScene('lobby');
         });
+        var isOpen = true;
+		this.joinopen.on(cc.Node.EventType.TOUCH_END, function(event){
+            isOpen =!isOpen;
+		    console.log("joinopen:"+isOpen);
+        });
+		
+		
     },
 
     joinRoomResponse: function (status, userInfoList, roomInfo) {

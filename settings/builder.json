@@ -1,7 +1,7 @@
 {
   "appKey": "",
   "appSecret": "",
-  "encryptJs": true,
+  "encryptJs": false,
   "excludeScenes": [],
   "includeAnySDK": false,
   "includeSDKBox": false,
@@ -18,7 +18,7 @@
     "portrait": false,
     "upsideDown": false
   },
-  "packageName": "org.cocos2d.complete_project",
+  "packageName": "org.cocos2d.complet1",
   "privateKey": "",
   "renderMode": "0",
   "startScene": "458cbdf5-efc9-4be6-87d3-040eaae36764",
