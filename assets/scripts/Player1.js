@@ -70,32 +70,22 @@ cc.Class({
         this._super();
 
         if (GLB.syncFrame === false) {
-            var id = setInterval(() => {
-                mvs.engine.sendEventEx(0, JSON.stringify({
-                    action: GLB.PLAYER_POSITION_EVENT,
-                    x: this.node.x,
-                    xSpeed: this.xSpeed,
-                    accLeft: this.accLeft,
-                    accRight: this.accRight,
-                    ts: new Date().getTime()
-                }), 0, GLB.playerUserIds);
-
-                if (GLB.isGameOver === true) {
-                    clearInterval(id);
-                }
-
-                // mvs.engine.sendEvent(JSON.stringify({
-                //     action: GLB.PLAYER_POSITION_EVENT,
-                //     x: this.node.x,
-                //     xSpeed: this.xSpeed,
-                //     accLeft: this.accLeft,
-                //     accRight: this.accRight,
-                //     ts: new Date().getTime()
-                // }));
-
-                // this.sendCountValue++;
-                // this.sendCount.string = "send msg count: " + this.sendCountValue;
-            }, 200);
+                this.timer = setInterval(() => {
+                    var obj = JSON.stringify({
+                        action: GLB.PLAYER_POSITION_EVENT,
+                        x: this.node.x,
+                        xSpeed: this.xSpeed,
+                        accLeft: this.accLeft,
+                        accRight: this.accRight,
+                        score:[... GLB.scoreMap],
+                        ts: new Date().getTime()
+                    });
+                    mvs.engine.sendEventEx(0,obj , 0, GLB.playerUserIds);
+                    console.log(GLB.isGameOver);
+                    if (GLB.isGameOver === true) {
+                        clearInterval(this.timer);
+                    }
+                }, 200);
         } else {
             var id = setInterval(() => {
                 mvs.engine.sendFrameEvent(JSON.stringify({
@@ -104,7 +94,8 @@ cc.Class({
                     xSpeed: this.xSpeed,
                     accLeft: this.accLeft,
                     accRight: this.accRight,
-                    ts: new Date().getTime()
+                    ts: new Date().getTime(),
+
                 }));
                 if (GLB.isGameOver === true) {
                     clearInterval(id);
@@ -116,5 +107,11 @@ cc.Class({
 
         // 初始化键盘输入监听
         this.setInputControl();
+    },
+
+    onDestroy() {
+        clearInterval(this.timer);
     }
+
+
 });

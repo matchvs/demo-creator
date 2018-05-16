@@ -50,16 +50,19 @@ cc.Class({
     onLoad () {
         var self = this;
         this.back.on(cc.Node.EventType.TOUCH_END, function(event){
-            mvs.engine.leaveRoom("");
             cc.director.loadScene("lobby");
         });
         this.match.on(cc.Node.EventType.TOUCH_END, function(event){
             var roomidTmp = self.roomID.string;
-            self.labelLog("开始加入指定房间, roomid:" + roomidTmp);
-            mvs.response.joinRoomResponse = self.joinRoomResponse.bind(self);
-            mvs.response.errorResponse = self.errorResponse.bind(self);
-            mvs.response.kickPlayerNotify = self.kickPlayerNotify.bind(self);
-            var result = mvs.engine.joinRoom(roomidTmp, "joinRoomSpecial");
+            if (roomidTmp !== null && roomidTmp !== "") {
+                self.labelLog("开始加入指定房间, roomid:" + roomidTmp);
+                mvs.response.joinRoomResponse = self.joinRoomResponse.bind(self);
+                mvs.response.errorResponse = self.errorResponse.bind(self);
+                mvs.response.kickPlayerNotify = self.kickPlayerNotify.bind(self);
+                var result = mvs.engine.joinRoom(roomidTmp, "china");
+            } else {
+                self.labelLog("房间ID为空，请输入指定房间号");
+            }
             self.labelLog("result:" + result);
             if (result !== 0)
                 return self.labelLog('进入房间失败,错误码:' + result);           
@@ -78,8 +81,8 @@ cc.Class({
         }
 
 
-        var userIds = [GLB.userInfo.id]
-        userInfoList.forEach(function(item) {if (GLB.userInfo.id !== item.userId) userIds.push(item.userId)});
+        var userIds = [GLB.userID]
+        userInfoList.forEach(function(item) {if (GLB.userID !== item.userId) userIds.push(item.userId)});
         this.labelLog('房间用户: ' + userIds);
         mvs.response.sendEventNotify = this.sendEventNotify.bind(this); // 设置事件接收的回调
 
@@ -146,11 +149,11 @@ cc.Class({
             && info.cpProto
             && info.cpProto.indexOf(GLB.GAME_START_EVENT) >= 0) {
 
-            GLB.playerUserIds = [GLB.userInfo.id]
+            GLB.playerUserIds = [GLB.userID]
             // 通过游戏开始的玩家会把userIds传过来，这里找出所有除本玩家之外的用户ID，
             // 添加到全局变量playerUserIds中
             JSON.parse(info.cpProto).userIds.forEach(function(userId) {
-                if (userId !== GLB.userInfo.id) GLB.playerUserIds.push(userId)
+                if (userId !== GLB.userID) GLB.playerUserIds.push(userId)
             });
             this.startGame()
         }

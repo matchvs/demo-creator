@@ -20,8 +20,19 @@ cc.Class({
         //     type: [cc.Node]
         // },
 
-        scoreDisplays: [cc.Label],
-
+        // scoreDisplays: [cc.Label],
+        scoreDisplays0 :{
+            default: null,
+            type: cc.Label
+        },
+        scoreDisplays1 :{
+            default: null,
+            type: cc.Label
+        },
+        scoreDisplays2 :{
+            default: null,
+            type: cc.Label
+        },
         // 引用星星预支资源
         starPrefab: {
             default: null,
@@ -67,13 +78,19 @@ cc.Class({
 
 
     onLoad: function () {
+        this.scoreDisplays = [this.scoreDisplays0,this.scoreDisplays1,this.scoreDisplays2];
         this.timer = 0;
         this.starDuration = this.maxStarDuration - this.minStarDuration;
         this.gameTime = 9999;
         this.scores = [0, 0, 0];
         this.roomidLabel.string = "房间号:" + GLB.roomId;
-        this.useridLabel.string = "用户id:" + GLB.userInfo.id;
-        GLB.scoreMap = new Map();
+        this.useridLabel.string = "用户id:" + GLB.userID;
+        if (GLB.reconnectSorce != null) {
+            GLB.scoreMap = new Map(GLB.reconnectSorce);
+            GLB.reconnectSorce = null;
+        } else {
+            GLB.scoreMap = new Map();
+        }
         // 场景ground的高度
         this.groundY = this.ground.y + this.ground.height / 2;
         this.compensation = 50
@@ -84,14 +101,17 @@ cc.Class({
         mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
         mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
-
+        mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
         this.spawnNewStar();
 
         for(var i = 0; i < GLB.MAX_PLAYER_COUNT; i++) {
             var userId = GLB.playerUserIds[i];
             // this.scoreDisplays[i].string = userId + ': 0';
             this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = userId;
-            GLB.scoreMap.set(userId, 0);
+            if (!GLB.isReconnect) {
+                GLB.scoreMap.set(parseInt(userId), 0);
+
+            }
         }
         this.refreshScore();
 
@@ -116,10 +136,10 @@ cc.Class({
             mvs.response.sendEventGroupNotify = self.sendEventGroupNotify.bind(self);
         });
         this.buttonLeaveRoom.on(cc.Node.EventType.TOUCH_END, function(event){
-            GLB.isGameOver = true;
             for (var i = 0, l = self.players.length; i < l; i++) {
                 self.players[i].stopAllActions()
             }
+            GLB.isGameOver = true;
             mvs.engine.leaveRoom("");
             cc.director.loadScene('lobby');
         });
@@ -138,13 +158,13 @@ cc.Class({
         this.buttonSend.active = false;
         self.labelGameoverTime.string = GLB.playertime;
         GLB.isGameOver = false;
-        var id = setInterval(() => {
+        this.id = setInterval(() => {
                 self.labelGameoverTime.string = self.labelGameoverTime.string - 1;
                 if (self.labelGameoverTime.string == 2) {
                     GLB.isGameOver = true;
                 }
                 if (self.labelGameoverTime.string == 0) {
-                    clearInterval(id);
+                    clearInterval(this.id);
                     self.gameOver();
                 }
             }, 1000);
@@ -159,7 +179,6 @@ cc.Class({
 
     leaveRoomNotify: function (rsp) {
         this.labelLog("leaveRoomNotify");
-        GLB.isGameOver = true;
         this.gameOver();
     },
 
@@ -197,7 +216,7 @@ cc.Class({
                 var cpProto = JSON.parse(info.cpProto);
                 var player = this.getPlayerByUserId(info.srcUserId);
                 
-                if (info.srcUserId == GLB.userInfo.id) {
+                if (info.srcUserId == GLB.userID) {
                     var delayValue = new Date().getTime() - cpProto.ts;
                     this.delay.string = "delay: " + delayValue;
                     if (this.minDelayValue === undefined || delayValue < this.minDelayValue) {
@@ -209,7 +228,7 @@ cc.Class({
                         this.maxDelay.string = "maxDelay: " + delayValue;
                     }
                 } else if (player) {
-                    player.node.x = cpProto.x;
+                    player.x = cpProto.x;
                     player.xSpeed = cpProto.xSpeed;
                     player.accLeft = cpProto.accLeft;
                     player.accRight = cpProto.accRight;
@@ -219,7 +238,9 @@ cc.Class({
                 var playerIndex = this.getPlayerIndexByUserId(info.srcUserId);
                 var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
                 // this.scoreDisplays[playerIndex - 1].string = label;
-                GLB.scoreMap.set(info.srcUserId, JSON.parse(info.cpProto).score);
+                if (GLB.userID != info.srcUserId) {
+                    GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
+                }
                 this.refreshScore();
                 // 有玩家得分之后，创建新的星星
                 this.spawnNewStar();
@@ -268,7 +289,9 @@ cc.Class({
                     var playerIndex = this.getPlayerIndexByUserId(info.srcUserId);
                     var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
                     // this.scoreDisplays[playerIndex - 1].string = label;
-                    GLB.scoreMap.set(info.srcUserId, JSON.parse(info.cpProto).score);
+                    if (GLB.userID != info.srcUserId) {
+                        GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
+                    }
                     this.refreshScore();
                     // 有玩家得分之后，创建新的星星
                     this.spawnNewStar();
@@ -293,7 +316,9 @@ cc.Class({
     getPlayerByUserId: function(userId) {
         var index = this.getPlayerIndexByUserId(userId);
         if (index) {
-            return this.players[index-1].getComponent("Player" + index);
+            // console.log(this.players[index-1]+"555");
+            // return this.players[index-1].getComponent("" + index);
+            return this.players[index-1];
         }
     },
 
@@ -347,8 +372,9 @@ cc.Class({
     // 得分
     gainScore: function () {
         this.scores[0] += 1;
-        var label = GLB.userInfo.id + ': ' + this.scores[0];
-        GLB.scoreMap.set(GLB.userInfo.id, this.scores[0]);
+        var label = GLB.userID + ': ' + this.scores[0];
+        GLB.scoreMap.delete(parseInt(GLB.userID));
+        GLB.scoreMap.set(parseInt(GLB.userID), this.scores[0]);
         this.refreshScore();
         // this.scoreDisplays[0].string = label;
         // 播放得分音效
@@ -380,15 +406,19 @@ cc.Class({
         var score = new Array();
         var i = 0;
         for (var [key, value] of GLB.scoreMap.entries()) {
-            score[i] = {
-                uid: key,
-                score: value
-            };
-            i++;
+            if (key != null && key != undefined) {
+                score[i] = {
+                    uid: key,
+                    score: value
+                };
+                i++;
+            }
         }
         this.bubbleSort(score);
         for (i = 0; i < score.length; i++) {
+            console.log("score.length"+score.length)
             this.scoreDisplays[i].string = score[i].uid + ': ' + score[i].score;
+            GLB.playerUserScore.push(score[i].score);
         }
         GLB.number1 = score[0].uid + ': ' + score[0].score;
         GLB.number2 = score[1].uid + ': ' + score[1].score;
@@ -400,11 +430,40 @@ cc.Class({
         for (var i = 0, l = this.players.length; i < l; i++) {
             this.players[i].stopAllActions()
         }
+        GLB.isGameOver = true;
         // 跳转到场景Game
+        // mvs.engine.leaveRoom("");
         cc.director.loadScene('result');
     },
 
     labelLog: function (info) {
         this.labelInfo.string += '\n' + info;
-    },    
+    },
+
+    networkStateNotify:function (netnotify) {
+        console.log("netnotify");
+        console.log("netnotify.owner:"+netnotify.owner);
+        if (netnotify.owner == GLB.userID) {
+            GLB.isRoomOwner = true;
+        }
+
+        console.log("玩家："+netnotify.userID+" state:"+netnotify.state);
+        if (netnotify.state == 2) {
+            console.log("玩家已经重连进来");
+            var event = {
+                action: GLB.GAME_RECONNECT,
+                scoreMap: GLB.scoreMap
+            }
+            var result = mvs.engine.sendEvent(JSON.stringify(event))
+            if (!result || result.result !== 0) {
+                console.log("发送分数信息失败");
+                mvs.engine.sendEvent(JSON.stringify(event))
+            }
+        }
+    },
+
+    onDestroy() {
+        clearInterval(this.id);
+        GLB.isGameOver = true;
+    }
 })

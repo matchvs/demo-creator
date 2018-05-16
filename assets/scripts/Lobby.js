@@ -15,7 +15,14 @@ cc.Class({
         labelInfo: {
             default: null,
             type: cc.Label
-        }
+        },
+
+        errorMsg: {
+            default: null,
+            type: cc.Label
+        },
+
+        btnBack: cc.Node,
     },
 
     onLoad () {
@@ -67,10 +74,18 @@ cc.Class({
             cc.director.loadScene('match');
         });
 
+        this.btnBack.on(cc.Node.EventType.TOUCH_END, function(event){
+            cc.director.loadScene('login');
+        });
+
+
+    mvs.response.errorResponse = this.errorResponse.bind(this);
+        // mvs.response.reconnectResponse = this.reconnectResponse.bind(this);
         GLB.playerUserIds = [];
         GLB.playerSet.clear();
         GLB.isRoomOwner = false;
         GLB.syncFrame = false;
+        this.btnBack.active = false;
         this.buttonLeaveRoom.active = false;
     },
 
@@ -84,20 +99,35 @@ cc.Class({
     },
 
     recordPlayerUserIds: function (userIds) {
-        GLB.playerUserIds = [GLB.userInfo.id]
+        GLB.playerUserIds = [GLB.userID]
 
         for (var i = 0, l = userIds.length; i < l; i++) {
             var userId = userIds[i]
-            if (userId !== GLB.userInfo.id) {
+            if (userId != GLB.userID) {
                 GLB.playerUserIds.push(userId)
             }
         }
     },
 
+    errorResponse :function (rep,Lobby) {
+        this.randomMatch.active = false;
+        this.selfDefMatch.active = false;
+        this.joinCertainRoom.active = false;
+        this.createRoom.active = false;
+        this.returnLogin.active = false;
+        this.buttonSyncFrame.active = false;
+        this.buttonLeaveRoom.active = false;
+        this.roomList.active = false;
+        this.btnBack.active = true;
+        this.errorMsg.string = 'errorCode='+rep+'errorMsg='+Lobby;
+    },
+
     initResponse: function(status) {
         this.labelLog('初始化成功，开始注册用户');
-        mvs.response.registerUserResponse = this.registerUserResponse.bind(this); // 用户注册之后的回调
-        var result = mvs.engine.registerUser();
+
+
+            mvs.response.registerUserResponse = this.registerUserResponse.bind(this); // 用户注册之后的回调
+            var result = mvs.engine.registerUser();
         if (result !== 0)
             return this.labelLog('注册用户失败，错误码:' + result);
         else
@@ -105,18 +135,20 @@ cc.Class({
     },
 
     registerUserResponse: function (userInfo) {
-        var deviceId = 'abcdef';
-        var gatewayId = 0;
-        GLB.userInfo = userInfo;
-
+        GLB.userID = userInfo.id;
         this.labelLog('开始登录,用户Id:' + userInfo.id)
 
         mvs.response.loginResponse = this.loginResponse.bind(this); // 用户登录之后的回调
-        var result = mvs.engine.login(userInfo.id, userInfo.token,
+        this.login(userInfo.id,userInfo.token);
+    },
+
+    login :function (id,token) {
+        var deviceId = 'abcdef';
+        var gatewayId = 0;
+        var result = mvs.engine.login(id, token,
             GLB.gameId, GLB.gameVersion,
             GLB.appKey, GLB.secret,
             deviceId, gatewayId);
-
         if (result !== 0)
             return this.labelLog('登录失败,错误码:' + status);
     },
@@ -143,8 +175,8 @@ cc.Class({
         }
 
 
-        var userIds = [GLB.userInfo.id]
-        userInfoList.forEach(function(item) {if (GLB.userInfo.id !== item.userId) userIds.push(item.userId)});
+        var userIds = [GLB.userID]
+        userInfoList.forEach(function(item) {if (GLB.userID !== item.userId) userIds.push(item.userId)});
         this.labelLog('房间用户: ' + userIds);
         mvs.response.sendEventNotify = this.sendEventNotify.bind(this); // 设置事件接收的回调
 
@@ -218,13 +250,15 @@ cc.Class({
             && info.cpProto
             && info.cpProto.indexOf(GLB.GAME_START_EVENT) >= 0) {
 
-            GLB.playerUserIds = [GLB.userInfo.id]
+            GLB.playerUserIds = [GLB.userID]
             // 通过游戏开始的玩家会把userIds传过来，这里找出所有除本玩家之外的用户ID，
             // 添加到全局变量playerUserIds中
             JSON.parse(info.cpProto).userIds.forEach(function(userId) {
-                if (userId !== GLB.userInfo.id) GLB.playerUserIds.push(userId)
+                if (userId !== GLB.userID) GLB.playerUserIds.push(userId)
             });
             this.startGame()
         }
-    },    
+    },
+
+
 });

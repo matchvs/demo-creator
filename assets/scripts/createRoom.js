@@ -9,6 +9,7 @@
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 var mvs = require("Matchvs");
 var GLB = require("Glb");
+var roomID;
 cc.Class({
     extends: cc.Component,
 
@@ -51,7 +52,12 @@ cc.Class({
         leaveRoom: cc.Node,
         btnStartGame: cc.Node,
         kickPlayer2: cc.Node,
-        kickPlayer3: cc.Node
+        kickPlayer3: cc.Node,
+        seleButton: cc.Node,
+        mapString: {
+            default: null,
+            type: cc.Label
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -63,8 +69,11 @@ cc.Class({
         create.mode = 0;
         create.canWatch = 0;
         create.visibility = 1;
-        create.roomProperty = 'roomProperty';
+
+        create.roomProperty = '白天模式';
         mvs.response.createRoomResponse = this.createRoomResponse.bind(this);
+        mvs.response.kickPlayerNotify = this.kickPlayerNotify.bind(this);
+        mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
         var result = mvs.engine.createRoom(create, 'userProfile');
         if (result !== 0)
             return this.labelLog('创建房间失败,错误码:' + result);
@@ -108,11 +117,39 @@ cc.Class({
                 self.labelLog('房间人数小于' + GLB.MAX_PLAYER_COUNT);
             }
         });
+        this.seleButton.on(cc.Node.EventType.TOUCH_END, function(event){
+            mvs.response.setRoomPropertyResponse = self.setRoomPropertyResponse.bind(self);
+            var mapType = self.mapString.string;
+            if (mapType === '白天模式') {
+                mvs.engine.setRoomProperty(GLB.roomId,"黑夜模式");
+            } else {
+                mvs.engine.setRoomProperty(GLB.roomId,"白天模式");
+            }
+        });
     },
 
     start () {
 
     },
+
+    setRoomPropertyResponse: function (rsp) {
+        var status = rsp.status;
+        if (status !== 200) {
+            return this.labelLog('修改房间属性失败,异步回调错误码: ' + status);
+        } else {
+            if (rsp.roomProperty === '白天模式') {
+                this.mapString.string = rsp.roomProperty;
+                GLB.mapType = rsp.roomProperty;
+                this.seleButton.getChildByName("Label").getComponent(cc.Label).string = '切换黑夜模式';
+
+            } else {
+                this.mapString.string = rsp.roomProperty;
+                GLB.mapType = rsp.roomProperty;
+                this.seleButton.getChildByName("Label").getComponent(cc.Label).string = '切换为白天模式';
+            }
+        }
+    },
+
 
     createRoomResponse: function (rsp) {
         var status = rsp.status;
@@ -122,12 +159,14 @@ cc.Class({
             this.labelLog('创建房间成功:' + JSON.stringify(rsp));
             this.labelLog('房间号: ' + rsp.roomID);
             this.labelMyRoomID.string = rsp.roomID;
-            this.labelUserID1.string = GLB.userInfo.id;
+            this.labelUserID1.string = GLB.userID;
             mvs.response.sendEventNotify = this.sendEventNotify.bind(this); // 设置事件接收的回调
             mvs.response.joinRoomNotify = this.joinRoomNotify.bind(this);
             mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
-            GLB.playerSet.add(Number(GLB.userInfo.id));
+            GLB.playerSet.add(Number(GLB.userID));
             GLB.roomId = rsp.roomID;
+            GLB.mapType = "白天模式";
+            this.mapString.string = "白天模式";
         }
     },
 
@@ -150,7 +189,9 @@ cc.Class({
         } else if (this.labelUserID3.string === '' && this.labelUserID2.string != rsp.userId) {
             this.labelUserID3.string = rsp.userId;
         }
-        GLB.playerSet.add(Number(rsp.userId));
+        if (rsp.userId != GLB.userID) {
+            GLB.playerSet.add(Number(rsp.userId));
+        }
     },
 
     sendEventNotify: function (info) {
@@ -158,12 +199,13 @@ cc.Class({
             && info.cpProto
             && info.cpProto.indexOf(GLB.GAME_START_EVENT) >= 0) {
 
-            GLB.playerUserIds = [GLB.userInfo.id]
+            GLB.playerUserIds = [GLB.userID]
             // 通过游戏开始的玩家会把userIds传过来，这里找出所有除本玩家之外的用户ID，
             // 添加到全局变量playerUserIds中
             JSON.parse(info.cpProto).userIds.forEach(function(userId) {
-                if (userId !== GLB.userInfo.id) GLB.playerUserIds.push(userId)
+                if (userId !== GLB.userID) GLB.playerUserIds.push(userId)
             });
+
             this.startGame()
         }
     },
@@ -183,7 +225,12 @@ cc.Class({
 
     startGame: function () {
         this.labelLog('游戏即将开始')
-        cc.director.loadScene('game')
+        if (GLB.mapType === "白天模式") {
+            cc.director.loadScene('game')
+        } else {
+            cc.director.loadScene('gameB')
+        }
+
     },
 
     joinOverResponse: function(joinOverRsp) {
@@ -226,6 +273,17 @@ cc.Class({
             delete GLB.events[info.sequence]
             this.startGame()
         }
+    },
+
+    kickPlayerNotify: function (rsp) {
+        this.labelLog("kickPlayerNotify, rsp=" + JSON.stringify(rsp));
+        if (rsp.userId == GLB.userID) {
+            cc.director.loadScene('lobby');
+        }
+    },
+
+    networkStateNotify :function () {
+        mvs.engine.sendEvent()
     },
 
     labelLog: function (info) {

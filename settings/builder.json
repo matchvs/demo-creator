@@ -28,5 +28,6 @@
     "appid": "",
     "orientation": "portrait"
   },
-  "xxteaKey": "f134fe96-f183-44"
+  "xxteaKey": "f134fe96-f183-44",
+  "zipCompressJs": true
 }

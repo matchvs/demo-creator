@@ -2,12 +2,14 @@ var engine;
 var response = {};
 var MatchInfo;
 var CreateRoomInfo;
-var RoomFilter;
+
+var GetRoomListExReq;
 try {
     engine = Matchvs.MatchvsEngine.getInstance();
     MatchInfo = Matchvs.MatchInfo;
     CreateRoomInfo = Matchvs.CreateRoomInfo;
-    RoomFilter = Matchvs.RoomFilter;
+
+    MsRoomFilterEx  = Matchvs.MsRoomFilterEx ;
 } catch (e) {
     try {
         var jsMatchvs = require("matchvs.all");
@@ -15,7 +17,7 @@ try {
         response = new jsMatchvs.MatchvsResponse();
         MatchInfo = jsMatchvs.MatchInfo;
         CreateRoomInfo = jsMatchvs.CreateRoomInfo;
-        RoomFilter = jsMatchvs.RoomFilter;
+        MsRoomFilterEx  = jsMatchvs.MsRoomFilterEx ;
     } catch (e) {
         var MatchVSEngine = require('MatchvsEngine');
         engine = new MatchVSEngine();
@@ -26,5 +28,5 @@ module.exports = {
     response: response,
     MatchInfo: MatchInfo,
     CreateRoomInfo: CreateRoomInfo,
-    RoomFilter: RoomFilter
+    MsRoomFilterEx :MsRoomFilterEx ,
 };
