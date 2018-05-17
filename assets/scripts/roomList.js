@@ -109,7 +109,7 @@ cc.Class({
         this.labelInfo.string += '\n' + info;
     },
 
-    onLoad () {
+    onLoad:function () {
         this.roomIDs = [this.roomID1,this.roomID2,this.roomID3];
         this.buttonS = [this.button1,this.button2,this.button3];
         this.stateS = [this.state1,this.state2,this.state3];
@@ -179,11 +179,11 @@ cc.Class({
         time = setInterval(this.getRooomList,10000);
     },
 
-    start () {
+    start:function () {
 
     },
 
-    onDestroy() {
+    onDestroy:function() {
         clearInterval(time);
         refreshNum = 0;
     },
@@ -212,7 +212,7 @@ cc.Class({
     //     }
     // },
 
-    getRooomList () {
+    getRooomList:function () {
         mvs.engine.getRoomListEx(RoomFilterEx);
     },
 
@@ -335,14 +335,8 @@ cc.Class({
         }
     },
 
-    // update (dt) {},
     startGame: function () {
         this.labelLog('游戏即将开始');
         cc.director.loadScene('game')
-    },
-
-    errorResponse :function (rep,Lobby) {
-        this.labelLog('errorCode='+rep+'errorMsg='+Lobby);
-    },
-    // update (dt) {},
+    }
 });

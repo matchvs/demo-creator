@@ -267,7 +267,7 @@ cc.Class({
                     var cpProto = JSON.parse(info.cpProto);
                     var player = this.getPlayerByUserId(info.srcUserId);
 
-                    if (info.srcUserId == GLB.userInfo.id) {
+                    if (info.srcUserId === GLB.userID) {
                         var delayValue = new Date().getTime() - cpProto.ts;
                         this.delay.string = "delay: " + delayValue;
                         if (this.minDelayValue === undefined || delayValue < this.minDelayValue) {
@@ -289,7 +289,7 @@ cc.Class({
                     var playerIndex = this.getPlayerIndexByUserId(info.srcUserId);
                     var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
                     // this.scoreDisplays[playerIndex - 1].string = label;
-                    if (GLB.userID != info.srcUserId) {
+                    if (GLB.userID !== info.srcUserId) {
                         GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
                     }
                     this.refreshScore();

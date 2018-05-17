@@ -25,7 +25,7 @@ cc.Class({
         btnBack: cc.Node,
     },
 
-    onLoad () {
+    onLoad:function () {
         var self = this;
         // 返回登录
         this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(event){
@@ -94,32 +94,41 @@ cc.Class({
     },
 
     startGame: function () {
-        this.labelLog('游戏即将开始')
-        cc.director.loadScene('game')
+        this.labelLog('游戏即将开始');
+        cc.director.loadScene('game');
     },
 
     recordPlayerUserIds: function (userIds) {
-        GLB.playerUserIds = [GLB.userID]
+        GLB.playerUserIds = [GLB.userID];
 
         for (var i = 0, l = userIds.length; i < l; i++) {
-            var userId = userIds[i]
-            if (userId != GLB.userID) {
-                GLB.playerUserIds.push(userId)
+            var userId = userIds[i];
+            if (userId !== GLB.userID) {
+                GLB.playerUserIds.push(userId);
             }
         }
     },
 
-    errorResponse :function (rep,Lobby) {
-        this.randomMatch.active = false;
-        this.selfDefMatch.active = false;
-        this.joinCertainRoom.active = false;
-        this.createRoom.active = false;
-        this.returnLogin.active = false;
-        this.buttonSyncFrame.active = false;
-        this.buttonLeaveRoom.active = false;
-        this.roomList.active = false;
-        this.btnBack.active = true;
-        this.errorMsg.string = 'errorCode='+rep+'errorMsg='+Lobby;
+    errorResponse :function (errCode,errMsg) {
+        var message = "[errorResponse] code:" + errCode + " msg:" + errMsg;
+        console.error(message);
+        try{
+            this.errorMsg.string = 'errorCode='+errCode+'errorMsg='+errMsg;
+            this.randomMatch.active = false;
+            this.selfDefMatch.active = false;
+            this.joinCertainRoom.active = false;
+            this.createRoom.active = false;
+            this.returnLogin.active = false;
+            this.buttonSyncFrame.active = false;
+            this.buttonLeaveRoom.active = false;
+            this.roomList.active = false;
+            this.btnBack.active = true;
+        }catch(e){
+            console.error(e.message);
+        }
+        GLB.lastErrMsg = message;
+        GLB.isGameOver = false;
+        cc.director.loadScene('login');
     },
 
     initResponse: function(status) {
@@ -136,7 +145,7 @@ cc.Class({
 
     registerUserResponse: function (userInfo) {
         GLB.userID = userInfo.id;
-        this.labelLog('开始登录,用户Id:' + userInfo.id)
+        this.labelLog('开始登录,用户Id:' + userInfo.id);
 
         mvs.response.loginResponse = this.loginResponse.bind(this); // 用户登录之后的回调
         this.login(userInfo.id,userInfo.token);

@@ -13,17 +13,17 @@ cc.Class({
         labelInfo: {
             default: null,
             type: cc.Label
-        }        
+        }
     },
 
     labelLog: function (info) {
-        this.labelInfo.string += '\n' + info;
+        this.labelInfo.string += '\n[LOG]: ' + info;
     },
 
-    onLoad :function() {
+    onLoad: function () {
         var self = this;
         this.alphaRadio.getComponent(cc.Toggle).isChecked = true;
-        this.confirm.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.confirm.on(cc.Node.EventType.TOUCH_END, function (event) {
             // 获取用户输入的参数
             // GLB.gameId = Number(self.gameIdInput.getComponent(cc.EditBox).string);
             // GLB.appKey = self.appKeyInput.getComponent(cc.EditBox).string;
@@ -44,49 +44,44 @@ cc.Class({
             }
         });
 
-        this.clear.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.sys.localStorage.removeItem("id");
-            cc.sys.localStorage.removeItem("token");
+        this.clear.on(cc.Node.EventType.TOUCH_END, function (event) {
+            if (LocalStore_Clear) {
+                LocalStore_Clear()
+            }
             console.log("clear user info cache");
         });
+        this.labelLog(GLB.lastErrMsg);
     },
 
-    start:function () {
+    start: function () {
 
     },
 
-    initResponse: function(status) {
+    initResponse: function (status) {
         this.labelLog('初始化成功');
-        var id = cc.sys.localStorage.getItem("id");
-        var token = cc.sys.localStorage.getItem("token");
-        if (id !== null && token !== null) {
-            this.login(id,token);
-        } else {
-            mvs.response.registerUserResponse = this.registerUserResponse.bind(this); // 用户注册之后的回调
-            var result = mvs.engine.registerUser();
-            this.labelLog('初始化成功，开始注册用户');
-            if (result !== 0)
-                return this.labelLog('注册用户失败，错误码:' + result);
-            else
-                this.labelLog('注册用户成功');
-        }
+
+        mvs.response.registerUserResponse = this.registerUserResponse.bind(this); // 用户注册之后的回调
+        var result = mvs.engine.registerUser();
+        this.labelLog('初始化成功，开始注册用户');
+        if (result !== 0)
+            return this.labelLog('注册用户失败，错误码:' + result);
+        else
+            this.labelLog('注册用户成功');
+
 
     },
 
     registerUserResponse: function (userInfo) {
         GLB.userID = userInfo.id;
-        cc.sys.localStorage.setItem("id",userInfo.id);
-        cc.sys.localStorage.setItem("token", userInfo.token);
-        this.login(userInfo.id,userInfo.token);
+        this.login(userInfo.id, userInfo.token);
     },
 
-    login :function (id,token) {
-        GLB.userID= id;
-        // GLB.userInfo.token = token;
+    login: function (id, token) {
+        GLB.userID = id;
         mvs.response.loginResponse = this.loginResponse.bind(this); // 用户登录之后的回调
         var deviceId = 'abcdef';
         var gatewayId = 0;
-        this.labelLog('开始登录,用户Id:' + id+" gameId "+GLB.gameId);
+        this.labelLog('开始登录,用户Id:' + id + " gameId " + GLB.gameId);
         var result = mvs.engine.login(Number(id), token,
             GLB.gameId, GLB.gameVersion,
             GLB.appKey, GLB.secret,
@@ -99,7 +94,7 @@ cc.Class({
         if (info.status !== 200)
             return this.labelLog('登录失败,异步回调错误码:' + info.status);
         else {
-            if (info.roomID != null && info.roomID != 0) {
+            if (info.roomID != null && info.roomID !== 0) {
                 var result = mvs.engine.reconnect();
             }
             if (result === 0) {

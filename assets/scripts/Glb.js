@@ -18,7 +18,6 @@ var obj = {
 
     matchType: 1,
     tagsInfo: {"title": "A"},
-    userInfo: null,
     userID: 0,
     reconnectSorce: null,
     playerUserIds: [],
@@ -42,6 +41,8 @@ var obj = {
     number3: "",
 
     mapType: "",
+    lastErrMsg: "",
+
 
     isReconnect:false
 };

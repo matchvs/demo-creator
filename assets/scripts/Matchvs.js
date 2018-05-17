@@ -3,7 +3,7 @@ var response = {};
 var MsMatchInfo;
 var MsCreateRoomInfo;
 var MsRoomFilterEx;
-
+var LocalStore_Clear;
 try {
 	console.log("load matchvs JSB  a ");
     engine = Matchvs.MatchvsEngine.getInstance();
@@ -23,6 +23,7 @@ try {
         MsMatchInfo = jsMatchvs.MsMatchInfo;
         MsCreateRoomInfo = jsMatchvs.MsCreateRoomInfo;
         MsRoomFilterEx  = jsMatchvs.MsRoomFilterEx ;
+        LocalStore_Clear = jsMatchvs.LocalStore_Clear;
 		console.log("load matchvs.all.js");
     } catch (e) {
 		console.error(e);
@@ -36,5 +37,6 @@ module.exports = {
     response: response,
     MsMatchInfo: MsMatchInfo,
     MsCreateRoomInfo: MsCreateRoomInfo,
-    MsRoomFilterEx :MsRoomFilterEx 
+    MsRoomFilterEx :MsRoomFilterEx ,
+    LocalStore_Clear:LocalStore_Clear
 };

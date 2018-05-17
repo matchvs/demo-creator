@@ -33,47 +33,48 @@ cc.Class({
             type: cc.Label
         },
         leaveRoom: cc.Node,
-		joinopen: cc.Node
+        joinopen: cc.Node
     },
 
     labelLog: function (info) {
         this.labelInfo.string += '\n' + info;
     },
     startGame: function () {
-        this.labelLog('游戏即将开始')
-        cc.director.loadScene('game')
+        this.labelLog('游戏即将开始');
+        cc.director.loadScene('game');
     },
-    onLoad () {
+    onLoad: function () {
+        var result = 0;
         mvs.response.joinRoomResponse = this.joinRoomResponse.bind(this);
         mvs.response.joinRoomNotify = this.joinRoomNotify.bind(this);
         mvs.response.getRoomDetailResponse = this.getRoomDetailResponse.bind(this);
         mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
         if (GLB.matchType === GLB.RANDOM_MATCH) {
-            var result = mvs.engine.joinRandomRoom(GLB.MAX_PLAYER_COUNT, '');
+            result = mvs.engine.joinRandomRoom(GLB.MAX_PLAYER_COUNT, '');
             if (result !== 0)
                 return this.labelLog('进入房间失败,错误码:' + result)
         } else if (GLB.matchType === GLB.PROPERTY_MATCH) {
-            var matchinfo = new mvs.MatchInfo();
+            var matchinfo = new mvs.MsMatchInfo();
             matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
             matchinfo.mode = 0;
             matchinfo.canWatch = 0;
             matchinfo.tags = GLB.tagsInfo;
             this.labelProperty.string = "自定义属性:" + JSON.stringify(GLB.tagsInfo);
-            var result = mvs.engine.joinRoomWithProperties(matchinfo, "china");
+            result = mvs.engine.joinRoomWithProperties(matchinfo, "china");
             if (result !== 0)
-                return self.labelLog('进入房间失败,错误码:' + result);
+                return this.labelLog('进入房间失败,错误码:' + result);
         }
-        this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function (event) {
             mvs.engine.leaveRoom("");
             cc.director.loadScene('lobby');
         });
         var isOpen = true;
-		this.joinopen.on(cc.Node.EventType.TOUCH_END, function(event){
-            isOpen =!isOpen;
-		    console.log("joinopen:"+isOpen);
+        this.joinopen.on(cc.Node.EventType.TOUCH_END, function (event) {
+            isOpen = !isOpen;
+            console.log("joinopen:" + isOpen);
         });
-		
-		
+
+
     },
 
     joinRoomResponse: function (status, userInfoList, roomInfo) {
@@ -86,10 +87,10 @@ cc.Class({
         }
         this.labelRoomID.string = roomInfo.roomID;
         GLB.roomId = roomInfo.roomID;
-        var userIds = [GLB.userID]
+        var userIds = [GLB.userID];
         this.player1.string = GLB.userID;
         var self = this;
-        userInfoList.forEach(function(item) {
+        userInfoList.forEach(function (item) {
             if (item.userId === GLB.userID) {
             } else if (self.player2.string === '') {
                 self.player2.string = item.userId;
@@ -115,7 +116,7 @@ cc.Class({
         }
     },
 
-    joinRoomNotify: function(roomUserInfo) {
+    joinRoomNotify: function (roomUserInfo) {
         this.labelLog("joinRoomNotify, roomUserInfo:" + JSON.stringify(roomUserInfo));
         if (this.player1.string === '') {
             this.player1.string = roomUserInfo.userId;
@@ -128,7 +129,7 @@ cc.Class({
         }
     },
 
-    joinOverResponse: function(joinOverRsp) {
+    joinOverResponse: function (joinOverRsp) {
         if (joinOverRsp.status === 200) {
             this.labelLog("关闭房间成功");
             this.notifyGameStart();
@@ -151,7 +152,7 @@ cc.Class({
 
 
     leaveRoomNotify: function (rsp) {
-        this.labelLog('leaveRoomNotify:' + JSON.stringify(rsp) + ' roomId:' + rsp.roomID );
+        this.labelLog('leaveRoomNotify:' + JSON.stringify(rsp) + ' roomId:' + rsp.roomID);
         var userID = rsp.userId;
         GLB.playerSet.delete(Number(userID));
         if (this.player1.string === userID) {
@@ -185,14 +186,14 @@ cc.Class({
         if (!info
             || !info.status
             || info.status !== 200) {
-            return this.labelLog('事件发送失败')
+            return this.labelLog('事件发送失败');
         }
 
-        var event = GLB.events[info.sequence]
+        var event = GLB.events[info.sequence];
 
         if (event && event.action === GLB.GAME_START_EVENT) {
-            delete GLB.events[info.sequence]
-            this.startGame()
+            delete GLB.events[info.sequence];
+            this.startGame();
         }
     },
 
@@ -201,10 +202,10 @@ cc.Class({
             && info.cpProto
             && info.cpProto.indexOf(GLB.GAME_START_EVENT) >= 0) {
 
-            GLB.playerUserIds = [GLB.userID]
+            GLB.playerUserIds = [GLB.userID];
             // 通过游戏开始的玩家会把userIds传过来，这里找出所有除本玩家之外的用户ID，
             // 添加到全局变量playerUserIds中
-            JSON.parse(info.cpProto).userIds.forEach(function(userId) {
+            JSON.parse(info.cpProto).userIds.forEach(function (userId) {
                 if (userId !== GLB.userID) GLB.playerUserIds.push(userId)
             });
             this.startGame()

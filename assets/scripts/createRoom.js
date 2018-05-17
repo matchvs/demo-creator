@@ -9,7 +9,6 @@
 //  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
 var mvs = require("Matchvs");
 var GLB = require("Glb");
-var roomID;
 cc.Class({
     extends: cc.Component,
 
@@ -63,7 +62,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        var create = new mvs.CreateRoomInfo();
+        var create = new mvs.MsCreateRoomInfo();
         create.name = 'roomName';
         create.maxPlayer = GLB.MAX_PLAYER_COUNT;
         create.mode = 0;
@@ -128,7 +127,7 @@ cc.Class({
         });
     },
 
-    start () {
+    start : function () {
 
     },
 
@@ -277,7 +276,7 @@ cc.Class({
 
     kickPlayerNotify: function (rsp) {
         this.labelLog("kickPlayerNotify, rsp=" + JSON.stringify(rsp));
-        if (rsp.userId == GLB.userID) {
+        if (rsp.userId === GLB.userID) {
             cc.director.loadScene('lobby');
         }
     },

@@ -9,7 +9,7 @@ cc.Class({
         sendCountValue: 0,
     },
 
-    sendAccChangeMessage(accLeft, accRight)  {
+    sendAccChangeMessage:function(accLeft, accRight)  {
         var msg = { action: GLB.PLAYER_MOVE_EVENT };
         if (typeof accLeft === 'boolean') msg.accLeft = accLeft;
         if (typeof accRight === 'boolean') msg.accRight = accRight;
@@ -109,7 +109,7 @@ cc.Class({
         this.setInputControl();
     },
 
-    onDestroy() {
+    onDestroy:function (){
         clearInterval(this.timer);
     }
 
