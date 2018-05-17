@@ -6,7 +6,7 @@ cc.Class({
 
     properties: {
         sendCount: cc.Label,
-        sendCountValue: 0,
+        sendCountValue: 0
     },
 
     sendAccChangeMessage:function(accLeft, accRight)  {
@@ -68,40 +68,43 @@ cc.Class({
 
     onLoad: function () {
         this._super();
-
+        var self = this;
         if (GLB.syncFrame === false) {
-                this.timer = setInterval(() => {
+                var timer = setInterval(function () {
+                    if (GLB.isGameOver === true) {
+                        console.log("checked game is over!, clearInterval:"+id);
+                        clearInterval(timer);
+                    }
                     var obj = JSON.stringify({
                         action: GLB.PLAYER_POSITION_EVENT,
-                        x: this.node.x,
-                        xSpeed: this.xSpeed,
-                        accLeft: this.accLeft,
-                        accRight: this.accRight,
+                        x: self.node.x,
+                        xSpeed: self.xSpeed,
+                        accLeft: self.accLeft,
+                        accRight: self.accRight,
                         score:[... GLB.scoreMap],
                         ts: new Date().getTime()
                     });
                     mvs.engine.sendEventEx(0,obj , 0, GLB.playerUserIds);
                     console.log(GLB.isGameOver);
-                    if (GLB.isGameOver === true) {
-                        clearInterval(this.timer);
-                    }
+
                 }, 200);
         } else {
-            var id = setInterval(() => {
-                mvs.engine.sendFrameEvent(JSON.stringify({
-                    action: GLB.PLAYER_POSITION_EVENT,
-                    x: this.node.x,
-                    xSpeed: this.xSpeed,
-                    accLeft: this.accLeft,
-                    accRight: this.accRight,
-                    ts: new Date().getTime(),
-
-                }));
+            var id = setInterval(function () {
                 if (GLB.isGameOver === true) {
+                    console.log("checked game(syncFrame) is over!, clearInterval:"+id);
                     clearInterval(id);
+                    return;
                 }
-                // this.sendCountValue++;
-                // this.sendCount.string = "send msg count: " + this.sendCountValue;
+
+                var frameData = {
+                    action: GLB.PLAYER_POSITION_EVENT,
+                    x: self.node.x,
+                    xSpeed: self.xSpeed,
+                    accLeft: self.accLeft,
+                    accRight: self.accRight,
+                    ts: new Date().getTime()
+                };
+                mvs.engine.sendFrameEvent(JSON.stringify(frameData));
             }, 200);
         }
 
