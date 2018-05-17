@@ -29,7 +29,9 @@ cc.Class({
         var self = this;
         // 返回登录
         this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(event){
+            mvs.engine.logout("");
             mvs.engine.uninit();
+            console.log("logout + un init");
             cc.director.loadScene('login');
         });
 
@@ -75,6 +77,8 @@ cc.Class({
         });
 
         this.btnBack.on(cc.Node.EventType.TOUCH_END, function(event){
+
+            console.log(" back ,result:"+result);
             cc.director.loadScene('login');
         });
 

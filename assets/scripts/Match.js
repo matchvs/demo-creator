@@ -69,8 +69,33 @@ cc.Class({
             cc.director.loadScene('lobby');
         });
         var isOpen = true;
+        var self = this;
+
+        var checkBox = self.joinopen.getComponent(cc.Toggle);
+
+        mvs.response.joinOpenResponse = function (d) {
+            self.labelLog("我设置允许房间加人");
+            checkBox.isChecked = true;
+        };
+        mvs.response.joinOpenNotify=  function (d) {
+            self.labelLog("有人设置了允许房间加人");
+            checkBox.isChecked = true;
+        };
+        mvs.response.joinOverNotify = function () {
+            self.labelLog("有人设置了不允许房间加人");
+            checkBox.isChecked = false;
+        };
+        mvs.response.joinOverResponse= function () {
+            self.labelLog("我设置了不允许房间加人");
+            checkBox.isChecked = false;
+        };
         this.joinopen.on(cc.Node.EventType.TOUCH_END, function (event) {
             isOpen = !isOpen;
+            if(isOpen){
+                mvs.engine.joinOpen("");
+            }else{
+                mvs.engine.joinOver("");
+            }
             console.log("joinopen:" + isOpen);
         });
 
