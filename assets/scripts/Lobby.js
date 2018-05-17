@@ -128,7 +128,11 @@ cc.Class({
         }
         GLB.lastErrMsg = message;
         GLB.isGameOver = false;
-        cc.director.loadScene('login');
+        try{
+            cc.director.loadScene('login');
+        }catch(e){
+            console.error(e.message);
+        }
     },
 
     initResponse: function(status) {
@@ -164,7 +168,7 @@ cc.Class({
 
     loginResponse: function (info) {
         if (info.status !== 200)
-            return this.labelLog('登录失败,异步回调错误码:' + info.status)
+            return this.labelLog('登录失败,异步回调错误码:' + info.status);
         else
             this.labelLog('登录成功')
 

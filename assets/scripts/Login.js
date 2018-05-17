@@ -61,17 +61,17 @@ cc.Class({
         this.labelLog('初始化成功');
 
         mvs.response.registerUserResponse = this.registerUserResponse.bind(this); // 用户注册之后的回调
+        this.labelLog('开始注册用户');
         var result = mvs.engine.registerUser();
-        this.labelLog('初始化成功，开始注册用户');
         if (result !== 0)
             return this.labelLog('注册用户失败，错误码:' + result);
-        else
-            this.labelLog('注册用户成功');
+
 
 
     },
 
     registerUserResponse: function (userInfo) {
+        this.labelLog('注册用户成功'+userInfo);
         GLB.userID = userInfo.id;
         this.login(userInfo.id, userInfo.token);
     },
@@ -81,7 +81,7 @@ cc.Class({
         mvs.response.loginResponse = this.loginResponse.bind(this); // 用户登录之后的回调
         var deviceId = 'abcdef';
         var gatewayId = 0;
-        this.labelLog('开始登录,用户Id:' + id + " gameId " + GLB.gameId);
+        this.labelLog('开始登录...用户Id:' + id + " gameId " + GLB.gameId);
         var result = mvs.engine.login(Number(id), token,
             GLB.gameId, GLB.gameVersion,
             GLB.appKey, GLB.secret,
@@ -107,11 +107,7 @@ cc.Class({
 
         }
 
-        // this.labelLog('开始进入房间');
-        // mvs.response.joinRoomResponse = this.joinRoomResponse.bind(this);
-        // var result = mvs.engine.joinRandomRoom(GLB.MAX_PLAYER_COUNT, '')
-        // if (result !== 0)
-        //     return this.labelLog('进入房间失败,错误码:' + result)
-    },
+
+    }
 
 });

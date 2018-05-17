@@ -41,7 +41,7 @@ var obj = {
     number3: "",
 
     mapType: "",
-    lastErrMsg: "",
+    lastErrMsg: "2018-05-17",
 
 
     isReconnect:false
