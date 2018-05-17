@@ -87,7 +87,7 @@ cc.Class({
         var deviceId = 'abcdef';
         var gatewayId = 0;
         this.labelLog('开始登录,用户Id:' + id+" gameId "+GLB.gameId);
-        var result = mvs.engine.login(id, token,
+        var result = mvs.engine.login(Number(id), token,
             GLB.gameId, GLB.gameVersion,
             GLB.appKey, GLB.secret,
             deviceId, gatewayId);
@@ -99,7 +99,7 @@ cc.Class({
         if (info.status !== 200)
             return this.labelLog('登录失败,异步回调错误码:' + info.status);
         else {
-            if (info.roomID != null) {
+            if (info.roomID != null && info.roomID != 0) {
                 var result = mvs.engine.reconnect();
             }
             if (result === 0) {
