@@ -45,7 +45,7 @@
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0,
-    "autoReleaseAssets": false
+    "autoReleaseAssets": null
   },
   {
     "__type__": "cc.Node",
@@ -2829,17 +2829,15 @@
         "__id__": 7
       }
     ],
-    "scoreDisplays": [
-      {
-        "__id__": 30
-      },
-      {
-        "__id__": 32
-      },
-      {
-        "__id__": 34
-      }
-    ],
+    "scoreDisplays0": {
+      "__id__": 30
+    },
+    "scoreDisplays1": {
+      "__id__": 32
+    },
+    "scoreDisplays2": {
+      "__id__": 34
+    },
     "starPrefab": {
       "__uuid__": "3ccd5b0c-fd42-4360-8b3d-30e9cd933e6d"
     },

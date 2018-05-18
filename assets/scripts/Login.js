@@ -94,7 +94,8 @@ cc.Class({
         if (info.status !== 200)
             return this.labelLog('登录失败,异步回调错误码:' + info.status);
         else {
-            if (info.roomID != null && info.roomID !== 0) {
+            if (info.roomID != null && info.roomID !== '0') {
+                console.log("reconnect room info" +info +" id:"+info.roomID);
                 var result = mvs.engine.reconnect();
             }
             if (result === 0) {

@@ -416,7 +416,7 @@ cc.Class({
         }
         this.bubbleSort(score);
         for (i = 0; i < score.length; i++) {
-            console.log("score.length"+score.length)
+            console.log("score.length"+score.length);
             this.scoreDisplays[i].string = score[i].uid + ': ' + score[i].score;
             GLB.playerUserScore.push(score[i].score);
         }

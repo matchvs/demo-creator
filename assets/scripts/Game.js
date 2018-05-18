@@ -200,52 +200,57 @@ cc.Class({
     },
 
     sendEventNotify: function (info) {
-        if (info && info.cpProto) {
-            if (info.cpProto.indexOf(GLB.NEW_START_EVENT) >= 0) {
-                // 收到创建星星的消息通知，根据消息给的坐标创建星星
-                this.createStarNode(JSON.parse(info.cpProto).position)
+        try{
+            if (info && info.cpProto) {
+                if (info.cpProto.indexOf(GLB.NEW_START_EVENT) >= 0) {
+                    // 收到创建星星的消息通知，根据消息给的坐标创建星星
+                    this.createStarNode(JSON.parse(info.cpProto).position)
 
-            } else if (info.cpProto.indexOf(GLB.PLAYER_MOVE_EVENT) >= 0) {
-                // 收到其他玩家移动的消息，根据消息信息修改加速度
-                this.updatePlayerMoveDirection(info.srcUserId, JSON.parse(info.cpProto))
+                } else if (info.cpProto.indexOf(GLB.PLAYER_MOVE_EVENT) >= 0) {
+                    // 收到其他玩家移动的消息，根据消息信息修改加速度
+                    this.updatePlayerMoveDirection(info.srcUserId, JSON.parse(info.cpProto))
 
-            } else if (info.cpProto.indexOf(GLB.PLAYER_POSITION_EVENT) >= 0) {
-                // 收到其他玩家的位置速度加速度信息，根据消息中的值更新状态
-                this.receiveCountValue++;
-                this.receiveCount.string = "receive msg count: " + this.receiveCountValue;
-                var cpProto = JSON.parse(info.cpProto);
-                var player = this.getPlayerByUserId(info.srcUserId);
-                
-                if (info.srcUserId === GLB.userID) {
-                    var delayValue = new Date().getTime() - cpProto.ts;
-                    this.delay.string = "delay: " + delayValue;
-                    if (this.minDelayValue === undefined || delayValue < this.minDelayValue) {
-                        this.minDelayValue = delayValue;
-                        this.minDelay.string = "minDelay: " + delayValue;
+                } else if (info.cpProto.indexOf(GLB.PLAYER_POSITION_EVENT) >= 0) {
+                    // 收到其他玩家的位置速度加速度信息，根据消息中的值更新状态
+                    this.receiveCountValue++;
+                    this.receiveCount.string = "receive msg count: " + this.receiveCountValue;
+                    var cpProto = JSON.parse(info.cpProto);
+                    var player = this.getPlayerByUserId(info.srcUserId);
+
+                    if (info.srcUserId === GLB.userID) {
+                        var delayValue = new Date().getTime() - cpProto.ts;
+                        this.delay.string = "delay: " + delayValue;
+                        if (this.minDelayValue === undefined || delayValue < this.minDelayValue) {
+                            this.minDelayValue = delayValue;
+                            this.minDelay.string = "minDelay: " + delayValue;
+                        }
+                        if (this.maxDelayValue === undefined || delayValue > this.maxDelayValue) {
+                            this.maxDelayValue = delayValue;
+                            this.maxDelay.string = "maxDelay: " + delayValue;
+                        }
+                    } else if (player) {
+                        player.x = cpProto.x;
+                        player.xSpeed = cpProto.xSpeed;
+                        player.accLeft = cpProto.accLeft;
+                        player.accRight = cpProto.accRight;
                     }
-                    if (this.maxDelayValue === undefined || delayValue > this.maxDelayValue) {
-                        this.maxDelayValue = delayValue;
-                        this.maxDelay.string = "maxDelay: " + delayValue;
+                } else if (info.cpProto.indexOf(GLB.GAIN_SCORE_EVENT) >= 0) {
+                    // 收到其他玩家的得分信息，更新页面上的得分数据
+                    var playerIndex = this.getPlayerIndexByUserId(info.srcUserId);
+                    var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
+                    // this.scoreDisplays[playerIndex - 1].string = label;
+                    if (GLB.userID != info.srcUserId) {
+                        GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
                     }
-                } else if (player) {
-                    player.x = cpProto.x;
-                    player.xSpeed = cpProto.xSpeed;
-                    player.accLeft = cpProto.accLeft;
-                    player.accRight = cpProto.accRight;
+                    this.refreshScore();
+                    // 有玩家得分之后，创建新的星星
+                    this.spawnNewStar();
                 }
-            } else if (info.cpProto.indexOf(GLB.GAIN_SCORE_EVENT) >= 0) {
-                // 收到其他玩家的得分信息，更新页面上的得分数据
-                var playerIndex = this.getPlayerIndexByUserId(info.srcUserId);
-                var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
-                // this.scoreDisplays[playerIndex - 1].string = label;
-                if (GLB.userID != info.srcUserId) {
-                    GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
-                }
-                this.refreshScore();
-                // 有玩家得分之后，创建新的星星
-                this.spawnNewStar();
             }
+        }catch(e){
+            console.log(e.message);
         }
+
     },
 
     frameUpdate: function(rsp) {
@@ -443,21 +448,21 @@ cc.Class({
         this.labelInfo.string += '\n' + info;
     },
 
-    networkStateNotify:function (netnotify) {
-        console.log("netnotify");
-        console.log("netnotify.owner:"+netnotify.owner);
-        if (netnotify.owner == GLB.userID) {
+    networkStateNotify:function (netNotify) {
+        console.log("netNotify");
+        console.log("netNotify.owner:"+netNotify.owner);
+        if (netNotify.owner === GLB.userID) {
             GLB.isRoomOwner = true;
         }
 
-        console.log("玩家："+netnotify.userID+" state:"+netnotify.state);
-        if (netnotify.state == 2) {
+        console.log("玩家："+netNotify.userID+" state:"+netNotify.state);
+        if (netNotify.state === 2) {
             console.log("玩家已经重连进来");
             var event = {
                 action: GLB.GAME_RECONNECT,
                 scoreMap: GLB.scoreMap
-            }
-            var result = mvs.engine.sendEvent(JSON.stringify(event))
+            };
+            var result = mvs.engine.sendEvent(JSON.stringify(event));
             if (!result || result.result !== 0) {
                 console.log("发送分数信息失败");
                 mvs.engine.sendEvent(JSON.stringify(event))
@@ -468,5 +473,11 @@ cc.Class({
     onDestroy:function () {
         clearInterval(this.id);
         GLB.isGameOver = true;
+        mvs.response.sendEventNotify = function () {
+
+        };
+        mvs.response.sendEventResponse = function () {
+            
+        }
     }
-})
+});
