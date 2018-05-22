@@ -26,9 +26,9 @@ try {
         LocalStore_Clear = jsMatchvs.LocalStore_Clear;
 		console.log("load matchvs.all.js");
     } catch (e) {
-		console.error(e);
+		console.error("load matchvs.all.js fail,"+e.message);
         var MatchVSEngine = require('MatchvsEngine');
-		console.log("load matchvs JSB");
+		console.log("load matchvs test code");
         engine = new MatchVSEngine();
     }
 }

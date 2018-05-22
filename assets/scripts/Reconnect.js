@@ -19,22 +19,17 @@ cc.Class({
 
     sendEventNotify:function (eventInfo) {
         var obj = JSON.parse(eventInfo.cpProto);
-        // console.log(obj.action);
+
         if ( GLB.reconnectSorce == null) {
-            GLB.reconnectSorce = obj.score
-            // GLB.scoreMap = new Map(obj.score);
+            GLB.reconnectSorce = obj.score;
             console.log("GLB.mapType:"+GLB.mapType);
-            if (GLB.mapType == "白天模式") {
+            if (GLB.mapType === "白天模式") {
                 cc.director.loadScene('game')
             } else {
                 cc.director.loadScene('gameB')
             }
         }
-        // if (eventInfo.cpProto.indexOf(GLB.GAME_RECONNECT) >= 0) {
-        //     console.log('已经接受到了玩家的游戏分数消息');
-        //     GLB.scoreMap = JSON.parse(eventInfo.cpProto).scoreMap;
-        //
-        // }
+
     },
 
     //断线重连

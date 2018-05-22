@@ -26,7 +26,7 @@ var obj = {
     events: {},
     playerUserScore :[],
     syncFrame: false,
-    FRAME_RATE: 5,
+    FRAME_RATE: 25,
     roomId: 0,
     playertime: 180,
     first: null,
@@ -34,7 +34,7 @@ var obj = {
     third: null,
     isGameOver: false,
 
-    scoreMap: new Map(),
+    scoreMap: [{"uid":0,score:0},{"uid":0,score:0},{"uid":0,score:0}],
 
     number1: "",
     number2: "",
@@ -44,6 +44,17 @@ var obj = {
     lastErrMsg: "2018-05-17",
 
 
-    isReconnect:false
+    isReconnect:false,
+
+    updateUserScore:function (id,score) {
+        for (var i = 0; i < this.scoreMap.length; i++) {
+            if (this.scoreMap[i].userID ===id){
+                this.scoreMap[i].score = score;
+                console.log( "[update score] userID:"+id+" score:"+score);
+            }
+        }
+    },
+    FPS:20,//数据帧每秒采样次数
+    noSuchMethod:null
 };
 module.exports = obj;

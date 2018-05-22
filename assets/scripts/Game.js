@@ -85,12 +85,6 @@ cc.Class({
         this.scores = [0, 0, 0];
         this.roomidLabel.string = "房间号:" + GLB.roomId;
         this.useridLabel.string = "用户id:" + GLB.userID;
-        if (GLB.reconnectSorce != null) {
-            GLB.scoreMap = new Map(GLB.reconnectSorce);
-            GLB.reconnectSorce = null;
-        } else {
-            GLB.scoreMap = new Map();
-        }
         // 场景ground的高度
         this.groundY = this.ground.y + this.ground.height / 2;
         this.compensation = 50
@@ -105,13 +99,8 @@ cc.Class({
         this.spawnNewStar();
 
         for(var i = 0; i < GLB.MAX_PLAYER_COUNT; i++) {
-            var userId = GLB.playerUserIds[i];
-            // this.scoreDisplays[i].string = userId + ': 0';
-            this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = userId;
-            if (!GLB.isReconnect) {
-                GLB.scoreMap.set(parseInt(userId), 0);
+            this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.playerUserIds[i];
 
-            }
         }
         this.refreshScore();
 
@@ -158,13 +147,14 @@ cc.Class({
         this.buttonSend.active = false;
         self.labelGameoverTime.string = GLB.playertime;
         GLB.isGameOver = false;
-        this.id = setInterval(() => {
+
+        this.id = setInterval(function() {
                 self.labelGameoverTime.string = self.labelGameoverTime.string - 1;
-                if (self.labelGameoverTime.string == 2) {
+                if (self.labelGameoverTime.string === "2") {
                     GLB.isGameOver = true;
                 }
-                if (self.labelGameoverTime.string == 0) {
-                    clearInterval(this.id);
+                if (self.labelGameoverTime.string === "0") {
+                    clearInterval(self.id);
                     self.gameOver();
                 }
             }, 1000);
@@ -177,7 +167,7 @@ cc.Class({
         this.timer += dt
     },
 
-    leaveRoomNotify: function (rsp) {
+    leaveRoomNotify: function () {
         this.labelLog("leaveRoomNotify");
         this.gameOver();
     },
@@ -239,8 +229,8 @@ cc.Class({
                     var playerIndex = this.getPlayerIndexByUserId(info.srcUserId);
                     var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
                     // this.scoreDisplays[playerIndex - 1].string = label;
-                    if (GLB.userID != info.srcUserId) {
-                        GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
+                    if (GLB.userID !== info.srcUserId) {
+                        GLB.updateUserScore(parseInt(info.srcUserId), JSON.parse(info.cpProto).score)
                     }
                     this.refreshScore();
                     // 有玩家得分之后，创建新的星星
@@ -295,7 +285,7 @@ cc.Class({
                     var label = GLB.playerUserIds[playerIndex - 1] + ': ' + JSON.parse(info.cpProto).score;
                     // this.scoreDisplays[playerIndex - 1].string = label;
                     if (GLB.userID !== info.srcUserId) {
-                        GLB.scoreMap.set(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
+                        GLB.updateUserScore(parseInt(info.srcUserId), JSON.parse(info.cpProto).score);
                     }
                     this.refreshScore();
                     // 有玩家得分之后，创建新的星星
@@ -378,8 +368,7 @@ cc.Class({
     gainScore: function () {
         this.scores[0] += 1;
         var label = GLB.userID + ': ' + this.scores[0];
-        GLB.scoreMap.delete(parseInt(GLB.userID));
-        GLB.scoreMap.set(parseInt(GLB.userID), this.scores[0]);
+        GLB.updateUserScore(GLB.userID, this.scores[0]);
         this.refreshScore();
         // this.scoreDisplays[0].string = label;
         // 播放得分音效
@@ -393,41 +382,17 @@ cc.Class({
         this.spawnNewStar();
     },
 
-    bubbleSort: function(arr) {
-        var len = arr.length;
-        for (var i = 0; i < len; i++) {
-            for (var j = 0; j < len - 1 - i; j++) {
-                if (arr[j].score < arr[j+1].score) {        //相邻元素两两对比
-                    var temp = arr[j+1];        //元素交换
-                    arr[j+1] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-        }
-        return arr;
-    },
-
     refreshScore: function() {
-        var score = new Array();
-        var i = 0;
-        for (var [key, value] of GLB.scoreMap.entries()) {
-            if (key != null && key != undefined) {
-                score[i] = {
-                    uid: key,
-                    score: value
-                };
-                i++;
-            }
-        }
-        this.bubbleSort(score);
-        for (i = 0; i < score.length; i++) {
-            console.log("score.length"+score.length)
+        var score = GLB.scoreMap;
+        score.sort(function (a, b) { return a.score-b.score });
+        for (var i = 0; i < score.length; i++) {
+            console.log("score.length"+score.length);
             this.scoreDisplays[i].string = score[i].uid + ': ' + score[i].score;
             GLB.playerUserScore.push(score[i].score);
         }
-        GLB.number1 = score[0].uid + ': ' + score[0].score;
-        GLB.number2 = score[1].uid + ': ' + score[1].score;
-        GLB.number3 = score[2].uid + ': ' + score[2].score;
+        GLB.number1 = score[0].uid||0 + ': ' + score[0].score;
+        GLB.number2 = score[1].uid||0 + ': ' + score[1].score;
+        GLB.number3 = score[2].uid||0 + ': ' + score[2].score;
     },
 
     // 游戏结束

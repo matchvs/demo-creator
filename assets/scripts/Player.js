@@ -15,7 +15,7 @@ cc.Class({
         jumpAudio: {
             default: null,
             url: cc.AudioClip
-        },
+        }
     },
 
     setJumpAction: function () {
@@ -34,8 +34,8 @@ cc.Class({
 
     onLoad: function () {
         // 初始化跳跃动作
-        this.jumpAction = this.setJumpAction();
-        this.node.runAction(this.jumpAction);
+        // this.jumpAction = this.setJumpAction();
+        // this.node.runAction(this.jumpAction);
 
         // 加速度方向开关
         this.accLeft = false;
