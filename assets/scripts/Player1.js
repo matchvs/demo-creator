@@ -27,6 +27,8 @@ cc.Class({
 
     setInputControl: function () {
         var self = this;
+        var animRight = this.node.getChildByName("rightAnim").getComponent(cc.Animation);
+        var animLeft = this.node.getChildByName("leftAnim").getComponent(cc.Animation);
         cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             onTouchBegan: function (touch, event) {
@@ -38,10 +40,19 @@ cc.Class({
                 var touchLoc = touch.getLocation();
                 if (touchLoc.x >= cc.winSize.width / 2) {
                     self.sendAccChangeMessage(false, true);
+                    if (self.isUserInput!==2){
+                        animLeft.stop();
+                        animRight.play();
+                    }
                     self.isUserInput = 2;
                     console.log(" move to right");
+
                 } else {
                     self.sendAccChangeMessage(true, false);
+                    if (self.isUserInput!==1){
+                        animLeft.play();
+                        animRight.stop();
+                    }
                     self.isUserInput = 1;
                     console.log(" move to left");
                 }
@@ -50,6 +61,8 @@ cc.Class({
                 self.sendAccChangeMessage(false, false);
                 console.log("ended move ");
                 self.isUserInput = 0;
+                animRight.stop();
+                animLeft.stop();
 
             }
         }, self.node);
@@ -58,20 +71,23 @@ cc.Class({
     onLoad: function () {
         this._super();
         var self = this;
-        var playerSprite = self.getComponent(cc.Sprite);
+        var rightAnimSprite = this.node.getChildByName("rightAnim").getComponent(cc.Sprite);
+        var leftAnimSprite = this.node.getChildByName("leftAnim").getComponent(cc.Sprite);
+        var rightAnim = this.node.getChildByName("rightAnim");
+        var leftAnim = this.node.getChildByName("leftAnim");
 
-        var anim = this.getComponent(cc.Animation);
-        var animState = anim.play();
+        // var animState = anim.play('run2left');
         var animationWaitingPlay = [];
+        //
+        // animState.onStop = function () {
+        //     console.log("anim is stop ");
+        //     var _arrow = animationWaitingPlay.pop();
+        //     while (_arrow != null) {
+        //         animRight.play();
+        //         _arrow = animationWaitingPlay.pop();
+        //     }
+        // };
 
-        animState.onStop = function () {
-            console.log("anim is stop ");
-            var _arrow = animationWaitingPlay.pop();
-            while (_arrow != null) {
-                anim.play();
-                _arrow = animationWaitingPlay.pop();
-            }
-        };
 
         var id = setInterval(function () {
             if (GLB.isGameOver === true) {
@@ -95,18 +111,27 @@ cc.Class({
                 animationWaitingPlay.unshift(self.isUserInput);
                 switch (self.isUserInput) {
                     case 3:
-                        anim.play();
+
                         break;
                     case 1:
-                        playerSprite.node.x -= 100 / GLB.FPS;
+                        rightAnimSprite.node.x -= 100 / GLB.FPS;
+                        leftAnimSprite.node.x -= 100 / GLB.FPS;
+                        rightAnim.active = false;
+                        leftAnim.active = true;
+                        console.log("changed arrow to left");
                         animationWaitingPlay.unshift(self.isUserInput);
                         break;
                     case 2:
-                        playerSprite.node.x += 100 / GLB.FPS;
+                        rightAnimSprite.node.x += 100 / GLB.FPS;
+                        leftAnimSprite.node.x += 100 / GLB.FPS;
+
+                        rightAnim.active = true;
+                        leftAnim.active = false;
+                        console.log("changed arrow to right");
                         animationWaitingPlay.unshift(self.isUserInput);
                         break;
                     default:
-                        anim.stop();
+
                         break;
                 }
             }
