@@ -54,7 +54,7 @@ var obj = {
             }
         }
     },
-    FPS:10,//数据帧每秒采样次数
+    FPS:24,//数据帧每秒采样次数
     noSuchMethod:null
 };
 module.exports = obj;
