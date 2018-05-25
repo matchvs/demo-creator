@@ -15,7 +15,9 @@ cc.Class({
         jumpAudio: {
             default: null,
             url: cc.AudioClip
-        }
+        },
+        playerSpriteLeft: null,
+        playerSpriteRight: null
     },
 
     setJumpAction: function () {
@@ -31,7 +33,10 @@ cc.Class({
         // 调用声音引擎播放声音
         cc.audioEngine.playEffect(this.jumpAudio, false);
     },
-
+    onPostionChanged(x) {
+        this.playerSpriteRight.node.x = x;
+        this.playerSpriteLeft.node.x = x;
+    },
     onLoad: function () {
         // 初始化跳跃动作
         // this.jumpAction = this.setJumpAction();
@@ -66,5 +71,5 @@ cc.Class({
             this.node.x = -this.node.parent.width/2;
             this.xSpeed = 0;
         }
-    },
+    }
 });
