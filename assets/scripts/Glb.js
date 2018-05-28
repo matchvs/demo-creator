@@ -20,7 +20,7 @@ var obj = {
     tagsInfo: {"title": "A"},
     userID: 0,
     reconnectSorce: null,
-    playerUserIds: [],
+    playerUserIds: ["P1","P2","P3"],
     playerSet: new Set(),
     isRoomOwner: false,
     events: {},

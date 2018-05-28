@@ -87,10 +87,10 @@ cc.Class({
         this.useridLabel.string = "用户id:" + GLB.userID;
         // 场景ground的高度
         this.groundY = this.ground.y + this.ground.height / 2;
-        this.compensation = 50
-        this.starMaxX = this.node.width / 2
-        // 玩家可以跳到的高度
-        this.playerJumpHeight = this.players[0].getComponent('Player').jumpHeight;
+        this.compensation = 50;
+        this.starMaxX = this.node.width / 2;
+        // // 玩家可以跳到的高度
+        // this.playerJumpHeight = this.players[0].getComponent('Player').jumpHeight;
 
         mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
@@ -98,7 +98,8 @@ cc.Class({
         mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
         this.spawnNewStar();
 
-        for(var i = 0; i < GLB.MAX_PLAYER_COUNT; i++) {
+        for(var i = 0; i < this.players.length; i++) {
+            (!this.players[i])&&(this.players[i] = this.node.getChildByName("Player"+(i+1)).node);
             this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.playerUserIds[i];
 
         }
@@ -106,19 +107,19 @@ cc.Class({
 
         var self = this;
         this.buttonSubscribe.on(cc.Node.EventType.TOUCH_END, function(event){
-            var result = mvs.engine.subscribeEventGroup(["MatchVS"], ["hello"])
+            var result = mvs.engine.subscribeEventGroup(["MatchVS"], ["hello"]);
             if (result !== 0) 
                 self.labelLog('订阅分组失败,错误码:' + result);
             mvs.response.subscribeEventGroupResponse = self.subscribeEventGroupResponse.bind(self);
         });
         this.buttonUnsubscribe.on(cc.Node.EventType.TOUCH_END, function(event){
-            var result = mvs.engine.subscribeEventGroup(["hello"], ["MatchVS"])
+            var result = mvs.engine.subscribeEventGroup(["hello"], ["MatchVS"]);
             if (result !== 0)
                 self.labelLog('取消订阅分组失败,错误码:' + result);
             mvs.response.subscribeEventGroupResponse = self.subscribeEventGroupResponse.bind(self);
         });
         this.buttonSend.on(cc.Node.EventType.TOUCH_END, function(event){
-            var result = mvs.engine.sendEventGroup("分组消息测试", ["MatchVS"])
+            var result = mvs.engine.sendEventGroup("分组消息测试", ["MatchVS"]);
             if (result !== 0)
                 self.labelLog('发送分组消息失败,错误码:' + result);
             mvs.response.sendEventGroupResponse = self.sendEventGroupResponse.bind(self);

@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Player1",
+    "_name": "Player",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -152,14 +152,14 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "60845243-f385-4a94-bb9e-05faa5bed6cf"
     },
     "fileId": "a7/+9itDRP3q5Df0PgjEN5",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "rightAnim",
+    "_name": "rightAnimNode",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -266,14 +266,14 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "60845243-f385-4a94-bb9e-05faa5bed6cf"
     },
     "fileId": "7eOGrGUEhIr4VCKo+uP4jf",
     "sync": false
   },
   {
     "__type__": "cc.Node",
-    "_name": "leftAnim",
+    "_name": "leftAnimNode",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -380,28 +380,37 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "60845243-f385-4a94-bb9e-05faa5bed6cf"
     },
     "fileId": "1cLIDREppJObfDmizA5Bjz",
     "sync": false
   },
   {
-    "__type__": "6c688v72QdOKamCGCT+xaAd",
+    "__type__": "b812bl78n1NDYyKUsCof5xA",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "jumpHeight": 150,
-    "jumpDuration": 0.3,
-    "maxMoveSpeed": 400,
-    "accel": 350,
+    "jumpHeight": 0,
+    "jumpDuration": 0,
+    "maxMoveSpeed": 0,
+    "accel": 0,
     "jumpAudio": {
       "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
     },
-    "sendCount": null,
-    "sendCountValue": 0
+    "playerSpriteLeft": null,
+    "playerSpriteRight": null,
+    "rightAnim": null,
+    "leftAnim": null,
+    "animRight": null,
+    "animLeft": null,
+    "lastArrow": 0,
+    "isAllowInput": false,
+    "isUserInputing": 0,
+    "postionSampler": null,
+    "speed": 2
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -409,7 +418,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "60845243-f385-4a94-bb9e-05faa5bed6cf"
     },
     "fileId": "50bd28LEuBGvaxyZ+RyEm6C",
     "sync": false
