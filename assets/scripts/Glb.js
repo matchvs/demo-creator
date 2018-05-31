@@ -3,10 +3,10 @@ var obj = {
     PROPERTY_MATCH: 2,  // 属性匹配
     MAX_PLAYER_COUNT: 3,
     GAME_START_EVENT: "gameStart",
-    NEW_START_EVENT: "newStar",
+    EVENT_NEW_START: "newStar",
     PLAYER_MOVE_EVENT: "playerMove",
-    GAIN_SCORE_EVENT: "gainScore",
-    PLAYER_POSITION_EVENT: "playerPosition",
+    EVENT_GAIN_SCORE: "gainScore",
+    EVENT_PLAYER_POSINTON_CHANGED: "playerPosition",
     GAME_RECONNECT:"Reconnect",
 
     channel: 'MatchVS',
@@ -19,8 +19,12 @@ var obj = {
     matchType: 1,
     tagsInfo: {"title": "A"},
     userID: 0,
+    roomMaterID: 0,
+    ARROW_LEFT: 1,
+    ARROW_RIGHT: 2,
+    ARROW_STOP: 0,
     reconnectSorce: null,
-    playerUserIds: ["P1","P2","P3"],
+    playerUserIds: [],
     playerSet: new Set(),
     isRoomOwner: false,
     events: {},
@@ -54,7 +58,26 @@ var obj = {
             }
         }
     },
-    FPS:24,//数据帧每秒采样次数
-    noSuchMethod:null
+    FPS:30,//数据帧每秒采样次数
+    noSuchMethod:null,
+    putPushID2Set : function(item){
+        this.playerUserIds.push(item);
+        var res = [];
+        var json = {};
+        for(var i = 0; i < this.playerUserIds.length; i++){
+            if(!json[this.playerUserIds[i]]){
+                res.push(this.playerUserIds[i]);
+                json[this.playerUserIds[i]] = 1;
+            }
+        }
+        Array.sort(res);
+        this.playerUserIds = res;
+    }
 };
+/**
+ * 去重复item
+ * @returns {Array}
+ */
+
+
 module.exports = obj;

@@ -51,8 +51,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 78,
-      "height": 67
+      "width": 40,
+      "height": 40
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -105,7 +105,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 32,
       "height": 40
     },
     "_rotationX": 0,
@@ -114,8 +114,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -1.2,
-      "y": 67.2
+      "x": -1,
+      "y": 89
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -133,14 +133,14 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 40,
-    "_fontSize": 40,
+    "_actualFontSize": 32,
+    "_fontSize": 32,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "",
+    "_N$string": "ID",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -393,10 +393,6 @@
       "__id__": 1
     },
     "_enabled": true,
-    "jumpHeight": 0,
-    "jumpDuration": 0,
-    "maxMoveSpeed": 0,
-    "accel": 0,
     "jumpAudio": {
       "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
     },
@@ -410,7 +406,10 @@
     "isAllowInput": false,
     "isUserInputing": 0,
     "postionSampler": null,
-    "speed": 2
+    "speed": 2,
+    "isDebug": false,
+    "userID": 0,
+    "playerLabel": null
   },
   {
     "__type__": "cc.PrefabInfo",

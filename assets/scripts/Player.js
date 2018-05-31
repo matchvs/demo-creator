@@ -4,15 +4,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // 主角跳跃高度
-        jumpHeight: 0,
-        // 主角跳跃持续时间
-        jumpDuration: 0,
-        // 最大移动速度
-        maxMoveSpeed: 0,
-        // 加速度
-        accel: 0,
-
         // 跳跃音效资源
         jumpAudio: {
             default: null,
@@ -25,133 +16,109 @@ cc.Class({
         animRight: null,
         animLeft: null,
         lastArrow: 0,
-        isAllowInput:false,
+        isAllowInput: false,
         isUserInputing: 0,
         postionSampler: null,
-        speed:2
+        speed: 2,
+        isDebug:false,
+        userID:0,
+        playerLabel:null
     },
 
     playJumpSound: function () {
         // 调用声音引擎播放声音
         cc.audioEngine.playEffect(this.jumpAudio, false);
     },
-    onPostionChanged(x) {
-        this.playerSpriteRight.node.x += x;
-        this.playerSpriteLeft.node.x += x;
+    onPostionChanged(x, arrow) {
+        this.playerSpriteRight.node.x = x;
+        this.playerSpriteLeft.node.x = x;
         this.playJumpSound();
+        this.playAnimation(arrow);
+        this.playerLabel.node.x = x;
     },
-    getPostion: function(){
+    getPostion: function () {
         return this.playerSpriteRight.node.x;
     },
 
     onLoad: function () {
-        // 初始化跳跃动作
-        // this.jumpAction = this.setJumpAction();
-        // this.node.runAction(this.jumpAction);
-
-        // 加速度方向开关
-        this.accLeft = false;
-        this.accRight = false;
-        // 主角当前水平方向速度
-        this.xSpeed = 0;
         this.rightAnimNode = this.node.getChildByName("rightAnimNode");
         this.leftAnimNode = this.node.getChildByName("leftAnimNode");
         this.animRightComp = this.rightAnimNode.getComponent(cc.Animation);
         this.animLeftComp = this.leftAnimNode.getComponent(cc.Animation);
         this.playerSpriteRight = this.rightAnimNode.getComponent(cc.Sprite);
         this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
+        this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
 
         var self = this;
-        if (this.isAllowInput){
+        if (this.isAllowInput) {
             this.postionSampler = setInterval(function () {
                 if (GLB.isGameOver === true) {
                     console.log("checked game(syncFrame) is over!, clearInterval:" + id);
-                    clearInterval(id);
+                    clearInterval(self.postionSampler);
                     return;
                 }
-                // if (self.isUserInputing !== 0) {
                 var frameData = JSON.stringify({
-                    "action": GLB.PLAYER_POSITION_EVENT,
+                    "userID": GLB.userID,
+                    "action": GLB.EVENT_PLAYER_POSINTON_CHANGED,
                     "x": self.getPostion(), "arrow": self.isUserInputing
                 });
-                GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))
-                    : (mvs.engine.sendFrameEvent(frameData));
-                // }
+
+                if (self.isDebug){
+                    self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
+                }
+                try {
+                    // if (self.isUserInputing !== 0) {
+                    GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))
+                        : (mvs.engine.sendFrameEvent(frameData));
+                    // }
+                } catch (e) {
+                    console.log(e);
+                }
+
             }, 1000 / GLB.FPS);
             // 初始化键盘输入监听
             this.setInputControl();
         }
     },
 
-    update: function (dt) {
-        // 根据当前加速度方向每帧更新速度
-        if (this.accLeft) {
-            this.xSpeed -= this.accel * dt;
-        } else if (this.accRight) {
-            this.xSpeed += this.accel * dt;
-        }
-        // 限制主角的速度不能超过最大值
-        if (Math.abs(this.xSpeed) > this.maxMoveSpeed) {
-            this.xSpeed = this.maxMoveSpeed * this.xSpeed / Math.abs(this.xSpeed);
-        }
-
-        this.node.x += this.xSpeed * dt;
-
-        // limit player position inside screen
-        if (this.node.x > this.node.parent.width / 2) {
-            this.node.x = this.node.parent.width / 2;
-            this.xSpeed = 0;
-        } else if (this.node.x < -this.node.parent.width / 2) {
-            this.node.x = -this.node.parent.width / 2;
-            this.xSpeed = 0;
-        }
-    },
-    playAnimation: function (isLeft, isStop) {
-
-
-        if (isStop) {
+    playAnimation: function (arrow) {
+        if (arrow === GLB.ARROW_STOP) {
             this.animRightComp.stop();
             this.animLeftComp.stop();
-            this.lastArrow = 0;
-        } else {
-            if (!isLeft) {
-                if (this.lastArrow !== 1) {
-                    this.animLeftComp.stop();
-                    this.animRightComp.play();
-                    this.rightAnimNode.active = true;
-                    this.leftAnimNode.active = false;
-                }
-
-                this.lastArrow = 1;
-            } else {
-                if (this.lastArrow !== 2) {
-                    this.animLeftComp.play();
-                    this.animRightComp.stop();
-                    this.rightAnimNode.active = false;
-                    this.leftAnimNode.active = true;
-                }
-                this.lastArrow = 2;
+            this.lastArrow = GLB.ARROW_STOP;
+        } else if (arrow === GLB.ARROW_RIGHT) {
+            if (this.lastArrow !== GLB.ARROW_RIGHT) {
+                this.animLeftComp.stop();
+                this.animRightComp.play();
+                this.rightAnimNode.active = true;
+                this.leftAnimNode.active = false;
             }
+            this.lastArrow = GLB.ARROW_RIGHT;
+        } else if (arrow === GLB.ARROW_LEFT) {
+            if (this.lastArrow !== GLB.ARROW_LEFT) {
+                this.animLeftComp.play();
+                this.animRightComp.stop();
+                this.rightAnimNode.active = false;
+                this.leftAnimNode.active = true;
+            }
+            this.lastArrow = GLB.ARROW_LEFT;
+        } else {
+            console.warn("unknown arrow");
         }
+
 
     },
     setInputControl: function () {
         var self = this;
 
-        // var touchEnd = self.node.on(cc.Node.EventType.MOUSE_MOVE, function (event) {
-        //     console.log("this is callback");
-        //
-        // }, self.node);
-
-
         var onTouch = function (touch) {
             var touchLoc = touch.getLocation();
             if (touchLoc.x >= cc.winSize.width / 2) {
-                self.playAnimation(false, false);
-                self.onPostionChanged(self.speed);
+                self.isUserInputing = GLB.ARROW_RIGHT;
+                self.onPostionChanged(self.playerSpriteRight.node.x + self.speed, self.isUserInputing);
             } else {
-                self.playAnimation(true, false);
-                self.onPostionChanged(-1 * self.speed);
+                self.isUserInputing = GLB.ARROW_LEFT;
+                self.onPostionChanged(self.playerSpriteRight.node.x - self.speed, self.isUserInputing);
             }
         };
         cc.eventManager.addListener({
@@ -166,14 +133,12 @@ cc.Class({
                 return true;
             },
             onTouchEnded: function (touch, event) {
-                self.playAnimation(false, true);
-                self.isUserInputing = 0;
-
+                self.isUserInputing = GLB.ARROW_STOP;
+                self.onPostionChanged(self.playerSpriteRight.node.x, self.isUserInputing);
             }
         }, self.node);
     },
     onDestroy: function () {
-        this.postionSampler&&clearInterval(this.postionSampler);
-        this.node.off(cc.Node.EventType.TOUCH_END);
+        this.postionSampler && clearInterval(this.postionSampler);
     }
 });

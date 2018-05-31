@@ -43,6 +43,36 @@ cc.Class({
         this.labelLog('游戏即将开始');
         cc.director.loadScene('game');
     },
+    initReopenRoom: function (self) {
+        var isOpen = true;
+        var checkBox = self.joinopen.getComponent(cc.Toggle);
+        checkBox.isChecked = true;
+        mvs.response.joinOpenResponse = function () {
+            self.labelLog("我设置允许房间加人");
+            checkBox.isChecked = true;
+        };
+        mvs.response.joinOpenNotify = function () {
+            self.labelLog("有人设置了允许房间加人");
+            checkBox.isChecked = true;
+        };
+        mvs.response.joinOverNotify = function () {
+            self.labelLog("有人设置了不允许房间加人");
+            checkBox.isChecked = false;
+        };
+        mvs.response.joinOverResponse = function () {
+            self.labelLog("我设置了不允许房间加人");
+            checkBox.isChecked = false;
+        };
+        self.joinopen.on(cc.Node.EventType.TOUCH_END, function () {
+            isOpen = !isOpen;
+            if (isOpen) {
+                mvs.engine.joinOpen("");
+            } else {
+                mvs.engine.joinOver("");
+            }
+            console.log("joinopen:" + isOpen);
+        });
+    },
     onLoad: function () {
         var result = 0;
         mvs.response.joinRoomResponse = this.joinRoomResponse.bind(this);
@@ -51,8 +81,9 @@ cc.Class({
         mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
         if (GLB.matchType === GLB.RANDOM_MATCH) {
             result = mvs.engine.joinRandomRoom(GLB.MAX_PLAYER_COUNT, '');
-            if (result !== 0)
-                return this.labelLog('进入房间失败,错误码:' + result)
+            if (result !== 0) {
+                return this.labelLog('进入房间失败,错误码:' + result);
+            }
         } else if (GLB.matchType === GLB.PROPERTY_MATCH) {
             var matchinfo = new mvs.MsMatchInfo();
             matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
@@ -68,36 +99,8 @@ cc.Class({
             mvs.engine.leaveRoom("");
             cc.director.loadScene('lobby');
         });
-        var isOpen = true;
-        var self = this;
 
-        var checkBox = self.joinopen.getComponent(cc.Toggle);
-
-        mvs.response.joinOpenResponse = function (d) {
-            self.labelLog("我设置允许房间加人");
-            checkBox.isChecked = true;
-        };
-        mvs.response.joinOpenNotify=  function (d) {
-            self.labelLog("有人设置了允许房间加人");
-            checkBox.isChecked = true;
-        };
-        mvs.response.joinOverNotify = function () {
-            self.labelLog("有人设置了不允许房间加人");
-            checkBox.isChecked = false;
-        };
-        mvs.response.joinOverResponse= function () {
-            self.labelLog("我设置了不允许房间加人");
-            checkBox.isChecked = false;
-        };
-        this.joinopen.on(cc.Node.EventType.TOUCH_END, function (event) {
-            isOpen = !isOpen;
-            if(isOpen){
-                mvs.engine.joinOpen("");
-            }else{
-                mvs.engine.joinOver("");
-            }
-            console.log("joinopen:" + isOpen);
-        });
+        this.initReopenRoom(this);
 
 
     },
@@ -111,47 +114,32 @@ cc.Class({
             mvs.engine.getRoomDetail(roomInfo.roomID)
         }
         this.labelRoomID.string = roomInfo.roomID;
-        GLB.roomId = roomInfo.roomID;
-        var userIds = [GLB.userID];
-        this.player1.string = GLB.userID;
-        var self = this;
-        userInfoList.forEach(function (item) {
-            if (item.userId === GLB.userID) {
-            } else if (self.player2.string === '') {
-                self.player2.string = item.userId;
-            } else if (self.player3.string === '') {
-                self.player3.string = item.userId;
-            }
-            if (GLB.userID !== item.userId) {
-                userIds.push(item.userId);
-            }
-        });
-        this.labelLog('房间用户: ' + userIds);
-        mvs.response.sendEventNotify = this.sendEventNotify.bind(this); // 设置事件接收的回调
-        GLB.playerUserIds = userIds;
-        if (userIds.length >= GLB.MAX_PLAYER_COUNT) {
-            mvs.response.joinOverResponse = this.joinOverResponse.bind(this); // 关闭房间之后的回调
-            var result = mvs.engine.joinOver("");
-            this.labelLog("发出关闭房间的通知");
-            if (result !== 0) {
-                this.labelLog("关闭房间失败，错误码：", result);
-            }
 
-            GLB.playerUserIds = userIds;
-        }
+        // GLB.roomId = roomInfo.roomID;
+        // var userIds = [GLB.userID];
+        // this.player1.string = GLB.userID;
+        // var self = this;
+        userInfoList.forEach(function (item) {
+            GLB.putPushID2Set(item.userId);
+        });
+        // this.labelLog('房间用户: ' + userIds);
+        // mvs.response.sendEventNotify = this.sendEventNotify.bind(this); // 设置事件接收的回调
+        // GLB.playerUserIds = userIds;
+        // if (userIds.length >= GLB.MAX_PLAYER_COUNT) {
+        //     mvs.response.joinOverResponse = this.joinOverResponse.bind(this); // 关闭房间之后的回调
+        //     var result = mvs.engine.joinOver("");
+        //     this.labelLog("发出关闭房间的通知");
+        //     if (result !== 0) {
+        //         this.labelLog("关闭房间失败，错误码：", result);
+        //     }
+        //
+        //     GLB.playerUserIds = userIds;
+        // }
     },
 
     joinRoomNotify: function (roomUserInfo) {
         this.labelLog("joinRoomNotify, roomUserInfo:" + JSON.stringify(roomUserInfo));
-        if (this.player1.string === '') {
-            this.player1.string = roomUserInfo.userId;
-        } else if (this.player2.string === '') {
-            this.player2.string = roomUserInfo.userId;
-        } else if (this.player3.string === '') {
-            this.player3.string = roomUserInfo.userId;
-        }
-        if (GLB.playerUserIds.length === GLB.MAX_PLAYER_COUNT - 1) {
-        }
+        GLB.putPushID2Set(item.userId);
     },
 
     joinOverResponse: function (joinOverRsp) {
