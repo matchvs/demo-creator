@@ -87,7 +87,7 @@ cc.Class({
                     mvs.engine.sendEventEx(0,obj , 0, GLB.playerUserIds);
                     console.log(GLB.isGameOver);
 
-                }, 200);
+                }, 32);
         } else {
             var id = setInterval(function () {
                 if (GLB.isGameOver === true) {
@@ -105,7 +105,7 @@ cc.Class({
                     ts: new Date().getTime()
                 };
                 mvs.engine.sendFrameEvent(JSON.stringify(frameData));
-            }, 200);
+            }, 32);
         }
 
         // 初始化键盘输入监听
