@@ -1,32 +1,65 @@
-function MatchvsEngine() {
-    console.log('MatchvsEngine init');
+var mvs = require("Matchvs");
+var Glb = require("Glb");
+var response = require("MatchvsDemoResponse");
+function MatchvsDemoEngine() {
+    console.log('MatchvsDemoEngine init');
 }
 
-MatchvsEngine.prototype.init = function(matchVSResponses, channel, platform, gameid){
-    this.responses = matchVSResponses;
-    return 0;
+/**
+ * 初始化
+ * @param channel
+ * @param platform
+ * @param gameID
+ */
+MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
+    console.log(response);
+    response.prototype.bind();
+    var result = mvs.engine.init(mvs.response,channel,platform,gameID);
+    console.log("初始化result"+result);
+    return result;
 };
 
-MatchvsEngine.prototype.registerUser = function() {
-    this._forEachResponse(function(res) {
-        setTimeout(function(){
-            var userInfo = {
-                userID: 10086,
-                token: 'jkfldjalfkdjaljfs',
-                name: '张三',
-                avatar: 'http://d3819ii77zvwic.cloudfront.net/wp-content/uploads/2015/02/child-fist-pump.jpg'
-            };
-            res.registerUserResponse && res.registerUserResponse(userInfo);
-        }, 100);
-    });
-    return 0;
+/**
+ * 注册
+ * @returns {number|*}
+ */
+MatchvsDemoEngine.prototype.registerUser = function() {
+    var result = mvs.engine.registerUser();
+    console.log("注册result"+result);
+    return result;
 };
 
-MatchvsEngine.prototype.login = function(userID,token,gameid,gameVersion,appkey, secret,deviceID,gatewayid){
-    return 0;
+/**
+ * 注册
+ * @param userID
+ * @param token
+ * @returns {DataView|*|number|void}
+ */
+MatchvsDemoEngine.prototype.login = function(userID,token){
+    var DeviceID = 'abcdef';
+    var gatewayID = 0;
+    var result = mvs.engine.login(userID,token,Glb.gameID,Glb.gameVersion,
+        Glb.appKey,Glb.secret,DeviceID,gatewayID);
+    console.log("登录result"+result);
+    return result;
 };
 
-MatchvsEngine.prototype.joinRandomRoom = function(){
+/**
+ * 断线重连
+ * @returns {*|number}
+ */
+MatchvsDemoEngine.prototype.reconnect = function () {
+    var result = mvs.engine.reconnect();
+    console.log("重连result"+result);
+    return result;
+}
+
+
+/**
+ * 
+ * @returns {number}
+ */
+MatchvsDemoEngine.prototype.joinRandomRoom = function(){
     this._forEachResponse(function(res) {
         setTimeout(function(){
             var roomInfo = {
@@ -48,7 +81,7 @@ MatchvsEngine.prototype.joinRandomRoom = function(){
     return 0;
 };
 
-MatchvsEngine.prototype._forEachResponse = function(func) {
+MatchvsDemoEngine.prototype._forEachResponse = function(func) {
     if (this.responses) {
         for(var i = 0; i<this.responses.length; i++) {
             this.responses[i] && func(this.responses[i]);
@@ -56,11 +89,11 @@ MatchvsEngine.prototype._forEachResponse = function(func) {
     }
 };
 
-MatchvsEngine.prototype.joinOver = function(){
+MatchvsDemoEngine.prototype.joinOver = function(){
     return 0;
 };
 
-MatchvsEngine.prototype.sendEvent = function(event){
+MatchvsDemoEngine.prototype.sendEvent = function(event){
     var mockEventId = new Date().getTime();
     this._forEachResponse(function(res){
         setTimeout(function(){
@@ -70,4 +103,4 @@ MatchvsEngine.prototype.sendEvent = function(event){
     return {status: 0, seq: mockEventId};
 };
 
-module.exports = MatchvsEngine;
+module.exports = MatchvsDemoEngine;

@@ -33,7 +33,7 @@ function str_hmac_md5(key, data) { return binl2str(core_hmac_md5(key, data)); }
  */
 function md5_vm_test()
 {
-  return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72";
+    return hex_md5("abc") == "900150983cd24fb0d6963f7d28e17f72";
 }
 
 /*
@@ -41,96 +41,96 @@ function md5_vm_test()
  */
 function core_md5(x, len)
 {
-  /* append padding */
-  x[len >> 5] |= 0x80 << ((len) % 32);
-  x[(((len + 64) >>> 9) << 4) + 14] = len;
+    /* append padding */
+    x[len >> 5] |= 0x80 << ((len) % 32);
+    x[(((len + 64) >>> 9) << 4) + 14] = len;
 
-  var a =  1732584193;
-  var b = -271733879;
-  var c = -1732584194;
-  var d =  271733878;
+    var a =  1732584193;
+    var b = -271733879;
+    var c = -1732584194;
+    var d =  271733878;
 
-  for(var i = 0; i < x.length; i += 16)
-  {
-    var olda = a;
-    var oldb = b;
-    var oldc = c;
-    var oldd = d;
+    for(var i = 0; i < x.length; i += 16)
+    {
+        var olda = a;
+        var oldb = b;
+        var oldc = c;
+        var oldd = d;
 
-    a = md5_ff(a, b, c, d, x[i+ 0], 7 , -680876936);
-    d = md5_ff(d, a, b, c, x[i+ 1], 12, -389564586);
-    c = md5_ff(c, d, a, b, x[i+ 2], 17,  606105819);
-    b = md5_ff(b, c, d, a, x[i+ 3], 22, -1044525330);
-    a = md5_ff(a, b, c, d, x[i+ 4], 7 , -176418897);
-    d = md5_ff(d, a, b, c, x[i+ 5], 12,  1200080426);
-    c = md5_ff(c, d, a, b, x[i+ 6], 17, -1473231341);
-    b = md5_ff(b, c, d, a, x[i+ 7], 22, -45705983);
-    a = md5_ff(a, b, c, d, x[i+ 8], 7 ,  1770035416);
-    d = md5_ff(d, a, b, c, x[i+ 9], 12, -1958414417);
-    c = md5_ff(c, d, a, b, x[i+10], 17, -42063);
-    b = md5_ff(b, c, d, a, x[i+11], 22, -1990404162);
-    a = md5_ff(a, b, c, d, x[i+12], 7 ,  1804603682);
-    d = md5_ff(d, a, b, c, x[i+13], 12, -40341101);
-    c = md5_ff(c, d, a, b, x[i+14], 17, -1502002290);
-    b = md5_ff(b, c, d, a, x[i+15], 22,  1236535329);
+        a = md5_ff(a, b, c, d, x[i+ 0], 7 , -680876936);
+        d = md5_ff(d, a, b, c, x[i+ 1], 12, -389564586);
+        c = md5_ff(c, d, a, b, x[i+ 2], 17,  606105819);
+        b = md5_ff(b, c, d, a, x[i+ 3], 22, -1044525330);
+        a = md5_ff(a, b, c, d, x[i+ 4], 7 , -176418897);
+        d = md5_ff(d, a, b, c, x[i+ 5], 12,  1200080426);
+        c = md5_ff(c, d, a, b, x[i+ 6], 17, -1473231341);
+        b = md5_ff(b, c, d, a, x[i+ 7], 22, -45705983);
+        a = md5_ff(a, b, c, d, x[i+ 8], 7 ,  1770035416);
+        d = md5_ff(d, a, b, c, x[i+ 9], 12, -1958414417);
+        c = md5_ff(c, d, a, b, x[i+10], 17, -42063);
+        b = md5_ff(b, c, d, a, x[i+11], 22, -1990404162);
+        a = md5_ff(a, b, c, d, x[i+12], 7 ,  1804603682);
+        d = md5_ff(d, a, b, c, x[i+13], 12, -40341101);
+        c = md5_ff(c, d, a, b, x[i+14], 17, -1502002290);
+        b = md5_ff(b, c, d, a, x[i+15], 22,  1236535329);
 
-    a = md5_gg(a, b, c, d, x[i+ 1], 5 , -165796510);
-    d = md5_gg(d, a, b, c, x[i+ 6], 9 , -1069501632);
-    c = md5_gg(c, d, a, b, x[i+11], 14,  643717713);
-    b = md5_gg(b, c, d, a, x[i+ 0], 20, -373897302);
-    a = md5_gg(a, b, c, d, x[i+ 5], 5 , -701558691);
-    d = md5_gg(d, a, b, c, x[i+10], 9 ,  38016083);
-    c = md5_gg(c, d, a, b, x[i+15], 14, -660478335);
-    b = md5_gg(b, c, d, a, x[i+ 4], 20, -405537848);
-    a = md5_gg(a, b, c, d, x[i+ 9], 5 ,  568446438);
-    d = md5_gg(d, a, b, c, x[i+14], 9 , -1019803690);
-    c = md5_gg(c, d, a, b, x[i+ 3], 14, -187363961);
-    b = md5_gg(b, c, d, a, x[i+ 8], 20,  1163531501);
-    a = md5_gg(a, b, c, d, x[i+13], 5 , -1444681467);
-    d = md5_gg(d, a, b, c, x[i+ 2], 9 , -51403784);
-    c = md5_gg(c, d, a, b, x[i+ 7], 14,  1735328473);
-    b = md5_gg(b, c, d, a, x[i+12], 20, -1926607734);
+        a = md5_gg(a, b, c, d, x[i+ 1], 5 , -165796510);
+        d = md5_gg(d, a, b, c, x[i+ 6], 9 , -1069501632);
+        c = md5_gg(c, d, a, b, x[i+11], 14,  643717713);
+        b = md5_gg(b, c, d, a, x[i+ 0], 20, -373897302);
+        a = md5_gg(a, b, c, d, x[i+ 5], 5 , -701558691);
+        d = md5_gg(d, a, b, c, x[i+10], 9 ,  38016083);
+        c = md5_gg(c, d, a, b, x[i+15], 14, -660478335);
+        b = md5_gg(b, c, d, a, x[i+ 4], 20, -405537848);
+        a = md5_gg(a, b, c, d, x[i+ 9], 5 ,  568446438);
+        d = md5_gg(d, a, b, c, x[i+14], 9 , -1019803690);
+        c = md5_gg(c, d, a, b, x[i+ 3], 14, -187363961);
+        b = md5_gg(b, c, d, a, x[i+ 8], 20,  1163531501);
+        a = md5_gg(a, b, c, d, x[i+13], 5 , -1444681467);
+        d = md5_gg(d, a, b, c, x[i+ 2], 9 , -51403784);
+        c = md5_gg(c, d, a, b, x[i+ 7], 14,  1735328473);
+        b = md5_gg(b, c, d, a, x[i+12], 20, -1926607734);
 
-    a = md5_hh(a, b, c, d, x[i+ 5], 4 , -378558);
-    d = md5_hh(d, a, b, c, x[i+ 8], 11, -2022574463);
-    c = md5_hh(c, d, a, b, x[i+11], 16,  1839030562);
-    b = md5_hh(b, c, d, a, x[i+14], 23, -35309556);
-    a = md5_hh(a, b, c, d, x[i+ 1], 4 , -1530992060);
-    d = md5_hh(d, a, b, c, x[i+ 4], 11,  1272893353);
-    c = md5_hh(c, d, a, b, x[i+ 7], 16, -155497632);
-    b = md5_hh(b, c, d, a, x[i+10], 23, -1094730640);
-    a = md5_hh(a, b, c, d, x[i+13], 4 ,  681279174);
-    d = md5_hh(d, a, b, c, x[i+ 0], 11, -358537222);
-    c = md5_hh(c, d, a, b, x[i+ 3], 16, -722521979);
-    b = md5_hh(b, c, d, a, x[i+ 6], 23,  76029189);
-    a = md5_hh(a, b, c, d, x[i+ 9], 4 , -640364487);
-    d = md5_hh(d, a, b, c, x[i+12], 11, -421815835);
-    c = md5_hh(c, d, a, b, x[i+15], 16,  530742520);
-    b = md5_hh(b, c, d, a, x[i+ 2], 23, -995338651);
+        a = md5_hh(a, b, c, d, x[i+ 5], 4 , -378558);
+        d = md5_hh(d, a, b, c, x[i+ 8], 11, -2022574463);
+        c = md5_hh(c, d, a, b, x[i+11], 16,  1839030562);
+        b = md5_hh(b, c, d, a, x[i+14], 23, -35309556);
+        a = md5_hh(a, b, c, d, x[i+ 1], 4 , -1530992060);
+        d = md5_hh(d, a, b, c, x[i+ 4], 11,  1272893353);
+        c = md5_hh(c, d, a, b, x[i+ 7], 16, -155497632);
+        b = md5_hh(b, c, d, a, x[i+10], 23, -1094730640);
+        a = md5_hh(a, b, c, d, x[i+13], 4 ,  681279174);
+        d = md5_hh(d, a, b, c, x[i+ 0], 11, -358537222);
+        c = md5_hh(c, d, a, b, x[i+ 3], 16, -722521979);
+        b = md5_hh(b, c, d, a, x[i+ 6], 23,  76029189);
+        a = md5_hh(a, b, c, d, x[i+ 9], 4 , -640364487);
+        d = md5_hh(d, a, b, c, x[i+12], 11, -421815835);
+        c = md5_hh(c, d, a, b, x[i+15], 16,  530742520);
+        b = md5_hh(b, c, d, a, x[i+ 2], 23, -995338651);
 
-    a = md5_ii(a, b, c, d, x[i+ 0], 6 , -198630844);
-    d = md5_ii(d, a, b, c, x[i+ 7], 10,  1126891415);
-    c = md5_ii(c, d, a, b, x[i+14], 15, -1416354905);
-    b = md5_ii(b, c, d, a, x[i+ 5], 21, -57434055);
-    a = md5_ii(a, b, c, d, x[i+12], 6 ,  1700485571);
-    d = md5_ii(d, a, b, c, x[i+ 3], 10, -1894986606);
-    c = md5_ii(c, d, a, b, x[i+10], 15, -1051523);
-    b = md5_ii(b, c, d, a, x[i+ 1], 21, -2054922799);
-    a = md5_ii(a, b, c, d, x[i+ 8], 6 ,  1873313359);
-    d = md5_ii(d, a, b, c, x[i+15], 10, -30611744);
-    c = md5_ii(c, d, a, b, x[i+ 6], 15, -1560198380);
-    b = md5_ii(b, c, d, a, x[i+13], 21,  1309151649);
-    a = md5_ii(a, b, c, d, x[i+ 4], 6 , -145523070);
-    d = md5_ii(d, a, b, c, x[i+11], 10, -1120210379);
-    c = md5_ii(c, d, a, b, x[i+ 2], 15,  718787259);
-    b = md5_ii(b, c, d, a, x[i+ 9], 21, -343485551);
+        a = md5_ii(a, b, c, d, x[i+ 0], 6 , -198630844);
+        d = md5_ii(d, a, b, c, x[i+ 7], 10,  1126891415);
+        c = md5_ii(c, d, a, b, x[i+14], 15, -1416354905);
+        b = md5_ii(b, c, d, a, x[i+ 5], 21, -57434055);
+        a = md5_ii(a, b, c, d, x[i+12], 6 ,  1700485571);
+        d = md5_ii(d, a, b, c, x[i+ 3], 10, -1894986606);
+        c = md5_ii(c, d, a, b, x[i+10], 15, -1051523);
+        b = md5_ii(b, c, d, a, x[i+ 1], 21, -2054922799);
+        a = md5_ii(a, b, c, d, x[i+ 8], 6 ,  1873313359);
+        d = md5_ii(d, a, b, c, x[i+15], 10, -30611744);
+        c = md5_ii(c, d, a, b, x[i+ 6], 15, -1560198380);
+        b = md5_ii(b, c, d, a, x[i+13], 21,  1309151649);
+        a = md5_ii(a, b, c, d, x[i+ 4], 6 , -145523070);
+        d = md5_ii(d, a, b, c, x[i+11], 10, -1120210379);
+        c = md5_ii(c, d, a, b, x[i+ 2], 15,  718787259);
+        b = md5_ii(b, c, d, a, x[i+ 9], 21, -343485551);
 
-    a = safe_add(a, olda);
-    b = safe_add(b, oldb);
-    c = safe_add(c, oldc);
-    d = safe_add(d, oldd);
-  }
-  return Array(a, b, c, d);
+        a = safe_add(a, olda);
+        b = safe_add(b, oldb);
+        c = safe_add(c, oldc);
+        d = safe_add(d, oldd);
+    }
+    return Array(a, b, c, d);
 
 }
 
@@ -139,23 +139,23 @@ function core_md5(x, len)
  */
 function md5_cmn(q, a, b, x, s, t)
 {
-  return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s),b);
+    return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s),b);
 }
 function md5_ff(a, b, c, d, x, s, t)
 {
-  return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
+    return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
 }
 function md5_gg(a, b, c, d, x, s, t)
 {
-  return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
+    return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
 }
 function md5_hh(a, b, c, d, x, s, t)
 {
-  return md5_cmn(b ^ c ^ d, a, b, x, s, t);
+    return md5_cmn(b ^ c ^ d, a, b, x, s, t);
 }
 function md5_ii(a, b, c, d, x, s, t)
 {
-  return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
+    return md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
 }
 
 /*
@@ -163,18 +163,18 @@ function md5_ii(a, b, c, d, x, s, t)
  */
 function core_hmac_md5(key, data)
 {
-  var bkey = str2binl(key);
-  if(bkey.length > 16) bkey = core_md5(bkey, key.length * chrsz);
+    var bkey = str2binl(key);
+    if(bkey.length > 16) bkey = core_md5(bkey, key.length * chrsz);
 
-  var ipad = Array(16), opad = Array(16);
-  for(var i = 0; i < 16; i++)
-  {
-    ipad[i] = bkey[i] ^ 0x36363636;
-    opad[i] = bkey[i] ^ 0x5C5C5C5C;
-  }
+    var ipad = Array(16), opad = Array(16);
+    for(var i = 0; i < 16; i++)
+    {
+        ipad[i] = bkey[i] ^ 0x36363636;
+        opad[i] = bkey[i] ^ 0x5C5C5C5C;
+    }
 
-  var hash = core_md5(ipad.concat(str2binl(data)), 512 + data.length * chrsz);
-  return core_md5(opad.concat(hash), 512 + 128);
+    var hash = core_md5(ipad.concat(str2binl(data)), 512 + data.length * chrsz);
+    return core_md5(opad.concat(hash), 512 + 128);
 }
 
 /*
@@ -183,9 +183,9 @@ function core_hmac_md5(key, data)
  */
 function safe_add(x, y)
 {
-  var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-  return (msw << 16) | (lsw & 0xFFFF);
+    var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+    return (msw << 16) | (lsw & 0xFFFF);
 }
 
 /*
@@ -193,7 +193,7 @@ function safe_add(x, y)
  */
 function bit_rol(num, cnt)
 {
-  return (num << cnt) | (num >>> (32 - cnt));
+    return (num << cnt) | (num >>> (32 - cnt));
 }
 
 /*
@@ -202,11 +202,11 @@ function bit_rol(num, cnt)
  */
 function str2binl(str)
 {
-  var bin = Array();
-  var mask = (1 << chrsz) - 1;
-  for(var i = 0; i < str.length * chrsz; i += chrsz)
-    bin[i>>5] |= (str.charCodeAt(i / chrsz) & mask) << (i%32);
-  return bin;
+    var bin = Array();
+    var mask = (1 << chrsz) - 1;
+    for(var i = 0; i < str.length * chrsz; i += chrsz)
+        bin[i>>5] |= (str.charCodeAt(i / chrsz) & mask) << (i%32);
+    return bin;
 }
 
 /*
@@ -214,11 +214,11 @@ function str2binl(str)
  */
 function binl2str(bin)
 {
-  var str = "";
-  var mask = (1 << chrsz) - 1;
-  for(var i = 0; i < bin.length * 32; i += chrsz)
-    str += String.fromCharCode((bin[i>>5] >>> (i % 32)) & mask);
-  return str;
+    var str = "";
+    var mask = (1 << chrsz) - 1;
+    for(var i = 0; i < bin.length * 32; i += chrsz)
+        str += String.fromCharCode((bin[i>>5] >>> (i % 32)) & mask);
+    return str;
 }
 
 /*
@@ -226,14 +226,14 @@ function binl2str(bin)
  */
 function binl2hex(binarray)
 {
-  var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
-  var str = "";
-  for(var i = 0; i < binarray.length * 4; i++)
-  {
-    str += hex_tab.charAt((binarray[i>>2] >> ((i%4)*8+4)) & 0xF) +
+    var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
+    var str = "";
+    for(var i = 0; i < binarray.length * 4; i++)
+    {
+        str += hex_tab.charAt((binarray[i>>2] >> ((i%4)*8+4)) & 0xF) +
            hex_tab.charAt((binarray[i>>2] >> ((i%4)*8  )) & 0xF);
-  }
-  return str;
+    }
+    return str;
 }
 
 /*
@@ -241,20 +241,20 @@ function binl2hex(binarray)
  */
 function binl2b64(binarray)
 {
-  var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  var str = "";
-  for(var i = 0; i < binarray.length * 4; i += 3)
-  {
-    var triplet = (((binarray[i   >> 2] >> 8 * ( i   %4)) & 0xFF) << 16)
+    var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    var str = "";
+    for(var i = 0; i < binarray.length * 4; i += 3)
+    {
+        var triplet = (((binarray[i   >> 2] >> 8 * ( i   %4)) & 0xFF) << 16)
                 | (((binarray[i+1 >> 2] >> 8 * ((i+1)%4)) & 0xFF) << 8 )
                 |  ((binarray[i+2 >> 2] >> 8 * ((i+2)%4)) & 0xFF);
-    for(var j = 0; j < 4; j++)
-    {
-      if(i * 8 + j * 6 > binarray.length * 32) str += b64pad;
-      else str += tab.charAt((triplet >> 6*(3-j)) & 0x3F);
+        for(var j = 0; j < 4; j++)
+        {
+            if(i * 8 + j * 6 > binarray.length * 32) str += b64pad;
+            else str += tab.charAt((triplet >> 6*(3-j)) & 0x3F);
+        }
     }
-  }
-  return str;
+    return str;
 }
 /* ================ format.js ================= */
 //
@@ -270,92 +270,91 @@ function binl2b64(binarray)
 
 var format = function (fmt){
     var argIndex = 1 // skip initial format argument
-      , args = [].slice.call(arguments)
-      , i = 0
-      , n = fmt.length
-      , result = ''
-      , c
-      , escaped = false
-      , arg
-      , tmp
-      , leadingZero = false
-      , precision
-      , nextArg = function() { return args[argIndex++]; }
-      , slurpNumber = function() {
-          var digits = '';
-          while (/\d/.test(fmt[i])) {
-            digits += fmt[i++];
-            c = fmt[i];
-          }
-          return digits.length > 0 ? parseInt(digits) : null;
+        , args = [].slice.call(arguments)
+        , i = 0
+        , n = fmt.length
+        , result = ""
+        , c
+        , escaped = false
+        , arg
+        , tmp
+        , leadingZero = false
+        , precision
+        , nextArg = function() { return args[argIndex++]; }
+        , slurpNumber = function() {
+            var digits = "";
+            while (/\d/.test(fmt[i])) {
+                digits += fmt[i++];
+                c = fmt[i];
+            }
+            return digits.length > 0 ? parseInt(digits) : null;
         }
       ;
     for (; i < n; ++i) {
-      c = fmt[i];
-      if (escaped) {
-        escaped = false;
-        if (c == '.') {
-          leadingZero = false;
-          c = fmt[++i];
+        c = fmt[i];
+        if (escaped) {
+            escaped = false;
+            if (c == ".") {
+                leadingZero = false;
+                c = fmt[++i];
+            }
+            else if (c == "0" && fmt[i + 1] == ".") {
+                leadingZero = true;
+                i += 2;
+                c = fmt[i];
+            }
+            else {
+                leadingZero = true;
+            }
+            precision = slurpNumber();
+            switch (c) {
+            case "b": // number in binary
+                result += parseInt(nextArg(), 10).toString(2);
+                break;
+            case "c": // character
+                arg = nextArg();
+                if (typeof arg === "string" || arg instanceof String)
+                    result += arg;
+                else
+                    result += String.fromCharCode(parseInt(arg, 10));
+                break;
+            case "d": // number in decimal
+                result += parseInt(nextArg(), 10);
+                break;
+            case "f": // floating point number
+                tmp = String(parseFloat(nextArg()).toFixed(precision || 6));
+                result += leadingZero ? tmp : tmp.replace(/^0/, "");
+                break;
+            case "j": // JSON
+                result += JSON.stringify(nextArg());
+                break;
+            case "o": // number in octal
+                result += "0" + parseInt(nextArg(), 10).toString(8);
+                break;
+            case "s": // string
+                result += nextArg();
+                break;
+            case "x": // lowercase hexadecimal
+                result += "0x" + parseInt(nextArg(), 10).toString(16);
+                break;
+            case "X": // uppercase hexadecimal
+                result += "0x" + parseInt(nextArg(), 10).toString(16).toUpperCase();
+                break;
+            default:
+                result += c;
+                break;
+            }
+        } else if (c === "%") {
+            escaped = true;
+        } else {
+            result += c;
         }
-        else if (c == '0' && fmt[i + 1] == '.') {
-          leadingZero = true;
-          i += 2;
-          c = fmt[i];
-        }
-        else {
-          leadingZero = true;
-        }
-        precision = slurpNumber();
-        switch (c) {
-        case 'b': // number in binary
-          result += parseInt(nextArg(), 10).toString(2);
-          break;
-        case 'c': // character
-          arg = nextArg();
-          if (typeof arg === 'string' || arg instanceof String)
-            result += arg;
-          else
-            result += String.fromCharCode(parseInt(arg, 10));
-          break;
-        case 'd': // number in decimal
-          result += parseInt(nextArg(), 10);
-          break;
-        case 'f': // floating point number
-          tmp = String(parseFloat(nextArg()).toFixed(precision || 6));
-          result += leadingZero ? tmp : tmp.replace(/^0/, '');
-          break;
-        case 'j': // JSON
-          result += JSON.stringify(nextArg());
-          break;
-        case 'o': // number in octal
-          result += '0' + parseInt(nextArg(), 10).toString(8);
-          break;
-        case 's': // string
-          result += nextArg();
-          break;
-        case 'x': // lowercase hexadecimal
-          result += '0x' + parseInt(nextArg(), 10).toString(16);
-          break;
-        case 'X': // uppercase hexadecimal
-          result += '0x' + parseInt(nextArg(), 10).toString(16).toUpperCase();
-          break;
-        default:
-          result += c;
-          break;
-        }
-      } else if (c === '%') {
-        escaped = true;
-      } else {
-        result += c;
-      }
     }
     return result;
 };
 /* ================ matchvsLog.js ================= */
 var MatchvsLog = {
-    logLock:true,
-    toArray:function (argument) {
+    toArray: function (argument) {
         var args = [];
         for (var i = 0; i < argument.length; i++) {
             args.push(argument[i]);
@@ -364,35 +363,67 @@ var MatchvsLog = {
     }
 };
 
+function getNowFormatDate() {
+    var date = new Date();
+    var ___ = "-";
+    var __ = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    return "[" + date.getFullYear() + ___ + month
+        + ___ + strDate + " " + date.getHours() + __
+        + date.getMinutes() + __ + date.getSeconds() + "."
+        + date.getMilliseconds() + "]";
+}
+
 MatchvsLog.openLog = function () {
-    this.logLock = true;
+    console.log("---- open log ----");
+    if (typeof (wx) === "undefined") {
+        MatchvsLog.logI = console.log.bind(console
+            , "[INFO ] " + " ");
+        MatchvsLog.logE = console.error.bind(console
+            , "[ERROR] " + " ");
+    } else {
+        MatchvsLog.logI = function () {
+            var loc = "";
+            try {
+                throw new Error();
+            } catch (e) {
+                var line = e.stack.split(/\n/)[1];
+                loc= line.slice(line.lastIndexOf("/")+1,line.lastIndexOf(")"));
+            }
+            console.info("[INFO ] " + getNowFormatDate() + " " + this.toArray(arguments) + " " + loc);
+        };
+
+        MatchvsLog.logE = function () {
+            var loc = "";
+            try {
+                throw new Error();
+            } catch (e) {
+                var line = e.stack.split(/\n/)[1];
+                loc= line.slice(line.lastIndexOf("/")+1,line.lastIndexOf(")"));
+            }
+            console.error("[ERROR] " + getNowFormatDate() + " " + this.toArray(arguments) + " " + loc);
+        };
+    }
 };
 
 MatchvsLog.closeLog = function () {
-    this.logLock = false;
+    console.log("---- close log ----");
+    MatchvsLog.logI = function () {
+    };
+    MatchvsLog.logE = function () {
+    };
 };
 
-MatchvsLog.logI = function () {
-    if(!this.logLock)return;
-    var loc ="";
-    try {
-        throw new Error();
-    } catch (e) {
-        loc= e.stack.replace(/Error\n/).split(/\n/)[1].replace(/^\s+|\s+$/, "");
-    }
-    console.info("[INFO] "+loc+" "+  this.toArray(arguments));
-};
+MatchvsLog.openLog();//default, the log is opening
 
-MatchvsLog.logE = function () {
-    if(!this.logLock)return;
-    var loc ="";
-    try {
-        throw new Error();
-    } catch (e) {
-        loc= e.stack.replace(/Error\n/).split(/\n/)[1].replace(/^\s+|\s+$/, "");
-    }
-    console.error("[ERRO] "+loc+" "+ this.toArray(arguments));
-};/* ================ mvsconfig.js ================= */
+/* ================ mvsconfig.js ================= */
 var HEART_BEAT_INTERVAL = 3000; //心跳间隔时间
 var ENGE_STATE = {
     NONE:             0x0000,     //无状态
@@ -436,12 +467,12 @@ var HttpConf = {
 };
 
 /* ================ msutil.js ================= */
-if (typeof String.prototype.startsWith !== 'function') {
+if (typeof String.prototype.startsWith !== "function") {
     String.prototype.startsWith = function (prefix) {
         return this.slice(0, prefix.length) === prefix;
     };
 }
-if (typeof String.prototype.endsWith !== 'function') {
+if (typeof String.prototype.endsWith !== "function") {
     String.prototype.endsWith = function (suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
@@ -470,7 +501,7 @@ function stringToUtf8ByteArray(a) {
     }
     for (var b = [], c = 0, d = 0; d < a.length; d++) {
         var e = a.charCodeAt(d);
-        128 > e ? b[c++] = e : (2048 > e ? b[c++] = e >> 6 | 192 : (55296 == (e & 64512) && d + 1 < a.length && 56320 == (a.charCodeAt(d + 1) & 64512) ? (e = 65536 + ((e & 1023) << 10) + (a.charCodeAt(++d) & 1023), b[c++] = e >> 18 | 240, b[c++] = e >> 12 & 63 | 128) : b[c++] = e >> 12 | 224, b[c++] = e >> 6 & 63 | 128), b[c++] = e & 63 | 128)
+        128 > e ? b[c++] = e : (2048 > e ? b[c++] = e >> 6 | 192 : (55296 == (e & 64512) && d + 1 < a.length && 56320 == (a.charCodeAt(d + 1) & 64512) ? (e = 65536 + ((e & 1023) << 10) + (a.charCodeAt(++d) & 1023), b[c++] = e >> 18 | 240, b[c++] = e >> 12 & 63 | 128) : b[c++] = e >> 12 | 224, b[c++] = e >> 6 & 63 | 128), b[c++] = e & 63 | 128);
     }
     var buf = new Uint8Array(b.length);
     for (var i = 0; i < buf.length; i++) {
@@ -485,15 +516,15 @@ function utf8ByteArrayToString(a) {
         var e = a[c++];
         if (128 > e) b[d++] = String.fromCharCode(e); else if (191 < e && 224 > e) {
             var f = a[c++];
-            b[d++] = String.fromCharCode((e & 31) << 6 | f & 63)
+            b[d++] = String.fromCharCode((e & 31) << 6 | f & 63);
         } else if (239 < e && 365 > e) {
             var f = a[c++], g = a[c++], h = a[c++],
                 e = ((e & 7) << 18 | (f & 63) << 12 | (g & 63) << 6 | h & 63) - 65536;
             b[d++] = String.fromCharCode(55296 + (e >> 10));
-            b[d++] = String.fromCharCode(56320 + (e & 1023))
-        } else f = a[c++], g = a[c++], b[d++] = String.fromCharCode((e & 15) << 12 | (f & 63) << 6 | g & 63)
+            b[d++] = String.fromCharCode(56320 + (e & 1023));
+        } else f = a[c++], g = a[c++], b[d++] = String.fromCharCode((e & 15) << 12 | (f & 63) << 6 | g & 63);
     }
-    return b.join("")
+    return b.join("");
 }
 
 function str2u8array(str) {
@@ -621,43 +652,43 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 if (!u && a) return a(o, !0);
                 if (i) return i(o, !0);
                 var f = new Error("Cannot find module '" + o + "'");
-                throw f.code = "MODULE_NOT_FOUND", f
+                throw f.code = "MODULE_NOT_FOUND", f;
             }
             var l = n[o] = {exports: {}};
             t[o][0].call(l.exports, function (e) {
                 var n = t[o][1][e];
-                return s(n ? n : e)
-            }, l, l.exports, e, t, n, r)
+                return s(n ? n : e);
+            }, l, l.exports, e, t, n, r);
         }
-        return n[o].exports
+        return n[o].exports;
     }
 
     var i = typeof _require == "function" && _require;
     for (var o = 0; o < r.length; o++) s(r[o]);
-    return s
+    return s;
 })({
     1: [function (_require, module, exports) {
         (function (global) {
             var $jscomp = {
                 scope: {}, getGlobal: function (a) {
-                    return "undefined" != typeof window && window === a ? a : "undefined" != typeof global ? global : a
+                    return "undefined" != typeof window && window === a ? a : "undefined" != typeof global ? global : a;
                 }
             };
             $jscomp.global = $jscomp.getGlobal(this);
             $jscomp.initSymbol = function () {
                 $jscomp.global.Symbol || ($jscomp.global.Symbol = $jscomp.Symbol);
                 $jscomp.initSymbol = function () {
-                }
+                };
             };
             $jscomp.symbolCounter_ = 0;
             $jscomp.Symbol = function (a) {
-                return "jscomp_symbol_" + a + $jscomp.symbolCounter_++
+                return "jscomp_symbol_" + a + $jscomp.symbolCounter_++;
             };
             $jscomp.initSymbolIterator = function () {
                 $jscomp.initSymbol();
                 $jscomp.global.Symbol.iterator || ($jscomp.global.Symbol.iterator = $jscomp.global.Symbol("iterator"));
                 $jscomp.initSymbolIterator = function () {
-                }
+                };
             };
             $jscomp.makeIterator = function (a) {
                 $jscomp.initSymbolIterator();
@@ -668,16 +699,16 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 var c = 0;
                 return {
                     next: function () {
-                        return c < a.length ? {done: !1, value: a[c++]} : {done: !0}
+                        return c < a.length ? {done: !1, value: a[c++]} : {done: !0};
                     }
-                }
+                };
             };
             $jscomp.arrayFromIterator = function (a) {
                 for (var b, c = []; !(b = a.next()).done;) c.push(b.value);
-                return c
+                return c;
             };
             $jscomp.arrayFromIterable = function (a) {
-                return a instanceof Array ? a : $jscomp.arrayFromIterator($jscomp.makeIterator(a))
+                return a instanceof Array ? a : $jscomp.arrayFromIterator($jscomp.makeIterator(a));
             };
             $jscomp.inherits = function (a, b) {
                 function c() {
@@ -688,8 +719,8 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 a.prototype.constructor = a;
                 for (var d in b) if (Object.defineProperties) {
                     var e = Object.getOwnPropertyDescriptor(b, d);
-                    e && Object.defineProperty(a, d, e)
-                } else a[d] = b[d]
+                    e && Object.defineProperty(a, d, e);
+                } else a[d] = b[d];
             };
             $jscomp.array = $jscomp.array || {};
             $jscomp.iteratorFromArray = function (a, b) {
@@ -699,33 +730,33 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     next: function () {
                         if (c < a.length) {
                             var e = c++;
-                            return {value: b(e, a[e]), done: !1}
+                            return {value: b(e, a[e]), done: !1};
                         }
                         d.next = function () {
-                            return {done: !0, value: void 0}
+                            return {done: !0, value: void 0};
                         };
-                        return d.next()
+                        return d.next();
                     }
                 };
                 $jscomp.initSymbol();
                 $jscomp.initSymbolIterator();
                 d[Symbol.iterator] = function () {
-                    return d
+                    return d;
                 };
-                return d
+                return d;
             };
             $jscomp.findInternal = function (a, b, c) {
                 a instanceof String && (a = String(a));
                 for (var d = a.length, e = 0; e < d; e++) {
                     var f = a[e];
-                    if (b.call(c, f, e, a)) return {i: e, v: f}
+                    if (b.call(c, f, e, a)) return {i: e, v: f};
                 }
-                return {i: -1, v: void 0}
+                return {i: -1, v: void 0};
             };
             $jscomp.array.from = function (a, b, c) {
                 $jscomp.initSymbolIterator();
                 b = null != b ? b : function (a) {
-                    return a
+                    return a;
                 };
                 var d = [];
                 $jscomp.initSymbol();
@@ -733,15 +764,15 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 var e = a[Symbol.iterator];
                 "function" == typeof e && (a = e.call(a));
                 if ("function" == typeof a.next) for (; !(e = a.next()).done;) d.push(b.call(c, e.value)); else for (var e = a.length, f = 0; f < e; f++) d.push(b.call(c, a[f]));
-                return d
+                return d;
             };
             $jscomp.array.of = function (a) {
-                return $jscomp.array.from(arguments)
+                return $jscomp.array.from(arguments);
             };
             $jscomp.array.entries = function () {
                 return $jscomp.iteratorFromArray(this, function (a, b) {
-                    return [a, b]
-                })
+                    return [a, b];
+                });
             };
             $jscomp.array.installHelper_ = function (a, b) {
                 !Array.prototype[a] && Object.defineProperties && Object.defineProperty && Object.defineProperty(Array.prototype, a, {
@@ -749,26 +780,26 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     enumerable: !1,
                     writable: !0,
                     value: b
-                })
+                });
             };
             $jscomp.array.entries$install = function () {
-                $jscomp.array.installHelper_("entries", $jscomp.array.entries)
+                $jscomp.array.installHelper_("entries", $jscomp.array.entries);
             };
             $jscomp.array.keys = function () {
                 return $jscomp.iteratorFromArray(this, function (a) {
-                    return a
-                })
+                    return a;
+                });
             };
             $jscomp.array.keys$install = function () {
-                $jscomp.array.installHelper_("keys", $jscomp.array.keys)
+                $jscomp.array.installHelper_("keys", $jscomp.array.keys);
             };
             $jscomp.array.values = function () {
                 return $jscomp.iteratorFromArray(this, function (a, b) {
-                    return b
-                })
+                    return b;
+                });
             };
             $jscomp.array.values$install = function () {
-                $jscomp.array.installHelper_("values", $jscomp.array.values)
+                $jscomp.array.installHelper_("values", $jscomp.array.values);
             };
             $jscomp.array.copyWithin = function (a, b, c) {
                 var d = this.length;
@@ -776,10 +807,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 b = Number(b);
                 c = Number(null != c ? c : d);
                 if (a < b) for (c = Math.min(c, d); b < c;) b in this ? this[a++] = this[b++] : (delete this[a++], b++); else for (c = Math.min(c, d + b - a), a += c - b; c > b;) --c in this ? this[--a] = this[c] : delete this[a];
-                return this
+                return this;
             };
             $jscomp.array.copyWithin$install = function () {
-                $jscomp.array.installHelper_("copyWithin", $jscomp.array.copyWithin)
+                $jscomp.array.installHelper_("copyWithin", $jscomp.array.copyWithin);
             };
             $jscomp.array.fill = function (a, b, c) {
                 var d = this.length || 0;
@@ -788,22 +819,22 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 c = Number(c);
                 0 > c && (c = Math.max(0, d + c));
                 for (b = Number(b || 0); b < c; b++) this[b] = a;
-                return this
+                return this;
             };
             $jscomp.array.fill$install = function () {
-                $jscomp.array.installHelper_("fill", $jscomp.array.fill)
+                $jscomp.array.installHelper_("fill", $jscomp.array.fill);
             };
             $jscomp.array.find = function (a, b) {
-                return $jscomp.findInternal(this, a, b).v
+                return $jscomp.findInternal(this, a, b).v;
             };
             $jscomp.array.find$install = function () {
-                $jscomp.array.installHelper_("find", $jscomp.array.find)
+                $jscomp.array.installHelper_("find", $jscomp.array.find);
             };
             $jscomp.array.findIndex = function (a, b) {
-                return $jscomp.findInternal(this, a, b).i
+                return $jscomp.findInternal(this, a, b).i;
             };
             $jscomp.array.findIndex$install = function () {
-                $jscomp.array.installHelper_("findIndex", $jscomp.array.findIndex)
+                $jscomp.array.installHelper_("findIndex", $jscomp.array.findIndex);
             };
             $jscomp.ASSUME_NO_NATIVE_MAP = !1;
             $jscomp.Map$isConformant = function () {
@@ -816,9 +847,9 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var d = c.entries(), e = d.next();
                     if (e.done || e.value[0] != b || "s" != e.value[1]) return !1;
                     e = d.next();
-                    return e.done || 4 != e.value[0].x || "t" != e.value[1] || !d.next().done ? !1 : !0
+                    return e.done || 4 != e.value[0].x || "t" != e.value[1] || !d.next().done ? !1 : !0;
                 } catch (f) {
-                    return !1
+                    return !1;
                 }
             };
             $jscomp.Map = function (a) {
@@ -827,7 +858,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.size = 0;
                 if (a) {
                     a = $jscomp.makeIterator(a);
-                    for (var b; !(b = a.next()).done;) b = b.value, this.set(b[0], b[1])
+                    for (var b; !(b = a.next()).done;) b = b.value, this.set(b[0], b[1]);
                 }
             };
             $jscomp.Map.prototype.set = function (a, b) {
@@ -840,48 +871,48 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     key: a,
                     value: b
                 }, c.list.push(c.entry), this.head_.previous.next = c.entry, this.head_.previous = c.entry, this.size++);
-                return this
+                return this;
             };
             $jscomp.Map.prototype["delete"] = function (a) {
                 a = $jscomp.Map.maybeGetEntry(this, a);
-                return a.entry && a.list ? (a.list.splice(a.index, 1), a.list.length || delete this.data_[a.id], a.entry.previous.next = a.entry.next, a.entry.next.previous = a.entry.previous, a.entry.head = null, this.size--, !0) : !1
+                return a.entry && a.list ? (a.list.splice(a.index, 1), a.list.length || delete this.data_[a.id], a.entry.previous.next = a.entry.next, a.entry.next.previous = a.entry.previous, a.entry.head = null, this.size--, !0) : !1;
             };
             $jscomp.Map.prototype.clear = function () {
                 this.data_ = {};
                 this.head_ = this.head_.previous = $jscomp.Map.createHead();
-                this.size = 0
+                this.size = 0;
             };
             $jscomp.Map.prototype.has = function (a) {
-                return !!$jscomp.Map.maybeGetEntry(this, a).entry
+                return !!$jscomp.Map.maybeGetEntry(this, a).entry;
             };
             $jscomp.Map.prototype.get = function (a) {
-                return (a = $jscomp.Map.maybeGetEntry(this, a).entry) && a.value
+                return (a = $jscomp.Map.maybeGetEntry(this, a).entry) && a.value;
             };
             $jscomp.Map.prototype.entries = function () {
                 return $jscomp.Map.makeIterator_(this, function (a) {
-                    return [a.key, a.value]
-                })
+                    return [a.key, a.value];
+                });
             };
             $jscomp.Map.prototype.keys = function () {
                 return $jscomp.Map.makeIterator_(this, function (a) {
-                    return a.key
-                })
+                    return a.key;
+                });
             };
             $jscomp.Map.prototype.values = function () {
                 return $jscomp.Map.makeIterator_(this, function (a) {
-                    return a.value
-                })
+                    return a.value;
+                });
             };
             $jscomp.Map.prototype.forEach = function (a, b) {
-                for (var c = this.entries(), d; !(d = c.next()).done;) d = d.value, a.call(b, d[1], d[0], this)
+                for (var c = this.entries(), d; !(d = c.next()).done;) d = d.value, a.call(b, d[1], d[0], this);
             };
             $jscomp.Map.maybeGetEntry = function (a, b) {
                 var c = $jscomp.Map.getId(b), d = a.data_[c];
                 if (d && Object.prototype.hasOwnProperty.call(a.data_, c)) for (var e = 0; e < d.length; e++) {
                     var f = d[e];
-                    if (b !== b && f.key !== f.key || b === f.key) return {id: c, list: d, index: e, entry: f}
+                    if (b !== b && f.key !== f.key || b === f.key) return {id: c, list: d, index: e, entry: f};
                 }
-                return {id: c, list: d, index: -1, entry: void 0}
+                return {id: c, list: d, index: -1, entry: void 0};
             };
             $jscomp.Map.makeIterator_ = function (a, b) {
                 var c = a.head_, d = {
@@ -889,35 +920,35 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         if (c) {
                             for (; c.head != a.head_;) c = c.previous;
                             for (; c.next != c.head;) return c = c.next, {done: !1, value: b(c)};
-                            c = null
+                            c = null;
                         }
-                        return {done: !0, value: void 0}
+                        return {done: !0, value: void 0};
                     }
                 };
                 $jscomp.initSymbol();
                 $jscomp.initSymbolIterator();
                 d[Symbol.iterator] = function () {
-                    return d
+                    return d;
                 };
-                return d
+                return d;
             };
             $jscomp.Map.mapIndex_ = 0;
             $jscomp.Map.createHead = function () {
                 var a = {};
-                return a.previous = a.next = a.head = a
+                return a.previous = a.next = a.head = a;
             };
             $jscomp.Map.getId = function (a) {
                 if (!(a instanceof Object)) return "p_" + a;
                 if (!($jscomp.Map.idKey in a)) try {
-                    $jscomp.Map.defineProperty(a, $jscomp.Map.idKey, {value: ++$jscomp.Map.mapIndex_})
+                    $jscomp.Map.defineProperty(a, $jscomp.Map.idKey, {value: ++$jscomp.Map.mapIndex_});
                 } catch (b) {
                 }
-                return $jscomp.Map.idKey in a ? a[$jscomp.Map.idKey] : "o_ " + a
+                return $jscomp.Map.idKey in a ? a[$jscomp.Map.idKey] : "o_ " + a;
             };
             $jscomp.Map.defineProperty = Object.defineProperty ? function (a, b, c) {
-                Object.defineProperty(a, b, {value: String(c)})
+                Object.defineProperty(a, b, {value: String(c)});
             } : function (a, b, c) {
-                a[b] = String(c)
+                a[b] = String(c);
             };
             $jscomp.Map.Entry = function () {
             };
@@ -925,7 +956,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 $jscomp.initSymbol();
                 $jscomp.initSymbolIterator();
                 $jscomp.Map$isConformant() ? $jscomp.Map = $jscomp.global.Map : ($jscomp.initSymbol(), $jscomp.initSymbolIterator(), $jscomp.Map.prototype[Symbol.iterator] = $jscomp.Map.prototype.entries, $jscomp.initSymbol(), $jscomp.Map.idKey = Symbol("map-id-key"), $jscomp.Map$install = function () {
-                })
+                });
             };
             $jscomp.math = $jscomp.math || {};
             $jscomp.math.clz32 = function (a) {
@@ -937,67 +968,67 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 0 === (a & 4026531840) && (a <<= 4, b += 4);
                 0 === (a & 3221225472) && (a <<= 2, b += 2);
                 0 === (a & 2147483648) && b++;
-                return b
+                return b;
             };
             $jscomp.math.imul = function (a, b) {
                 a = Number(a);
                 b = Number(b);
                 var c = a & 65535, d = b & 65535;
-                return c * d + ((a >>> 16 & 65535) * d + c * (b >>> 16 & 65535) << 16 >>> 0) | 0
+                return c * d + ((a >>> 16 & 65535) * d + c * (b >>> 16 & 65535) << 16 >>> 0) | 0;
             };
             $jscomp.math.sign = function (a) {
                 a = Number(a);
-                return 0 === a || isNaN(a) ? a : 0 < a ? 1 : -1
+                return 0 === a || isNaN(a) ? a : 0 < a ? 1 : -1;
             };
             $jscomp.math.log10 = function (a) {
-                return Math.log(a) / Math.LN10
+                return Math.log(a) / Math.LN10;
             };
             $jscomp.math.log2 = function (a) {
-                return Math.log(a) / Math.LN2
+                return Math.log(a) / Math.LN2;
             };
             $jscomp.math.log1p = function (a) {
                 a = Number(a);
                 if (.25 > a && -.25 < a) {
                     for (var b = a, c = 1, d = a, e = 0, f = 1; e != d;) b *= a, f *= -1, d = (e = d) + f * b / ++c;
-                    return d
+                    return d;
                 }
-                return Math.log(1 + a)
+                return Math.log(1 + a);
             };
             $jscomp.math.expm1 = function (a) {
                 a = Number(a);
                 if (.25 > a && -.25 < a) {
                     for (var b = a, c = 1, d = a, e = 0; e != d;) b *= a / ++c, d = (e = d) + b;
-                    return d
+                    return d;
                 }
-                return Math.exp(a) - 1
+                return Math.exp(a) - 1;
             };
             $jscomp.math.cosh = function (a) {
                 a = Number(a);
-                return (Math.exp(a) + Math.exp(-a)) / 2
+                return (Math.exp(a) + Math.exp(-a)) / 2;
             };
             $jscomp.math.sinh = function (a) {
                 a = Number(a);
-                return 0 === a ? a : (Math.exp(a) - Math.exp(-a)) / 2
+                return 0 === a ? a : (Math.exp(a) - Math.exp(-a)) / 2;
             };
             $jscomp.math.tanh = function (a) {
                 a = Number(a);
                 if (0 === a) return a;
                 var b = Math.exp(-2 * Math.abs(a)), b = (1 - b) / (1 + b);
-                return 0 > a ? -b : b
+                return 0 > a ? -b : b;
             };
             $jscomp.math.acosh = function (a) {
                 a = Number(a);
-                return Math.log(a + Math.sqrt(a * a - 1))
+                return Math.log(a + Math.sqrt(a * a - 1));
             };
             $jscomp.math.asinh = function (a) {
                 a = Number(a);
                 if (0 === a) return a;
                 var b = Math.log(Math.abs(a) + Math.sqrt(a * a + 1));
-                return 0 > a ? -b : b
+                return 0 > a ? -b : b;
             };
             $jscomp.math.atanh = function (a) {
                 a = Number(a);
-                return ($jscomp.math.log1p(a) - $jscomp.math.log1p(-a)) / 2
+                return ($jscomp.math.log1p(a) - $jscomp.math.log1p(-a)) / 2;
             };
             $jscomp.math.hypot = function (a, b, c) {
                 a = Number(a);
@@ -1009,56 +1040,56 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     b /= g;
                     f = a * a + b * b;
                     for (d = 2; d < arguments.length; d++) e = Number(arguments[d]) / g, f += e * e;
-                    return Math.sqrt(f) * g
+                    return Math.sqrt(f) * g;
                 }
                 f = a * a + b * b;
                 for (d = 2; d < arguments.length; d++) e = Number(arguments[d]), f += e * e;
-                return Math.sqrt(f)
+                return Math.sqrt(f);
             };
             $jscomp.math.trunc = function (a) {
                 a = Number(a);
                 if (isNaN(a) || Infinity === a || -Infinity === a || 0 === a) return a;
                 var b = Math.floor(Math.abs(a));
-                return 0 > a ? -b : b
+                return 0 > a ? -b : b;
             };
             $jscomp.math.cbrt = function (a) {
                 if (0 === a) return a;
                 a = Number(a);
                 var b = Math.pow(Math.abs(a), 1 / 3);
-                return 0 > a ? -b : b
+                return 0 > a ? -b : b;
             };
             $jscomp.number = $jscomp.number || {};
             $jscomp.number.isFinite = function (a) {
-                return "number" !== typeof a ? !1 : !isNaN(a) && Infinity !== a && -Infinity !== a
+                return "number" !== typeof a ? !1 : !isNaN(a) && Infinity !== a && -Infinity !== a;
             };
             $jscomp.number.isInteger = function (a) {
-                return $jscomp.number.isFinite(a) ? a === Math.floor(a) : !1
+                return $jscomp.number.isFinite(a) ? a === Math.floor(a) : !1;
             };
             $jscomp.number.isNaN = function (a) {
-                return "number" === typeof a && isNaN(a)
+                return "number" === typeof a && isNaN(a);
             };
             $jscomp.number.isSafeInteger = function (a) {
-                return $jscomp.number.isInteger(a) && Math.abs(a) <= $jscomp.number.MAX_SAFE_INTEGER
+                return $jscomp.number.isInteger(a) && Math.abs(a) <= $jscomp.number.MAX_SAFE_INTEGER;
             };
             $jscomp.number.EPSILON = function () {
-                return Math.pow(2, -52)
+                return Math.pow(2, -52);
             }();
             $jscomp.number.MAX_SAFE_INTEGER = function () {
-                return 9007199254740991
+                return 9007199254740991;
             }();
             $jscomp.number.MIN_SAFE_INTEGER = function () {
-                return -9007199254740991
+                return -9007199254740991;
             }();
             $jscomp.object = $jscomp.object || {};
             $jscomp.object.assign = function (a, b) {
                 for (var c = 1; c < arguments.length; c++) {
                     var d = arguments[c];
-                    if (d) for (var e in d) Object.prototype.hasOwnProperty.call(d, e) && (a[e] = d[e])
+                    if (d) for (var e in d) Object.prototype.hasOwnProperty.call(d, e) && (a[e] = d[e]);
                 }
-                return a
+                return a;
             };
             $jscomp.object.is = function (a, b) {
-                return a === b ? 0 !== a || 1 / a === 1 / b : a !== a && b !== b
+                return a === b ? 0 !== a || 1 / a === 1 / b : a !== a && b !== b;
             };
             $jscomp.ASSUME_NO_NATIVE_SET = !1;
             $jscomp.Set$isConformant = function () {
@@ -1071,76 +1102,76 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var d = c.entries(), e = d.next();
                     if (e.done || e.value[0] != b || e.value[1] != b) return !1;
                     e = d.next();
-                    return e.done || e.value[0] == b || 4 != e.value[0].x || e.value[1] != e.value[0] ? !1 : d.next().done
+                    return e.done || e.value[0] == b || 4 != e.value[0].x || e.value[1] != e.value[0] ? !1 : d.next().done;
                 } catch (f) {
-                    return !1
+                    return !1;
                 }
             };
             $jscomp.Set = function (a) {
                 this.map_ = new $jscomp.Map;
                 if (a) {
                     a = $jscomp.makeIterator(a);
-                    for (var b; !(b = a.next()).done;) this.add(b.value)
+                    for (var b; !(b = a.next()).done;) this.add(b.value);
                 }
-                this.size = this.map_.size
+                this.size = this.map_.size;
             };
             $jscomp.Set.prototype.add = function (a) {
                 this.map_.set(a, a);
                 this.size = this.map_.size;
-                return this
+                return this;
             };
             $jscomp.Set.prototype["delete"] = function (a) {
                 a = this.map_["delete"](a);
                 this.size = this.map_.size;
-                return a
+                return a;
             };
             $jscomp.Set.prototype.clear = function () {
                 this.map_.clear();
-                this.size = 0
+                this.size = 0;
             };
             $jscomp.Set.prototype.has = function (a) {
-                return this.map_.has(a)
+                return this.map_.has(a);
             };
             $jscomp.Set.prototype.entries = function () {
-                return this.map_.entries()
+                return this.map_.entries();
             };
             $jscomp.Set.prototype.values = function () {
-                return this.map_.values()
+                return this.map_.values();
             };
             $jscomp.Set.prototype.forEach = function (a, b) {
                 var c = this;
                 this.map_.forEach(function (d) {
-                    return a.call(b, d, d, c)
-                })
+                    return a.call(b, d, d, c);
+                });
             };
             $jscomp.Set$install = function () {
                 $jscomp.Map$install();
                 $jscomp.Set$isConformant() ? $jscomp.Set = $jscomp.global.Set : ($jscomp.initSymbol(), $jscomp.initSymbolIterator(), $jscomp.Set.prototype[Symbol.iterator] = $jscomp.Set.prototype.values, $jscomp.Set$install = function () {
-                })
+                });
             };
             $jscomp.string = $jscomp.string || {};
             $jscomp.checkStringArgs = function (a, b, c) {
                 if (null == a) throw new TypeError("The 'this' value for String.prototype." + c + " must not be null or undefined");
                 if (b instanceof RegExp) throw new TypeError("First argument to String.prototype." + c + " must not be a regular expression");
-                return a + ""
+                return a + "";
             };
             $jscomp.string.fromCodePoint = function (a) {
                 for (var b = "", c = 0; c < arguments.length; c++) {
                     var d = Number(arguments[c]);
                     if (0 > d || 1114111 < d || d !== Math.floor(d)) throw new RangeError("invalid_code_point " + d);
-                    65535 >= d ? b += String.fromCharCode(d) : (d -= 65536, b += String.fromCharCode(d >>> 10 & 1023 | 55296), b += String.fromCharCode(d & 1023 | 56320))
+                    65535 >= d ? b += String.fromCharCode(d) : (d -= 65536, b += String.fromCharCode(d >>> 10 & 1023 | 55296), b += String.fromCharCode(d & 1023 | 56320));
                 }
-                return b
+                return b;
             };
             $jscomp.string.repeat = function (a) {
                 var b = $jscomp.checkStringArgs(this, null, "repeat");
                 if (0 > a || 1342177279 < a) throw new RangeError("Invalid count value");
                 a |= 0;
                 for (var c = ""; a;) if (a & 1 && (c += b), a >>>= 1) b += b;
-                return c
+                return c;
             };
             $jscomp.string.repeat$install = function () {
-                String.prototype.repeat || (String.prototype.repeat = $jscomp.string.repeat)
+                String.prototype.repeat || (String.prototype.repeat = $jscomp.string.repeat);
             };
             $jscomp.string.codePointAt = function (a) {
                 var b = $jscomp.checkStringArgs(this, null, "codePointAt"), c = b.length;
@@ -1150,52 +1181,52 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var d = b.charCodeAt(a);
                     if (55296 > d || 56319 < d || a + 1 === c) return d;
                     a = b.charCodeAt(a + 1);
-                    return 56320 > a || 57343 < a ? d : 1024 * (d - 55296) + a + 9216
+                    return 56320 > a || 57343 < a ? d : 1024 * (d - 55296) + a + 9216;
                 }
             };
             $jscomp.string.codePointAt$install = function () {
-                String.prototype.codePointAt || (String.prototype.codePointAt = $jscomp.string.codePointAt)
+                String.prototype.codePointAt || (String.prototype.codePointAt = $jscomp.string.codePointAt);
             };
             $jscomp.string.includes = function (a, b) {
-                return -1 !== $jscomp.checkStringArgs(this, a, "includes").indexOf(a, b || 0)
+                return -1 !== $jscomp.checkStringArgs(this, a, "includes").indexOf(a, b || 0);
             };
             $jscomp.string.includes$install = function () {
-                String.prototype.includes || (String.prototype.includes = $jscomp.string.includes)
+                String.prototype.includes || (String.prototype.includes = $jscomp.string.includes);
             };
             $jscomp.string.startsWith = function (a, b) {
                 var c = $jscomp.checkStringArgs(this, a, "startsWith");
                 a += "";
                 for (var d = c.length, e = a.length, f = Math.max(0, Math.min(b | 0, c.length)), g = 0; g < e && f < d;) if (c[f++] != a[g++]) return !1;
-                return g >= e
+                return g >= e;
             };
             $jscomp.string.startsWith$install = function () {
-                String.prototype.startsWith || (String.prototype.startsWith = $jscomp.string.startsWith)
+                String.prototype.startsWith || (String.prototype.startsWith = $jscomp.string.startsWith);
             };
             $jscomp.string.endsWith = function (a, b) {
                 var c = $jscomp.checkStringArgs(this, a, "endsWith");
                 a += "";
                 void 0 === b && (b = c.length);
                 for (var d = Math.max(0, Math.min(b | 0, c.length)), e = a.length; 0 < e && 0 < d;) if (c[--d] != a[--e]) return !1;
-                return 0 >= e
+                return 0 >= e;
             };
             $jscomp.string.endsWith$install = function () {
-                String.prototype.endsWith || (String.prototype.endsWith = $jscomp.string.endsWith)
+                String.prototype.endsWith || (String.prototype.endsWith = $jscomp.string.endsWith);
             };
             var COMPILED = !0, goog = goog || {};
             goog.global = this;
             goog.isDef = function (a) {
-                return void 0 !== a
+                return void 0 !== a;
             };
             goog.exportPath_ = function (a, b, c) {
                 a = a.split(".");
                 c = c || goog.global;
                 a[0] in c || !c.execScript || c.execScript("var " + a[0]);
-                for (var d; a.length && (d = a.shift());) !a.length && goog.isDef(b) ? c[d] = b : c = c[d] ? c[d] : c[d] = {}
+                for (var d; a.length && (d = a.shift());) !a.length && goog.isDef(b) ? c[d] = b : c = c[d] ? c[d] : c[d] = {};
             };
             goog.define = function (a, b) {
                 var c = b;
                 COMPILED || (goog.global.CLOSURE_UNCOMPILED_DEFINES && Object.prototype.hasOwnProperty.call(goog.global.CLOSURE_UNCOMPILED_DEFINES, a) ? c = goog.global.CLOSURE_UNCOMPILED_DEFINES[a] : goog.global.CLOSURE_DEFINES && Object.prototype.hasOwnProperty.call(goog.global.CLOSURE_DEFINES, a) && (c = goog.global.CLOSURE_DEFINES[a]));
-                goog.exportPath_(a, c)
+                goog.exportPath_(a, c);
             };
             goog.DEBUG = !0;
             goog.LOCALE = "en";
@@ -1204,15 +1235,15 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.DISALLOW_TEST_ONLY_CODE = COMPILED && !goog.DEBUG;
             goog.ENABLE_CHROME_APP_SAFE_SCRIPT_LOADING = !1;
             goog.provide = function (a) {
-                if (!COMPILED && goog.isProvided_(a)) throw Error('Namespace "' + a + '" already declared.');
-                goog.constructNamespace_(a)
+                if (!COMPILED && goog.isProvided_(a)) throw Error("Namespace \"" + a + "\" already declared.");
+                goog.constructNamespace_(a);
             };
             goog.constructNamespace_ = function (a, b) {
                 if (!COMPILED) {
                     delete goog.implicitNamespaces_[a];
-                    for (var c = a; (c = c.substring(0, c.lastIndexOf("."))) && !goog.getObjectByName(c);) goog.implicitNamespaces_[c] = !0
+                    for (var c = a; (c = c.substring(0, c.lastIndexOf("."))) && !goog.getObjectByName(c);) goog.implicitNamespaces_[c] = !0;
                 }
-                goog.exportPath_(a, b)
+                goog.exportPath_(a, b);
             };
             goog.VALID_MODULE_RE_ = /^[a-zA-Z_$][a-zA-Z0-9._$]*$/;
             goog.module = function (a) {
@@ -1221,24 +1252,24 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 if (goog.moduleLoaderState_.moduleName) throw Error("goog.module may only be called once per module.");
                 goog.moduleLoaderState_.moduleName = a;
                 if (!COMPILED) {
-                    if (goog.isProvided_(a)) throw Error('Namespace "' + a + '" already declared.');
-                    delete goog.implicitNamespaces_[a]
+                    if (goog.isProvided_(a)) throw Error("Namespace \"" + a + "\" already declared.");
+                    delete goog.implicitNamespaces_[a];
                 }
             };
             goog.module.get = function (a) {
-                return goog.module.getInternal_(a)
+                return goog.module.getInternal_(a);
             };
             goog.module.getInternal_ = function (a) {
-                if (!COMPILED) return goog.isProvided_(a) ? a in goog.loadedModules_ ? goog.loadedModules_[a] : goog.getObjectByName(a) : null
+                if (!COMPILED) return goog.isProvided_(a) ? a in goog.loadedModules_ ? goog.loadedModules_[a] : goog.getObjectByName(a) : null;
             };
             goog.moduleLoaderState_ = null;
             goog.isInModuleLoader_ = function () {
-                return null != goog.moduleLoaderState_
+                return null != goog.moduleLoaderState_;
             };
             goog.module.declareLegacyNamespace = function () {
                 if (!COMPILED && !goog.isInModuleLoader_()) throw Error("goog.module.declareLegacyNamespace must be called from within a goog.module");
                 if (!COMPILED && !goog.moduleLoaderState_.moduleName) throw Error("goog.module must be called prior to goog.module.declareLegacyNamespace.");
-                goog.moduleLoaderState_.declareLegacyNamespace = !0
+                goog.moduleLoaderState_.declareLegacyNamespace = !0;
             };
             goog.setTestOnly = function (a) {
                 if (goog.DISALLOW_TEST_ONLY_CODE) throw a = a || "", Error("Importing test-only code into non-debug environment" + (a ? ": " + a : "."));
@@ -1246,27 +1277,27 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.forwardDeclare = function (a) {
             };
             COMPILED || (goog.isProvided_ = function (a) {
-                return a in goog.loadedModules_ || !goog.implicitNamespaces_[a] && goog.isDefAndNotNull(goog.getObjectByName(a))
+                return a in goog.loadedModules_ || !goog.implicitNamespaces_[a] && goog.isDefAndNotNull(goog.getObjectByName(a));
             }, goog.implicitNamespaces_ = {"goog.module": !0});
             goog.getObjectByName = function (a, b) {
                 for (var c = a.split("."), d = b || goog.global, e; e = c.shift();) if (goog.isDefAndNotNull(d[e])) d = d[e]; else return null;
-                return d
+                return d;
             };
             goog.globalize = function (a, b) {
                 var c = b || goog.global, d;
-                for (d in a) c[d] = a[d]
+                for (d in a) c[d] = a[d];
             };
             goog.addDependency = function (a, b, c, d) {
                 if (goog.DEPENDENCIES_ENABLED) {
                     var e;
                     a = a.replace(/\\/g, "/");
                     for (var f = goog.dependencies_, g = 0; e = b[g]; g++) f.nameToPath[e] = a, f.pathIsModule[a] = !!d;
-                    for (d = 0; b = c[d]; d++) a in f._requires || (f._requires[a] = {}), f._requires[a][b] = !0
+                    for (d = 0; b = c[d]; d++) a in f._requires || (f._requires[a] = {}), f._requires[a][b] = !0;
                 }
             };
             goog.ENABLE_DEBUG_LOADER = !0;
             goog.logToConsole_ = function (a) {
-                goog.global.console && goog.global.console.error(a)
+                goog.global.console && goog.global.console.error(a);
             };
             goog._require = function (a) {
                 if (!COMPILED) {
@@ -1274,7 +1305,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (goog.isProvided_(a)) return goog.isInModuleLoader_() ? goog.module.getInternal_(a) : null;
                     if (goog.ENABLE_DEBUG_LOADER) {
                         var b = goog.getPathFromDeps_(a);
-                        if (b) return goog.writeScripts_(b), null
+                        if (b) return goog.writeScripts_(b), null;
                     }
                     a = "goog._require could not find: " + a;
                     goog.logToConsole_(a);
@@ -1291,8 +1322,8 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 a.getInstance = function () {
                     if (a.instance_) return a.instance_;
                     goog.DEBUG && (goog.instantiatedSingletons_[goog.instantiatedSingletons_.length] = a);
-                    return a.instance_ = new a
-                }
+                    return a.instance_ = new a;
+                };
             };
             goog.instantiatedSingletons_ = [];
             goog.LOAD_MODULE_USING_EVAL = !0;
@@ -1308,47 +1339,47 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 deferred: {}
             }, goog.inHtmlDocument_ = function () {
                 var a = goog.global.document;
-                return null != a && "write" in a
+                return null != a && "write" in a;
             }, goog.findBasePath_ = function () {
                 if (goog.isDef(goog.global.CLOSURE_BASE_PATH)) goog.basePath = goog.global.CLOSURE_BASE_PATH; else if (goog.inHtmlDocument_()) for (var a = goog.global.document.getElementsByTagName("SCRIPT"), b = a.length - 1; 0 <= b; --b) {
                     var c = a[b].src, d = c.lastIndexOf("?"), d = -1 == d ? c.length :
                         d;
                     if ("base.js" == c.substr(d - 7, 7)) {
                         goog.basePath = c.substr(0, d - 7);
-                        break
+                        break;
                     }
                 }
             }, goog.importScript_ = function (a, b) {
-                (goog.global.CLOSURE_IMPORT_SCRIPT || goog.writeScriptTag_)(a, b) && (goog.dependencies_.written[a] = !0)
+                (goog.global.CLOSURE_IMPORT_SCRIPT || goog.writeScriptTag_)(a, b) && (goog.dependencies_.written[a] = !0);
             }, goog.IS_OLD_IE_ = !(goog.global.atob || !goog.global.document || !goog.global.document.all), goog.importModule_ = function (a) {
-                goog.importScript_("", 'goog.retrieveAndExecModule_("' + a + '");') && (goog.dependencies_.written[a] = !0)
+                goog.importScript_("", "goog.retrieveAndExecModule_(\"" + a + "\");") && (goog.dependencies_.written[a] = !0);
             }, goog.queuedModules_ = [], goog.wrapModule_ = function (a, b) {
                 return goog.LOAD_MODULE_USING_EVAL &&
-                goog.isDef(goog.global.JSON) ? "goog.loadModule(" + goog.global.JSON.stringify(b + "\n//# sourceURL=" + a + "\n") + ");" : 'goog.loadModule(function(exports) {"use strict";' + b + "\n;return exports});\n//# sourceURL=" + a + "\n"
+                goog.isDef(goog.global.JSON) ? "goog.loadModule(" + goog.global.JSON.stringify(b + "\n//# sourceURL=" + a + "\n") + ");" : "goog.loadModule(function(exports) {\"use strict\";" + b + "\n;return exports});\n//# sourceURL=" + a + "\n";
             }, goog.loadQueuedModules_ = function () {
                 var a = goog.queuedModules_.length;
                 if (0 < a) {
                     var b = goog.queuedModules_;
                     goog.queuedModules_ = [];
-                    for (var c = 0; c < a; c++) goog.maybeProcessDeferredPath_(b[c])
+                    for (var c = 0; c < a; c++) goog.maybeProcessDeferredPath_(b[c]);
                 }
             }, goog.maybeProcessDeferredDep_ = function (a) {
                 goog.isDeferredModule_(a) && goog.allDepsAreAvailable_(a) && (a = goog.getPathFromDeps_(a),
-                    goog.maybeProcessDeferredPath_(goog.basePath + a))
+                goog.maybeProcessDeferredPath_(goog.basePath + a));
             }, goog.isDeferredModule_ = function (a) {
-                return (a = goog.getPathFromDeps_(a)) && goog.dependencies_.pathIsModule[a] ? goog.basePath + a in goog.dependencies_.deferred : !1
+                return (a = goog.getPathFromDeps_(a)) && goog.dependencies_.pathIsModule[a] ? goog.basePath + a in goog.dependencies_.deferred : !1;
             }, goog.allDepsAreAvailable_ = function (a) {
                 if ((a = goog.getPathFromDeps_(a)) && a in goog.dependencies_._requires) for (var b in goog.dependencies_._requires[a]) if (!goog.isProvided_(b) && !goog.isDeferredModule_(b)) return !1;
-                return !0
+                return !0;
             }, goog.maybeProcessDeferredPath_ = function (a) {
                 if (a in goog.dependencies_.deferred) {
                     var b =
                         goog.dependencies_.deferred[a];
                     delete goog.dependencies_.deferred[a];
-                    goog.globalEval(b)
+                    goog.globalEval(b);
                 }
             }, goog.loadModuleFromUrl = function (a) {
-                goog.retrieveAndExecModule_(a)
+                goog.retrieveAndExecModule_(a);
             }, goog.loadModule = function (a) {
                 var b = goog.moduleLoaderState_;
                 try {
@@ -1356,17 +1387,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var c;
                     if (goog.isFunction(a)) c = a.call(goog.global, {}); else if (goog.isString(a)) c = goog.loadModuleFromSource_.call(goog.global, a); else throw Error("Invalid module definition");
                     var d = goog.moduleLoaderState_.moduleName;
-                    if (!goog.isString(d) || !d) throw Error('Invalid module name "' + d + '"');
+                    if (!goog.isString(d) || !d) throw Error("Invalid module name \"" + d + "\"");
                     goog.moduleLoaderState_.declareLegacyNamespace ? goog.constructNamespace_(d, c) : goog.SEAL_MODULE_EXPORTS && Object.seal && Object.seal(c);
-                    goog.loadedModules_[d] = c
+                    goog.loadedModules_[d] = c;
                 } finally {
-                    goog.moduleLoaderState_ = b
+                    goog.moduleLoaderState_ = b;
                 }
             }, goog.loadModuleFromSource_ = function (a) {
                 eval(a);
-                return {}
+                return {};
             }, goog.writeScriptSrcNode_ = function (a) {
-                goog.global.document.write('<script type="text/javascript" src="' + a + '">\x3c/script>')
+                goog.global.document.write("<script type=\"text/javascript\" src=\"" + a + "\">\x3c/script>");
             }, goog.appendScriptSrcNode_ = function (a) {
                 var b = goog.global.document,
                     c = b.createElement("script");
@@ -1374,30 +1405,30 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 c.src = a;
                 c.defer = !1;
                 c.async = !1;
-                b.head.appendChild(c)
+                b.head.appendChild(c);
             }, goog.writeScriptTag_ = function (a, b) {
                 if (goog.inHtmlDocument_()) {
                     var c = goog.global.document;
                     if (!goog.ENABLE_CHROME_APP_SAFE_SCRIPT_LOADING && "complete" == c.readyState) {
                         if (/\bdeps.js$/.test(a)) return !1;
-                        throw Error('Cannot write "' + a + '" after document load');
+                        throw Error("Cannot write \"" + a + "\" after document load");
                     }
                     var d = goog.IS_OLD_IE_;
-                    void 0 === b ? d ? (d = " onreadystatechange='goog.onScriptLoad_(this, " + ++goog.lastNonModuleScriptIndex_ + ")' ", c.write('<script type="text/javascript" src="' +
-                        a + '"' + d + ">\x3c/script>")) : goog.ENABLE_CHROME_APP_SAFE_SCRIPT_LOADING ? goog.appendScriptSrcNode_(a) : goog.writeScriptSrcNode_(a) : c.write('<script type="text/javascript">' + b + "\x3c/script>");
-                    return !0
+                    void 0 === b ? d ? (d = " onreadystatechange='goog.onScriptLoad_(this, " + ++goog.lastNonModuleScriptIndex_ + ")' ", c.write("<script type=\"text/javascript\" src=\"" +
+                        a + "\"" + d + ">\x3c/script>")) : goog.ENABLE_CHROME_APP_SAFE_SCRIPT_LOADING ? goog.appendScriptSrcNode_(a) : goog.writeScriptSrcNode_(a) : c.write("<script type=\"text/javascript\">" + b + "\x3c/script>");
+                    return !0;
                 }
-                return !1
+                return !1;
             }, goog.lastNonModuleScriptIndex_ = 0, goog.onScriptLoad_ = function (a, b) {
                 "complete" == a.readyState && goog.lastNonModuleScriptIndex_ == b && goog.loadQueuedModules_();
-                return !0
+                return !0;
             }, goog.writeScripts_ = function (a) {
                 function b(a) {
                     if (!(a in e.written || a in e.visited)) {
                         e.visited[a] = !0;
                         if (a in e._requires) for (var f in e._requires[a]) if (!goog.isProvided_(f)) if (f in
                             e.nameToPath) b(e.nameToPath[f]); else throw Error("Undefined nameToPath for " + f);
-                        a in d || (d[a] = !0, c.push(a))
+                        a in d || (d[a] = !0, c.push(a));
                     }
                 }
 
@@ -1405,27 +1436,27 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 b(a);
                 for (a = 0; a < c.length; a++) {
                     var f = c[a];
-                    goog.dependencies_.written[f] = !0
+                    goog.dependencies_.written[f] = !0;
                 }
                 var g = goog.moduleLoaderState_;
                 goog.moduleLoaderState_ = null;
                 for (a = 0; a < c.length; a++) if (f = c[a]) e.pathIsModule[f] ? goog.importModule_(goog.basePath + f) : goog.importScript_(goog.basePath + f); else throw goog.moduleLoaderState_ = g, Error("Undefined script input");
-                goog.moduleLoaderState_ = g
+                goog.moduleLoaderState_ = g;
             }, goog.getPathFromDeps_ =
                 function (a) {
-                    return a in goog.dependencies_.nameToPath ? goog.dependencies_.nameToPath[a] : null
+                    return a in goog.dependencies_.nameToPath ? goog.dependencies_.nameToPath[a] : null;
                 }, goog.findBasePath_(), goog.global.CLOSURE_NO_DEPS || goog.importScript_(goog.basePath + "deps.js"));
             goog.normalizePath_ = function (a) {
                 a = a.split("/");
                 for (var b = 0; b < a.length;) "." == a[b] ? a.splice(b, 1) : b && ".." == a[b] && a[b - 1] && ".." != a[b - 1] ? a.splice(--b, 2) : b++;
-                return a.join("/")
+                return a.join("/");
             };
             goog.loadFileSync_ = function (a) {
                 if (goog.global.CLOSURE_LOAD_FILE_SYNC) return goog.global.CLOSURE_LOAD_FILE_SYNC(a);
                 var b = new goog.global.XMLHttpRequest;
                 b.open("get", a, !1);
                 b.send();
-                return b.responseText
+                return b.responseText;
             };
             goog.retrieveAndExecModule_ = function (a) {
                 if (!COMPILED) {
@@ -1443,53 +1474,53 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var c = Object.prototype.toString.call(a);
                     if ("[object Window]" == c) return "object";
                     if ("[object Array]" == c || "number" == typeof a.length && "undefined" != typeof a.splice && "undefined" != typeof a.propertyIsEnumerable && !a.propertyIsEnumerable("splice")) return "array";
-                    if ("[object Function]" == c || "undefined" != typeof a.call && "undefined" != typeof a.propertyIsEnumerable && !a.propertyIsEnumerable("call")) return "function"
+                    if ("[object Function]" == c || "undefined" != typeof a.call && "undefined" != typeof a.propertyIsEnumerable && !a.propertyIsEnumerable("call")) return "function";
                 } else return "null";
                 else if ("function" == b && "undefined" == typeof a.call) return "object";
-                return b
+                return b;
             };
             goog.isNull = function (a) {
-                return null === a
+                return null === a;
             };
             goog.isDefAndNotNull = function (a) {
-                return null != a
+                return null != a;
             };
             goog.isArray = function (a) {
-                return "array" == goog.typeOf(a)
+                return "array" == goog.typeOf(a);
             };
             goog.isArrayLike = function (a) {
                 var b = goog.typeOf(a);
-                return "array" == b || "object" == b && "number" == typeof a.length
+                return "array" == b || "object" == b && "number" == typeof a.length;
             };
             goog.isDateLike = function (a) {
-                return goog.isObject(a) && "function" == typeof a.getFullYear
+                return goog.isObject(a) && "function" == typeof a.getFullYear;
             };
             goog.isString = function (a) {
-                return "string" == typeof a
+                return "string" == typeof a;
             };
             goog.isBoolean = function (a) {
-                return "boolean" == typeof a
+                return "boolean" == typeof a;
             };
             goog.isNumber = function (a) {
-                return "number" == typeof a
+                return "number" == typeof a;
             };
             goog.isFunction = function (a) {
-                return "function" == goog.typeOf(a)
+                return "function" == goog.typeOf(a);
             };
             goog.isObject = function (a) {
                 var b = typeof a;
-                return "object" == b && null != a || "function" == b
+                return "object" == b && null != a || "function" == b;
             };
             goog.getUid = function (a) {
-                return a[goog.UID_PROPERTY_] || (a[goog.UID_PROPERTY_] = ++goog.uidCounter_)
+                return a[goog.UID_PROPERTY_] || (a[goog.UID_PROPERTY_] = ++goog.uidCounter_);
             };
             goog.hasUid = function (a) {
-                return !!a[goog.UID_PROPERTY_]
+                return !!a[goog.UID_PROPERTY_];
             };
             goog.removeUid = function (a) {
                 null !== a && "removeAttribute" in a && a.removeAttribute(goog.UID_PROPERTY_);
                 try {
-                    delete a[goog.UID_PROPERTY_]
+                    delete a[goog.UID_PROPERTY_];
                 } catch (b) {
                 }
             };
@@ -1503,12 +1534,12 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (a.clone) return a.clone();
                     var b = "array" == b ? [] : {}, c;
                     for (c in a) b[c] = goog.cloneObject(a[c]);
-                    return b
+                    return b;
                 }
-                return a
+                return a;
             };
             goog.bindNative_ = function (a, b, c) {
-                return a.call.apply(a.bind, arguments)
+                return a.call.apply(a.bind, arguments);
             };
             goog.bindJs_ = function (a, b, c) {
                 if (!a) throw Error();
@@ -1517,39 +1548,39 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     return function () {
                         var c = Array.prototype.slice.call(arguments);
                         Array.prototype.unshift.apply(c, d);
-                        return a.apply(b, c)
-                    }
+                        return a.apply(b, c);
+                    };
                 }
                 return function () {
-                    return a.apply(b, arguments)
-                }
+                    return a.apply(b, arguments);
+                };
             };
             goog.bind = function (a, b, c) {
                 Function.prototype.bind && -1 != Function.prototype.bind.toString().indexOf("native code") ? goog.bind = goog.bindNative_ : goog.bind = goog.bindJs_;
-                return goog.bind.apply(null, arguments)
+                return goog.bind.apply(null, arguments);
             };
             goog.partial = function (a, b) {
                 var c = Array.prototype.slice.call(arguments, 1);
                 return function () {
                     var b = c.slice();
                     b.push.apply(b, arguments);
-                    return a.apply(this, b)
-                }
+                    return a.apply(this, b);
+                };
             };
             goog.mixin = function (a, b) {
-                for (var c in b) a[c] = b[c]
+                for (var c in b) a[c] = b[c];
             };
             goog.now = goog.TRUSTED_SITE && Date.now || function () {
-                return +new Date
+                return +new Date;
             };
             goog.globalEval = function (a) {
                 if (goog.global.execScript) goog.global.execScript(a, "JavaScript"); else if (goog.global.eval) {
                     if (null == goog.evalWorksForGlobals_) if (goog.global.eval("var _evalTest_ = 1;"), "undefined" != typeof goog.global._evalTest_) {
                         try {
-                            delete goog.global._evalTest_
+                            delete goog.global._evalTest_;
                         } catch (d) {
                         }
-                        goog.evalWorksForGlobals_ = !0
+                        goog.evalWorksForGlobals_ = !0;
                     } else goog.evalWorksForGlobals_ = !1;
                     if (goog.evalWorksForGlobals_) goog.global.eval(a); else {
                         var b = goog.global.document, c = b.createElement("SCRIPT");
@@ -1557,42 +1588,42 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         c.defer = !1;
                         c.appendChild(b.createTextNode(a));
                         b.body.appendChild(c);
-                        b.body.removeChild(c)
+                        b.body.removeChild(c);
                     }
                 } else throw Error("goog.globalEval not available");
             };
             goog.evalWorksForGlobals_ = null;
             goog.getCssName = function (a, b) {
                 var c = function (a) {
-                    return goog.cssNameMapping_[a] || a
-                }, d = function (a) {
-                    a = a.split("-");
-                    for (var b = [], d = 0; d < a.length; d++) b.push(c(a[d]));
-                    return b.join("-")
-                }, d = goog.cssNameMapping_ ? "BY_WHOLE" == goog.cssNameMappingStyle_ ? c : d : function (a) {
-                    return a
-                };
-                return b ? a + "-" + d(b) : d(a)
+                        return goog.cssNameMapping_[a] || a;
+                    }, d = function (a) {
+                        a = a.split("-");
+                        for (var b = [], d = 0; d < a.length; d++) b.push(c(a[d]));
+                        return b.join("-");
+                    }, d = goog.cssNameMapping_ ? "BY_WHOLE" == goog.cssNameMappingStyle_ ? c : d : function (a) {
+                        return a;
+                    };
+                return b ? a + "-" + d(b) : d(a);
             };
             goog.setCssNameMapping = function (a, b) {
                 goog.cssNameMapping_ = a;
-                goog.cssNameMappingStyle_ = b
+                goog.cssNameMappingStyle_ = b;
             };
             !COMPILED && goog.global.CLOSURE_CSS_NAME_MAPPING && (goog.cssNameMapping_ = goog.global.CLOSURE_CSS_NAME_MAPPING);
             goog.getMsg = function (a, b) {
                 b && (a = a.replace(/\{\$([^}]+)}/g, function (a, d) {
-                    return null != b && d in b ? b[d] : a
+                    return null != b && d in b ? b[d] : a;
                 }));
-                return a
+                return a;
             };
             goog.getMsgWithFallback = function (a, b) {
-                return a
+                return a;
             };
             goog.exportSymbol = function (a, b, c) {
-                goog.exportPath_(a, b, c)
+                goog.exportPath_(a, b, c);
             };
             goog.exportProperty = function (a, b, c) {
-                a[b] = c
+                a[b] = c;
             };
             goog.inherits = function (a, b) {
                 function c() {
@@ -1604,15 +1635,15 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 a.prototype.constructor = a;
                 a.base = function (a, c, f) {
                     for (var g = Array(arguments.length - 2), h = 2; h < arguments.length; h++) g[h - 2] = arguments[h];
-                    return b.prototype[c].apply(a, g)
-                }
+                    return b.prototype[c].apply(a, g);
+                };
             };
             goog.base = function (a, b, c) {
                 var d = arguments.callee.caller;
                 if (goog.STRICT_MODE_COMPATIBLE || goog.DEBUG && !d) throw Error("arguments.caller not defined.  goog.base() cannot be used with strict mode code. See http://www.ecma-international.org/ecma-262/5.1/#sec-C");
                 if (d.superClass_) {
                     for (var e = Array(arguments.length - 1), f = 1; f < arguments.length; f++) e[f - 1] = arguments[f];
-                    return d.superClass_.constructor.apply(a, e)
+                    return d.superClass_.constructor.apply(a, e);
                 }
                 e = Array(arguments.length - 2);
                 for (f = 2; f < arguments.length; f++) e[f - 2] = arguments[f];
@@ -1622,7 +1653,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 throw Error("goog.base called from a method of one name to a method of a different name");
             };
             goog.scope = function (a) {
-                a.call(goog.global)
+                a.call(goog.global);
             };
             COMPILED || (goog.global.COMPILED = COMPILED);
             goog.defineClass = function (a, b) {
@@ -1636,7 +1667,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 delete b.statics;
                 goog.defineClass.applyProperties_(c.prototype, b);
                 null != d && (d instanceof Function ? d(c) : goog.defineClass.applyProperties_(c, d));
-                return c
+                return c;
             };
             goog.defineClass.SEAL_CLASS_INSTANCES = goog.DEBUG;
             goog.defineClass.createSealingConstructor_ = function (a, b) {
@@ -1646,19 +1677,19 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         var b = a.apply(this, arguments) || this;
                         b[goog.UID_PROPERTY_] = b[goog.UID_PROPERTY_];
                         this.constructor === c && Object.seal(b);
-                        return b
+                        return b;
                     };
-                    return c
+                    return c;
                 }
-                return a
+                return a;
             };
             goog.defineClass.OBJECT_PROTOTYPE_FIELDS_ = "constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
             goog.defineClass.applyProperties_ = function (a, b) {
                 for (var c in b) Object.prototype.hasOwnProperty.call(b, c) && (a[c] = b[c]);
-                for (var d = 0; d < goog.defineClass.OBJECT_PROTOTYPE_FIELDS_.length; d++) c = goog.defineClass.OBJECT_PROTOTYPE_FIELDS_[d], Object.prototype.hasOwnProperty.call(b, c) && (a[c] = b[c])
+                for (var d = 0; d < goog.defineClass.OBJECT_PROTOTYPE_FIELDS_.length; d++) c = goog.defineClass.OBJECT_PROTOTYPE_FIELDS_[d], Object.prototype.hasOwnProperty.call(b, c) && (a[c] = b[c]);
             };
             goog.tagUnsealableClass = function (a) {
-                !COMPILED && goog.defineClass.SEAL_CLASS_INSTANCES && (a.prototype[goog.UNSEALABLE_CONSTRUCTOR_PROPERTY_] = !0)
+                !COMPILED && goog.defineClass.SEAL_CLASS_INSTANCES && (a.prototype[goog.UNSEALABLE_CONSTRUCTOR_PROPERTY_] = !0);
             };
             goog.UNSEALABLE_CONSTRUCTOR_PROPERTY_ = "goog_defineClass_legacy_unsealable";
             goog.dom = {};
@@ -1680,10 +1711,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.debug.Error = function (a) {
                 if (Error.captureStackTrace) Error.captureStackTrace(this, goog.debug.Error); else {
                     var b = Error().stack;
-                    b && (this.stack = b)
+                    b && (this.stack = b);
                 }
                 a && (this.message = String(a));
-                this.reportErrorToServer = !0
+                this.reportErrorToServer = !0;
             };
             goog.inherits(goog.debug.Error, Error);
             goog.debug.Error.prototype.name = "CustomError";
@@ -1692,86 +1723,86 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.string.FORCE_NON_DOM_HTML_UNESCAPING = !1;
             goog.string.Unicode = {NBSP: "\u00a0"};
             goog.string.startsWith = function (a, b) {
-                return 0 == a.lastIndexOf(b, 0)
+                return 0 == a.lastIndexOf(b, 0);
             };
             goog.string.endsWith = function (a, b) {
                 var c = a.length - b.length;
-                return 0 <= c && a.indexOf(b, c) == c
+                return 0 <= c && a.indexOf(b, c) == c;
             };
             goog.string.caseInsensitiveStartsWith = function (a, b) {
-                return 0 == goog.string.caseInsensitiveCompare(b, a.substr(0, b.length))
+                return 0 == goog.string.caseInsensitiveCompare(b, a.substr(0, b.length));
             };
             goog.string.caseInsensitiveEndsWith = function (a, b) {
-                return 0 == goog.string.caseInsensitiveCompare(b, a.substr(a.length - b.length, b.length))
+                return 0 == goog.string.caseInsensitiveCompare(b, a.substr(a.length - b.length, b.length));
             };
             goog.string.caseInsensitiveEquals = function (a, b) {
-                return a.toLowerCase() == b.toLowerCase()
+                return a.toLowerCase() == b.toLowerCase();
             };
             goog.string.subs = function (a, b) {
                 for (var c = a.split("%s"), d = "", e = Array.prototype.slice.call(arguments, 1); e.length && 1 < c.length;) d += c.shift() + e.shift();
-                return d + c.join("%s")
+                return d + c.join("%s");
             };
             goog.string.collapseWhitespace = function (a) {
-                return a.replace(/[\s\xa0]+/g, " ").replace(/^\s+|\s+$/g, "")
+                return a.replace(/[\s\xa0]+/g, " ").replace(/^\s+|\s+$/g, "");
             };
             goog.string.isEmptyOrWhitespace = function (a) {
-                return /^[\s\xa0]*$/.test(a)
+                return /^[\s\xa0]*$/.test(a);
             };
             goog.string.isEmptyString = function (a) {
-                return 0 == a.length
+                return 0 == a.length;
             };
             goog.string.isEmpty = goog.string.isEmptyOrWhitespace;
             goog.string.isEmptyOrWhitespaceSafe = function (a) {
-                return goog.string.isEmptyOrWhitespace(goog.string.makeSafe(a))
+                return goog.string.isEmptyOrWhitespace(goog.string.makeSafe(a));
             };
             goog.string.isEmptySafe = goog.string.isEmptyOrWhitespaceSafe;
             goog.string.isBreakingWhitespace = function (a) {
-                return !/[^\t\n\r ]/.test(a)
+                return !/[^\t\n\r ]/.test(a);
             };
             goog.string.isAlpha = function (a) {
-                return !/[^a-zA-Z]/.test(a)
+                return !/[^a-zA-Z]/.test(a);
             };
             goog.string.isNumeric = function (a) {
-                return !/[^0-9]/.test(a)
+                return !/[^0-9]/.test(a);
             };
             goog.string.isAlphaNumeric = function (a) {
-                return !/[^a-zA-Z0-9]/.test(a)
+                return !/[^a-zA-Z0-9]/.test(a);
             };
             goog.string.isSpace = function (a) {
-                return " " == a
+                return " " == a;
             };
             goog.string.isUnicodeChar = function (a) {
-                return 1 == a.length && " " <= a && "~" >= a || "\u0080" <= a && "\ufffd" >= a
+                return 1 == a.length && " " <= a && "~" >= a || "\u0080" <= a && "\ufffd" >= a;
             };
             goog.string.stripNewlines = function (a) {
-                return a.replace(/(\r\n|\r|\n)+/g, " ")
+                return a.replace(/(\r\n|\r|\n)+/g, " ");
             };
             goog.string.canonicalizeNewlines = function (a) {
-                return a.replace(/(\r\n|\r|\n)/g, "\n")
+                return a.replace(/(\r\n|\r|\n)/g, "\n");
             };
             goog.string.normalizeWhitespace = function (a) {
-                return a.replace(/\xa0|\s/g, " ")
+                return a.replace(/\xa0|\s/g, " ");
             };
             goog.string.normalizeSpaces = function (a) {
-                return a.replace(/\xa0|[ \t]+/g, " ")
+                return a.replace(/\xa0|[ \t]+/g, " ");
             };
             goog.string.collapseBreakingSpaces = function (a) {
-                return a.replace(/[\t\r\n ]+/g, " ").replace(/^[\t\r\n ]+|[\t\r\n ]+$/g, "")
+                return a.replace(/[\t\r\n ]+/g, " ").replace(/^[\t\r\n ]+|[\t\r\n ]+$/g, "");
             };
             goog.string.trim = goog.TRUSTED_SITE && String.prototype.trim ? function (a) {
-                return a.trim()
+                return a.trim();
             } : function (a) {
-                return a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, "")
+                return a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, "");
             };
             goog.string.trimLeft = function (a) {
-                return a.replace(/^[\s\xa0]+/, "")
+                return a.replace(/^[\s\xa0]+/, "");
             };
             goog.string.trimRight = function (a) {
-                return a.replace(/[\s\xa0]+$/, "")
+                return a.replace(/[\s\xa0]+$/, "");
             };
             goog.string.caseInsensitiveCompare = function (a, b) {
                 var c = String(a).toLowerCase(), d = String(b).toLowerCase();
-                return c < d ? -1 : c == d ? 0 : 1
+                return c < d ? -1 : c == d ? 0 : 1;
             };
             goog.string.numberAwareCompare_ = function (a, b, c) {
                 if (a == b) return 0;
@@ -1780,25 +1811,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 for (var d = a.toLowerCase().match(c), e = b.toLowerCase().match(c), f = Math.min(d.length, e.length), g = 0; g < f; g++) {
                     c = d[g];
                     var h = e[g];
-                    if (c != h) return a = parseInt(c, 10), !isNaN(a) && (b = parseInt(h, 10), !isNaN(b) && a - b) ? a - b : c < h ? -1 : 1
+                    if (c != h) return a = parseInt(c, 10), !isNaN(a) && (b = parseInt(h, 10), !isNaN(b) && a - b) ? a - b : c < h ? -1 : 1;
                 }
-                return d.length != e.length ? d.length - e.length : a < b ? -1 : 1
+                return d.length != e.length ? d.length - e.length : a < b ? -1 : 1;
             };
             goog.string.intAwareCompare = function (a, b) {
-                return goog.string.numberAwareCompare_(a, b, /\d+|\D+/g)
+                return goog.string.numberAwareCompare_(a, b, /\d+|\D+/g);
             };
             goog.string.floatAwareCompare = function (a, b) {
-                return goog.string.numberAwareCompare_(a, b, /\d+|\.\d+|\D+/g)
+                return goog.string.numberAwareCompare_(a, b, /\d+|\.\d+|\D+/g);
             };
             goog.string.numerateCompare = goog.string.floatAwareCompare;
             goog.string.urlEncode = function (a) {
-                return encodeURIComponent(String(a))
+                return encodeURIComponent(String(a));
             };
             goog.string.urlDecode = function (a) {
-                return decodeURIComponent(a.replace(/\+/g, " "))
+                return decodeURIComponent(a.replace(/\+/g, " "));
             };
             goog.string.newLineToBr = function (a, b) {
-                return a.replace(/(\r\n|\r|\n)/g, b ? "<br />" : "<br>")
+                return a.replace(/(\r\n|\r|\n)/g, b ? "<br />" : "<br>");
             };
             goog.string.htmlEscape = function (a, b) {
                 if (b) a = a.replace(goog.string.AMP_RE_, "&amp;").replace(goog.string.LT_RE_, "&lt;").replace(goog.string.GT_RE_, "&gt;").replace(goog.string.QUOT_RE_, "&quot;").replace(goog.string.SINGLE_QUOTE_RE_, "&#39;").replace(goog.string.NULL_RE_, "&#0;"), goog.string.DETECT_DOUBLE_ESCAPING && (a = a.replace(goog.string.E_RE_, "&#101;")); else {
@@ -1807,12 +1838,12 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     -1 != a.indexOf("<") && (a = a.replace(goog.string.LT_RE_,
                         "&lt;"));
                     -1 != a.indexOf(">") && (a = a.replace(goog.string.GT_RE_, "&gt;"));
-                    -1 != a.indexOf('"') && (a = a.replace(goog.string.QUOT_RE_, "&quot;"));
+                    -1 != a.indexOf("\"") && (a = a.replace(goog.string.QUOT_RE_, "&quot;"));
                     -1 != a.indexOf("'") && (a = a.replace(goog.string.SINGLE_QUOTE_RE_, "&#39;"));
                     -1 != a.indexOf("\x00") && (a = a.replace(goog.string.NULL_RE_, "&#0;"));
-                    goog.string.DETECT_DOUBLE_ESCAPING && -1 != a.indexOf("e") && (a = a.replace(goog.string.E_RE_, "&#101;"))
+                    goog.string.DETECT_DOUBLE_ESCAPING && -1 != a.indexOf("e") && (a = a.replace(goog.string.E_RE_, "&#101;"));
                 }
-                return a
+                return a;
             };
             goog.string.AMP_RE_ = /&/g;
             goog.string.LT_RE_ = /</g;
@@ -1823,74 +1854,74 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.string.E_RE_ = /e/g;
             goog.string.ALL_RE_ = goog.string.DETECT_DOUBLE_ESCAPING ? /[\x00&<>"'e]/ : /[\x00&<>"']/;
             goog.string.unescapeEntities = function (a) {
-                return goog.string.contains(a, "&") ? !goog.string.FORCE_NON_DOM_HTML_UNESCAPING && "document" in goog.global ? goog.string.unescapeEntitiesUsingDom_(a) : goog.string.unescapePureXmlEntities_(a) : a
+                return goog.string.contains(a, "&") ? !goog.string.FORCE_NON_DOM_HTML_UNESCAPING && "document" in goog.global ? goog.string.unescapeEntitiesUsingDom_(a) : goog.string.unescapePureXmlEntities_(a) : a;
             };
             goog.string.unescapeEntitiesWithDocument = function (a, b) {
-                return goog.string.contains(a, "&") ? goog.string.unescapeEntitiesUsingDom_(a, b) : a
+                return goog.string.contains(a, "&") ? goog.string.unescapeEntitiesUsingDom_(a, b) : a;
             };
             goog.string.unescapeEntitiesUsingDom_ = function (a, b) {
-                var c = {"&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"'}, d;
+                var c = {"&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": "\""}, d;
                 d = b ? b.createElement("div") : goog.global.document.createElement("div");
                 return a.replace(goog.string.HTML_ENTITY_PATTERN_, function (a, b) {
                     var g = c[a];
                     if (g) return g;
                     if ("#" == b.charAt(0)) {
                         var h = Number("0" + b.substr(1));
-                        isNaN(h) || (g = String.fromCharCode(h))
+                        isNaN(h) || (g = String.fromCharCode(h));
                     }
                     g || (d.innerHTML = a + " ", g = d.firstChild.nodeValue.slice(0, -1));
-                    return c[a] = g
-                })
+                    return c[a] = g;
+                });
             };
             goog.string.unescapePureXmlEntities_ = function (a) {
                 return a.replace(/&([^;]+);/g, function (a, c) {
                     switch (c) {
-                        case "amp":
-                            return "&";
-                        case "lt":
-                            return "<";
-                        case "gt":
-                            return ">";
-                        case "quot":
-                            return '"';
-                        default:
-                            if ("#" == c.charAt(0)) {
-                                var d = Number("0" + c.substr(1));
-                                if (!isNaN(d)) return String.fromCharCode(d)
-                            }
-                            return a
+                    case "amp":
+                        return "&";
+                    case "lt":
+                        return "<";
+                    case "gt":
+                        return ">";
+                    case "quot":
+                        return "\"";
+                    default:
+                        if ("#" == c.charAt(0)) {
+                            var d = Number("0" + c.substr(1));
+                            if (!isNaN(d)) return String.fromCharCode(d);
+                        }
+                        return a;
                     }
-                })
+                });
             };
             goog.string.HTML_ENTITY_PATTERN_ = /&([^;\s<&]+);?/g;
             goog.string.whitespaceEscape = function (a, b) {
-                return goog.string.newLineToBr(a.replace(/  /g, " &#160;"), b)
+                return goog.string.newLineToBr(a.replace(/ {2}/g, " &#160;"), b);
             };
             goog.string.preserveSpaces = function (a) {
-                return a.replace(/(^|[\n ]) /g, "$1" + goog.string.Unicode.NBSP)
+                return a.replace(/(^|[\n ]) /g, "$1" + goog.string.Unicode.NBSP);
             };
             goog.string.stripQuotes = function (a, b) {
                 for (var c = b.length, d = 0; d < c; d++) {
                     var e = 1 == c ? b : b.charAt(d);
-                    if (a.charAt(0) == e && a.charAt(a.length - 1) == e) return a.substring(1, a.length - 1)
+                    if (a.charAt(0) == e && a.charAt(a.length - 1) == e) return a.substring(1, a.length - 1);
                 }
-                return a
+                return a;
             };
             goog.string.truncate = function (a, b, c) {
                 c && (a = goog.string.unescapeEntities(a));
                 a.length > b && (a = a.substring(0, b - 3) + "...");
                 c && (a = goog.string.htmlEscape(a));
-                return a
+                return a;
             };
             goog.string.truncateMiddle = function (a, b, c, d) {
                 c && (a = goog.string.unescapeEntities(a));
                 if (d && a.length > b) {
                     d > b && (d = b);
                     var e = a.length - d;
-                    a = a.substring(0, b - d) + "..." + a.substring(e)
+                    a = a.substring(0, b - d) + "..." + a.substring(e);
                 } else a.length > b && (d = Math.floor(b / 2), e = a.length - d, a = a.substring(0, d + b % 2) + "..." + a.substring(e));
                 c && (a = goog.string.htmlEscape(a));
-                return a
+                return a;
             };
             goog.string.specialEscapeChars_ = {
                 "\x00": "\\0",
@@ -1900,23 +1931,23 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 "\r": "\\r",
                 "\t": "\\t",
                 "\x0B": "\\x0B",
-                '"': '\\"',
+                "\"": "\\\"",
                 "\\": "\\\\",
                 "<": "<"
             };
             goog.string.jsEscapeCache_ = {"'": "\\'"};
             goog.string.quote = function (a) {
                 a = String(a);
-                for (var b = ['"'], c = 0; c < a.length; c++) {
+                for (var b = ["\""], c = 0; c < a.length; c++) {
                     var d = a.charAt(c), e = d.charCodeAt(0);
-                    b[c + 1] = goog.string.specialEscapeChars_[d] || (31 < e && 127 > e ? d : goog.string.escapeChar(d))
+                    b[c + 1] = goog.string.specialEscapeChars_[d] || (31 < e && 127 > e ? d : goog.string.escapeChar(d));
                 }
-                b.push('"');
-                return b.join("")
+                b.push("\"");
+                return b.join("");
             };
             goog.string.escapeString = function (a) {
                 for (var b = [], c = 0; c < a.length; c++) b[c] = goog.string.escapeChar(a.charAt(c));
-                return b.join("")
+                return b.join("");
             };
             goog.string.escapeChar = function (a) {
                 if (a in goog.string.jsEscapeCache_) return goog.string.jsEscapeCache_[a];
@@ -1924,56 +1955,56 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 var b, c = a.charCodeAt(0);
                 if (31 < c && 127 > c) b = a; else {
                     if (256 > c) {
-                        if (b = "\\x", 16 > c || 256 < c) b += "0"
+                        if (b = "\\x", 16 > c || 256 < c) b += "0";
                     } else b = "\\u", 4096 > c && (b += "0");
-                    b += c.toString(16).toUpperCase()
+                    b += c.toString(16).toUpperCase();
                 }
-                return goog.string.jsEscapeCache_[a] = b
+                return goog.string.jsEscapeCache_[a] = b;
             };
             goog.string.contains = function (a, b) {
-                return -1 != a.indexOf(b)
+                return -1 != a.indexOf(b);
             };
             goog.string.caseInsensitiveContains = function (a, b) {
-                return goog.string.contains(a.toLowerCase(), b.toLowerCase())
+                return goog.string.contains(a.toLowerCase(), b.toLowerCase());
             };
             goog.string.countOf = function (a, b) {
-                return a && b ? a.split(b).length - 1 : 0
+                return a && b ? a.split(b).length - 1 : 0;
             };
             goog.string.removeAt = function (a, b, c) {
                 var d = a;
                 0 <= b && b < a.length && 0 < c && (d = a.substr(0, b) + a.substr(b + c, a.length - b - c));
-                return d
+                return d;
             };
             goog.string.remove = function (a, b) {
                 var c = new RegExp(goog.string.regExpEscape(b), "");
-                return a.replace(c, "")
+                return a.replace(c, "");
             };
             goog.string.removeAll = function (a, b) {
                 var c = new RegExp(goog.string.regExpEscape(b), "g");
-                return a.replace(c, "")
+                return a.replace(c, "");
             };
             goog.string.regExpEscape = function (a) {
-                return String(a).replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08")
+                return String(a).replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08");
             };
             goog.string.repeat = String.prototype.repeat ? function (a, b) {
-                return a.repeat(b)
+                return a.repeat(b);
             } : function (a, b) {
-                return Array(b + 1).join(a)
+                return Array(b + 1).join(a);
             };
             goog.string.padNumber = function (a, b, c) {
                 a = goog.isDef(c) ? a.toFixed(c) : String(a);
                 c = a.indexOf(".");
                 -1 == c && (c = a.length);
-                return goog.string.repeat("0", Math.max(0, b - c)) + a
+                return goog.string.repeat("0", Math.max(0, b - c)) + a;
             };
             goog.string.makeSafe = function (a) {
-                return null == a ? "" : String(a)
+                return null == a ? "" : String(a);
             };
             goog.string.buildString = function (a) {
-                return Array.prototype.join.call(arguments, "")
+                return Array.prototype.join.call(arguments, "");
             };
             goog.string.getRandomString = function () {
-                return Math.floor(2147483648 * Math.random()).toString(36) + Math.abs(Math.floor(2147483648 * Math.random()) ^ goog.now()).toString(36)
+                return Math.floor(2147483648 * Math.random()).toString(36) + Math.abs(Math.floor(2147483648 * Math.random()) ^ goog.now()).toString(36);
             };
             goog.string.compareVersions = function (a, b) {
                 for (var c = 0, d = goog.string.trim(String(a)).split("."), e = goog.string.trim(String(b)).split("."), f = Math.max(d.length, e.length), g = 0; 0 == c && g < f; g++) {
@@ -1985,58 +2016,58 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         var c = 0 == m[1].length ? 0 : parseInt(m[1], 10),
                             q = 0 == n[1].length ? 0 : parseInt(n[1], 10),
                             c = goog.string.compareElements_(c, q) || goog.string.compareElements_(0 ==
-                                m[2].length, 0 == n[2].length) || goog.string.compareElements_(m[2], n[2])
-                    } while (0 == c)
+                                m[2].length, 0 == n[2].length) || goog.string.compareElements_(m[2], n[2]);
+                    } while (0 == c);
                 }
-                return c
+                return c;
             };
             goog.string.compareElements_ = function (a, b) {
-                return a < b ? -1 : a > b ? 1 : 0
+                return a < b ? -1 : a > b ? 1 : 0;
             };
             goog.string.hashCode = function (a) {
                 for (var b = 0, c = 0; c < a.length; ++c) b = 31 * b + a.charCodeAt(c) >>> 0;
-                return b
+                return b;
             };
             goog.string.uniqueStringCounter_ = 2147483648 * Math.random() | 0;
             goog.string.createUniqueString = function () {
-                return "goog_" + goog.string.uniqueStringCounter_++
+                return "goog_" + goog.string.uniqueStringCounter_++;
             };
             goog.string.toNumber = function (a) {
                 var b = Number(a);
-                return 0 == b && goog.string.isEmptyOrWhitespace(a) ? NaN : b
+                return 0 == b && goog.string.isEmptyOrWhitespace(a) ? NaN : b;
             };
             goog.string.isLowerCamelCase = function (a) {
-                return /^[a-z]+([A-Z][a-z]*)*$/.test(a)
+                return /^[a-z]+([A-Z][a-z]*)*$/.test(a);
             };
             goog.string.isUpperCamelCase = function (a) {
-                return /^([A-Z][a-z]*)+$/.test(a)
+                return /^([A-Z][a-z]*)+$/.test(a);
             };
             goog.string.toCamelCase = function (a) {
                 return String(a).replace(/\-([a-z])/g, function (a, c) {
-                    return c.toUpperCase()
-                })
+                    return c.toUpperCase();
+                });
             };
             goog.string.toSelectorCase = function (a) {
-                return String(a).replace(/([A-Z])/g, "-$1").toLowerCase()
+                return String(a).replace(/([A-Z])/g, "-$1").toLowerCase();
             };
             goog.string.toTitleCase = function (a, b) {
                 var c = goog.isString(b) ? goog.string.regExpEscape(b) : "\\s";
                 return a.replace(new RegExp("(^" + (c ? "|[" + c + "]+" : "") + ")([a-z])", "g"), function (a, b, c) {
-                    return b + c.toUpperCase()
-                })
+                    return b + c.toUpperCase();
+                });
             };
             goog.string.capitalize = function (a) {
-                return String(a.charAt(0)).toUpperCase() + String(a.substr(1)).toLowerCase()
+                return String(a.charAt(0)).toUpperCase() + String(a.substr(1)).toLowerCase();
             };
             goog.string.parseInt = function (a) {
                 isFinite(a) && (a = String(a));
-                return goog.isString(a) ? /^\s*-?0x/i.test(a) ? parseInt(a, 16) : parseInt(a, 10) : NaN
+                return goog.isString(a) ? /^\s*-?0x/i.test(a) ? parseInt(a, 16) : parseInt(a, 10) : NaN;
             };
             goog.string.splitLimit = function (a, b, c) {
                 a = a.split(b);
                 for (var d = []; 0 < c && a.length;) d.push(a.shift()), c--;
                 a.length && d.push(a.join(b));
-                return d
+                return d;
             };
             goog.string.editDistance = function (a, b) {
                 var c = [], d = [];
@@ -2046,9 +2077,9 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 for (e = 0; e < a.length; e++) {
                     d[0] = e + 1;
                     for (var f = 0; f < b.length; f++) d[f + 1] = Math.min(d[f] + 1, c[f + 1] + 1, c[f] + Number(a[e] != b[f]));
-                    for (f = 0; f < c.length; f++) c[f] = d[f]
+                    for (f = 0; f < c.length; f++) c[f] = d[f];
                 }
-                return d[b.length]
+                return d[b.length];
             };
             goog.asserts = {};
             goog.asserts.ENABLE_ASSERTS = goog.DEBUG;
@@ -2056,7 +2087,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 b.unshift(a);
                 goog.debug.Error.call(this, goog.string.subs.apply(null, b));
                 b.shift();
-                this.messagePattern = a
+                this.messagePattern = a;
             };
             goog.inherits(goog.asserts.AssertionError, goog.debug.Error);
             goog.asserts.AssertionError.prototype.name = "AssertionError";
@@ -2068,55 +2099,55 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 var e = "Assertion failed";
                 if (c) var e = e + (": " + c), f = d; else a && (e += ": " + a, f = b);
                 a = new goog.asserts.AssertionError("" + e, f || []);
-                goog.asserts.errorHandler_(a)
+                goog.asserts.errorHandler_(a);
             };
             goog.asserts.setErrorHandler = function (a) {
-                goog.asserts.ENABLE_ASSERTS && (goog.asserts.errorHandler_ = a)
+                goog.asserts.ENABLE_ASSERTS && (goog.asserts.errorHandler_ = a);
             };
             goog.asserts.assert = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !a && goog.asserts.doAssertFailure_("", null, b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.fail = function (a, b) {
-                goog.asserts.ENABLE_ASSERTS && goog.asserts.errorHandler_(new goog.asserts.AssertionError("Failure" + (a ? ": " + a : ""), Array.prototype.slice.call(arguments, 1)))
+                goog.asserts.ENABLE_ASSERTS && goog.asserts.errorHandler_(new goog.asserts.AssertionError("Failure" + (a ? ": " + a : ""), Array.prototype.slice.call(arguments, 1)));
             };
             goog.asserts.assertNumber = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !goog.isNumber(a) && goog.asserts.doAssertFailure_("Expected number but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertString = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !goog.isString(a) && goog.asserts.doAssertFailure_("Expected string but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertFunction = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !goog.isFunction(a) && goog.asserts.doAssertFailure_("Expected function but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertObject = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !goog.isObject(a) && goog.asserts.doAssertFailure_("Expected object but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertArray = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !goog.isArray(a) && goog.asserts.doAssertFailure_("Expected array but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertBoolean = function (a, b, c) {
                 goog.asserts.ENABLE_ASSERTS && !goog.isBoolean(a) && goog.asserts.doAssertFailure_("Expected boolean but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertElement = function (a, b, c) {
                 !goog.asserts.ENABLE_ASSERTS || goog.isObject(a) && a.nodeType == goog.dom.NodeType.ELEMENT || goog.asserts.doAssertFailure_("Expected Element but got %s: %s.", [goog.typeOf(a), a], b, Array.prototype.slice.call(arguments, 2));
-                return a
+                return a;
             };
             goog.asserts.assertInstanceof = function (a, b, c, d) {
                 !goog.asserts.ENABLE_ASSERTS || a instanceof b || goog.asserts.doAssertFailure_("Expected instanceof %s but got %s.", [goog.asserts.getType_(b), goog.asserts.getType_(a)], c, Array.prototype.slice.call(arguments, 3));
-                return a
+                return a;
             };
             goog.asserts.assertObjectPrototypeIsIntact = function () {
-                for (var a in Object.prototype) goog.asserts.fail(a + " should not be enumerable in Object.prototype.")
+                for (var a in Object.prototype) goog.asserts.fail(a + " should not be enumerable in Object.prototype.");
             };
             goog.asserts.getType_ = function (a) {
-                return a instanceof Function ? a.displayName || a.name || "unknown type name" : a instanceof Object ? a.constructor.displayName || a.constructor.name || Object.prototype.toString.call(a) : null === a ? "null" : typeof a
+                return a instanceof Function ? a.displayName || a.name || "unknown type name" : a instanceof Object ? a.constructor.displayName || a.constructor.name || Object.prototype.toString.call(a) : null === a ? "null" : typeof a;
             };
             var jspb = {
                 Map: function (a, b) {
@@ -2124,15 +2155,15 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     this.valueCtor_ = b;
                     this.map_ = {};
                     this.arrClean = !0;
-                    0 < this.arr_.length && this.loadFromArray_()
+                    0 < this.arr_.length && this.loadFromArray_();
                 }
             };
             jspb.Map.prototype.loadFromArray_ = function () {
                 for (var a = 0; a < this.arr_.length; a++) {
                     var b = this.arr_[a], c = b[0];
-                    this.map_[c.toString()] = new jspb.Map.Entry_(c, b[1])
+                    this.map_[c.toString()] = new jspb.Map.Entry_(c, b[1]);
                 }
-                this.arrClean = !0
+                this.arrClean = !0;
             };
             jspb.Map.prototype.toArray = function () {
                 if (this.arrClean) {
@@ -2140,7 +2171,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         var a = this.map_, b;
                         for (b in a) if (Object.prototype.hasOwnProperty.call(a, b)) {
                             var c = a[b].valueWrapper;
-                            c && c.toArray()
+                            c && c.toArray();
                         }
                     }
                 } else {
@@ -2150,93 +2181,93 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     for (b = 0; b < a.length; b++) {
                         var d = this.map_[a[b]];
                         (c = d.valueWrapper) && c.toArray();
-                        this.arr_.push([d.key, d.value])
+                        this.arr_.push([d.key, d.value]);
                     }
-                    this.arrClean = !0
+                    this.arrClean = !0;
                 }
-                return this.arr_
+                return this.arr_;
             };
             jspb.Map.prototype.toObject = function (a, b) {
                 for (var c = this.toArray(), d = [], e = 0; e < c.length; e++) {
                     var f = this.map_[c[e][0].toString()];
                     this.wrapEntry_(f);
                     var g = f.valueWrapper;
-                    g ? (goog.asserts.assert(b), d.push([f.key, b(a, g)])) : d.push([f.key, f.value])
+                    g ? (goog.asserts.assert(b), d.push([f.key, b(a, g)])) : d.push([f.key, f.value]);
                 }
-                return d
+                return d;
             };
             jspb.Map.fromObject = function (a, b, c) {
                 b = new jspb.Map([], b);
                 for (var d = 0; d < a.length; d++) {
                     var e = a[d][0], f = c(a[d][1]);
-                    b.set(e, f)
+                    b.set(e, f);
                 }
-                return b
+                return b;
             };
             jspb.Map.ArrayIteratorIterable_ = function (a) {
                 this.idx_ = 0;
-                this.arr_ = a
+                this.arr_ = a;
             };
             jspb.Map.ArrayIteratorIterable_.prototype.next = function () {
                 return this.idx_ < this.arr_.length ? {done: !1, value: this.arr_[this.idx_++]} : {
                     done: !0,
                     value: void 0
-                }
+                };
             };
             $jscomp.initSymbol();
             "undefined" != typeof Symbol && ($jscomp.initSymbol(), $jscomp.initSymbolIterator(), jspb.Map.ArrayIteratorIterable_.prototype[Symbol.iterator] = function () {
-                return this
+                return this;
             });
             jspb.Map.prototype.getLength = function () {
-                return this.stringKeys_().length
+                return this.stringKeys_().length;
             };
             jspb.Map.prototype.clear = function () {
                 this.map_ = {};
-                this.arrClean = !1
+                this.arrClean = !1;
             };
             jspb.Map.prototype.del = function (a) {
                 a = a.toString();
                 var b = this.map_.hasOwnProperty(a);
                 delete this.map_[a];
                 this.arrClean = !1;
-                return b
+                return b;
             };
             jspb.Map.prototype.getEntryList = function () {
                 var a = [], b = this.stringKeys_();
                 b.sort();
                 for (var c = 0; c < b.length; c++) {
                     var d = this.map_[b[c]];
-                    a.push([d.key, d.value])
+                    a.push([d.key, d.value]);
                 }
-                return a
+                return a;
             };
             jspb.Map.prototype.entries = function () {
                 var a = [], b = this.stringKeys_();
                 b.sort();
                 for (var c = 0; c < b.length; c++) {
                     var d = this.map_[b[c]];
-                    a.push([d.key, this.wrapEntry_(d)])
+                    a.push([d.key, this.wrapEntry_(d)]);
                 }
-                return new jspb.Map.ArrayIteratorIterable_(a)
+                return new jspb.Map.ArrayIteratorIterable_(a);
             };
             jspb.Map.prototype.keys = function () {
                 var a = [], b = this.stringKeys_();
                 b.sort();
                 for (var c = 0; c < b.length; c++) a.push(this.map_[b[c]].key);
-                return new jspb.Map.ArrayIteratorIterable_(a)
+                return new jspb.Map.ArrayIteratorIterable_(a);
             };
             jspb.Map.prototype.values = function () {
                 var a = [], b = this.stringKeys_();
                 b.sort();
                 for (var c = 0; c < b.length; c++) a.push(this.wrapEntry_(this.map_[b[c]]));
-                return new jspb.Map.ArrayIteratorIterable_(a)
+                return new jspb.Map.ArrayIteratorIterable_(a);
             };
             jspb.Map.prototype.forEach = function (a, b) {
                 var c = this.stringKeys_();
                 c.sort();
                 for (var d = 0; d < c.length; d++) {
                     var e = this.map_[c[d]];
-                    a.call(b, this.wrapEntry_(e), e.key, this)
+                    a.call(b, this.wrapEntry_(e), e.key, this);
                 }
             };
             jspb.Map.prototype.set = function (a, b) {
@@ -2244,16 +2275,16 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.valueCtor_ ? (c.valueWrapper = b, c.value = b.toArray()) : c.value = b;
                 this.map_[a.toString()] = c;
                 this.arrClean = !1;
-                return this
+                return this;
             };
             jspb.Map.prototype.wrapEntry_ = function (a) {
-                return this.valueCtor_ ? (a.valueWrapper || (a.valueWrapper = new this.valueCtor_(a.value)), a.valueWrapper) : a.value
+                return this.valueCtor_ ? (a.valueWrapper || (a.valueWrapper = new this.valueCtor_(a.value)), a.valueWrapper) : a.value;
             };
             jspb.Map.prototype.get = function (a) {
-                if (a = this.map_[a.toString()]) return this.wrapEntry_(a)
+                if (a = this.map_[a.toString()]) return this.wrapEntry_(a);
             };
             jspb.Map.prototype.has = function (a) {
-                return a.toString() in this.map_
+                return a.toString() in this.map_;
             };
             jspb.Map.prototype.serializeBinary = function (a, b, c, d, e) {
                 var f = this.stringKeys_();
@@ -2263,196 +2294,196 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     b.beginSubMessage(a);
                     c.call(b, 1, h.key);
                     this.valueCtor_ ? d.call(b, 2, this.wrapEntry_(h), e) : d.call(b, 2, h.value);
-                    b.endSubMessage()
+                    b.endSubMessage();
                 }
             };
             jspb.Map.deserializeBinary = function (a, b, c, d, e) {
                 for (var f = void 0, g = void 0; b.nextField() && !b.isEndGroup();) {
                     var h = b.getFieldNumber();
-                    1 == h ? f = c.call(b) : 2 == h && (a.valueCtor_ ? (g = new a.valueCtor_, d.call(b, g, e)) : g = d.call(b))
+                    1 == h ? f = c.call(b) : 2 == h && (a.valueCtor_ ? (g = new a.valueCtor_, d.call(b, g, e)) : g = d.call(b));
                 }
                 goog.asserts.assert(void 0 != f);
                 goog.asserts.assert(void 0 != g);
-                a.set(f, g)
+                a.set(f, g);
             };
             jspb.Map.prototype.stringKeys_ = function () {
                 var a = this.map_, b = [], c;
                 for (c in a) Object.prototype.hasOwnProperty.call(a, c) && b.push(c);
-                return b
+                return b;
             };
             jspb.Map.Entry_ = function (a, b) {
                 this.key = a;
                 this.value = b;
-                this.valueWrapper = void 0
+                this.valueWrapper = void 0;
             };
             goog.array = {};
             goog.NATIVE_ARRAY_PROTOTYPES = goog.TRUSTED_SITE;
             goog.array.ASSUME_NATIVE_FUNCTIONS = !1;
             goog.array.peek = function (a) {
-                return a[a.length - 1]
+                return a[a.length - 1];
             };
             goog.array.last = goog.array.peek;
             goog.array.indexOf = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.indexOf) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.indexOf.call(a, b, c)
+                return Array.prototype.indexOf.call(a, b, c);
             } : function (a, b, c) {
                 c = null == c ? 0 : 0 > c ? Math.max(0, a.length + c) : c;
                 if (goog.isString(a)) return goog.isString(b) && 1 == b.length ? a.indexOf(b, c) : -1;
                 for (; c < a.length; c++) if (c in a && a[c] === b) return c;
-                return -1
+                return -1;
             };
             goog.array.lastIndexOf = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.lastIndexOf) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.lastIndexOf.call(a, b, null == c ? a.length - 1 : c)
+                return Array.prototype.lastIndexOf.call(a, b, null == c ? a.length - 1 : c);
             } : function (a, b, c) {
                 c = null == c ? a.length - 1 : c;
                 0 > c && (c = Math.max(0, a.length + c));
                 if (goog.isString(a)) return goog.isString(b) && 1 == b.length ? a.lastIndexOf(b, c) : -1;
                 for (; 0 <= c; c--) if (c in a && a[c] === b) return c;
-                return -1
+                return -1;
             };
             goog.array.forEach = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.forEach) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                Array.prototype.forEach.call(a, b, c)
+                Array.prototype.forEach.call(a, b, c);
             } : function (a, b, c) {
-                for (var d = a.length, e = goog.isString(a) ? a.split("") : a, f = 0; f < d; f++) f in e && b.call(c, e[f], f, a)
+                for (var d = a.length, e = goog.isString(a) ? a.split("") : a, f = 0; f < d; f++) f in e && b.call(c, e[f], f, a);
             };
             goog.array.forEachRight = function (a, b, c) {
-                for (var d = a.length, e = goog.isString(a) ? a.split("") : a, d = d - 1; 0 <= d; --d) d in e && b.call(c, e[d], d, a)
+                for (var d = a.length, e = goog.isString(a) ? a.split("") : a, d = d - 1; 0 <= d; --d) d in e && b.call(c, e[d], d, a);
             };
             goog.array.filter = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.filter) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.filter.call(a, b, c)
+                return Array.prototype.filter.call(a, b, c);
             } : function (a, b, c) {
                 for (var d = a.length, e = [], f = 0, g = goog.isString(a) ? a.split("") : a, h = 0; h < d; h++) if (h in g) {
                     var k = g[h];
-                    b.call(c, k, h, a) && (e[f++] = k)
+                    b.call(c, k, h, a) && (e[f++] = k);
                 }
-                return e
+                return e;
             };
             goog.array.map = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.map) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.map.call(a, b, c)
+                return Array.prototype.map.call(a, b, c);
             } : function (a, b, c) {
                 for (var d = a.length, e = Array(d), f = goog.isString(a) ? a.split("") : a, g = 0; g < d; g++) g in f && (e[g] = b.call(c, f[g], g, a));
-                return e
+                return e;
             };
             goog.array.reduce = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.reduce) ? function (a, b, c, d) {
                 goog.asserts.assert(null != a.length);
                 d && (b = goog.bind(b, d));
-                return Array.prototype.reduce.call(a, b, c)
+                return Array.prototype.reduce.call(a, b, c);
             } : function (a, b, c, d) {
                 var e = c;
                 goog.array.forEach(a, function (c, g) {
-                    e = b.call(d, e, c, g, a)
+                    e = b.call(d, e, c, g, a);
                 });
-                return e
+                return e;
             };
             goog.array.reduceRight = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.reduceRight) ? function (a, b, c, d) {
                 goog.asserts.assert(null != a.length);
                 goog.asserts.assert(null != b);
                 d && (b = goog.bind(b, d));
-                return Array.prototype.reduceRight.call(a, b, c)
+                return Array.prototype.reduceRight.call(a, b, c);
             } : function (a, b, c, d) {
                 var e = c;
                 goog.array.forEachRight(a, function (c, g) {
-                    e = b.call(d, e, c, g, a)
+                    e = b.call(d, e, c, g, a);
                 });
-                return e
+                return e;
             };
             goog.array.some = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.some) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.some.call(a, b, c)
+                return Array.prototype.some.call(a, b, c);
             } : function (a, b, c) {
                 for (var d = a.length, e = goog.isString(a) ? a.split("") : a, f = 0; f < d; f++) if (f in e && b.call(c, e[f], f, a)) return !0;
-                return !1
+                return !1;
             };
             goog.array.every = goog.NATIVE_ARRAY_PROTOTYPES && (goog.array.ASSUME_NATIVE_FUNCTIONS || Array.prototype.every) ? function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.every.call(a, b, c)
+                return Array.prototype.every.call(a, b, c);
             } : function (a, b, c) {
                 for (var d = a.length, e = goog.isString(a) ? a.split("") : a, f = 0; f < d; f++) if (f in e && !b.call(c, e[f], f, a)) return !1;
-                return !0
+                return !0;
             };
             goog.array.count = function (a, b, c) {
                 var d = 0;
                 goog.array.forEach(a, function (a, f, g) {
-                    b.call(c, a, f, g) && ++d
+                    b.call(c, a, f, g) && ++d;
                 }, c);
-                return d
+                return d;
             };
             goog.array.find = function (a, b, c) {
                 b = goog.array.findIndex(a, b, c);
-                return 0 > b ? null : goog.isString(a) ? a.charAt(b) : a[b]
+                return 0 > b ? null : goog.isString(a) ? a.charAt(b) : a[b];
             };
             goog.array.findIndex = function (a, b, c) {
                 for (var d = a.length, e = goog.isString(a) ? a.split("") : a, f = 0; f < d; f++) if (f in e && b.call(c, e[f], f, a)) return f;
-                return -1
+                return -1;
             };
             goog.array.findRight = function (a, b, c) {
                 b = goog.array.findIndexRight(a, b, c);
-                return 0 > b ? null : goog.isString(a) ? a.charAt(b) : a[b]
+                return 0 > b ? null : goog.isString(a) ? a.charAt(b) : a[b];
             };
             goog.array.findIndexRight = function (a, b, c) {
                 for (var d = a.length, e = goog.isString(a) ? a.split("") : a, d = d - 1; 0 <= d; d--) if (d in e && b.call(c, e[d], d, a)) return d;
-                return -1
+                return -1;
             };
             goog.array.contains = function (a, b) {
-                return 0 <= goog.array.indexOf(a, b)
+                return 0 <= goog.array.indexOf(a, b);
             };
             goog.array.isEmpty = function (a) {
-                return 0 == a.length
+                return 0 == a.length;
             };
             goog.array.clear = function (a) {
                 if (!goog.isArray(a)) for (var b = a.length - 1; 0 <= b; b--) delete a[b];
-                a.length = 0
+                a.length = 0;
             };
             goog.array.insert = function (a, b) {
-                goog.array.contains(a, b) || a.push(b)
+                goog.array.contains(a, b) || a.push(b);
             };
             goog.array.insertAt = function (a, b, c) {
-                goog.array.splice(a, c, 0, b)
+                goog.array.splice(a, c, 0, b);
             };
             goog.array.insertArrayAt = function (a, b, c) {
-                goog.partial(goog.array.splice, a, c, 0).apply(null, b)
+                goog.partial(goog.array.splice, a, c, 0).apply(null, b);
             };
             goog.array.insertBefore = function (a, b, c) {
                 var d;
-                2 == arguments.length || 0 > (d = goog.array.indexOf(a, c)) ? a.push(b) : goog.array.insertAt(a, b, d)
+                2 == arguments.length || 0 > (d = goog.array.indexOf(a, c)) ? a.push(b) : goog.array.insertAt(a, b, d);
             };
             goog.array.remove = function (a, b) {
                 var c = goog.array.indexOf(a, b), d;
                 (d = 0 <= c) && goog.array.removeAt(a, c);
-                return d
+                return d;
             };
             goog.array.removeAt = function (a, b) {
                 goog.asserts.assert(null != a.length);
-                return 1 == Array.prototype.splice.call(a, b, 1).length
+                return 1 == Array.prototype.splice.call(a, b, 1).length;
             };
             goog.array.removeIf = function (a, b, c) {
                 b = goog.array.findIndex(a, b, c);
-                return 0 <= b ? (goog.array.removeAt(a, b), !0) : !1
+                return 0 <= b ? (goog.array.removeAt(a, b), !0) : !1;
             };
             goog.array.removeAllIf = function (a, b, c) {
                 var d = 0;
                 goog.array.forEachRight(a, function (e, f) {
-                    b.call(c, e, f, a) && goog.array.removeAt(a, f) && d++
+                    b.call(c, e, f, a) && goog.array.removeAt(a, f) && d++;
                 });
-                return d
+                return d;
             };
             goog.array.concat = function (a) {
-                return Array.prototype.concat.apply(Array.prototype, arguments)
+                return Array.prototype.concat.apply(Array.prototype, arguments);
             };
             goog.array.join = function (a) {
-                return Array.prototype.concat.apply(Array.prototype, arguments)
+                return Array.prototype.concat.apply(Array.prototype, arguments);
             };
             goog.array.toArray = function (a) {
                 var b = a.length;
                 if (0 < b) {
                     for (var c = Array(b), d = 0; d < b; d++) c[d] = a[d];
-                    return c
+                    return c;
                 }
-                return []
+                return [];
             };
             goog.array.clone = goog.array.toArray;
             goog.array.extend = function (a, b) {
@@ -2461,119 +2492,119 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (goog.isArrayLike(d)) {
                         var e = a.length || 0, f = d.length || 0;
                         a.length = e + f;
-                        for (var g = 0; g < f; g++) a[e + g] = d[g]
-                    } else a.push(d)
+                        for (var g = 0; g < f; g++) a[e + g] = d[g];
+                    } else a.push(d);
                 }
             };
             goog.array.splice = function (a, b, c, d) {
                 goog.asserts.assert(null != a.length);
-                return Array.prototype.splice.apply(a, goog.array.slice(arguments, 1))
+                return Array.prototype.splice.apply(a, goog.array.slice(arguments, 1));
             };
             goog.array.slice = function (a, b, c) {
                 goog.asserts.assert(null != a.length);
-                return 2 >= arguments.length ? Array.prototype.slice.call(a, b) : Array.prototype.slice.call(a, b, c)
+                return 2 >= arguments.length ? Array.prototype.slice.call(a, b) : Array.prototype.slice.call(a, b, c);
             };
             goog.array.removeDuplicates = function (a, b, c) {
                 b = b || a;
                 var d = function (a) {
-                    return goog.isObject(a) ? "o" + goog.getUid(a) : (typeof a).charAt(0) + a
+                    return goog.isObject(a) ? "o" + goog.getUid(a) : (typeof a).charAt(0) + a;
                 };
                 c = c || d;
                 for (var d = {}, e = 0, f = 0; f < a.length;) {
                     var g = a[f++], h = c(g);
-                    Object.prototype.hasOwnProperty.call(d, h) || (d[h] = !0, b[e++] = g)
+                    Object.prototype.hasOwnProperty.call(d, h) || (d[h] = !0, b[e++] = g);
                 }
-                b.length = e
+                b.length = e;
             };
             goog.array.binarySearch = function (a, b, c) {
-                return goog.array.binarySearch_(a, c || goog.array.defaultCompare, !1, b)
+                return goog.array.binarySearch_(a, c || goog.array.defaultCompare, !1, b);
             };
             goog.array.binarySelect = function (a, b, c) {
-                return goog.array.binarySearch_(a, b, !0, void 0, c)
+                return goog.array.binarySearch_(a, b, !0, void 0, c);
             };
             goog.array.binarySearch_ = function (a, b, c, d, e) {
                 for (var f = 0, g = a.length, h; f < g;) {
                     var k = f + g >> 1, l;
                     l = c ? b.call(e, a[k], k, a) : b(d, a[k]);
-                    0 < l ? f = k + 1 : (g = k, h = !l)
+                    0 < l ? f = k + 1 : (g = k, h = !l);
                 }
-                return h ? f : ~f
+                return h ? f : ~f;
             };
             goog.array.sort = function (a, b) {
-                a.sort(b || goog.array.defaultCompare)
+                a.sort(b || goog.array.defaultCompare);
             };
             goog.array.stableSort = function (a, b) {
                 for (var c = 0; c < a.length; c++) a[c] = {index: c, value: a[c]};
                 var d = b || goog.array.defaultCompare;
                 goog.array.sort(a, function (a, b) {
-                    return d(a.value, b.value) || a.index - b.index
+                    return d(a.value, b.value) || a.index - b.index;
                 });
-                for (c = 0; c < a.length; c++) a[c] = a[c].value
+                for (c = 0; c < a.length; c++) a[c] = a[c].value;
             };
             goog.array.sortByKey = function (a, b, c) {
                 var d = c || goog.array.defaultCompare;
                 goog.array.sort(a, function (a, c) {
-                    return d(b(a), b(c))
-                })
+                    return d(b(a), b(c));
+                });
             };
             goog.array.sortObjectsByKey = function (a, b, c) {
                 goog.array.sortByKey(a, function (a) {
-                    return a[b]
-                }, c)
+                    return a[b];
+                }, c);
             };
             goog.array.isSorted = function (a, b, c) {
                 b = b || goog.array.defaultCompare;
                 for (var d = 1; d < a.length; d++) {
                     var e = b(a[d - 1], a[d]);
-                    if (0 < e || 0 == e && c) return !1
+                    if (0 < e || 0 == e && c) return !1;
                 }
-                return !0
+                return !0;
             };
             goog.array.equals = function (a, b, c) {
                 if (!goog.isArrayLike(a) || !goog.isArrayLike(b) || a.length != b.length) return !1;
                 var d = a.length;
                 c = c || goog.array.defaultCompareEquality;
                 for (var e = 0; e < d; e++) if (!c(a[e], b[e])) return !1;
-                return !0
+                return !0;
             };
             goog.array.compare3 = function (a, b, c) {
                 c = c || goog.array.defaultCompare;
                 for (var d = Math.min(a.length, b.length), e = 0; e < d; e++) {
                     var f = c(a[e], b[e]);
-                    if (0 != f) return f
+                    if (0 != f) return f;
                 }
-                return goog.array.defaultCompare(a.length, b.length)
+                return goog.array.defaultCompare(a.length, b.length);
             };
             goog.array.defaultCompare = function (a, b) {
-                return a > b ? 1 : a < b ? -1 : 0
+                return a > b ? 1 : a < b ? -1 : 0;
             };
             goog.array.inverseDefaultCompare = function (a, b) {
-                return -goog.array.defaultCompare(a, b)
+                return -goog.array.defaultCompare(a, b);
             };
             goog.array.defaultCompareEquality = function (a, b) {
-                return a === b
+                return a === b;
             };
             goog.array.binaryInsert = function (a, b, c) {
                 c = goog.array.binarySearch(a, b, c);
-                return 0 > c ? (goog.array.insertAt(a, b, -(c + 1)), !0) : !1
+                return 0 > c ? (goog.array.insertAt(a, b, -(c + 1)), !0) : !1;
             };
             goog.array.binaryRemove = function (a, b, c) {
                 b = goog.array.binarySearch(a, b, c);
-                return 0 <= b ? goog.array.removeAt(a, b) : !1
+                return 0 <= b ? goog.array.removeAt(a, b) : !1;
             };
             goog.array.bucket = function (a, b, c) {
                 for (var d = {}, e = 0; e < a.length; e++) {
                     var f = a[e], g = b.call(c, f, e, a);
-                    goog.isDef(g) && (d[g] || (d[g] = [])).push(f)
+                    goog.isDef(g) && (d[g] || (d[g] = [])).push(f);
                 }
-                return d
+                return d;
             };
             goog.array.toObject = function (a, b, c) {
                 var d = {};
                 goog.array.forEach(a, function (e, f) {
-                    d[b.call(c, e, f, a)] = e
+                    d[b.call(c, e, f, a)] = e;
                 });
-                return d
+                return d;
             };
             goog.array.range = function (a, b, c) {
                 var d = [], e = 0, f = a;
@@ -2581,272 +2612,272 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 void 0 !== b && (e = a, f = b);
                 if (0 > c * (f - e)) return [];
                 if (0 < c) for (a = e; a < f; a += c) d.push(a); else for (a = e; a > f; a += c) d.push(a);
-                return d
+                return d;
             };
             goog.array.repeat = function (a, b) {
                 for (var c = [], d = 0; d < b; d++) c[d] = a;
-                return c
+                return c;
             };
             goog.array.flatten = function (a) {
                 for (var b = [], c = 0; c < arguments.length; c++) {
                     var d = arguments[c];
-                    if (goog.isArray(d)) for (var e = 0; e < d.length; e += 8192) for (var f = goog.array.slice(d, e, e + 8192), f = goog.array.flatten.apply(null, f), g = 0; g < f.length; g++) b.push(f[g]); else b.push(d)
+                    if (goog.isArray(d)) for (var e = 0; e < d.length; e += 8192) for (var f = goog.array.slice(d, e, e + 8192), f = goog.array.flatten.apply(null, f), g = 0; g < f.length; g++) b.push(f[g]); else b.push(d);
                 }
-                return b
+                return b;
             };
             goog.array.rotate = function (a, b) {
                 goog.asserts.assert(null != a.length);
                 a.length && (b %= a.length, 0 < b ? Array.prototype.unshift.apply(a, a.splice(-b, b)) : 0 > b && Array.prototype.push.apply(a, a.splice(0, -b)));
-                return a
+                return a;
             };
             goog.array.moveItem = function (a, b, c) {
                 goog.asserts.assert(0 <= b && b < a.length);
                 goog.asserts.assert(0 <= c && c < a.length);
                 b = Array.prototype.splice.call(a, b, 1);
-                Array.prototype.splice.call(a, c, 0, b[0])
+                Array.prototype.splice.call(a, c, 0, b[0]);
             };
             goog.array.zip = function (a) {
                 if (!arguments.length) return [];
                 for (var b = [], c = arguments[0].length, d = 1; d < arguments.length; d++) arguments[d].length < c && (c = arguments[d].length);
                 for (d = 0; d < c; d++) {
                     for (var e = [], f = 0; f < arguments.length; f++) e.push(arguments[f][d]);
-                    b.push(e)
+                    b.push(e);
                 }
-                return b
+                return b;
             };
             goog.array.shuffle = function (a, b) {
                 for (var c = b || Math.random, d = a.length - 1; 0 < d; d--) {
                     var e = Math.floor(c() * (d + 1)), f = a[d];
                     a[d] = a[e];
-                    a[e] = f
+                    a[e] = f;
                 }
             };
             goog.array.copyByIndex = function (a, b) {
                 var c = [];
                 goog.array.forEach(b, function (b) {
-                    c.push(a[b])
+                    c.push(a[b]);
                 });
-                return c
+                return c;
             };
             goog.crypt = {};
             goog.crypt.stringToByteArray = function (a) {
                 for (var b = [], c = 0, d = 0; d < a.length; d++) {
                     for (var e = a.charCodeAt(d); 255 < e;) b[c++] = e & 255, e >>= 8;
-                    b[c++] = e
+                    b[c++] = e;
                 }
-                return b
+                return b;
             };
             goog.crypt.byteArrayToString = function (a) {
                 if (8192 >= a.length) return String.fromCharCode.apply(null, a);
                 for (var b = "", c = 0; c < a.length; c += 8192) var d = goog.array.slice(a, c, c + 8192), b = b + String.fromCharCode.apply(null, d);
-                return b
+                return b;
             };
             goog.crypt.byteArrayToHex = function (a) {
                 return goog.array.map(a, function (a) {
                     a = a.toString(16);
-                    return 1 < a.length ? a : "0" + a
-                }).join("")
+                    return 1 < a.length ? a : "0" + a;
+                }).join("");
             };
             goog.crypt.hexToByteArray = function (a) {
                 goog.asserts.assert(0 == a.length % 2, "Key string length must be multiple of 2");
                 for (var b = [], c = 0; c < a.length; c += 2) b.push(parseInt(a.substring(c, c + 2), 16));
-                return b
+                return b;
             };
             goog.crypt.stringToUtf8ByteArray = function (a) {
                 for (var b = [], c = 0, d = 0; d < a.length; d++) {
                     var e = a.charCodeAt(d);
-                    128 > e ? b[c++] = e : (2048 > e ? b[c++] = e >> 6 | 192 : (55296 == (e & 64512) && d + 1 < a.length && 56320 == (a.charCodeAt(d + 1) & 64512) ? (e = 65536 + ((e & 1023) << 10) + (a.charCodeAt(++d) & 1023), b[c++] = e >> 18 | 240, b[c++] = e >> 12 & 63 | 128) : b[c++] = e >> 12 | 224, b[c++] = e >> 6 & 63 | 128), b[c++] = e & 63 | 128)
+                    128 > e ? b[c++] = e : (2048 > e ? b[c++] = e >> 6 | 192 : (55296 == (e & 64512) && d + 1 < a.length && 56320 == (a.charCodeAt(d + 1) & 64512) ? (e = 65536 + ((e & 1023) << 10) + (a.charCodeAt(++d) & 1023), b[c++] = e >> 18 | 240, b[c++] = e >> 12 & 63 | 128) : b[c++] = e >> 12 | 224, b[c++] = e >> 6 & 63 | 128), b[c++] = e & 63 | 128);
                 }
-                return b
+                return b;
             };
             goog.crypt.utf8ByteArrayToString = function (a) {
                 for (var b = [], c = 0, d = 0; c < a.length;) {
                     var e = a[c++];
                     if (128 > e) b[d++] = String.fromCharCode(e); else if (191 < e && 224 > e) {
                         var f = a[c++];
-                        b[d++] = String.fromCharCode((e & 31) << 6 | f & 63)
+                        b[d++] = String.fromCharCode((e & 31) << 6 | f & 63);
                     } else if (239 < e && 365 > e) {
                         var f = a[c++], g = a[c++], h = a[c++],
                             e = ((e & 7) << 18 | (f & 63) << 12 | (g & 63) << 6 | h & 63) - 65536;
                         b[d++] = String.fromCharCode(55296 + (e >> 10));
-                        b[d++] = String.fromCharCode(56320 + (e & 1023))
-                    } else f = a[c++], g = a[c++], b[d++] = String.fromCharCode((e & 15) << 12 | (f & 63) << 6 | g & 63)
+                        b[d++] = String.fromCharCode(56320 + (e & 1023));
+                    } else f = a[c++], g = a[c++], b[d++] = String.fromCharCode((e & 15) << 12 | (f & 63) << 6 | g & 63);
                 }
-                return b.join("")
+                return b.join("");
             };
             goog.crypt.xorByteArray = function (a, b) {
                 goog.asserts.assert(a.length == b.length, "XOR array lengths must match");
                 for (var c = [], d = 0; d < a.length; d++) c.push(a[d] ^ b[d]);
-                return c
+                return c;
             };
             goog.labs = {};
             goog.labs.userAgent = {};
             goog.labs.userAgent.util = {};
             goog.labs.userAgent.util.getNativeUserAgentString_ = function () {
                 var a = goog.labs.userAgent.util.getNavigator_();
-                return a && (a = a.userAgent) ? a : ""
+                return a && (a = a.userAgent) ? a : "";
             };
             goog.labs.userAgent.util.getNavigator_ = function () {
-                return goog.global.navigator
+                return goog.global.navigator;
             };
             goog.labs.userAgent.util.userAgent_ = goog.labs.userAgent.util.getNativeUserAgentString_();
             goog.labs.userAgent.util.setUserAgent = function (a) {
-                goog.labs.userAgent.util.userAgent_ = a || goog.labs.userAgent.util.getNativeUserAgentString_()
+                goog.labs.userAgent.util.userAgent_ = a || goog.labs.userAgent.util.getNativeUserAgentString_();
             };
             goog.labs.userAgent.util.getUserAgent = function () {
-                return goog.labs.userAgent.util.userAgent_
+                return goog.labs.userAgent.util.userAgent_;
             };
             goog.labs.userAgent.util.matchUserAgent = function (a) {
                 var b = goog.labs.userAgent.util.getUserAgent();
-                return goog.string.contains(b, a)
+                return goog.string.contains(b, a);
             };
             goog.labs.userAgent.util.matchUserAgentIgnoreCase = function (a) {
                 var b = goog.labs.userAgent.util.getUserAgent();
-                return goog.string.caseInsensitiveContains(b, a)
+                return goog.string.caseInsensitiveContains(b, a);
             };
             goog.labs.userAgent.util.extractVersionTuples = function (a) {
                 for (var b = RegExp("(\\w[\\w ]+)/([^\\s]+)\\s*(?:\\((.*?)\\))?", "g"), c = [], d; d = b.exec(a);) c.push([d[1], d[2], d[3] || void 0]);
-                return c
+                return c;
             };
             goog.labs.userAgent.platform = {};
             goog.labs.userAgent.platform.isAndroid = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Android")
+                return goog.labs.userAgent.util.matchUserAgent("Android");
             };
             goog.labs.userAgent.platform.isIpod = function () {
-                return goog.labs.userAgent.util.matchUserAgent("iPod")
+                return goog.labs.userAgent.util.matchUserAgent("iPod");
             };
             goog.labs.userAgent.platform.isIphone = function () {
-                return goog.labs.userAgent.util.matchUserAgent("iPhone") && !goog.labs.userAgent.util.matchUserAgent("iPod") && !goog.labs.userAgent.util.matchUserAgent("iPad")
+                return goog.labs.userAgent.util.matchUserAgent("iPhone") && !goog.labs.userAgent.util.matchUserAgent("iPod") && !goog.labs.userAgent.util.matchUserAgent("iPad");
             };
             goog.labs.userAgent.platform.isIpad = function () {
-                return goog.labs.userAgent.util.matchUserAgent("iPad")
+                return goog.labs.userAgent.util.matchUserAgent("iPad");
             };
             goog.labs.userAgent.platform.isIos = function () {
-                return goog.labs.userAgent.platform.isIphone() || goog.labs.userAgent.platform.isIpad() || goog.labs.userAgent.platform.isIpod()
+                return goog.labs.userAgent.platform.isIphone() || goog.labs.userAgent.platform.isIpad() || goog.labs.userAgent.platform.isIpod();
             };
             goog.labs.userAgent.platform.isMacintosh = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Macintosh")
+                return goog.labs.userAgent.util.matchUserAgent("Macintosh");
             };
             goog.labs.userAgent.platform.isLinux = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Linux")
+                return goog.labs.userAgent.util.matchUserAgent("Linux");
             };
             goog.labs.userAgent.platform.isWindows = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Windows")
+                return goog.labs.userAgent.util.matchUserAgent("Windows");
             };
             goog.labs.userAgent.platform.isChromeOS = function () {
-                return goog.labs.userAgent.util.matchUserAgent("CrOS")
+                return goog.labs.userAgent.util.matchUserAgent("CrOS");
             };
             goog.labs.userAgent.platform.getVersion = function () {
                 var a = goog.labs.userAgent.util.getUserAgent(), b = "";
                 goog.labs.userAgent.platform.isWindows() ? (b = /Windows (?:NT|Phone) ([0-9.]+)/, b = (a = b.exec(a)) ? a[1] : "0.0") : goog.labs.userAgent.platform.isIos() ? (b = /(?:iPhone|iPod|iPad|CPU)\s+OS\s+(\S+)/, b = (a = b.exec(a)) && a[1].replace(/_/g, ".")) : goog.labs.userAgent.platform.isMacintosh() ? (b = /Mac OS X ([0-9_.]+)/, b = (a = b.exec(a)) ? a[1].replace(/_/g, ".") : "10") : goog.labs.userAgent.platform.isAndroid() ? (b = /Android\s+([^\);]+)(\)|;)/,
-                    b = (a = b.exec(a)) && a[1]) : goog.labs.userAgent.platform.isChromeOS() && (b = /(?:CrOS\s+(?:i686|x86_64)\s+([0-9.]+))/, b = (a = b.exec(a)) && a[1]);
-                return b || ""
+                b = (a = b.exec(a)) && a[1]) : goog.labs.userAgent.platform.isChromeOS() && (b = /(?:CrOS\s+(?:i686|x86_64)\s+([0-9.]+))/, b = (a = b.exec(a)) && a[1]);
+                return b || "";
             };
             goog.labs.userAgent.platform.isVersionOrHigher = function (a) {
-                return 0 <= goog.string.compareVersions(goog.labs.userAgent.platform.getVersion(), a)
+                return 0 <= goog.string.compareVersions(goog.labs.userAgent.platform.getVersion(), a);
             };
             goog.object = {};
             goog.object.forEach = function (a, b, c) {
-                for (var d in a) b.call(c, a[d], d, a)
+                for (var d in a) b.call(c, a[d], d, a);
             };
             goog.object.filter = function (a, b, c) {
                 var d = {}, e;
                 for (e in a) b.call(c, a[e], e, a) && (d[e] = a[e]);
-                return d
+                return d;
             };
             goog.object.map = function (a, b, c) {
                 var d = {}, e;
                 for (e in a) d[e] = b.call(c, a[e], e, a);
-                return d
+                return d;
             };
             goog.object.some = function (a, b, c) {
                 for (var d in a) if (b.call(c, a[d], d, a)) return !0;
-                return !1
+                return !1;
             };
             goog.object.every = function (a, b, c) {
                 for (var d in a) if (!b.call(c, a[d], d, a)) return !1;
-                return !0
+                return !0;
             };
             goog.object.getCount = function (a) {
                 var b = 0, c;
                 for (c in a) b++;
-                return b
+                return b;
             };
             goog.object.getAnyKey = function (a) {
-                for (var b in a) return b
+                for (var b in a) return b;
             };
             goog.object.getAnyValue = function (a) {
-                for (var b in a) return a[b]
+                for (var b in a) return a[b];
             };
             goog.object.contains = function (a, b) {
-                return goog.object.containsValue(a, b)
+                return goog.object.containsValue(a, b);
             };
             goog.object.getValues = function (a) {
                 var b = [], c = 0, d;
                 for (d in a) b[c++] = a[d];
-                return b
+                return b;
             };
             goog.object.getKeys = function (a) {
                 var b = [], c = 0, d;
                 for (d in a) b[c++] = d;
-                return b
+                return b;
             };
             goog.object.getValueByKeys = function (a, b) {
                 for (var c = goog.isArrayLike(b), d = c ? b : arguments, c = c ? 0 : 1; c < d.length && (a = a[d[c]], goog.isDef(a)); c++) ;
-                return a
+                return a;
             };
             goog.object.containsKey = function (a, b) {
-                return null !== a && b in a
+                return null !== a && b in a;
             };
             goog.object.containsValue = function (a, b) {
                 for (var c in a) if (a[c] == b) return !0;
-                return !1
+                return !1;
             };
             goog.object.findKey = function (a, b, c) {
-                for (var d in a) if (b.call(c, a[d], d, a)) return d
+                for (var d in a) if (b.call(c, a[d], d, a)) return d;
             };
             goog.object.findValue = function (a, b, c) {
-                return (b = goog.object.findKey(a, b, c)) && a[b]
+                return (b = goog.object.findKey(a, b, c)) && a[b];
             };
             goog.object.isEmpty = function (a) {
                 for (var b in a) return !1;
-                return !0
+                return !0;
             };
             goog.object.clear = function (a) {
-                for (var b in a) delete a[b]
+                for (var b in a) delete a[b];
             };
             goog.object.remove = function (a, b) {
                 var c;
                 (c = b in a) && delete a[b];
-                return c
+                return c;
             };
             goog.object.add = function (a, b, c) {
-                if (null !== a && b in a) throw Error('The object already contains the key "' + b + '"');
-                goog.object.set(a, b, c)
+                if (null !== a && b in a) throw Error("The object already contains the key \"" + b + "\"");
+                goog.object.set(a, b, c);
             };
             goog.object.get = function (a, b, c) {
-                return null !== a && b in a ? a[b] : c
+                return null !== a && b in a ? a[b] : c;
             };
             goog.object.set = function (a, b, c) {
-                a[b] = c
+                a[b] = c;
             };
             goog.object.setIfUndefined = function (a, b, c) {
-                return b in a ? a[b] : a[b] = c
+                return b in a ? a[b] : a[b] = c;
             };
             goog.object.setWithReturnValueIfNotSet = function (a, b, c) {
                 if (b in a) return a[b];
                 c = c();
-                return a[b] = c
+                return a[b] = c;
             };
             goog.object.equals = function (a, b) {
                 for (var c in a) if (!(c in b) || a[c] !== b[c]) return !1;
                 for (c in b) if (!(c in a)) return !1;
-                return !0
+                return !0;
             };
             goog.object.clone = function (a) {
                 var b = {}, c;
                 for (c in a) b[c] = a[c];
-                return b
+                return b;
             };
             goog.object.unsafeClone = function (a) {
                 var b = goog.typeOf(a);
@@ -2854,21 +2885,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (goog.isFunction(a.clone)) return a.clone();
                     var b = "array" == b ? [] : {}, c;
                     for (c in a) b[c] = goog.object.unsafeClone(a[c]);
-                    return b
+                    return b;
                 }
-                return a
+                return a;
             };
             goog.object.transpose = function (a) {
                 var b = {}, c;
                 for (c in a) b[a[c]] = c;
-                return b
+                return b;
             };
             goog.object.PROTOTYPE_FIELDS_ = "constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
             goog.object.extend = function (a, b) {
                 for (var c, d, e = 1; e < arguments.length; e++) {
                     d = arguments[e];
                     for (c in d) a[c] = d[c];
-                    for (var f = 0; f < goog.object.PROTOTYPE_FIELDS_.length; f++) c = goog.object.PROTOTYPE_FIELDS_[f], Object.prototype.hasOwnProperty.call(d, c) && (a[c] = d[c])
+                    for (var f = 0; f < goog.object.PROTOTYPE_FIELDS_.length; f++) c = goog.object.PROTOTYPE_FIELDS_[f], Object.prototype.hasOwnProperty.call(d, c) && (a[c] = d[c]);
                 }
             };
             goog.object.create = function (a) {
@@ -2876,49 +2907,49 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 if (1 == b && goog.isArray(arguments[0])) return goog.object.create.apply(null, arguments[0]);
                 if (b % 2) throw Error("Uneven number of arguments");
                 for (var c = {}, d = 0; d < b; d += 2) c[arguments[d]] = arguments[d + 1];
-                return c
+                return c;
             };
             goog.object.createSet = function (a) {
                 var b = arguments.length;
                 if (1 == b && goog.isArray(arguments[0])) return goog.object.createSet.apply(null, arguments[0]);
                 for (var c = {}, d = 0; d < b; d++) c[arguments[d]] = !0;
-                return c
+                return c;
             };
             goog.object.createImmutableView = function (a) {
                 var b = a;
                 Object.isFrozen && !Object.isFrozen(a) && (b = Object.create(a), Object.freeze(b));
-                return b
+                return b;
             };
             goog.object.isImmutableView = function (a) {
-                return !!Object.isFrozen && Object.isFrozen(a)
+                return !!Object.isFrozen && Object.isFrozen(a);
             };
             goog.labs.userAgent.browser = {};
             goog.labs.userAgent.browser.matchOpera_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Opera") || goog.labs.userAgent.util.matchUserAgent("OPR")
+                return goog.labs.userAgent.util.matchUserAgent("Opera") || goog.labs.userAgent.util.matchUserAgent("OPR");
             };
             goog.labs.userAgent.browser.matchIE_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Trident") || goog.labs.userAgent.util.matchUserAgent("MSIE")
+                return goog.labs.userAgent.util.matchUserAgent("Trident") || goog.labs.userAgent.util.matchUserAgent("MSIE");
             };
             goog.labs.userAgent.browser.matchEdge_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Edge")
+                return goog.labs.userAgent.util.matchUserAgent("Edge");
             };
             goog.labs.userAgent.browser.matchFirefox_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Firefox")
+                return goog.labs.userAgent.util.matchUserAgent("Firefox");
             };
             goog.labs.userAgent.browser.matchSafari_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Safari") && !(goog.labs.userAgent.browser.matchChrome_() || goog.labs.userAgent.browser.matchCoast_() || goog.labs.userAgent.browser.matchOpera_() || goog.labs.userAgent.browser.matchEdge_() || goog.labs.userAgent.browser.isSilk() || goog.labs.userAgent.util.matchUserAgent("Android"))
+                return goog.labs.userAgent.util.matchUserAgent("Safari") && !(goog.labs.userAgent.browser.matchChrome_() || goog.labs.userAgent.browser.matchCoast_() || goog.labs.userAgent.browser.matchOpera_() || goog.labs.userAgent.browser.matchEdge_() || goog.labs.userAgent.browser.isSilk() || goog.labs.userAgent.util.matchUserAgent("Android"));
             };
             goog.labs.userAgent.browser.matchCoast_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Coast")
+                return goog.labs.userAgent.util.matchUserAgent("Coast");
             };
             goog.labs.userAgent.browser.matchIosWebview_ = function () {
-                return (goog.labs.userAgent.util.matchUserAgent("iPad") || goog.labs.userAgent.util.matchUserAgent("iPhone")) && !goog.labs.userAgent.browser.matchSafari_() && !goog.labs.userAgent.browser.matchChrome_() && !goog.labs.userAgent.browser.matchCoast_() && goog.labs.userAgent.util.matchUserAgent("AppleWebKit")
+                return (goog.labs.userAgent.util.matchUserAgent("iPad") || goog.labs.userAgent.util.matchUserAgent("iPhone")) && !goog.labs.userAgent.browser.matchSafari_() && !goog.labs.userAgent.browser.matchChrome_() && !goog.labs.userAgent.browser.matchCoast_() && goog.labs.userAgent.util.matchUserAgent("AppleWebKit");
             };
             goog.labs.userAgent.browser.matchChrome_ = function () {
-                return (goog.labs.userAgent.util.matchUserAgent("Chrome") || goog.labs.userAgent.util.matchUserAgent("CriOS")) && !goog.labs.userAgent.browser.matchOpera_() && !goog.labs.userAgent.browser.matchEdge_()
+                return (goog.labs.userAgent.util.matchUserAgent("Chrome") || goog.labs.userAgent.util.matchUserAgent("CriOS")) && !goog.labs.userAgent.browser.matchOpera_() && !goog.labs.userAgent.browser.matchEdge_();
             };
             goog.labs.userAgent.browser.matchAndroidBrowser_ = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Android") && !(goog.labs.userAgent.browser.isChrome() || goog.labs.userAgent.browser.isFirefox() || goog.labs.userAgent.browser.isOpera() || goog.labs.userAgent.browser.isSilk())
+                return goog.labs.userAgent.util.matchUserAgent("Android") && !(goog.labs.userAgent.browser.isChrome() || goog.labs.userAgent.browser.isFirefox() || goog.labs.userAgent.browser.isOpera() || goog.labs.userAgent.browser.isSilk());
             };
             goog.labs.userAgent.browser.isOpera = goog.labs.userAgent.browser.matchOpera_;
             goog.labs.userAgent.browser.isIE = goog.labs.userAgent.browser.matchIE_;
@@ -2930,61 +2961,61 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.labs.userAgent.browser.isChrome = goog.labs.userAgent.browser.matchChrome_;
             goog.labs.userAgent.browser.isAndroidBrowser = goog.labs.userAgent.browser.matchAndroidBrowser_;
             goog.labs.userAgent.browser.isSilk = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Silk")
+                return goog.labs.userAgent.util.matchUserAgent("Silk");
             };
             goog.labs.userAgent.browser.getVersion = function () {
                 function a(a) {
                     a = goog.array.find(a, d);
-                    return c[a] || ""
+                    return c[a] || "";
                 }
 
                 var b = goog.labs.userAgent.util.getUserAgent();
                 if (goog.labs.userAgent.browser.isIE()) return goog.labs.userAgent.browser.getIEVersion_(b);
                 var b = goog.labs.userAgent.util.extractVersionTuples(b), c = {};
                 goog.array.forEach(b, function (a) {
-                    c[a[0]] = a[1]
+                    c[a[0]] = a[1];
                 });
                 var d = goog.partial(goog.object.containsKey, c);
                 return goog.labs.userAgent.browser.isOpera() ? a(["Version", "Opera", "OPR"]) : goog.labs.userAgent.browser.isEdge() ?
-                    a(["Edge"]) : goog.labs.userAgent.browser.isChrome() ? a(["Chrome", "CriOS"]) : (b = b[2]) && b[1] || ""
+                    a(["Edge"]) : goog.labs.userAgent.browser.isChrome() ? a(["Chrome", "CriOS"]) : (b = b[2]) && b[1] || "";
             };
             goog.labs.userAgent.browser.isVersionOrHigher = function (a) {
-                return 0 <= goog.string.compareVersions(goog.labs.userAgent.browser.getVersion(), a)
+                return 0 <= goog.string.compareVersions(goog.labs.userAgent.browser.getVersion(), a);
             };
             goog.labs.userAgent.browser.getIEVersion_ = function (a) {
                 var b = /rv: *([\d\.]*)/.exec(a);
                 if (b && b[1]) return b[1];
                 var b = "", c = /MSIE +([\d\.]+)/.exec(a);
                 if (c && c[1]) if (a = /Trident\/(\d.\d)/.exec(a), "7.0" == c[1]) if (a && a[1]) switch (a[1]) {
-                    case "4.0":
-                        b = "8.0";
-                        break;
-                    case "5.0":
-                        b = "9.0";
-                        break;
-                    case "6.0":
-                        b = "10.0";
-                        break;
-                    case "7.0":
-                        b = "11.0"
+                case "4.0":
+                    b = "8.0";
+                    break;
+                case "5.0":
+                    b = "9.0";
+                    break;
+                case "6.0":
+                    b = "10.0";
+                    break;
+                case "7.0":
+                    b = "11.0";
                 } else b = "7.0"; else b = c[1];
-                return b
+                return b;
             };
             goog.labs.userAgent.engine = {};
             goog.labs.userAgent.engine.isPresto = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Presto")
+                return goog.labs.userAgent.util.matchUserAgent("Presto");
             };
             goog.labs.userAgent.engine.isTrident = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Trident") || goog.labs.userAgent.util.matchUserAgent("MSIE")
+                return goog.labs.userAgent.util.matchUserAgent("Trident") || goog.labs.userAgent.util.matchUserAgent("MSIE");
             };
             goog.labs.userAgent.engine.isEdge = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Edge")
+                return goog.labs.userAgent.util.matchUserAgent("Edge");
             };
             goog.labs.userAgent.engine.isWebKit = function () {
-                return goog.labs.userAgent.util.matchUserAgentIgnoreCase("WebKit") && !goog.labs.userAgent.engine.isEdge()
+                return goog.labs.userAgent.util.matchUserAgentIgnoreCase("WebKit") && !goog.labs.userAgent.engine.isEdge();
             };
             goog.labs.userAgent.engine.isGecko = function () {
-                return goog.labs.userAgent.util.matchUserAgent("Gecko") && !goog.labs.userAgent.engine.isWebKit() && !goog.labs.userAgent.engine.isTrident() && !goog.labs.userAgent.engine.isEdge()
+                return goog.labs.userAgent.util.matchUserAgent("Gecko") && !goog.labs.userAgent.engine.isWebKit() && !goog.labs.userAgent.engine.isTrident() && !goog.labs.userAgent.engine.isEdge();
             };
             goog.labs.userAgent.engine.getVersion = function () {
                 var a = goog.labs.userAgent.util.getUserAgent();
@@ -2993,25 +3024,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         b = goog.labs.userAgent.engine.getEngineTuple_(a);
                     if (b) return "Gecko" == b[0] ? goog.labs.userAgent.engine.getVersionForKey_(a, "Firefox") : b[1];
                     var a = a[0], c;
-                    if (a && (c = a[2]) && (c = /Trident\/([^\s;]+)/.exec(c))) return c[1]
+                    if (a && (c = a[2]) && (c = /Trident\/([^\s;]+)/.exec(c))) return c[1];
                 }
-                return ""
+                return "";
             };
             goog.labs.userAgent.engine.getEngineTuple_ = function (a) {
                 if (!goog.labs.userAgent.engine.isEdge()) return a[1];
                 for (var b = 0; b < a.length; b++) {
                     var c = a[b];
-                    if ("Edge" == c[0]) return c
+                    if ("Edge" == c[0]) return c;
                 }
             };
             goog.labs.userAgent.engine.isVersionOrHigher = function (a) {
-                return 0 <= goog.string.compareVersions(goog.labs.userAgent.engine.getVersion(), a)
+                return 0 <= goog.string.compareVersions(goog.labs.userAgent.engine.getVersion(), a);
             };
             goog.labs.userAgent.engine.getVersionForKey_ = function (a, b) {
                 var c = goog.array.find(a, function (a) {
-                    return b == a[0]
+                    return b == a[0];
                 });
-                return c && c[1] || ""
+                return c && c[1] || "";
             };
             goog.userAgent = {};
             goog.userAgent.ASSUME_IE = !1;
@@ -3023,10 +3054,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.userAgent.ASSUME_ANY_VERSION = !1;
             goog.userAgent.BROWSER_KNOWN_ = goog.userAgent.ASSUME_IE || goog.userAgent.ASSUME_EDGE || goog.userAgent.ASSUME_GECKO || goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_OPERA;
             goog.userAgent.getUserAgentString = function () {
-                return goog.labs.userAgent.util.getUserAgent()
+                return goog.labs.userAgent.util.getUserAgent();
             };
             goog.userAgent.getNavigator = function () {
-                return goog.global.navigator || null
+                return goog.global.navigator || null;
             };
             goog.userAgent.OPERA = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_OPERA : goog.labs.userAgent.browser.isOpera();
             goog.userAgent.IE = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_IE : goog.labs.userAgent.browser.isIE();
@@ -3035,13 +3066,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.userAgent.GECKO = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_GECKO : goog.labs.userAgent.engine.isGecko();
             goog.userAgent.WEBKIT = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_MOBILE_WEBKIT : goog.labs.userAgent.engine.isWebKit();
             goog.userAgent.isMobile_ = function () {
-                return goog.userAgent.WEBKIT && goog.labs.userAgent.util.matchUserAgent("Mobile")
+                return goog.userAgent.WEBKIT && goog.labs.userAgent.util.matchUserAgent("Mobile");
             };
             goog.userAgent.MOBILE = goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.isMobile_();
             goog.userAgent.SAFARI = goog.userAgent.WEBKIT;
             goog.userAgent.determinePlatform_ = function () {
                 var a = goog.userAgent.getNavigator();
-                return a && a.platform || ""
+                return a && a.platform || "";
             };
             goog.userAgent.PLATFORM = goog.userAgent.determinePlatform_();
             goog.userAgent.ASSUME_MAC = !1;
@@ -3055,12 +3086,12 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.userAgent.MAC = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_MAC : goog.labs.userAgent.platform.isMacintosh();
             goog.userAgent.WINDOWS = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_WINDOWS : goog.labs.userAgent.platform.isWindows();
             goog.userAgent.isLegacyLinux_ = function () {
-                return goog.labs.userAgent.platform.isLinux() || goog.labs.userAgent.platform.isChromeOS()
+                return goog.labs.userAgent.platform.isLinux() || goog.labs.userAgent.platform.isChromeOS();
             };
             goog.userAgent.LINUX = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_LINUX : goog.userAgent.isLegacyLinux_();
             goog.userAgent.isX11_ = function () {
                 var a = goog.userAgent.getNavigator();
-                return !!a && goog.string.contains(a.appVersion || "", "X11")
+                return !!a && goog.string.contains(a.appVersion || "", "X11");
             };
             goog.userAgent.X11 = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_X11 : goog.userAgent.isX11_();
             goog.userAgent.ANDROID = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_ANDROID : goog.labs.userAgent.platform.isAndroid();
@@ -3069,44 +3100,44 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.userAgent.operaVersion_ = function () {
                 var a = goog.global.opera.version;
                 try {
-                    return a()
+                    return a();
                 } catch (b) {
-                    return a
+                    return a;
                 }
             };
             goog.userAgent.determineVersion_ = function () {
                 if (goog.userAgent.OPERA && goog.global.opera) return goog.userAgent.operaVersion_();
                 var a = "", b = goog.userAgent.getVersionRegexResult_();
                 b && (a = b ? b[1] : "");
-                return goog.userAgent.IE && (b = goog.userAgent.getDocumentMode_(), b > parseFloat(a)) ? String(b) : a
+                return goog.userAgent.IE && (b = goog.userAgent.getDocumentMode_(), b > parseFloat(a)) ? String(b) : a;
             };
             goog.userAgent.getVersionRegexResult_ = function () {
                 var a = goog.userAgent.getUserAgentString();
                 if (goog.userAgent.GECKO) return /rv\:([^\);]+)(\)|;)/.exec(a);
                 if (goog.userAgent.EDGE) return /Edge\/([\d\.]+)/.exec(a);
                 if (goog.userAgent.IE) return /\b(?:MSIE|rv)[: ]([^\);]+)(\)|;)/.exec(a);
-                if (goog.userAgent.WEBKIT) return /WebKit\/(\S+)/.exec(a)
+                if (goog.userAgent.WEBKIT) return /WebKit\/(\S+)/.exec(a);
             };
             goog.userAgent.getDocumentMode_ = function () {
                 var a = goog.global.document;
-                return a ? a.documentMode : void 0
+                return a ? a.documentMode : void 0;
             };
             goog.userAgent.VERSION = goog.userAgent.determineVersion_();
             goog.userAgent.compare = function (a, b) {
-                return goog.string.compareVersions(a, b)
+                return goog.string.compareVersions(a, b);
             };
             goog.userAgent.isVersionOrHigherCache_ = {};
             goog.userAgent.isVersionOrHigher = function (a) {
-                return goog.userAgent.ASSUME_ANY_VERSION || goog.userAgent.isVersionOrHigherCache_[a] || (goog.userAgent.isVersionOrHigherCache_[a] = 0 <= goog.string.compareVersions(goog.userAgent.VERSION, a))
+                return goog.userAgent.ASSUME_ANY_VERSION || goog.userAgent.isVersionOrHigherCache_[a] || (goog.userAgent.isVersionOrHigherCache_[a] = 0 <= goog.string.compareVersions(goog.userAgent.VERSION, a));
             };
             goog.userAgent.isVersion = goog.userAgent.isVersionOrHigher;
             goog.userAgent.isDocumentModeOrHigher = function (a) {
-                return Number(goog.userAgent.DOCUMENT_MODE) >= a
+                return Number(goog.userAgent.DOCUMENT_MODE) >= a;
             };
             goog.userAgent.isDocumentMode = goog.userAgent.isDocumentModeOrHigher;
             goog.userAgent.DOCUMENT_MODE = function () {
                 var a = goog.global.document, b = goog.userAgent.getDocumentMode_();
-                return a && goog.userAgent.IE ? b || ("CSS1Compat" == a.compatMode ? parseInt(goog.userAgent.VERSION, 10) : 5) : void 0
+                return a && goog.userAgent.IE ? b || ("CSS1Compat" == a.compatMode ? parseInt(goog.userAgent.VERSION, 10) : 5) : void 0;
             }();
             goog.userAgent.product = {};
             goog.userAgent.product.ASSUME_FIREFOX = !1;
@@ -3121,14 +3152,14 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             goog.userAgent.product.EDGE = goog.userAgent.EDGE;
             goog.userAgent.product.FIREFOX = goog.userAgent.product.PRODUCT_KNOWN_ ? goog.userAgent.product.ASSUME_FIREFOX : goog.labs.userAgent.browser.isFirefox();
             goog.userAgent.product.isIphoneOrIpod_ = function () {
-                return goog.labs.userAgent.platform.isIphone() || goog.labs.userAgent.platform.isIpod()
+                return goog.labs.userAgent.platform.isIphone() || goog.labs.userAgent.platform.isIpod();
             };
             goog.userAgent.product.IPHONE = goog.userAgent.product.PRODUCT_KNOWN_ ? goog.userAgent.product.ASSUME_IPHONE : goog.userAgent.product.isIphoneOrIpod_();
             goog.userAgent.product.IPAD = goog.userAgent.product.PRODUCT_KNOWN_ ? goog.userAgent.product.ASSUME_IPAD : goog.labs.userAgent.platform.isIpad();
             goog.userAgent.product.ANDROID = goog.userAgent.product.PRODUCT_KNOWN_ ? goog.userAgent.product.ASSUME_ANDROID : goog.labs.userAgent.browser.isAndroidBrowser();
             goog.userAgent.product.CHROME = goog.userAgent.product.PRODUCT_KNOWN_ ? goog.userAgent.product.ASSUME_CHROME : goog.labs.userAgent.browser.isChrome();
             goog.userAgent.product.isSafariDesktop_ = function () {
-                return goog.labs.userAgent.browser.isSafari() && !goog.labs.userAgent.platform.isIos()
+                return goog.labs.userAgent.browser.isSafari() && !goog.labs.userAgent.platform.isIos();
             };
             goog.userAgent.product.SAFARI = goog.userAgent.product.PRODUCT_KNOWN_ ? goog.userAgent.product.ASSUME_SAFARI : goog.userAgent.product.isSafariDesktop_();
             goog.crypt.base64 = {};
@@ -3149,35 +3180,35 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         l = k ? a[e + 2] : 0, p = f >> 2, f = (f & 3) << 4 | h >> 4, h = (h & 15) << 2 | l >> 6,
                         l = l & 63;
                     k || (l = 64, g || (h = 64));
-                    d.push(c[p], c[f], c[h], c[l])
+                    d.push(c[p], c[f], c[h], c[l]);
                 }
-                return d.join("")
+                return d.join("");
             };
             goog.crypt.base64.encodeString = function (a, b) {
-                return goog.crypt.base64.HAS_NATIVE_ENCODE_ && !b ? goog.global.btoa(a) : goog.crypt.base64.encodeByteArray(goog.crypt.stringToByteArray(a), b)
+                return goog.crypt.base64.HAS_NATIVE_ENCODE_ && !b ? goog.global.btoa(a) : goog.crypt.base64.encodeByteArray(goog.crypt.stringToByteArray(a), b);
             };
             goog.crypt.base64.decodeString = function (a, b) {
                 if (goog.crypt.base64.HAS_NATIVE_DECODE_ && !b) return goog.global.atob(a);
                 var c = "";
                 goog.crypt.base64.decodeStringInternal_(a, function (a) {
-                    c += String.fromCharCode(a)
+                    c += String.fromCharCode(a);
                 });
-                return c
+                return c;
             };
             goog.crypt.base64.decodeStringToByteArray = function (a, b) {
                 var c = [];
                 goog.crypt.base64.decodeStringInternal_(a, function (a) {
-                    c.push(a)
+                    c.push(a);
                 });
-                return c
+                return c;
             };
             goog.crypt.base64.decodeStringToUint8Array = function (a) {
                 goog.asserts.assert(!goog.userAgent.IE || goog.userAgent.isVersionOrHigher("10"), "Browser does not support typed arrays");
                 var b = new Uint8Array(Math.ceil(3 * a.length / 4)), c = 0;
                 goog.crypt.base64.decodeStringInternal_(a, function (a) {
-                    b[c++] = a
+                    b[c++] = a;
                 });
-                return b.subarray(0, c)
+                return b.subarray(0, c);
             };
             goog.crypt.base64.decodeStringInternal_ = function (a, b) {
                 function c(b) {
@@ -3186,7 +3217,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                         if (null != e) return e;
                         if (!goog.string.isEmptyOrWhitespace(c)) throw Error("Unknown base64 encoding at char: " + c);
                     }
-                    return b
+                    return b;
                 }
 
                 goog.crypt.base64.init_();
@@ -3194,7 +3225,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var e = c(-1), f = c(0), g = c(64), h = c(64);
                     if (64 === h && -1 === e) break;
                     b(e << 2 | f >> 4);
-                    64 != g && (b(f << 4 & 240 | g >> 2), 64 != h && b(g << 6 & 192 | h))
+                    64 != g && (b(f << 4 & 240 | g >> 2), 64 != h && b(g << 6 & 192 | h));
                 }
             };
             goog.crypt.base64.init_ = function () {
@@ -3203,7 +3234,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     goog.crypt.base64.charToByteMap_ = {};
                     goog.crypt.base64.byteToCharMapWebSafe_ = {};
                     for (var a = 0; a < goog.crypt.base64.ENCODED_VALS.length; a++) goog.crypt.base64.byteToCharMap_[a] = goog.crypt.base64.ENCODED_VALS.charAt(a), goog.crypt.base64.charToByteMap_[goog.crypt.base64.byteToCharMap_[a]] = a, goog.crypt.base64.byteToCharMapWebSafe_[a] = goog.crypt.base64.ENCODED_VALS_WEBSAFE.charAt(a), a >= goog.crypt.base64.ENCODED_VALS_BASE.length &&
-                    (goog.crypt.base64.charToByteMap_[goog.crypt.base64.ENCODED_VALS_WEBSAFE.charAt(a)] = a)
+                    (goog.crypt.base64.charToByteMap_[goog.crypt.base64.ENCODED_VALS_WEBSAFE.charAt(a)] = a);
                 }
             };
             jspb.ExtensionFieldInfo = function (a, b, c, d, e) {
@@ -3211,7 +3242,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.fieldName = b;
                 this.ctor = c;
                 this.toObjectFn = d;
-                this.isRepeated = e
+                this.isRepeated = e;
             };
             jspb.ExtensionFieldBinaryInfo = function (a, b, c, d, e, f) {
                 this.fieldInfo = a;
@@ -3219,10 +3250,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.binaryWriterFn = c;
                 this.binaryMessageSerializeFn = d;
                 this.binaryMessageDeserializeFn = e;
-                this.isPacked = f
+                this.isPacked = f;
             };
             jspb.ExtensionFieldInfo.prototype.isMessageType = function () {
-                return !!this.ctor
+                return !!this.ctor;
             };
             jspb.Message = function () {
             };
@@ -3233,10 +3264,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             jspb.Message.MINIMIZE_MEMORY_ALLOCATIONS = COMPILED;
             jspb.Message.SUPPORTS_UINT8ARRAY_ = "function" == typeof Uint8Array;
             jspb.Message.prototype.getJsPbMessageId = function () {
-                return this.messageId_
+                return this.messageId_;
             };
             jspb.Message.getIndex_ = function (a, b) {
-                return b + a.arrayIndexOffset_
+                return b + a.arrayIndexOffset_;
             };
             jspb.Message.initialize = function (a, b, c, d, e, f) {
                 a.wrappers_ = jspb.Message.MINIMIZE_MEMORY_ALLOCATIONS ? null : {};
@@ -3247,12 +3278,12 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 jspb.Message.initPivotAndExtensionObject_(a, d);
                 a.convertedFloatingPointFields_ = {};
                 if (e) for (b = 0; b < e.length; b++) c = e[b], c < a.pivot_ ? (c = jspb.Message.getIndex_(a, c), a.array[c] = a.array[c] || (jspb.Message.MINIMIZE_MEMORY_ALLOCATIONS ? jspb.Message.EMPTY_LIST_SENTINEL_ : [])) : (jspb.Message.maybeInitEmptyExtensionObject_(a),
-                    a.extensionObject_[c] = a.extensionObject_[c] || (jspb.Message.MINIMIZE_MEMORY_ALLOCATIONS ? jspb.Message.EMPTY_LIST_SENTINEL_ : []));
-                f && f.length && goog.array.forEach(f, goog.partial(jspb.Message.computeOneofCase, a))
+                a.extensionObject_[c] = a.extensionObject_[c] || (jspb.Message.MINIMIZE_MEMORY_ALLOCATIONS ? jspb.Message.EMPTY_LIST_SENTINEL_ : []));
+                f && f.length && goog.array.forEach(f, goog.partial(jspb.Message.computeOneofCase, a));
             };
             jspb.Message.EMPTY_LIST_SENTINEL_ = goog.DEBUG && Object.freeze ? Object.freeze([]) : [];
             jspb.Message.isArray_ = function (a) {
-                return jspb.Message.ASSUME_LOCAL_ARRAYS ? a instanceof Array : goog.isArray(a)
+                return jspb.Message.ASSUME_LOCAL_ARRAYS ? a instanceof Array : goog.isArray(a);
             };
             jspb.Message.initPivotAndExtensionObject_ = function (a, b) {
                 if (a.array.length) {
@@ -3260,25 +3291,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (d && "object" == typeof d && !jspb.Message.isArray_(d) && !(jspb.Message.SUPPORTS_UINT8ARRAY_ && d instanceof Uint8Array)) {
                         a.pivot_ = c - a.arrayIndexOffset_;
                         a.extensionObject_ = d;
-                        return
+                        return;
                     }
                 }
-                -1 < b ? (a.pivot_ = b, a.extensionObject_ = null) : a.pivot_ = Number.MAX_VALUE
+                -1 < b ? (a.pivot_ = b, a.extensionObject_ = null) : a.pivot_ = Number.MAX_VALUE;
             };
             jspb.Message.maybeInitEmptyExtensionObject_ = function (a) {
                 var b = jspb.Message.getIndex_(a, a.pivot_);
-                a.array[b] || (a.extensionObject_ = a.array[b] = {})
+                a.array[b] || (a.extensionObject_ = a.array[b] = {});
             };
             jspb.Message.toObjectList = function (a, b, c) {
                 for (var d = [], e = 0; e < a.length; e++) d[e] = b.call(a[e], c, a[e]);
-                return d
+                return d;
             };
             jspb.Message.toObjectExtension = function (a, b, c, d, e) {
                 for (var f in c) {
                     var g = c[f], h = d.call(a, g);
                     if (null != h) {
                         for (var k in g.fieldName) if (g.fieldName.hasOwnProperty(k)) break;
-                        b[k] = g.toObjectFn ? g.isRepeated ? jspb.Message.toObjectList(h, g.toObjectFn, e) : g.toObjectFn(e, h) : h
+                        b[k] = g.toObjectFn ? g.isRepeated ? jspb.Message.toObjectList(h, g.toObjectFn, e) : g.toObjectFn(e, h) : h;
                     }
                 }
             };
@@ -3288,7 +3319,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (!f.binaryWriterFn) throw Error("Message extension present that was generated without binary serialization support");
                     var h = d.call(a, g);
                     if (null != h) if (g.isMessageType()) if (f.binaryMessageSerializeFn) f.binaryWriterFn.call(b, g.fieldIndex, h, f.binaryMessageSerializeFn); else throw Error("Message extension present holding submessage without binary support enabled, and message is being serialized to binary format");
-                    else f.binaryWriterFn.call(b, g.fieldIndex, h)
+                    else f.binaryWriterFn.call(b, g.fieldIndex, h);
                 }
             };
             jspb.Message.readBinaryExtension = function (a, b, c, d, e) {
@@ -3298,157 +3329,157 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (!f.binaryReaderFn) throw Error("Deserializing extension whose generated code does not support binary format");
                     var g;
                     c.isMessageType() ? (g = new c.ctor, f.binaryReaderFn.call(b, g, f.binaryMessageDeserializeFn)) : g = f.binaryReaderFn.call(b);
-                    c.isRepeated && !f.isPacked ? (b = d.call(a, c)) ? b.push(g) : e.call(a, c, [g]) : e.call(a, c, g)
-                } else b.skipField()
+                    c.isRepeated && !f.isPacked ? (b = d.call(a, c)) ? b.push(g) : e.call(a, c, [g]) : e.call(a, c, g);
+                } else b.skipField();
             };
             jspb.Message.getField = function (a, b) {
                 if (b < a.pivot_) {
                     var c = jspb.Message.getIndex_(a, b), d = a.array[c];
-                    return d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.array[c] = [] : d
+                    return d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.array[c] = [] : d;
                 }
-                if (a.extensionObject_) return d = a.extensionObject_[b], d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.extensionObject_[b] = [] : d
+                if (a.extensionObject_) return d = a.extensionObject_[b], d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.extensionObject_[b] = [] : d;
             };
             jspb.Message.getRepeatedField = function (a, b) {
                 if (b < a.pivot_) {
                     var c = jspb.Message.getIndex_(a, b), d = a.array[c];
-                    return d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.array[c] = [] : d
+                    return d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.array[c] = [] : d;
                 }
                 d = a.extensionObject_[b];
-                return d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.extensionObject_[b] = [] : d
+                return d === jspb.Message.EMPTY_LIST_SENTINEL_ ? a.extensionObject_[b] = [] : d;
             };
             jspb.Message.getOptionalFloatingPointField = function (a, b) {
                 var c = jspb.Message.getField(a, b);
-                return null == c ? c : +c
+                return null == c ? c : +c;
             };
             jspb.Message.getRepeatedFloatingPointField = function (a, b) {
                 var c = jspb.Message.getRepeatedField(a, b);
                 a.convertedFloatingPointFields_ || (a.convertedFloatingPointFields_ = {});
                 if (!a.convertedFloatingPointFields_[b]) {
                     for (var d = 0; d < c.length; d++) c[d] = +c[d];
-                    a.convertedFloatingPointFields_[b] = !0
+                    a.convertedFloatingPointFields_[b] = !0;
                 }
-                return c
+                return c;
             };
             jspb.Message.bytesAsB64 = function (a) {
                 if (null == a || goog.isString(a)) return a;
                 if (jspb.Message.SUPPORTS_UINT8ARRAY_ && a instanceof Uint8Array) return goog.crypt.base64.encodeByteArray(a);
                 goog.asserts.fail("Cannot coerce to b64 string: " + goog.typeOf(a));
-                return null
+                return null;
             };
             jspb.Message.bytesAsU8 = function (a) {
                 if (null == a || a instanceof Uint8Array) return a;
                 if (goog.isString(a)) return goog.crypt.base64.decodeStringToUint8Array(a);
                 goog.asserts.fail("Cannot coerce to Uint8Array: " + goog.typeOf(a));
-                return null
+                return null;
             };
             jspb.Message.bytesListAsB64 = function (a) {
                 jspb.Message.assertConsistentTypes_(a);
-                return !a.length || goog.isString(a[0]) ? a : goog.array.map(a, jspb.Message.bytesAsB64)
+                return !a.length || goog.isString(a[0]) ? a : goog.array.map(a, jspb.Message.bytesAsB64);
             };
             jspb.Message.bytesListAsU8 = function (a) {
                 jspb.Message.assertConsistentTypes_(a);
-                return !a.length || a[0] instanceof Uint8Array ? a : goog.array.map(a, jspb.Message.bytesAsU8)
+                return !a.length || a[0] instanceof Uint8Array ? a : goog.array.map(a, jspb.Message.bytesAsU8);
             };
             jspb.Message.assertConsistentTypes_ = function (a) {
                 if (goog.DEBUG && a && 1 < a.length) {
                     var b = goog.typeOf(a[0]);
                     goog.array.forEach(a, function (a) {
-                        goog.typeOf(a) != b && goog.asserts.fail("Inconsistent type in JSPB repeated field array. Got " + goog.typeOf(a) + " expected " + b)
-                    })
+                        goog.typeOf(a) != b && goog.asserts.fail("Inconsistent type in JSPB repeated field array. Got " + goog.typeOf(a) + " expected " + b);
+                    });
                 }
             };
             jspb.Message.getFieldWithDefault = function (a, b, c) {
                 a = jspb.Message.getField(a, b);
-                return null == a ? c : a
+                return null == a ? c : a;
             };
             jspb.Message.getFieldProto3 = jspb.Message.getFieldWithDefault;
             jspb.Message.getMapField = function (a, b, c, d) {
                 a.wrappers_ || (a.wrappers_ = {});
                 if (b in a.wrappers_) return a.wrappers_[b];
-                if (!c) return c = jspb.Message.getField(a, b), c || (c = [], jspb.Message.setField(a, b, c)), a.wrappers_[b] = new jspb.Map(c, d)
+                if (!c) return c = jspb.Message.getField(a, b), c || (c = [], jspb.Message.setField(a, b, c)), a.wrappers_[b] = new jspb.Map(c, d);
             };
             jspb.Message.setField = function (a, b, c) {
-                b < a.pivot_ ? a.array[jspb.Message.getIndex_(a, b)] = c : (jspb.Message.maybeInitEmptyExtensionObject_(a), a.extensionObject_[b] = c)
+                b < a.pivot_ ? a.array[jspb.Message.getIndex_(a, b)] = c : (jspb.Message.maybeInitEmptyExtensionObject_(a), a.extensionObject_[b] = c);
             };
             jspb.Message.setProto3IntField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, 0)
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, 0);
             };
             jspb.Message.setProto3FloatField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, 0)
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, 0);
             };
             jspb.Message.setProto3BooleanField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, !1)
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, !1);
             };
             jspb.Message.setProto3StringField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, "")
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, "");
             };
             jspb.Message.setProto3StringIntField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, "")
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, "");
             };
             jspb.Message.setProto3BytesField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, "")
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, "");
             };
             jspb.Message.setProto3EnumField = function (a, b, c) {
-                jspb.Message.setFieldIgnoringDefault_(a, b, c, 0)
+                jspb.Message.setFieldIgnoringDefault_(a, b, c, 0);
             };
             jspb.Message.setFieldIgnoringDefault_ = function (a, b, c, d) {
-                c != d ? jspb.Message.setField(a, b, c) : a.array[jspb.Message.getIndex_(a, b)] = null
+                c != d ? jspb.Message.setField(a, b, c) : a.array[jspb.Message.getIndex_(a, b)] = null;
             };
             jspb.Message.addToRepeatedField = function (a, b, c, d) {
                 a = jspb.Message.getRepeatedField(a, b);
-                void 0 != d ? a.splice(d, 0, c) : a.push(c)
+                void 0 != d ? a.splice(d, 0, c) : a.push(c);
             };
             jspb.Message.setOneofField = function (a, b, c, d) {
                 (c = jspb.Message.computeOneofCase(a, c)) && c !== b && void 0 !== d && (a.wrappers_ && c in a.wrappers_ && (a.wrappers_[c] = void 0), jspb.Message.setField(a, c, void 0));
-                jspb.Message.setField(a, b, d)
+                jspb.Message.setField(a, b, d);
             };
             jspb.Message.computeOneofCase = function (a, b) {
                 var c, d;
                 goog.array.forEach(b, function (b) {
                     var f = jspb.Message.getField(a, b);
-                    goog.isDefAndNotNull(f) && (c = b, d = f, jspb.Message.setField(a, b, void 0))
+                    goog.isDefAndNotNull(f) && (c = b, d = f, jspb.Message.setField(a, b, void 0));
                 });
-                return c ? (jspb.Message.setField(a, c, d), c) : 0
+                return c ? (jspb.Message.setField(a, c, d), c) : 0;
             };
             jspb.Message.getWrapperField = function (a, b, c, d) {
                 a.wrappers_ || (a.wrappers_ = {});
                 if (!a.wrappers_[c]) {
                     var e = jspb.Message.getField(a, c);
-                    if (d || e) a.wrappers_[c] = new b(e)
+                    if (d || e) a.wrappers_[c] = new b(e);
                 }
-                return a.wrappers_[c]
+                return a.wrappers_[c];
             };
             jspb.Message.getRepeatedWrapperField = function (a, b, c) {
                 jspb.Message.wrapRepeatedField_(a, b, c);
                 b = a.wrappers_[c];
                 b == jspb.Message.EMPTY_LIST_SENTINEL_ && (b = a.wrappers_[c] = []);
-                return b
+                return b;
             };
             jspb.Message.wrapRepeatedField_ = function (a, b, c) {
                 a.wrappers_ || (a.wrappers_ = {});
                 if (!a.wrappers_[c]) {
                     for (var d = jspb.Message.getRepeatedField(a, c), e = [], f = 0; f < d.length; f++) e[f] = new b(d[f]);
-                    a.wrappers_[c] = e
+                    a.wrappers_[c] = e;
                 }
             };
             jspb.Message.setWrapperField = function (a, b, c) {
                 a.wrappers_ || (a.wrappers_ = {});
                 var d = c ? c.toArray() : c;
                 a.wrappers_[b] = c;
-                jspb.Message.setField(a, b, d)
+                jspb.Message.setField(a, b, d);
             };
             jspb.Message.setOneofWrapperField = function (a, b, c, d) {
                 a.wrappers_ || (a.wrappers_ = {});
                 var e = d ? d.toArray() : d;
                 a.wrappers_[b] = d;
-                jspb.Message.setOneofField(a, b, c, e)
+                jspb.Message.setOneofField(a, b, c, e);
             };
             jspb.Message.setRepeatedWrapperField = function (a, b, c) {
                 a.wrappers_ || (a.wrappers_ = {});
                 c = c || [];
                 for (var d = [], e = 0; e < c.length; e++) d[e] = c[e].toArray();
                 a.wrappers_[b] = c;
-                jspb.Message.setField(a, b, d)
+                jspb.Message.setField(a, b, d);
             };
             jspb.Message.addToRepeatedWrapperField = function (a, b, c, d, e) {
                 jspb.Message.wrapRepeatedField_(a, d, b);
@@ -3457,25 +3488,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 c = c ? c : new d;
                 a = jspb.Message.getRepeatedField(a, b);
                 void 0 != e ? (f.splice(e, 0, c), a.splice(e, 0, c.toArray())) : (f.push(c), a.push(c.toArray()));
-                return c
+                return c;
             };
             jspb.Message.toMap = function (a, b, c, d) {
                 for (var e = {}, f = 0; f < a.length; f++) e[b.call(a[f])] = c ? c.call(a[f], d, a[f]) : a[f];
-                return e
+                return e;
             };
             jspb.Message.prototype.syncMapFields_ = function () {
                 if (this.wrappers_) for (var a in this.wrappers_) {
                     var b = this.wrappers_[a];
-                    if (goog.isArray(b)) for (var c = 0; c < b.length; c++) b[c] && b[c].toArray(); else b && b.toArray()
+                    if (goog.isArray(b)) for (var c = 0; c < b.length; c++) b[c] && b[c].toArray(); else b && b.toArray();
                 }
             };
             jspb.Message.prototype.toArray = function () {
                 this.syncMapFields_();
-                return this.array
+                return this.array;
             };
             jspb.Message.GENERATE_TO_STRING && (jspb.Message.prototype.toString = function () {
                 this.syncMapFields_();
-                return this.array.toString()
+                return this.array.toString();
             });
             jspb.Message.prototype.getExtension = function (a) {
                 if (this.extensionObject_) {
@@ -3483,10 +3514,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var b = a.fieldIndex;
                     if (a.isRepeated) {
                         if (a.isMessageType()) return this.wrappers_[b] || (this.wrappers_[b] = goog.array.map(this.extensionObject_[b] || [], function (b) {
-                            return new a.ctor(b)
-                        })), this.wrappers_[b]
+                            return new a.ctor(b);
+                        })), this.wrappers_[b];
                     } else if (a.isMessageType()) return !this.wrappers_[b] && this.extensionObject_[b] && (this.wrappers_[b] = new a.ctor(this.extensionObject_[b])), this.wrappers_[b];
-                    return this.extensionObject_[b]
+                    return this.extensionObject_[b];
                 }
             };
             jspb.Message.prototype.setExtension = function (a, b) {
@@ -3494,19 +3525,19 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 jspb.Message.maybeInitEmptyExtensionObject_(this);
                 var c = a.fieldIndex;
                 a.isRepeated ? (b = b || [], a.isMessageType() ? (this.wrappers_[c] = b, this.extensionObject_[c] = goog.array.map(b, function (a) {
-                    return a.toArray()
+                    return a.toArray();
                 })) : this.extensionObject_[c] = b) : a.isMessageType() ? (this.wrappers_[c] = b, this.extensionObject_[c] = b ? b.toArray() : b) : this.extensionObject_[c] = b;
-                return this
+                return this;
             };
             jspb.Message.difference = function (a, b) {
                 if (!(a instanceof b.constructor)) throw Error("Messages have different types.");
                 var c = a.toArray(), d = b.toArray(), e = [], f = 0, g = c.length > d.length ? c.length : d.length;
                 a.getJsPbMessageId() && (e[0] = a.getJsPbMessageId(), f = 1);
                 for (; f < g; f++) jspb.Message.compareFields(c[f], d[f]) || (e[f] = d[f]);
-                return new a.constructor(e)
+                return new a.constructor(e);
             };
             jspb.Message.equals = function (a, b) {
-                return a == b || !(!a || !b) && a instanceof b.constructor && jspb.Message.compareFields(a.toArray(), b.toArray())
+                return a == b || !(!a || !b) && a instanceof b.constructor && jspb.Message.compareFields(a.toArray(), b.toArray());
             };
             jspb.Message.compareExtensions = function (a, b) {
                 a = a || {};
@@ -3515,7 +3546,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 for (d in a) c[d] = 0;
                 for (d in b) c[d] = 0;
                 for (d in c) if (!jspb.Message.compareFields(a[d], b[d])) return !1;
-                return !0
+                return !0;
             };
             jspb.Message.compareFields = function (a, b) {
                 if (a == b) return !0;
@@ -3523,32 +3554,32 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 if (jspb.Message.SUPPORTS_UINT8ARRAY_ && a.constructor === Uint8Array) {
                     if (a.length != b.length) return !1;
                     for (var c = 0; c < a.length; c++) if (a[c] != b[c]) return !1;
-                    return !0
+                    return !0;
                 }
                 if (a.constructor === Array) {
                     for (var d = void 0, e = void 0, f = Math.max(a.length, b.length), c = 0; c < f; c++) {
                         var g = a[c], h = b[c];
                         g && g.constructor == Object && (goog.asserts.assert(void 0 === d), goog.asserts.assert(c === a.length - 1),
-                            d = g, g = void 0);
+                        d = g, g = void 0);
                         h && h.constructor == Object && (goog.asserts.assert(void 0 === e), goog.asserts.assert(c === b.length - 1), e = h, h = void 0);
-                        if (!jspb.Message.compareFields(g, h)) return !1
+                        if (!jspb.Message.compareFields(g, h)) return !1;
                     }
-                    return d || e ? (d = d || {}, e = e || {}, jspb.Message.compareExtensions(d, e)) : !0
+                    return d || e ? (d = d || {}, e = e || {}, jspb.Message.compareExtensions(d, e)) : !0;
                 }
                 if (a.constructor === Object) return jspb.Message.compareExtensions(a, b);
                 throw Error("Invalid type in JSPB array");
             };
             jspb.Message.prototype.cloneMessage = function () {
-                return jspb.Message.cloneMessage(this)
+                return jspb.Message.cloneMessage(this);
             };
             jspb.Message.prototype.clone = function () {
-                return jspb.Message.cloneMessage(this)
+                return jspb.Message.cloneMessage(this);
             };
             jspb.Message.clone = function (a) {
-                return jspb.Message.cloneMessage(a)
+                return jspb.Message.cloneMessage(a);
             };
             jspb.Message.cloneMessage = function (a) {
-                return new a.constructor(jspb.Message.clone_(a.toArray()))
+                return new a.constructor(jspb.Message.clone_(a.toArray()));
             };
             jspb.Message.copyInto = function (a, b) {
                 goog.asserts.assertInstanceof(a, jspb.Message);
@@ -3556,22 +3587,22 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 goog.asserts.assert(a.constructor == b.constructor, "Copy source and target message should have the same type.");
                 for (var c = jspb.Message.clone(a), d = b.toArray(), e = c.toArray(), f = d.length = 0; f < e.length; f++) d[f] = e[f];
                 b.wrappers_ = c.wrappers_;
-                b.extensionObject_ = c.extensionObject_
+                b.extensionObject_ = c.extensionObject_;
             };
             jspb.Message.clone_ = function (a) {
                 var b;
                 if (goog.isArray(a)) {
                     for (var c = Array(a.length), d = 0; d < a.length; d++) null != (b = a[d]) && (c[d] = "object" == typeof b ? jspb.Message.clone_(b) : b);
-                    return c
+                    return c;
                 }
                 if (jspb.Message.SUPPORTS_UINT8ARRAY_ && a instanceof Uint8Array) return new Uint8Array(a);
                 c = {};
                 for (d in a) null != (b = a[d]) && (c[d] = "object" == typeof b ? jspb.Message.clone_(b) : b);
-                return c
+                return c;
             };
             jspb.Message.registerMessageType = function (a, b) {
                 jspb.Message.registry_[a] = b;
-                b.messageId = a
+                b.messageId = a;
             };
             jspb.Message.registry_ = {};
             jspb.Message.messageSetExtensions = {};
@@ -3579,42 +3610,42 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             jspb.arith = {};
             jspb.arith.UInt64 = function (a, b) {
                 this.lo = a;
-                this.hi = b
+                this.hi = b;
             };
             jspb.arith.UInt64.prototype.cmp = function (a) {
-                return this.hi < a.hi || this.hi == a.hi && this.lo < a.lo ? -1 : this.hi == a.hi && this.lo == a.lo ? 0 : 1
+                return this.hi < a.hi || this.hi == a.hi && this.lo < a.lo ? -1 : this.hi == a.hi && this.lo == a.lo ? 0 : 1;
             };
             jspb.arith.UInt64.prototype.rightShift = function () {
-                return new jspb.arith.UInt64((this.lo >>> 1 | (this.hi & 1) << 31) >>> 0, this.hi >>> 1 >>> 0)
+                return new jspb.arith.UInt64((this.lo >>> 1 | (this.hi & 1) << 31) >>> 0, this.hi >>> 1 >>> 0);
             };
             jspb.arith.UInt64.prototype.leftShift = function () {
-                return new jspb.arith.UInt64(this.lo << 1 >>> 0, (this.hi << 1 | this.lo >>> 31) >>> 0)
+                return new jspb.arith.UInt64(this.lo << 1 >>> 0, (this.hi << 1 | this.lo >>> 31) >>> 0);
             };
             jspb.arith.UInt64.prototype.msb = function () {
-                return !!(this.hi & 2147483648)
+                return !!(this.hi & 2147483648);
             };
             jspb.arith.UInt64.prototype.lsb = function () {
-                return !!(this.lo & 1)
+                return !!(this.lo & 1);
             };
             jspb.arith.UInt64.prototype.zero = function () {
-                return 0 == this.lo && 0 == this.hi
+                return 0 == this.lo && 0 == this.hi;
             };
             jspb.arith.UInt64.prototype.add = function (a) {
-                return new jspb.arith.UInt64((this.lo + a.lo & 4294967295) >>> 0 >>> 0, ((this.hi + a.hi & 4294967295) >>> 0) + (4294967296 <= this.lo + a.lo ? 1 : 0) >>> 0)
+                return new jspb.arith.UInt64((this.lo + a.lo & 4294967295) >>> 0 >>> 0, ((this.hi + a.hi & 4294967295) >>> 0) + (4294967296 <= this.lo + a.lo ? 1 : 0) >>> 0);
             };
             jspb.arith.UInt64.prototype.sub = function (a) {
-                return new jspb.arith.UInt64((this.lo - a.lo & 4294967295) >>> 0 >>> 0, ((this.hi - a.hi & 4294967295) >>> 0) - (0 > this.lo - a.lo ? 1 : 0) >>> 0)
+                return new jspb.arith.UInt64((this.lo - a.lo & 4294967295) >>> 0 >>> 0, ((this.hi - a.hi & 4294967295) >>> 0) - (0 > this.lo - a.lo ? 1 : 0) >>> 0);
             };
             jspb.arith.UInt64.mul32x32 = function (a, b) {
                 for (var c = a & 65535, d = a >>> 16, e = b & 65535, f = b >>> 16, g = c * e + 65536 * (c * f & 65535) + 65536 * (d * e & 65535), c = d * f + (c * f >>> 16) + (d * e >>> 16); 4294967296 <= g;) g -= 4294967296, c += 1;
-                return new jspb.arith.UInt64(g >>> 0, c >>> 0)
+                return new jspb.arith.UInt64(g >>> 0, c >>> 0);
             };
             jspb.arith.UInt64.prototype.mul = function (a) {
                 var b = jspb.arith.UInt64.mul32x32(this.lo, a);
                 a = jspb.arith.UInt64.mul32x32(this.hi, a);
                 a.hi = a.lo;
                 a.lo = 0;
-                return b.add(a)
+                return b.add(a);
             };
             jspb.arith.UInt64.prototype.div = function (a) {
                 if (0 == a) return [];
@@ -3622,42 +3653,42 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 a = new jspb.arith.UInt64(a, 0);
                 for (var d = new jspb.arith.UInt64(1, 0); !a.msb();) a = a.leftShift(), d = d.leftShift();
                 for (; !d.zero();) 0 >= a.cmp(c) && (b = b.add(d), c = c.sub(a)), a = a.rightShift(), d = d.rightShift();
-                return [b, c]
+                return [b, c];
             };
             jspb.arith.UInt64.prototype.toString = function () {
                 for (var a = "", b = this; !b.zero();) var b = b.div(10), c = b[0], a = b[1].lo + a, b = c;
                 "" == a && (a = "0");
-                return a
+                return a;
             };
             jspb.arith.UInt64.fromString = function (a) {
                 for (var b = new jspb.arith.UInt64(0, 0), c = new jspb.arith.UInt64(0, 0), d = 0; d < a.length; d++) {
                     if ("0" > a[d] || "9" < a[d]) return null;
                     var e = parseInt(a[d], 10);
                     c.lo = e;
-                    b = b.mul(10).add(c)
+                    b = b.mul(10).add(c);
                 }
-                return b
+                return b;
             };
             jspb.arith.UInt64.prototype.clone = function () {
-                return new jspb.arith.UInt64(this.lo, this.hi)
+                return new jspb.arith.UInt64(this.lo, this.hi);
             };
             jspb.arith.Int64 = function (a, b) {
                 this.lo = a;
-                this.hi = b
+                this.hi = b;
             };
             jspb.arith.Int64.prototype.add = function (a) {
-                return new jspb.arith.Int64((this.lo + a.lo & 4294967295) >>> 0 >>> 0, ((this.hi + a.hi & 4294967295) >>> 0) + (4294967296 <= this.lo + a.lo ? 1 : 0) >>> 0)
+                return new jspb.arith.Int64((this.lo + a.lo & 4294967295) >>> 0 >>> 0, ((this.hi + a.hi & 4294967295) >>> 0) + (4294967296 <= this.lo + a.lo ? 1 : 0) >>> 0);
             };
             jspb.arith.Int64.prototype.sub = function (a) {
-                return new jspb.arith.Int64((this.lo - a.lo & 4294967295) >>> 0 >>> 0, ((this.hi - a.hi & 4294967295) >>> 0) - (0 > this.lo - a.lo ? 1 : 0) >>> 0)
+                return new jspb.arith.Int64((this.lo - a.lo & 4294967295) >>> 0 >>> 0, ((this.hi - a.hi & 4294967295) >>> 0) - (0 > this.lo - a.lo ? 1 : 0) >>> 0);
             };
             jspb.arith.Int64.prototype.clone = function () {
-                return new jspb.arith.Int64(this.lo, this.hi)
+                return new jspb.arith.Int64(this.lo, this.hi);
             };
             jspb.arith.Int64.prototype.toString = function () {
                 var a = 0 != (this.hi & 2147483648), b = new jspb.arith.UInt64(this.lo, this.hi);
                 a && (b = (new jspb.arith.UInt64(0, 0)).sub(b));
-                return (a ? "-" : "") + b.toString()
+                return (a ? "-" : "") + b.toString();
             };
             jspb.arith.Int64.fromString = function (a) {
                 var b = 0 < a.length && "-" == a[0];
@@ -3665,7 +3696,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 a = jspb.arith.UInt64.fromString(a);
                 if (null === a) return null;
                 b && (a = (new jspb.arith.UInt64(0, 0)).sub(a));
-                return new jspb.arith.Int64(a.lo, a.hi)
+                return new jspb.arith.Int64(a.lo, a.hi);
             };
             jspb.BinaryConstants = {};
             jspb.ConstBinaryMessage = function () {
@@ -3707,31 +3738,31 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             jspb.BinaryConstants.FieldTypeToWireType = function (a) {
                 var b = jspb.BinaryConstants.FieldType, c = jspb.BinaryConstants.WireType;
                 switch (a) {
-                    case b.INT32:
-                    case b.INT64:
-                    case b.UINT32:
-                    case b.UINT64:
-                    case b.SINT32:
-                    case b.SINT64:
-                    case b.BOOL:
-                    case b.ENUM:
-                    case b.VHASH64:
-                        return c.VARINT;
-                    case b.DOUBLE:
-                    case b.FIXED64:
-                    case b.SFIXED64:
-                    case b.FHASH64:
-                        return c.FIXED64;
-                    case b.STRING:
-                    case b.MESSAGE:
-                    case b.BYTES:
-                        return c.DELIMITED;
-                    case b.FLOAT:
-                    case b.FIXED32:
-                    case b.SFIXED32:
-                        return c.FIXED32;
-                    default:
-                        return c.INVALID
+                case b.INT32:
+                case b.INT64:
+                case b.UINT32:
+                case b.UINT64:
+                case b.SINT32:
+                case b.SINT64:
+                case b.BOOL:
+                case b.ENUM:
+                case b.VHASH64:
+                    return c.VARINT;
+                case b.DOUBLE:
+                case b.FIXED64:
+                case b.SFIXED64:
+                case b.FHASH64:
+                    return c.FIXED64;
+                case b.STRING:
+                case b.MESSAGE:
+                case b.BYTES:
+                    return c.DELIMITED;
+                case b.FLOAT:
+                case b.FIXED32:
+                case b.SFIXED32:
+                    return c.FIXED32;
+                default:
+                    return c.INVALID;
                 }
             };
             jspb.BinaryConstants.INVALID_FIELD_NUMBER = -1;
@@ -3756,7 +3787,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 var b = a >>> 0;
                 a = Math.floor((a - b) / jspb.BinaryConstants.TWO_TO_32) >>> 0;
                 jspb.utils.split64Low = b;
-                jspb.utils.split64High = a
+                jspb.utils.split64High = a;
             };
             jspb.utils.splitInt64 = function (a) {
                 var b = 0 > a;
@@ -3766,7 +3797,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 a >>>= 0;
                 b && (a = ~a >>> 0, c = (~c >>> 0) + 1, 4294967295 < c && (c = 0, a++, 4294967295 < a && (a = 0)));
                 jspb.utils.split64Low = c;
-                jspb.utils.split64High = a
+                jspb.utils.split64High = a;
             };
             jspb.utils.splitZigzag64 = function (a) {
                 var b = 0 > a;
@@ -3776,14 +3807,14 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 var c = jspb.utils.split64High;
                 b && (0 == a ? 0 == c ? c = a = 4294967295 : (c--, a = 4294967295) : a--);
                 jspb.utils.split64Low = a;
-                jspb.utils.split64High = c
+                jspb.utils.split64High = c;
             };
             jspb.utils.splitFloat32 = function (a) {
                 var b = 0 > a ? 1 : 0;
                 a = b ? -a : a;
                 var c;
                 0 === a ? 0 < 1 / a ? (jspb.utils.split64High = 0, jspb.utils.split64Low = 0) : (jspb.utils.split64High = 0, jspb.utils.split64Low = 2147483648) : isNaN(a) ? (jspb.utils.split64High = 0, jspb.utils.split64Low = 2147483647) : a > jspb.BinaryConstants.FLOAT32_MAX ? (jspb.utils.split64High = 0, jspb.utils.split64Low = (b << 31 | 2139095040) >>> 0) : a < jspb.BinaryConstants.FLOAT32_MIN ? (a = Math.round(a / Math.pow(2, -149)), jspb.utils.split64High = 0, jspb.utils.split64Low = (b << 31 | a) >>> 0) : (c = Math.floor(Math.log(a) /
-                    Math.LN2), a *= Math.pow(2, -c), a = Math.round(a * jspb.BinaryConstants.TWO_TO_23) & 8388607, jspb.utils.split64High = 0, jspb.utils.split64Low = (b << 31 | c + 127 << 23 | a) >>> 0)
+                    Math.LN2), a *= Math.pow(2, -c), a = Math.round(a * jspb.BinaryConstants.TWO_TO_23) & 8388607, jspb.utils.split64High = 0, jspb.utils.split64Low = (b << 31 | c + 127 << 23 | a) >>> 0);
             };
             jspb.utils.splitFloat64 = function (a) {
                 var b = 0 > a ? 1 : 0;
@@ -3792,7 +3823,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var c = a / Math.pow(2, -1074);
                     a = c / jspb.BinaryConstants.TWO_TO_32;
                     jspb.utils.split64High = (b << 31 | a) >>> 0;
-                    jspb.utils.split64Low = c >>> 0
+                    jspb.utils.split64Low = c >>> 0;
                 } else {
                     var d =
                         Math.floor(Math.log(a) / Math.LN2);
@@ -3801,7 +3832,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     a = c * jspb.BinaryConstants.TWO_TO_20 & 1048575;
                     c = c * jspb.BinaryConstants.TWO_TO_52 >>> 0;
                     jspb.utils.split64High = (b << 31 | d + 1023 << 20 | a) >>> 0;
-                    jspb.utils.split64Low = c
+                    jspb.utils.split64Low = c;
                 }
             };
             jspb.utils.splitHash64 = function (a) {
@@ -3809,16 +3840,16 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     f = a.charCodeAt(4), g = a.charCodeAt(5), h = a.charCodeAt(6);
                 a = a.charCodeAt(7);
                 jspb.utils.split64Low = b + (c << 8) + (d << 16) + (e << 24) >>> 0;
-                jspb.utils.split64High = f + (g << 8) + (h << 16) + (a << 24) >>> 0
+                jspb.utils.split64High = f + (g << 8) + (h << 16) + (a << 24) >>> 0;
             };
             jspb.utils.joinUint64 = function (a, b) {
-                return b * jspb.BinaryConstants.TWO_TO_32 + a
+                return b * jspb.BinaryConstants.TWO_TO_32 + a;
             };
             jspb.utils.joinInt64 = function (a, b) {
                 var c = b & 2147483648;
                 c && (a = ~a + 1 >>> 0, b = ~b >>> 0, 0 == a && (b = b + 1 >>> 0));
                 var d = jspb.utils.joinUint64(a, b);
-                return c ? -d : d
+                return c ? -d : d;
             };
             jspb.utils.joinZigzag64 = function (a, b) {
                 var c = a & 1;
@@ -3826,25 +3857,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 b >>>= 1;
                 c && (a = a + 1 >>> 0, 0 == a && (b = b + 1 >>> 0));
                 var d = jspb.utils.joinUint64(a, b);
-                return c ? -d : d
+                return c ? -d : d;
             };
             jspb.utils.joinFloat32 = function (a, b) {
                 var c = 2 * (a >> 31) + 1, d = a >>> 23 & 255, e = a & 8388607;
-                return 255 == d ? e ? NaN : Infinity * c : 0 == d ? c * Math.pow(2, -149) * e : c * Math.pow(2, d - 150) * (e + Math.pow(2, 23))
+                return 255 == d ? e ? NaN : Infinity * c : 0 == d ? c * Math.pow(2, -149) * e : c * Math.pow(2, d - 150) * (e + Math.pow(2, 23));
             };
             jspb.utils.joinFloat64 = function (a, b) {
                 var c = 2 * (b >> 31) + 1, d = b >>> 20 & 2047, e = jspb.BinaryConstants.TWO_TO_32 * (b & 1048575) + a;
-                return 2047 == d ? e ? NaN : Infinity * c : 0 == d ? c * Math.pow(2, -1074) * e : c * Math.pow(2, d - 1075) * (e + jspb.BinaryConstants.TWO_TO_52)
+                return 2047 == d ? e ? NaN : Infinity * c : 0 == d ? c * Math.pow(2, -1074) * e : c * Math.pow(2, d - 1075) * (e + jspb.BinaryConstants.TWO_TO_52);
             };
             jspb.utils.joinHash64 = function (a, b) {
-                return String.fromCharCode(a >>> 0 & 255, a >>> 8 & 255, a >>> 16 & 255, a >>> 24 & 255, b >>> 0 & 255, b >>> 8 & 255, b >>> 16 & 255, b >>> 24 & 255)
+                return String.fromCharCode(a >>> 0 & 255, a >>> 8 & 255, a >>> 16 & 255, a >>> 24 & 255, b >>> 0 & 255, b >>> 8 & 255, b >>> 16 & 255, b >>> 24 & 255);
             };
             jspb.utils.DIGITS = "0123456789abcdef".split("");
             jspb.utils.joinUnsignedDecimalString = function (a, b) {
                 function c(a) {
                     for (var b = 1E7, c = 0; 7 > c; c++) {
                         var b = b / 10, d = a / b % 10 >>> 0;
-                        if (0 != d || h) h = !0, k += g[d]
+                        if (0 != d || h) h = !0, k += g[d];
                     }
                 }
 
@@ -3857,34 +3888,34 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 (e || h) && c(e);
                 (d || h) && c(d);
                 (f || h) && c(f);
-                return k
+                return k;
             };
             jspb.utils.joinSignedDecimalString = function (a, b) {
                 var c = b & 2147483648;
                 c && (a = ~a + 1 >>> 0, b = ~b + (0 == a ? 1 : 0) >>> 0);
                 var d = jspb.utils.joinUnsignedDecimalString(a, b);
-                return c ? "-" + d : d
+                return c ? "-" + d : d;
             };
             jspb.utils.hash64ToDecimalString = function (a, b) {
                 jspb.utils.splitHash64(a);
                 var c = jspb.utils.split64Low, d = jspb.utils.split64High;
-                return b ? jspb.utils.joinSignedDecimalString(c, d) : jspb.utils.joinUnsignedDecimalString(c, d)
+                return b ? jspb.utils.joinSignedDecimalString(c, d) : jspb.utils.joinUnsignedDecimalString(c, d);
             };
             jspb.utils.hash64ArrayToDecimalStrings = function (a, b) {
                 for (var c = Array(a.length), d = 0; d < a.length; d++) c[d] = jspb.utils.hash64ToDecimalString(a[d], b);
-                return c
+                return c;
             };
             jspb.utils.decimalStringToHash64 = function (a) {
                 function b(a, b) {
                     for (var c = 0; 8 > c && (1 !== a || 0 < b); c++) {
                         var d = a * e[c] + b;
                         e[c] = d & 255;
-                        b = d >>> 8
+                        b = d >>> 8;
                     }
                 }
 
                 function c() {
-                    for (var a = 0; 8 > a; a++) e[a] = ~e[a] & 255
+                    for (var a = 0; 8 > a; a++) e[a] = ~e[a] & 255;
                 }
 
                 goog.asserts.assert(0 < a.length);
@@ -3892,10 +3923,10 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 "-" === a[0] && (d = !0, a = a.slice(1));
                 for (var e = [0, 0, 0, 0, 0, 0, 0, 0], f = 0; f < a.length; f++) b(10, jspb.utils.DIGITS.indexOf(a[f]));
                 d && (c(), b(1, 1));
-                return goog.crypt.byteArrayToString(e)
+                return goog.crypt.byteArrayToString(e);
             };
             jspb.utils.splitDecimalString = function (a) {
-                jspb.utils.splitHash64(jspb.utils.decimalStringToHash64(a))
+                jspb.utils.splitHash64(jspb.utils.decimalStringToHash64(a));
             };
             jspb.utils.hash64ToHexString = function (a) {
                 var b = Array(18);
@@ -3904,9 +3935,9 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 for (var c = 0; 8 > c; c++) {
                     var d = a.charCodeAt(7 - c);
                     b[2 * c + 2] = jspb.utils.DIGITS[d >> 4];
-                    b[2 * c + 3] = jspb.utils.DIGITS[d & 15]
+                    b[2 * c + 3] = jspb.utils.DIGITS[d & 15];
                 }
-                return b.join("")
+                return b.join("");
             };
             jspb.utils.hexStringToHash64 = function (a) {
                 a = a.toLowerCase();
@@ -3914,114 +3945,114 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 goog.asserts.assert("0" == a[0]);
                 goog.asserts.assert("x" == a[1]);
                 for (var b = "", c = 0; 8 > c; c++) var d = jspb.utils.DIGITS.indexOf(a[2 * c + 2]), e = jspb.utils.DIGITS.indexOf(a[2 * c + 3]), b = String.fromCharCode(16 * d + e) + b;
-                return b
+                return b;
             };
             jspb.utils.hash64ToNumber = function (a, b) {
                 jspb.utils.splitHash64(a);
                 var c = jspb.utils.split64Low, d = jspb.utils.split64High;
-                return b ? jspb.utils.joinInt64(c, d) : jspb.utils.joinUint64(c, d)
+                return b ? jspb.utils.joinInt64(c, d) : jspb.utils.joinUint64(c, d);
             };
             jspb.utils.numberToHash64 = function (a) {
                 jspb.utils.splitInt64(a);
-                return jspb.utils.joinHash64(jspb.utils.split64Low, jspb.utils.split64High)
+                return jspb.utils.joinHash64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.utils.countVarints = function (a, b, c) {
                 for (var d = 0, e = b; e < c; e++) d += a[e] >> 7;
-                return c - b - d
+                return c - b - d;
             };
             jspb.utils.countVarintFields = function (a, b, c, d) {
                 var e = 0;
                 d = 8 * d + jspb.BinaryConstants.WireType.VARINT;
                 if (128 > d) for (; b < c && a[b++] == d;) for (e++; ;) {
                     var f = a[b++];
-                    if (0 == (f & 128)) break
+                    if (0 == (f & 128)) break;
                 } else for (; b < c;) {
                     for (f = d; 128 < f;) {
                         if (a[b] != (f & 127 | 128)) return e;
                         b++;
-                        f >>= 7
+                        f >>= 7;
                     }
                     if (a[b++] != f) break;
                     for (e++; f = a[b++], 0 != (f & 128);) ;
                 }
-                return e
+                return e;
             };
             jspb.utils.countFixedFields_ = function (a, b, c, d, e) {
                 var f = 0;
                 if (128 > d) for (; b < c && a[b++] == d;) f++, b += e; else for (; b < c;) {
                     for (var g = d; 128 < g;) {
                         if (a[b++] != (g & 127 | 128)) return f;
-                        g >>= 7
+                        g >>= 7;
                     }
                     if (a[b++] != g) break;
                     f++;
-                    b += e
+                    b += e;
                 }
-                return f
+                return f;
             };
             jspb.utils.countFixed32Fields = function (a, b, c, d) {
-                return jspb.utils.countFixedFields_(a, b, c, 8 * d + jspb.BinaryConstants.WireType.FIXED32, 4)
+                return jspb.utils.countFixedFields_(a, b, c, 8 * d + jspb.BinaryConstants.WireType.FIXED32, 4);
             };
             jspb.utils.countFixed64Fields = function (a, b, c, d) {
-                return jspb.utils.countFixedFields_(a, b, c, 8 * d + jspb.BinaryConstants.WireType.FIXED64, 8)
+                return jspb.utils.countFixedFields_(a, b, c, 8 * d + jspb.BinaryConstants.WireType.FIXED64, 8);
             };
             jspb.utils.countDelimitedFields = function (a, b, c, d) {
                 var e = 0;
                 for (d = 8 * d + jspb.BinaryConstants.WireType.DELIMITED; b < c;) {
                     for (var f = d; 128 < f;) {
                         if (a[b++] != (f & 127 | 128)) return e;
-                        f >>= 7
+                        f >>= 7;
                     }
                     if (a[b++] != f) break;
                     e++;
                     for (var g = 0, h = 1; f = a[b++], g += (f & 127) * h, h *= 128, 0 != (f & 128);) ;
-                    b += g
+                    b += g;
                 }
-                return e
+                return e;
             };
             jspb.utils.debugBytesToTextFormat = function (a) {
-                var b = '"';
+                var b = "\"";
                 if (a) {
                     a = jspb.utils.byteSourceToUint8Array(a);
-                    for (var c = 0; c < a.length; c++) b += "\\x", 16 > a[c] && (b += "0"), b += a[c].toString(16)
+                    for (var c = 0; c < a.length; c++) b += "\\x", 16 > a[c] && (b += "0"), b += a[c].toString(16);
                 }
-                return b + '"'
+                return b + "\"";
             };
             jspb.utils.debugScalarToTextFormat = function (a) {
-                return goog.isString(a) ? goog.string.quote(a) : a.toString()
+                return goog.isString(a) ? goog.string.quote(a) : a.toString();
             };
             jspb.utils.stringToByteArray = function (a) {
                 for (var b = new Uint8Array(a.length), c = 0; c < a.length; c++) {
                     var d = a.charCodeAt(c);
                     if (255 < d) throw Error("Conversion error: string contains codepoint outside of byte range");
-                    b[c] = d
+                    b[c] = d;
                 }
-                return b
+                return b;
             };
             jspb.utils.byteSourceToUint8Array = function (a) {
                 if (a.constructor === Uint8Array) return a;
                 if (a.constructor === ArrayBuffer || a.constructor === Array) return new Uint8Array(a);
                 if (a.constructor === String) return goog.crypt.base64.decodeStringToUint8Array(a);
                 goog.asserts.fail("Type not convertible to Uint8Array.");
-                return new Uint8Array(0)
+                return new Uint8Array(0);
             };
             jspb.BinaryEncoder = function () {
-                this.buffer_ = []
+                this.buffer_ = [];
             };
             jspb.BinaryEncoder.prototype.length = function () {
-                return this.buffer_.length
+                return this.buffer_.length;
             };
             jspb.BinaryEncoder.prototype.end = function () {
                 var a = this.buffer_;
                 this.buffer_ = [];
-                return a
+                return a;
             };
             jspb.BinaryEncoder.prototype.writeSplitVarint64 = function (a, b) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(b == Math.floor(b));
                 goog.asserts.assert(0 <= a && a < jspb.BinaryConstants.TWO_TO_32);
                 for (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_32); 0 < b || 127 < a;) this.buffer_.push(a & 127 | 128), a = (a >>> 7 | b << 25) >>> 0, b >>>= 7;
-                this.buffer_.push(a)
+                this.buffer_.push(a);
             };
             jspb.BinaryEncoder.prototype.writeSplitFixed64 = function (a, b) {
                 goog.asserts.assert(a == Math.floor(a));
@@ -4029,57 +4060,57 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 goog.asserts.assert(0 <= a && a < jspb.BinaryConstants.TWO_TO_32);
                 goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_32);
                 this.writeUint32(a);
-                this.writeUint32(b)
+                this.writeUint32(b);
             };
             jspb.BinaryEncoder.prototype.writeUnsignedVarint32 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 for (goog.asserts.assert(0 <= a && a < jspb.BinaryConstants.TWO_TO_32); 127 < a;) this.buffer_.push(a & 127 | 128), a >>>= 7;
-                this.buffer_.push(a)
+                this.buffer_.push(a);
             };
             jspb.BinaryEncoder.prototype.writeSignedVarint32 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(a >= -jspb.BinaryConstants.TWO_TO_31 && a < jspb.BinaryConstants.TWO_TO_31);
                 if (0 <= a) this.writeUnsignedVarint32(a); else {
                     for (var b = 0; 9 > b; b++) this.buffer_.push(a & 127 | 128), a >>= 7;
-                    this.buffer_.push(1)
+                    this.buffer_.push(1);
                 }
             };
             jspb.BinaryEncoder.prototype.writeUnsignedVarint64 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(0 <= a && a < jspb.BinaryConstants.TWO_TO_64);
                 jspb.utils.splitInt64(a);
-                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High)
+                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeSignedVarint64 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(a >= -jspb.BinaryConstants.TWO_TO_63 && a < jspb.BinaryConstants.TWO_TO_63);
                 jspb.utils.splitInt64(a);
-                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High)
+                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeZigzagVarint32 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(a >= -jspb.BinaryConstants.TWO_TO_31 && a < jspb.BinaryConstants.TWO_TO_31);
-                this.writeUnsignedVarint32((a << 1 ^ a >> 31) >>> 0)
+                this.writeUnsignedVarint32((a << 1 ^ a >> 31) >>> 0);
             };
             jspb.BinaryEncoder.prototype.writeZigzagVarint64 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(a >= -jspb.BinaryConstants.TWO_TO_63 && a < jspb.BinaryConstants.TWO_TO_63);
                 jspb.utils.splitZigzag64(a);
-                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High)
+                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeZigzagVarint64String = function (a) {
-                this.writeZigzagVarint64(parseInt(a, 10))
+                this.writeZigzagVarint64(parseInt(a, 10));
             };
             jspb.BinaryEncoder.prototype.writeUint8 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(0 <= a && 256 > a);
-                this.buffer_.push(a >>> 0 & 255)
+                this.buffer_.push(a >>> 0 & 255);
             };
             jspb.BinaryEncoder.prototype.writeUint16 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(0 <= a && 65536 > a);
                 this.buffer_.push(a >>> 0 & 255);
-                this.buffer_.push(a >>> 8 & 255)
+                this.buffer_.push(a >>> 8 & 255);
             };
             jspb.BinaryEncoder.prototype.writeUint32 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
@@ -4087,25 +4118,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.buffer_.push(a >>> 0 & 255);
                 this.buffer_.push(a >>> 8 & 255);
                 this.buffer_.push(a >>> 16 & 255);
-                this.buffer_.push(a >>> 24 & 255)
+                this.buffer_.push(a >>> 24 & 255);
             };
             jspb.BinaryEncoder.prototype.writeUint64 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(0 <= a && a < jspb.BinaryConstants.TWO_TO_64);
                 jspb.utils.splitUint64(a);
                 this.writeUint32(jspb.utils.split64Low);
-                this.writeUint32(jspb.utils.split64High)
+                this.writeUint32(jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeInt8 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(-128 <= a && 128 > a);
-                this.buffer_.push(a >>> 0 & 255)
+                this.buffer_.push(a >>> 0 & 255);
             };
             jspb.BinaryEncoder.prototype.writeInt16 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(-32768 <= a && 32768 > a);
                 this.buffer_.push(a >>> 0 & 255);
-                this.buffer_.push(a >>> 8 & 255)
+                this.buffer_.push(a >>> 8 & 255);
             };
             jspb.BinaryEncoder.prototype.writeInt32 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
@@ -4113,74 +4144,74 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.buffer_.push(a >>> 0 & 255);
                 this.buffer_.push(a >>> 8 & 255);
                 this.buffer_.push(a >>> 16 & 255);
-                this.buffer_.push(a >>> 24 & 255)
+                this.buffer_.push(a >>> 24 & 255);
             };
             jspb.BinaryEncoder.prototype.writeInt64 = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(a >= -jspb.BinaryConstants.TWO_TO_63 && a < jspb.BinaryConstants.TWO_TO_63);
                 jspb.utils.splitInt64(a);
-                this.writeSplitFixed64(jspb.utils.split64Low, jspb.utils.split64High)
+                this.writeSplitFixed64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeInt64String = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(+a >= -jspb.BinaryConstants.TWO_TO_63 && +a < jspb.BinaryConstants.TWO_TO_63);
                 jspb.utils.splitHash64(jspb.utils.decimalStringToHash64(a));
-                this.writeSplitFixed64(jspb.utils.split64Low, jspb.utils.split64High)
+                this.writeSplitFixed64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeFloat = function (a) {
                 goog.asserts.assert(a >= -jspb.BinaryConstants.FLOAT32_MAX && a <= jspb.BinaryConstants.FLOAT32_MAX);
                 jspb.utils.splitFloat32(a);
-                this.writeUint32(jspb.utils.split64Low)
+                this.writeUint32(jspb.utils.split64Low);
             };
             jspb.BinaryEncoder.prototype.writeDouble = function (a) {
                 goog.asserts.assert(a >= -jspb.BinaryConstants.FLOAT64_MAX && a <= jspb.BinaryConstants.FLOAT64_MAX);
                 jspb.utils.splitFloat64(a);
                 this.writeUint32(jspb.utils.split64Low);
-                this.writeUint32(jspb.utils.split64High)
+                this.writeUint32(jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeBool = function (a) {
                 goog.asserts.assert(goog.isBoolean(a) || goog.isNumber(a));
-                this.buffer_.push(a ? 1 : 0)
+                this.buffer_.push(a ? 1 : 0);
             };
             jspb.BinaryEncoder.prototype.writeEnum = function (a) {
                 goog.asserts.assert(a == Math.floor(a));
                 goog.asserts.assert(a >= -jspb.BinaryConstants.TWO_TO_31 && a < jspb.BinaryConstants.TWO_TO_31);
-                this.writeSignedVarint32(a)
+                this.writeSignedVarint32(a);
             };
             jspb.BinaryEncoder.prototype.writeBytes = function (a) {
-                this.buffer_.push.apply(this.buffer_, a)
+                this.buffer_.push.apply(this.buffer_, a);
             };
             jspb.BinaryEncoder.prototype.writeVarintHash64 = function (a) {
                 jspb.utils.splitHash64(a);
-                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High)
+                this.writeSplitVarint64(jspb.utils.split64Low, jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeFixedHash64 = function (a) {
                 jspb.utils.splitHash64(a);
                 this.writeUint32(jspb.utils.split64Low);
-                this.writeUint32(jspb.utils.split64High)
+                this.writeUint32(jspb.utils.split64High);
             };
             jspb.BinaryEncoder.prototype.writeString = function (a) {
                 for (var b = this.buffer_.length, c = 0; c < a.length; c++) {
                     var d = a.charCodeAt(c);
                     if (128 > d) this.buffer_.push(d); else if (2048 > d) this.buffer_.push(d >> 6 | 192), this.buffer_.push(d & 63 | 128); else if (65536 > d) if (55296 <= d && 56319 >= d && c + 1 < a.length) {
                         var e = a.charCodeAt(c + 1);
-                        56320 <= e && 57343 >= e && (d = 1024 * (d - 55296) + e - 56320 + 65536, this.buffer_.push(d >> 18 | 240), this.buffer_.push(d >> 12 & 63 | 128), this.buffer_.push(d >> 6 & 63 | 128), this.buffer_.push(d & 63 | 128), c++)
+                        56320 <= e && 57343 >= e && (d = 1024 * (d - 55296) + e - 56320 + 65536, this.buffer_.push(d >> 18 | 240), this.buffer_.push(d >> 12 & 63 | 128), this.buffer_.push(d >> 6 & 63 | 128), this.buffer_.push(d & 63 | 128), c++);
                     } else this.buffer_.push(d >>
-                        12 | 224), this.buffer_.push(d >> 6 & 63 | 128), this.buffer_.push(d & 63 | 128)
+                        12 | 224), this.buffer_.push(d >> 6 & 63 | 128), this.buffer_.push(d & 63 | 128);
                 }
-                return this.buffer_.length - b
+                return this.buffer_.length - b;
             };
             jspb.BinaryWriter = function () {
                 this.blocks_ = [];
                 this.totalLength_ = 0;
                 this.encoder_ = new jspb.BinaryEncoder;
-                this.bookmarks_ = []
+                this.bookmarks_ = [];
             };
             jspb.BinaryWriter.prototype.appendUint8Array_ = function (a) {
                 var b = this.encoder_.end();
                 this.blocks_.push(b);
                 this.blocks_.push(a);
-                this.totalLength_ += b.length + a.length
+                this.totalLength_ += b.length + a.length;
             };
             jspb.BinaryWriter.prototype.beginDelimited_ = function (a) {
                 this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
@@ -4188,234 +4219,234 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.blocks_.push(a);
                 this.totalLength_ += a.length;
                 a.push(this.totalLength_);
-                return a
+                return a;
             };
             jspb.BinaryWriter.prototype.endDelimited_ = function (a) {
                 var b = a.pop(), b = this.totalLength_ + this.encoder_.length() - b;
                 for (goog.asserts.assert(0 <= b); 127 < b;) a.push(b & 127 | 128), b >>>= 7, this.totalLength_++;
                 a.push(b);
-                this.totalLength_++
+                this.totalLength_++;
             };
             jspb.BinaryWriter.prototype.writeSerializedMessage = function (a, b, c) {
-                this.appendUint8Array_(a.subarray(b, c))
+                this.appendUint8Array_(a.subarray(b, c));
             };
             jspb.BinaryWriter.prototype.maybeWriteSerializedMessage = function (a, b, c) {
-                null != a && null != b && null != c && this.writeSerializedMessage(a, b, c)
+                null != a && null != b && null != c && this.writeSerializedMessage(a, b, c);
             };
             jspb.BinaryWriter.prototype.reset = function () {
                 this.blocks_ = [];
                 this.encoder_.end();
                 this.totalLength_ = 0;
-                this.bookmarks_ = []
+                this.bookmarks_ = [];
             };
             jspb.BinaryWriter.prototype.getResultBuffer = function () {
                 goog.asserts.assert(0 == this.bookmarks_.length);
                 for (var a = new Uint8Array(this.totalLength_ + this.encoder_.length()), b = this.blocks_, c = b.length, d = 0, e = 0; e < c; e++) {
                     var f = b[e];
                     a.set(f, d);
-                    d += f.length
+                    d += f.length;
                 }
                 b = this.encoder_.end();
                 a.set(b, d);
                 d += b.length;
                 goog.asserts.assert(d == a.length);
                 this.blocks_ = [a];
-                return a
+                return a;
             };
             jspb.BinaryWriter.prototype.getResultBase64String = function () {
-                return goog.crypt.base64.encodeByteArray(this.getResultBuffer())
+                return goog.crypt.base64.encodeByteArray(this.getResultBuffer());
             };
             jspb.BinaryWriter.prototype.beginSubMessage = function (a) {
-                this.bookmarks_.push(this.beginDelimited_(a))
+                this.bookmarks_.push(this.beginDelimited_(a));
             };
             jspb.BinaryWriter.prototype.endSubMessage = function () {
                 goog.asserts.assert(0 <= this.bookmarks_.length);
-                this.endDelimited_(this.bookmarks_.pop())
+                this.endDelimited_(this.bookmarks_.pop());
             };
             jspb.BinaryWriter.prototype.writeFieldHeader_ = function (a, b) {
                 goog.asserts.assert(1 <= a && a == Math.floor(a));
-                this.encoder_.writeUnsignedVarint32(8 * a + b)
+                this.encoder_.writeUnsignedVarint32(8 * a + b);
             };
             jspb.BinaryWriter.prototype.writeAny = function (a, b, c) {
                 var d = jspb.BinaryConstants.FieldType;
                 switch (a) {
-                    case d.DOUBLE:
-                        this.writeDouble(b, c);
-                        break;
-                    case d.FLOAT:
-                        this.writeFloat(b, c);
-                        break;
-                    case d.INT64:
-                        this.writeInt64(b, c);
-                        break;
-                    case d.UINT64:
-                        this.writeUint64(b, c);
-                        break;
-                    case d.INT32:
-                        this.writeInt32(b, c);
-                        break;
-                    case d.FIXED64:
-                        this.writeFixed64(b, c);
-                        break;
-                    case d.FIXED32:
-                        this.writeFixed32(b, c);
-                        break;
-                    case d.BOOL:
-                        this.writeBool(b, c);
-                        break;
-                    case d.STRING:
-                        this.writeString(b, c);
-                        break;
-                    case d.GROUP:
-                        goog.asserts.fail("Group field type not supported in writeAny()");
-                        break;
-                    case d.MESSAGE:
-                        goog.asserts.fail("Message field type not supported in writeAny()");
-                        break;
-                    case d.BYTES:
-                        this.writeBytes(b, c);
-                        break;
-                    case d.UINT32:
-                        this.writeUint32(b, c);
-                        break;
-                    case d.ENUM:
-                        this.writeEnum(b, c);
-                        break;
-                    case d.SFIXED32:
-                        this.writeSfixed32(b, c);
-                        break;
-                    case d.SFIXED64:
-                        this.writeSfixed64(b, c);
-                        break;
-                    case d.SINT32:
-                        this.writeSint32(b, c);
-                        break;
-                    case d.SINT64:
-                        this.writeSint64(b, c);
-                        break;
-                    case d.FHASH64:
-                        this.writeFixedHash64(b, c);
-                        break;
-                    case d.VHASH64:
-                        this.writeVarintHash64(b, c);
-                        break;
-                    default:
-                        goog.asserts.fail("Invalid field type in writeAny()")
+                case d.DOUBLE:
+                    this.writeDouble(b, c);
+                    break;
+                case d.FLOAT:
+                    this.writeFloat(b, c);
+                    break;
+                case d.INT64:
+                    this.writeInt64(b, c);
+                    break;
+                case d.UINT64:
+                    this.writeUint64(b, c);
+                    break;
+                case d.INT32:
+                    this.writeInt32(b, c);
+                    break;
+                case d.FIXED64:
+                    this.writeFixed64(b, c);
+                    break;
+                case d.FIXED32:
+                    this.writeFixed32(b, c);
+                    break;
+                case d.BOOL:
+                    this.writeBool(b, c);
+                    break;
+                case d.STRING:
+                    this.writeString(b, c);
+                    break;
+                case d.GROUP:
+                    goog.asserts.fail("Group field type not supported in writeAny()");
+                    break;
+                case d.MESSAGE:
+                    goog.asserts.fail("Message field type not supported in writeAny()");
+                    break;
+                case d.BYTES:
+                    this.writeBytes(b, c);
+                    break;
+                case d.UINT32:
+                    this.writeUint32(b, c);
+                    break;
+                case d.ENUM:
+                    this.writeEnum(b, c);
+                    break;
+                case d.SFIXED32:
+                    this.writeSfixed32(b, c);
+                    break;
+                case d.SFIXED64:
+                    this.writeSfixed64(b, c);
+                    break;
+                case d.SINT32:
+                    this.writeSint32(b, c);
+                    break;
+                case d.SINT64:
+                    this.writeSint64(b, c);
+                    break;
+                case d.FHASH64:
+                    this.writeFixedHash64(b, c);
+                    break;
+                case d.VHASH64:
+                    this.writeVarintHash64(b, c);
+                    break;
+                default:
+                    goog.asserts.fail("Invalid field type in writeAny()");
                 }
             };
             jspb.BinaryWriter.prototype.writeUnsignedVarint32_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeUnsignedVarint32(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeUnsignedVarint32(b));
             };
             jspb.BinaryWriter.prototype.writeSignedVarint32_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeSignedVarint32(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeSignedVarint32(b));
             };
             jspb.BinaryWriter.prototype.writeUnsignedVarint64_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeUnsignedVarint64(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeUnsignedVarint64(b));
             };
             jspb.BinaryWriter.prototype.writeSignedVarint64_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeSignedVarint64(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeSignedVarint64(b));
             };
             jspb.BinaryWriter.prototype.writeZigzagVarint32_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeZigzagVarint32(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeZigzagVarint32(b));
             };
             jspb.BinaryWriter.prototype.writeZigzagVarint64_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeZigzagVarint64(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeZigzagVarint64(b));
             };
             jspb.BinaryWriter.prototype.writeZigzagVarint64String_ = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeZigzagVarint64String(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeZigzagVarint64String(b));
             };
             jspb.BinaryWriter.prototype.writeInt32 = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeSignedVarint32_(a, b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeSignedVarint32_(a, b));
             };
             jspb.BinaryWriter.prototype.writeInt32String = function (a, b) {
                 if (null != b) {
                     var c = parseInt(b, 10);
                     goog.asserts.assert(c >= -jspb.BinaryConstants.TWO_TO_31 && c < jspb.BinaryConstants.TWO_TO_31);
-                    this.writeSignedVarint32_(a, c)
+                    this.writeSignedVarint32_(a, c);
                 }
             };
             jspb.BinaryWriter.prototype.writeInt64 = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_63 && b < jspb.BinaryConstants.TWO_TO_63), this.writeSignedVarint64_(a, b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_63 && b < jspb.BinaryConstants.TWO_TO_63), this.writeSignedVarint64_(a, b));
             };
             jspb.BinaryWriter.prototype.writeInt64String = function (a, b) {
                 if (null != b) {
                     var c = jspb.arith.Int64.fromString(b);
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT);
-                    this.encoder_.writeSplitVarint64(c.lo, c.hi)
+                    this.encoder_.writeSplitVarint64(c.lo, c.hi);
                 }
             };
             jspb.BinaryWriter.prototype.writeUint32 = function (a, b) {
-                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_32), this.writeUnsignedVarint32_(a, b))
+                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_32), this.writeUnsignedVarint32_(a, b));
             };
             jspb.BinaryWriter.prototype.writeUint32String = function (a, b) {
                 if (null != b) {
                     var c = parseInt(b, 10);
                     goog.asserts.assert(0 <= c && c < jspb.BinaryConstants.TWO_TO_32);
-                    this.writeUnsignedVarint32_(a, c)
+                    this.writeUnsignedVarint32_(a, c);
                 }
             };
             jspb.BinaryWriter.prototype.writeUint64 = function (a, b) {
-                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_64), this.writeUnsignedVarint64_(a, b))
+                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_64), this.writeUnsignedVarint64_(a, b));
             };
             jspb.BinaryWriter.prototype.writeUint64String = function (a, b) {
                 if (null != b) {
                     var c = jspb.arith.UInt64.fromString(b);
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT);
-                    this.encoder_.writeSplitVarint64(c.lo, c.hi)
+                    this.encoder_.writeSplitVarint64(c.lo, c.hi);
                 }
             };
             jspb.BinaryWriter.prototype.writeSint32 = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeZigzagVarint32_(a, b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeZigzagVarint32_(a, b));
             };
             jspb.BinaryWriter.prototype.writeSint64 = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_63 && b < jspb.BinaryConstants.TWO_TO_63), this.writeZigzagVarint64_(a, b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_63 && b < jspb.BinaryConstants.TWO_TO_63), this.writeZigzagVarint64_(a, b));
             };
             jspb.BinaryWriter.prototype.writeSint64String = function (a, b) {
-                null != b && (goog.asserts.assert(+b >= -jspb.BinaryConstants.TWO_TO_63 && +b < jspb.BinaryConstants.TWO_TO_63), this.writeZigzagVarint64String_(a, b))
+                null != b && (goog.asserts.assert(+b >= -jspb.BinaryConstants.TWO_TO_63 && +b < jspb.BinaryConstants.TWO_TO_63), this.writeZigzagVarint64String_(a, b));
             };
             jspb.BinaryWriter.prototype.writeFixed32 = function (a, b) {
-                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_32), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED32), this.encoder_.writeUint32(b))
+                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_32), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED32), this.encoder_.writeUint32(b));
             };
             jspb.BinaryWriter.prototype.writeFixed64 = function (a, b) {
-                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_64), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeUint64(b))
+                null != b && (goog.asserts.assert(0 <= b && b < jspb.BinaryConstants.TWO_TO_64), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeUint64(b));
             };
             jspb.BinaryWriter.prototype.writeFixed64String = function (a, b) {
                 if (null != b) {
                     var c = jspb.arith.UInt64.fromString(b);
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64);
-                    this.encoder_.writeSplitFixed64(c.lo, c.hi)
+                    this.encoder_.writeSplitFixed64(c.lo, c.hi);
                 }
             };
             jspb.BinaryWriter.prototype.writeSfixed32 = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED32), this.encoder_.writeInt32(b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED32), this.encoder_.writeInt32(b));
             };
             jspb.BinaryWriter.prototype.writeSfixed64 = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_63 && b < jspb.BinaryConstants.TWO_TO_63), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeInt64(b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_63 && b < jspb.BinaryConstants.TWO_TO_63), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeInt64(b));
             };
             jspb.BinaryWriter.prototype.writeSfixed64String = function (a, b) {
                 if (null != b) {
                     var c = jspb.arith.Int64.fromString(b);
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64);
-                    this.encoder_.writeSplitFixed64(c.lo, c.hi)
+                    this.encoder_.writeSplitFixed64(c.lo, c.hi);
                 }
             };
             jspb.BinaryWriter.prototype.writeFloat = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED32), this.encoder_.writeFloat(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED32), this.encoder_.writeFloat(b));
             };
             jspb.BinaryWriter.prototype.writeDouble = function (a, b) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeDouble(b))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeDouble(b));
             };
             jspb.BinaryWriter.prototype.writeBool = function (a, b) {
-                null != b && (goog.asserts.assert(goog.isBoolean(b) || goog.isNumber(b)), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeBool(b))
+                null != b && (goog.asserts.assert(goog.isBoolean(b) || goog.isNumber(b)), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeBool(b));
             };
             jspb.BinaryWriter.prototype.writeEnum = function (a, b) {
-                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeSignedVarint32(b))
+                null != b && (goog.asserts.assert(b >= -jspb.BinaryConstants.TWO_TO_31 && b < jspb.BinaryConstants.TWO_TO_31), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeSignedVarint32(b));
             };
             jspb.BinaryWriter.prototype.writeString = function (a, b) {
                 if (null != b) {
                     var c = this.beginDelimited_(a);
                     this.encoder_.writeString(b);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writeBytes = function (a, b) {
@@ -4423,190 +4454,190 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var c = jspb.utils.byteSourceToUint8Array(b);
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(c.length);
-                    this.appendUint8Array_(c)
+                    this.appendUint8Array_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writeMessage = function (a, b, c) {
-                null != b && (a = this.beginDelimited_(a), c(b, this), this.endDelimited_(a))
+                null != b && (a = this.beginDelimited_(a), c(b, this), this.endDelimited_(a));
             };
             jspb.BinaryWriter.prototype.writeGroup = function (a, b, c) {
-                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.START_GROUP), c(b, this), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.END_GROUP))
+                null != b && (this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.START_GROUP), c(b, this), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.END_GROUP));
             };
             jspb.BinaryWriter.prototype.writeFixedHash64 = function (a, b) {
-                null != b && (goog.asserts.assert(8 == b.length), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeFixedHash64(b))
+                null != b && (goog.asserts.assert(8 == b.length), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.FIXED64), this.encoder_.writeFixedHash64(b));
             };
             jspb.BinaryWriter.prototype.writeVarintHash64 = function (a, b) {
-                null != b && (goog.asserts.assert(8 == b.length), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeVarintHash64(b))
+                null != b && (goog.asserts.assert(8 == b.length), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.VARINT), this.encoder_.writeVarintHash64(b));
             };
             jspb.BinaryWriter.prototype.writeRepeatedInt32 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeSignedVarint32_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeSignedVarint32_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedInt32String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeInt32String(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeInt32String(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedInt64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeSignedVarint64_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeSignedVarint64_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedInt64String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeInt64String(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeInt64String(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedUint32 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeUnsignedVarint32_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeUnsignedVarint32_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedUint32String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeUint32String(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeUint32String(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedUint64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeUnsignedVarint64_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeUnsignedVarint64_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedUint64String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeUint64String(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeUint64String(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedSint32 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeZigzagVarint32_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeZigzagVarint32_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedSint64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeZigzagVarint64_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeZigzagVarint64_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedSint64String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeZigzagVarint64String_(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeZigzagVarint64String_(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedFixed32 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixed32(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixed32(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedFixed64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixed64(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixed64(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedFixed64String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixed64String(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixed64String(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedSfixed32 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeSfixed32(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeSfixed32(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedSfixed64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeSfixed64(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeSfixed64(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedSfixed64String = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeSfixed64String(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeSfixed64String(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedFloat = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeFloat(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeFloat(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedDouble = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeDouble(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeDouble(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedBool = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeBool(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeBool(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedEnum = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeEnum(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeEnum(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedString = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeString(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeString(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedBytes = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeBytes(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeBytes(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedMessage = function (a, b, c) {
                 if (null != b) for (var d = 0; d < b.length; d++) {
                     var e = this.beginDelimited_(a);
                     c(b[d], this);
-                    this.endDelimited_(e)
+                    this.endDelimited_(e);
                 }
             };
             jspb.BinaryWriter.prototype.writeRepeatedGroup = function (a, b, c) {
-                if (null != b) for (var d = 0; d < b.length; d++) this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.START_GROUP), c(b[d], this), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.END_GROUP)
+                if (null != b) for (var d = 0; d < b.length; d++) this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.START_GROUP), c(b[d], this), this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.END_GROUP);
             };
             jspb.BinaryWriter.prototype.writeRepeatedFixedHash64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixedHash64(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeFixedHash64(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writeRepeatedVarintHash64 = function (a, b) {
-                if (null != b) for (var c = 0; c < b.length; c++) this.writeVarintHash64(a, b[c])
+                if (null != b) for (var c = 0; c < b.length; c++) this.writeVarintHash64(a, b[c]);
             };
             jspb.BinaryWriter.prototype.writePackedInt32 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeSignedVarint32(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedInt32String = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeSignedVarint32(parseInt(b[d], 10));
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedInt64 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeSignedVarint64(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedInt64String = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) {
                         var e = jspb.arith.Int64.fromString(b[d]);
-                        this.encoder_.writeSplitVarint64(e.lo, e.hi)
+                        this.encoder_.writeSplitVarint64(e.lo, e.hi);
                     }
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedUint32 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeUnsignedVarint32(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedUint32String = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeUnsignedVarint32(parseInt(b[d], 10));
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedUint64 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeUnsignedVarint64(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedUint64String = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) {
                         var e = jspb.arith.UInt64.fromString(b[d]);
-                        this.encoder_.writeSplitVarint64(e.lo, e.hi)
+                        this.encoder_.writeSplitVarint64(e.lo, e.hi);
                     }
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedSint32 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeZigzagVarint32(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedSint64 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeZigzagVarint64(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedSint64String = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeZigzagVarint64(parseInt(b[d], 10));
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedFixed32 = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(4 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeUint32(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeUint32(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedFixed64 = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(8 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeUint64(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeUint64(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedFixed64String = function (a, b) {
@@ -4615,7 +4646,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     this.encoder_.writeUnsignedVarint32(8 * b.length);
                     for (var c = 0; c < b.length; c++) {
                         var d = jspb.arith.UInt64.fromString(b[c]);
-                        this.encoder_.writeSplitFixed64(d.lo, d.hi)
+                        this.encoder_.writeSplitFixed64(d.lo, d.hi);
                     }
                 }
             };
@@ -4623,61 +4654,61 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(4 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeInt32(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeInt32(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedSfixed64 = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(8 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeInt64(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeInt64(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedSfixed64String = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(8 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeInt64String(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeInt64String(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedFloat = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(4 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeFloat(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeFloat(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedDouble = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(8 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeDouble(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeDouble(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedBool = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeBool(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeBool(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedEnum = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeEnum(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedFixedHash64 = function (a, b) {
                 if (null != b && b.length) {
                     this.writeFieldHeader_(a, jspb.BinaryConstants.WireType.DELIMITED);
                     this.encoder_.writeUnsignedVarint32(8 * b.length);
-                    for (var c = 0; c < b.length; c++) this.encoder_.writeFixedHash64(b[c])
+                    for (var c = 0; c < b.length; c++) this.encoder_.writeFixedHash64(b[c]);
                 }
             };
             jspb.BinaryWriter.prototype.writePackedVarintHash64 = function (a, b) {
                 if (null != b && b.length) {
                     for (var c = this.beginDelimited_(a), d = 0; d < b.length; d++) this.encoder_.writeVarintHash64(b[d]);
-                    this.endDelimited_(c)
+                    this.endDelimited_(c);
                 }
             };
             jspb.BinaryIterator = function (a, b, c) {
@@ -4685,7 +4716,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.cursor_ = 0;
                 this.nextValue_ = null;
                 this.atEnd_ = !0;
-                this.init_(a, b, c)
+                this.init_(a, b, c);
             };
             jspb.BinaryIterator.prototype.init_ = function (a, b, c) {
                 a && b && (this.decoder_ = a, this.nextMethod_ = b);
@@ -4693,108 +4724,108 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.cursor_ = 0;
                 this.nextValue_ = null;
                 this.atEnd_ = !this.decoder_ && !this.elements_;
-                this.next()
+                this.next();
             };
             jspb.BinaryIterator.instanceCache_ = [];
             jspb.BinaryIterator.alloc = function (a, b, c) {
                 if (jspb.BinaryIterator.instanceCache_.length) {
                     var d = jspb.BinaryIterator.instanceCache_.pop();
                     d.init_(a, b, c);
-                    return d
+                    return d;
                 }
-                return new jspb.BinaryIterator(a, b, c)
+                return new jspb.BinaryIterator(a, b, c);
             };
             jspb.BinaryIterator.prototype.free = function () {
                 this.clear();
-                100 > jspb.BinaryIterator.instanceCache_.length && jspb.BinaryIterator.instanceCache_.push(this)
+                100 > jspb.BinaryIterator.instanceCache_.length && jspb.BinaryIterator.instanceCache_.push(this);
             };
             jspb.BinaryIterator.prototype.clear = function () {
                 this.decoder_ && this.decoder_.free();
                 this.elements_ = this.nextMethod_ = this.decoder_ = null;
                 this.cursor_ = 0;
                 this.nextValue_ = null;
-                this.atEnd_ = !0
+                this.atEnd_ = !0;
             };
             jspb.BinaryIterator.prototype.get = function () {
-                return this.nextValue_
+                return this.nextValue_;
             };
             jspb.BinaryIterator.prototype.atEnd = function () {
-                return this.atEnd_
+                return this.atEnd_;
             };
             jspb.BinaryIterator.prototype.next = function () {
                 var a = this.nextValue_;
                 this.decoder_ ? this.decoder_.atEnd() ? (this.nextValue_ = null, this.atEnd_ = !0) : this.nextValue_ = this.nextMethod_.call(this.decoder_) : this.elements_ && (this.cursor_ == this.elements_.length ? (this.nextValue_ = null, this.atEnd_ = !0) : this.nextValue_ = this.elements_[this.cursor_++]);
-                return a
+                return a;
             };
             jspb.BinaryDecoder = function (a, b, c) {
                 this.bytes_ = null;
                 this.tempHigh_ = this.tempLow_ = this.cursor_ = this.end_ = this.start_ = 0;
                 this.error_ = !1;
-                a && this.setBlock(a, b, c)
+                a && this.setBlock(a, b, c);
             };
             jspb.BinaryDecoder.instanceCache_ = [];
             jspb.BinaryDecoder.alloc = function (a, b, c) {
                 if (jspb.BinaryDecoder.instanceCache_.length) {
                     var d = jspb.BinaryDecoder.instanceCache_.pop();
                     a && d.setBlock(a, b, c);
-                    return d
+                    return d;
                 }
-                return new jspb.BinaryDecoder(a, b, c)
+                return new jspb.BinaryDecoder(a, b, c);
             };
             jspb.BinaryDecoder.prototype.free = function () {
                 this.clear();
-                100 > jspb.BinaryDecoder.instanceCache_.length && jspb.BinaryDecoder.instanceCache_.push(this)
+                100 > jspb.BinaryDecoder.instanceCache_.length && jspb.BinaryDecoder.instanceCache_.push(this);
             };
             jspb.BinaryDecoder.prototype.clone = function () {
-                return jspb.BinaryDecoder.alloc(this.bytes_, this.start_, this.end_ - this.start_)
+                return jspb.BinaryDecoder.alloc(this.bytes_, this.start_, this.end_ - this.start_);
             };
             jspb.BinaryDecoder.prototype.clear = function () {
                 this.bytes_ = null;
                 this.cursor_ = this.end_ = this.start_ = 0;
-                this.error_ = !1
+                this.error_ = !1;
             };
             jspb.BinaryDecoder.prototype.getBuffer = function () {
-                return this.bytes_
+                return this.bytes_;
             };
             jspb.BinaryDecoder.prototype.setBlock = function (a, b, c) {
                 this.bytes_ = jspb.utils.byteSourceToUint8Array(a);
                 this.start_ = goog.isDef(b) ? b : 0;
                 this.end_ = goog.isDef(c) ? this.start_ + c : this.bytes_.length;
-                this.cursor_ = this.start_
+                this.cursor_ = this.start_;
             };
             jspb.BinaryDecoder.prototype.getEnd = function () {
-                return this.end_
+                return this.end_;
             };
             jspb.BinaryDecoder.prototype.setEnd = function (a) {
-                this.end_ = a
+                this.end_ = a;
             };
             jspb.BinaryDecoder.prototype.reset = function () {
-                this.cursor_ = this.start_
+                this.cursor_ = this.start_;
             };
             jspb.BinaryDecoder.prototype.getCursor = function () {
-                return this.cursor_
+                return this.cursor_;
             };
             jspb.BinaryDecoder.prototype.setCursor = function (a) {
-                this.cursor_ = a
+                this.cursor_ = a;
             };
             jspb.BinaryDecoder.prototype.advance = function (a) {
                 this.cursor_ += a;
-                goog.asserts.assert(this.cursor_ <= this.end_)
+                goog.asserts.assert(this.cursor_ <= this.end_);
             };
             jspb.BinaryDecoder.prototype.atEnd = function () {
-                return this.cursor_ == this.end_
+                return this.cursor_ == this.end_;
             };
             jspb.BinaryDecoder.prototype.pastEnd = function () {
-                return this.cursor_ > this.end_
+                return this.cursor_ > this.end_;
             };
             jspb.BinaryDecoder.prototype.getError = function () {
-                return this.error_ || 0 > this.cursor_ || this.cursor_ > this.end_
+                return this.error_ || 0 > this.cursor_ || this.cursor_ > this.end_;
             };
             jspb.BinaryDecoder.prototype.readSplitVarint64_ = function () {
                 for (var a, b = 0, c, d = 0; 4 > d; d++) if (a = this.bytes_[this.cursor_++], b |= (a & 127) << 7 * d, 128 > a) {
                     this.tempLow_ = b >>> 0;
                     this.tempHigh_ = 0;
-                    return
+                    return;
                 }
                 a = this.bytes_[this.cursor_++];
                 b |= (a & 127) << 28;
@@ -4803,20 +4834,20 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     for (d = 0; 5 > d; d++) if (a = this.bytes_[this.cursor_++], c |= (a & 127) << 7 * d + 3, 128 > a) {
                         this.tempLow_ = b >>> 0;
                         this.tempHigh_ = c >>> 0;
-                        return
+                        return;
                     }
                     goog.asserts.fail("Failed to read varint, encoding is invalid.");
                     this.error_ =
-                        !0
+                        !0;
                 }
             };
             jspb.BinaryDecoder.prototype.skipVarint = function () {
                 for (; this.bytes_[this.cursor_] & 128;) this.cursor_++;
-                this.cursor_++
+                this.cursor_++;
             };
             jspb.BinaryDecoder.prototype.unskipVarint = function (a) {
                 for (; 128 < a;) this.cursor_--, a >>>= 7;
-                this.cursor_--
+                this.cursor_--;
             };
             jspb.BinaryDecoder.prototype.readUnsignedVarint32 = function () {
                 var a, b = this.bytes_;
@@ -4839,109 +4870,109 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.cursor_ += 5;
                 128 <= b[this.cursor_++] && 128 <= b[this.cursor_++] && 128 <= b[this.cursor_++] && 128 <= b[this.cursor_++] && 128 <= b[this.cursor_++] && goog.asserts.assert(!1);
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return c
+                return c;
             };
             jspb.BinaryDecoder.prototype.readSignedVarint32 = jspb.BinaryDecoder.prototype.readUnsignedVarint32;
             jspb.BinaryDecoder.prototype.readUnsignedVarint32String = function () {
-                return this.readUnsignedVarint32().toString()
+                return this.readUnsignedVarint32().toString();
             };
             jspb.BinaryDecoder.prototype.readSignedVarint32String = function () {
-                return this.readSignedVarint32().toString()
+                return this.readSignedVarint32().toString();
             };
             jspb.BinaryDecoder.prototype.readZigzagVarint32 = function () {
                 var a = this.readUnsignedVarint32();
-                return a >>> 1 ^ -(a & 1)
+                return a >>> 1 ^ -(a & 1);
             };
             jspb.BinaryDecoder.prototype.readUnsignedVarint64 = function () {
                 this.readSplitVarint64_();
-                return jspb.utils.joinUint64(this.tempLow_, this.tempHigh_)
+                return jspb.utils.joinUint64(this.tempLow_, this.tempHigh_);
             };
             jspb.BinaryDecoder.prototype.readUnsignedVarint64String = function () {
                 this.readSplitVarint64_();
-                return jspb.utils.joinUnsignedDecimalString(this.tempLow_, this.tempHigh_)
+                return jspb.utils.joinUnsignedDecimalString(this.tempLow_, this.tempHigh_);
             };
             jspb.BinaryDecoder.prototype.readSignedVarint64 = function () {
                 this.readSplitVarint64_();
-                return jspb.utils.joinInt64(this.tempLow_, this.tempHigh_)
+                return jspb.utils.joinInt64(this.tempLow_, this.tempHigh_);
             };
             jspb.BinaryDecoder.prototype.readSignedVarint64String = function () {
                 this.readSplitVarint64_();
-                return jspb.utils.joinSignedDecimalString(this.tempLow_, this.tempHigh_)
+                return jspb.utils.joinSignedDecimalString(this.tempLow_, this.tempHigh_);
             };
             jspb.BinaryDecoder.prototype.readZigzagVarint64 = function () {
                 this.readSplitVarint64_();
-                return jspb.utils.joinZigzag64(this.tempLow_, this.tempHigh_)
+                return jspb.utils.joinZigzag64(this.tempLow_, this.tempHigh_);
             };
             jspb.BinaryDecoder.prototype.readZigzagVarint64String = function () {
-                return this.readZigzagVarint64().toString()
+                return this.readZigzagVarint64().toString();
             };
             jspb.BinaryDecoder.prototype.readUint8 = function () {
                 var a = this.bytes_[this.cursor_ + 0];
                 this.cursor_ += 1;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return a
+                return a;
             };
             jspb.BinaryDecoder.prototype.readUint16 = function () {
                 var a = this.bytes_[this.cursor_ + 0], b = this.bytes_[this.cursor_ + 1];
                 this.cursor_ += 2;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return a << 0 | b << 8
+                return a << 0 | b << 8;
             };
             jspb.BinaryDecoder.prototype.readUint32 = function () {
                 var a = this.bytes_[this.cursor_ + 0], b = this.bytes_[this.cursor_ + 1],
                     c = this.bytes_[this.cursor_ + 2], d = this.bytes_[this.cursor_ + 3];
                 this.cursor_ += 4;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return (a << 0 | b << 8 | c << 16 | d << 24) >>> 0
+                return (a << 0 | b << 8 | c << 16 | d << 24) >>> 0;
             };
             jspb.BinaryDecoder.prototype.readUint64 = function () {
                 var a = this.readUint32(), b = this.readUint32();
-                return jspb.utils.joinUint64(a, b)
+                return jspb.utils.joinUint64(a, b);
             };
             jspb.BinaryDecoder.prototype.readUint64String = function () {
                 var a = this.readUint32(), b = this.readUint32();
-                return jspb.utils.joinUnsignedDecimalString(a, b)
+                return jspb.utils.joinUnsignedDecimalString(a, b);
             };
             jspb.BinaryDecoder.prototype.readInt8 = function () {
                 var a = this.bytes_[this.cursor_ + 0];
                 this.cursor_ += 1;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return a << 24 >> 24
+                return a << 24 >> 24;
             };
             jspb.BinaryDecoder.prototype.readInt16 = function () {
                 var a = this.bytes_[this.cursor_ + 0], b = this.bytes_[this.cursor_ + 1];
                 this.cursor_ += 2;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return (a << 0 | b << 8) << 16 >> 16
+                return (a << 0 | b << 8) << 16 >> 16;
             };
             jspb.BinaryDecoder.prototype.readInt32 = function () {
                 var a = this.bytes_[this.cursor_ + 0], b = this.bytes_[this.cursor_ + 1],
                     c = this.bytes_[this.cursor_ + 2], d = this.bytes_[this.cursor_ + 3];
                 this.cursor_ += 4;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return a << 0 | b << 8 | c << 16 | d << 24
+                return a << 0 | b << 8 | c << 16 | d << 24;
             };
             jspb.BinaryDecoder.prototype.readInt64 = function () {
                 var a = this.readUint32(), b = this.readUint32();
-                return jspb.utils.joinInt64(a, b)
+                return jspb.utils.joinInt64(a, b);
             };
             jspb.BinaryDecoder.prototype.readInt64String = function () {
                 var a = this.readUint32(), b = this.readUint32();
-                return jspb.utils.joinSignedDecimalString(a, b)
+                return jspb.utils.joinSignedDecimalString(a, b);
             };
             jspb.BinaryDecoder.prototype.readFloat = function () {
                 var a = this.readUint32();
-                return jspb.utils.joinFloat32(a, 0)
+                return jspb.utils.joinFloat32(a, 0);
             };
             jspb.BinaryDecoder.prototype.readDouble = function () {
                 var a = this.readUint32(), b = this.readUint32();
-                return jspb.utils.joinFloat64(a, b)
+                return jspb.utils.joinFloat64(a, b);
             };
             jspb.BinaryDecoder.prototype.readBool = function () {
-                return !!this.bytes_[this.cursor_++]
+                return !!this.bytes_[this.cursor_++];
             };
             jspb.BinaryDecoder.prototype.readEnum = function () {
-                return this.readSignedVarint32()
+                return this.readSignedVarint32();
             };
             jspb.BinaryDecoder.prototype.readString = function (a) {
                 var b = this.bytes_, c = this.cursor_;
@@ -4950,41 +4981,41 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     var f = b[c++];
                     if (128 > f) d.push(f); else if (192 > f) continue; else if (224 > f) {
                         var g = b[c++];
-                        d.push((f & 31) << 6 | g & 63)
+                        d.push((f & 31) << 6 | g & 63);
                     } else if (240 > f) {
                         var g = b[c++], h = b[c++];
-                        d.push((f & 15) << 12 | (g & 63) << 6 | h & 63)
+                        d.push((f & 15) << 12 | (g & 63) << 6 | h & 63);
                     } else if (248 > f) {
                         var g = b[c++], h = b[c++], k = b[c++],
                             f = (f & 7) << 18 | (g & 63) << 12 | (h & 63) << 6 | k & 63, f = f - 65536;
-                        d.push((f >> 10 & 1023) + 55296, (f & 1023) + 56320)
+                        d.push((f >> 10 & 1023) + 55296, (f & 1023) + 56320);
                     }
-                    8192 <= d.length && (e += String.fromCharCode.apply(null, d), d.length = 0)
+                    8192 <= d.length && (e += String.fromCharCode.apply(null, d), d.length = 0);
                 }
                 e += goog.crypt.byteArrayToString(d);
                 this.cursor_ = c;
-                return e
+                return e;
             };
             jspb.BinaryDecoder.prototype.readStringWithLength = function () {
                 var a = this.readUnsignedVarint32();
-                return this.readString(a)
+                return this.readString(a);
             };
             jspb.BinaryDecoder.prototype.readBytes = function (a) {
                 if (0 > a || this.cursor_ + a > this.bytes_.length) return this.error_ = !0, goog.asserts.fail("Invalid byte length!"), new Uint8Array(0);
                 var b = this.bytes_.subarray(this.cursor_, this.cursor_ + a);
                 this.cursor_ += a;
                 goog.asserts.assert(this.cursor_ <= this.end_);
-                return b
+                return b;
             };
             jspb.BinaryDecoder.prototype.readVarintHash64 = function () {
                 this.readSplitVarint64_();
-                return jspb.utils.joinHash64(this.tempLow_, this.tempHigh_)
+                return jspb.utils.joinHash64(this.tempLow_, this.tempHigh_);
             };
             jspb.BinaryDecoder.prototype.readFixedHash64 = function () {
                 var a = this.bytes_, b = this.cursor_, c = a[b + 0], d = a[b + 1], e = a[b + 2], f = a[b + 3],
                     g = a[b + 4], h = a[b + 5], k = a[b + 6], a = a[b + 7];
                 this.cursor_ += 8;
-                return String.fromCharCode(c, d, e, f, g, h, k, a)
+                return String.fromCharCode(c, d, e, f, g, h, k, a);
             };
             jspb.BinaryReader = function (a, b, c) {
                 this.decoder_ = jspb.BinaryDecoder.alloc(a, b, c);
@@ -4992,16 +5023,16 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.nextField_ = jspb.BinaryConstants.INVALID_FIELD_NUMBER;
                 this.nextWireType_ = jspb.BinaryConstants.WireType.INVALID;
                 this.error_ = !1;
-                this.readCallbacks_ = null
+                this.readCallbacks_ = null;
             };
             jspb.BinaryReader.instanceCache_ = [];
             jspb.BinaryReader.alloc = function (a, b, c) {
                 if (jspb.BinaryReader.instanceCache_.length) {
                     var d = jspb.BinaryReader.instanceCache_.pop();
                     a && d.decoder_.setBlock(a, b, c);
-                    return d
+                    return d;
                 }
-                return new jspb.BinaryReader(a, b, c)
+                return new jspb.BinaryReader(a, b, c);
             };
             jspb.BinaryReader.prototype.alloc = jspb.BinaryReader.alloc;
             jspb.BinaryReader.prototype.free = function () {
@@ -5010,41 +5041,41 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.nextWireType_ = jspb.BinaryConstants.WireType.INVALID;
                 this.error_ = !1;
                 this.readCallbacks_ = null;
-                100 > jspb.BinaryReader.instanceCache_.length && jspb.BinaryReader.instanceCache_.push(this)
+                100 > jspb.BinaryReader.instanceCache_.length && jspb.BinaryReader.instanceCache_.push(this);
             };
             jspb.BinaryReader.prototype.getFieldCursor = function () {
-                return this.fieldCursor_
+                return this.fieldCursor_;
             };
             jspb.BinaryReader.prototype.getCursor = function () {
-                return this.decoder_.getCursor()
+                return this.decoder_.getCursor();
             };
             jspb.BinaryReader.prototype.getBuffer = function () {
-                return this.decoder_.getBuffer()
+                return this.decoder_.getBuffer();
             };
             jspb.BinaryReader.prototype.getFieldNumber = function () {
-                return this.nextField_
+                return this.nextField_;
             };
             jspb.BinaryReader.prototype.getWireType = function () {
-                return this.nextWireType_
+                return this.nextWireType_;
             };
             jspb.BinaryReader.prototype.isEndGroup = function () {
-                return this.nextWireType_ == jspb.BinaryConstants.WireType.END_GROUP
+                return this.nextWireType_ == jspb.BinaryConstants.WireType.END_GROUP;
             };
             jspb.BinaryReader.prototype.getError = function () {
-                return this.error_ || this.decoder_.getError()
+                return this.error_ || this.decoder_.getError();
             };
             jspb.BinaryReader.prototype.setBlock = function (a, b, c) {
                 this.decoder_.setBlock(a, b, c);
                 this.nextField_ = jspb.BinaryConstants.INVALID_FIELD_NUMBER;
-                this.nextWireType_ = jspb.BinaryConstants.WireType.INVALID
+                this.nextWireType_ = jspb.BinaryConstants.WireType.INVALID;
             };
             jspb.BinaryReader.prototype.reset = function () {
                 this.decoder_.reset();
                 this.nextField_ = jspb.BinaryConstants.INVALID_FIELD_NUMBER;
-                this.nextWireType_ = jspb.BinaryConstants.WireType.INVALID
+                this.nextWireType_ = jspb.BinaryConstants.WireType.INVALID;
             };
             jspb.BinaryReader.prototype.advance = function (a) {
-                this.decoder_.advance(a)
+                this.decoder_.advance(a);
             };
             jspb.BinaryReader.prototype.nextField = function () {
                 if (this.decoder_.atEnd()) return !1;
@@ -5052,33 +5083,33 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.fieldCursor_ = this.decoder_.getCursor();
                 var a = this.decoder_.readUnsignedVarint32(), b = a >>> 3, a = a & 7;
                 if (a != jspb.BinaryConstants.WireType.VARINT && a != jspb.BinaryConstants.WireType.FIXED32 && a != jspb.BinaryConstants.WireType.FIXED64 && a != jspb.BinaryConstants.WireType.DELIMITED && a != jspb.BinaryConstants.WireType.START_GROUP && a != jspb.BinaryConstants.WireType.END_GROUP) return goog.asserts.fail("Invalid wire type"),
-                    this.error_ = !0, !1;
+                this.error_ = !0, !1;
                 this.nextField_ = b;
                 this.nextWireType_ = a;
-                return !0
+                return !0;
             };
             jspb.BinaryReader.prototype.unskipHeader = function () {
-                this.decoder_.unskipVarint(this.nextField_ << 3 | this.nextWireType_)
+                this.decoder_.unskipVarint(this.nextField_ << 3 | this.nextWireType_);
             };
             jspb.BinaryReader.prototype.skipMatchingFields = function () {
                 var a = this.nextField_;
                 for (this.unskipHeader(); this.nextField() && this.getFieldNumber() == a;) this.skipField();
-                this.decoder_.atEnd() || this.unskipHeader()
+                this.decoder_.atEnd() || this.unskipHeader();
             };
             jspb.BinaryReader.prototype.skipVarintField = function () {
-                this.nextWireType_ != jspb.BinaryConstants.WireType.VARINT ? (goog.asserts.fail("Invalid wire type for skipVarintField"), this.skipField()) : this.decoder_.skipVarint()
+                this.nextWireType_ != jspb.BinaryConstants.WireType.VARINT ? (goog.asserts.fail("Invalid wire type for skipVarintField"), this.skipField()) : this.decoder_.skipVarint();
             };
             jspb.BinaryReader.prototype.skipDelimitedField = function () {
                 if (this.nextWireType_ != jspb.BinaryConstants.WireType.DELIMITED) goog.asserts.fail("Invalid wire type for skipDelimitedField"), this.skipField(); else {
                     var a = this.decoder_.readUnsignedVarint32();
-                    this.decoder_.advance(a)
+                    this.decoder_.advance(a);
                 }
             };
             jspb.BinaryReader.prototype.skipFixed32Field = function () {
-                this.nextWireType_ != jspb.BinaryConstants.WireType.FIXED32 ? (goog.asserts.fail("Invalid wire type for skipFixed32Field"), this.skipField()) : this.decoder_.advance(4)
+                this.nextWireType_ != jspb.BinaryConstants.WireType.FIXED32 ? (goog.asserts.fail("Invalid wire type for skipFixed32Field"), this.skipField()) : this.decoder_.advance(4);
             };
             jspb.BinaryReader.prototype.skipFixed64Field = function () {
-                this.nextWireType_ != jspb.BinaryConstants.WireType.FIXED64 ? (goog.asserts.fail("Invalid wire type for skipFixed64Field"), this.skipField()) : this.decoder_.advance(8)
+                this.nextWireType_ != jspb.BinaryConstants.WireType.FIXED64 ? (goog.asserts.fail("Invalid wire type for skipFixed64Field"), this.skipField()) : this.decoder_.advance(8);
             };
             jspb.BinaryReader.prototype.skipGroup = function () {
                 var a = [this.nextField_];
@@ -5086,95 +5117,95 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     if (!this.nextField()) {
                         goog.asserts.fail("Unmatched start-group tag: stream EOF");
                         this.error_ = !0;
-                        break
+                        break;
                     }
                     if (this.nextWireType_ == jspb.BinaryConstants.WireType.START_GROUP) a.push(this.nextField_); else if (this.nextWireType_ == jspb.BinaryConstants.WireType.END_GROUP && this.nextField_ != a.pop()) {
                         goog.asserts.fail("Unmatched end-group tag");
                         this.error_ = !0;
-                        break
+                        break;
                     }
-                } while (0 < a.length)
+                } while (0 < a.length);
             };
             jspb.BinaryReader.prototype.skipField = function () {
                 switch (this.nextWireType_) {
-                    case jspb.BinaryConstants.WireType.VARINT:
-                        this.skipVarintField();
-                        break;
-                    case jspb.BinaryConstants.WireType.FIXED64:
-                        this.skipFixed64Field();
-                        break;
-                    case jspb.BinaryConstants.WireType.DELIMITED:
-                        this.skipDelimitedField();
-                        break;
-                    case jspb.BinaryConstants.WireType.FIXED32:
-                        this.skipFixed32Field();
-                        break;
-                    case jspb.BinaryConstants.WireType.START_GROUP:
-                        this.skipGroup();
-                        break;
-                    default:
-                        goog.asserts.fail("Invalid wire encoding for field.")
+                case jspb.BinaryConstants.WireType.VARINT:
+                    this.skipVarintField();
+                    break;
+                case jspb.BinaryConstants.WireType.FIXED64:
+                    this.skipFixed64Field();
+                    break;
+                case jspb.BinaryConstants.WireType.DELIMITED:
+                    this.skipDelimitedField();
+                    break;
+                case jspb.BinaryConstants.WireType.FIXED32:
+                    this.skipFixed32Field();
+                    break;
+                case jspb.BinaryConstants.WireType.START_GROUP:
+                    this.skipGroup();
+                    break;
+                default:
+                    goog.asserts.fail("Invalid wire encoding for field.");
                 }
             };
             jspb.BinaryReader.prototype.registerReadCallback = function (a, b) {
                 goog.isNull(this.readCallbacks_) && (this.readCallbacks_ = {});
                 goog.asserts.assert(!this.readCallbacks_[a]);
-                this.readCallbacks_[a] = b
+                this.readCallbacks_[a] = b;
             };
             jspb.BinaryReader.prototype.runReadCallback = function (a) {
                 goog.asserts.assert(!goog.isNull(this.readCallbacks_));
                 a = this.readCallbacks_[a];
                 goog.asserts.assert(a);
-                return a(this)
+                return a(this);
             };
             jspb.BinaryReader.prototype.readAny = function (a) {
                 this.nextWireType_ = jspb.BinaryConstants.FieldTypeToWireType(a);
                 var b = jspb.BinaryConstants.FieldType;
                 switch (a) {
-                    case b.DOUBLE:
-                        return this.readDouble();
-                    case b.FLOAT:
-                        return this.readFloat();
-                    case b.INT64:
-                        return this.readInt64();
-                    case b.UINT64:
-                        return this.readUint64();
-                    case b.INT32:
-                        return this.readInt32();
-                    case b.FIXED64:
-                        return this.readFixed64();
-                    case b.FIXED32:
-                        return this.readFixed32();
-                    case b.BOOL:
-                        return this.readBool();
-                    case b.STRING:
-                        return this.readString();
-                    case b.GROUP:
-                        goog.asserts.fail("Group field type not supported in readAny()");
-                    case b.MESSAGE:
-                        goog.asserts.fail("Message field type not supported in readAny()");
-                    case b.BYTES:
-                        return this.readBytes();
-                    case b.UINT32:
-                        return this.readUint32();
-                    case b.ENUM:
-                        return this.readEnum();
-                    case b.SFIXED32:
-                        return this.readSfixed32();
-                    case b.SFIXED64:
-                        return this.readSfixed64();
-                    case b.SINT32:
-                        return this.readSint32();
-                    case b.SINT64:
-                        return this.readSint64();
-                    case b.FHASH64:
-                        return this.readFixedHash64();
-                    case b.VHASH64:
-                        return this.readVarintHash64();
-                    default:
-                        goog.asserts.fail("Invalid field type in readAny()")
+                case b.DOUBLE:
+                    return this.readDouble();
+                case b.FLOAT:
+                    return this.readFloat();
+                case b.INT64:
+                    return this.readInt64();
+                case b.UINT64:
+                    return this.readUint64();
+                case b.INT32:
+                    return this.readInt32();
+                case b.FIXED64:
+                    return this.readFixed64();
+                case b.FIXED32:
+                    return this.readFixed32();
+                case b.BOOL:
+                    return this.readBool();
+                case b.STRING:
+                    return this.readString();
+                case b.GROUP:
+                    goog.asserts.fail("Group field type not supported in readAny()");
+                case b.MESSAGE:
+                    goog.asserts.fail("Message field type not supported in readAny()");
+                case b.BYTES:
+                    return this.readBytes();
+                case b.UINT32:
+                    return this.readUint32();
+                case b.ENUM:
+                    return this.readEnum();
+                case b.SFIXED32:
+                    return this.readSfixed32();
+                case b.SFIXED64:
+                    return this.readSfixed64();
+                case b.SINT32:
+                    return this.readSint32();
+                case b.SINT64:
+                    return this.readSint64();
+                case b.FHASH64:
+                    return this.readFixedHash64();
+                case b.VHASH64:
+                    return this.readVarintHash64();
+                default:
+                    goog.asserts.fail("Invalid field type in readAny()");
                 }
-                return 0
+                return 0;
             };
             jspb.BinaryReader.prototype.readMessage = function (a, b) {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.DELIMITED);
@@ -5183,200 +5214,200 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 this.decoder_.setEnd(d);
                 b(a, this);
                 this.decoder_.setCursor(d);
-                this.decoder_.setEnd(c)
+                this.decoder_.setEnd(c);
             };
             jspb.BinaryReader.prototype.readGroup = function (a, b, c) {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.START_GROUP);
                 goog.asserts.assert(this.nextField_ == a);
                 c(b, this);
-                this.error_ || this.nextWireType_ == jspb.BinaryConstants.WireType.END_GROUP || (goog.asserts.fail("Group submessage did not end with an END_GROUP tag"), this.error_ = !0)
+                this.error_ || this.nextWireType_ == jspb.BinaryConstants.WireType.END_GROUP || (goog.asserts.fail("Group submessage did not end with an END_GROUP tag"), this.error_ = !0);
             };
             jspb.BinaryReader.prototype.getFieldDecoder = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.DELIMITED);
                 var a = this.decoder_.readUnsignedVarint32(), b = this.decoder_.getCursor(), c = b + a,
                     a = jspb.BinaryDecoder.alloc(this.decoder_.getBuffer(), b, a);
                 this.decoder_.setCursor(c);
-                return a
+                return a;
             };
             jspb.BinaryReader.prototype.readInt32 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readSignedVarint32()
+                return this.decoder_.readSignedVarint32();
             };
             jspb.BinaryReader.prototype.readInt32String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readSignedVarint32String()
+                return this.decoder_.readSignedVarint32String();
             };
             jspb.BinaryReader.prototype.readInt64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readSignedVarint64()
+                return this.decoder_.readSignedVarint64();
             };
             jspb.BinaryReader.prototype.readInt64String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readSignedVarint64String()
+                return this.decoder_.readSignedVarint64String();
             };
             jspb.BinaryReader.prototype.readUint32 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readUnsignedVarint32()
+                return this.decoder_.readUnsignedVarint32();
             };
             jspb.BinaryReader.prototype.readUint32String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readUnsignedVarint32String()
+                return this.decoder_.readUnsignedVarint32String();
             };
             jspb.BinaryReader.prototype.readUint64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readUnsignedVarint64()
+                return this.decoder_.readUnsignedVarint64();
             };
             jspb.BinaryReader.prototype.readUint64String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readUnsignedVarint64String()
+                return this.decoder_.readUnsignedVarint64String();
             };
             jspb.BinaryReader.prototype.readSint32 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readZigzagVarint32()
+                return this.decoder_.readZigzagVarint32();
             };
             jspb.BinaryReader.prototype.readSint64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readZigzagVarint64()
+                return this.decoder_.readZigzagVarint64();
             };
             jspb.BinaryReader.prototype.readSint64String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readZigzagVarint64String()
+                return this.decoder_.readZigzagVarint64String();
             };
             jspb.BinaryReader.prototype.readFixed32 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED32);
-                return this.decoder_.readUint32()
+                return this.decoder_.readUint32();
             };
             jspb.BinaryReader.prototype.readFixed64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED64);
-                return this.decoder_.readUint64()
+                return this.decoder_.readUint64();
             };
             jspb.BinaryReader.prototype.readFixed64String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED64);
-                return this.decoder_.readUint64String()
+                return this.decoder_.readUint64String();
             };
             jspb.BinaryReader.prototype.readSfixed32 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED32);
-                return this.decoder_.readInt32()
+                return this.decoder_.readInt32();
             };
             jspb.BinaryReader.prototype.readSfixed32String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED32);
-                return this.decoder_.readInt32().toString()
+                return this.decoder_.readInt32().toString();
             };
             jspb.BinaryReader.prototype.readSfixed64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED64);
-                return this.decoder_.readInt64()
+                return this.decoder_.readInt64();
             };
             jspb.BinaryReader.prototype.readSfixed64String = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED64);
-                return this.decoder_.readInt64String()
+                return this.decoder_.readInt64String();
             };
             jspb.BinaryReader.prototype.readFloat = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED32);
-                return this.decoder_.readFloat()
+                return this.decoder_.readFloat();
             };
             jspb.BinaryReader.prototype.readDouble = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED64);
-                return this.decoder_.readDouble()
+                return this.decoder_.readDouble();
             };
             jspb.BinaryReader.prototype.readBool = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return !!this.decoder_.readUnsignedVarint32()
+                return !!this.decoder_.readUnsignedVarint32();
             };
             jspb.BinaryReader.prototype.readEnum = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readSignedVarint64()
+                return this.decoder_.readSignedVarint64();
             };
             jspb.BinaryReader.prototype.readString = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.DELIMITED);
                 var a = this.decoder_.readUnsignedVarint32();
-                return this.decoder_.readString(a)
+                return this.decoder_.readString(a);
             };
             jspb.BinaryReader.prototype.readBytes = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.DELIMITED);
                 var a = this.decoder_.readUnsignedVarint32();
-                return this.decoder_.readBytes(a)
+                return this.decoder_.readBytes(a);
             };
             jspb.BinaryReader.prototype.readVarintHash64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.VARINT);
-                return this.decoder_.readVarintHash64()
+                return this.decoder_.readVarintHash64();
             };
             jspb.BinaryReader.prototype.readFixedHash64 = function () {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.FIXED64);
-                return this.decoder_.readFixedHash64()
+                return this.decoder_.readFixedHash64();
             };
             jspb.BinaryReader.prototype.readPackedField_ = function (a) {
                 goog.asserts.assert(this.nextWireType_ == jspb.BinaryConstants.WireType.DELIMITED);
                 for (var b = this.decoder_.readUnsignedVarint32(), b = this.decoder_.getCursor() + b, c = []; this.decoder_.getCursor() < b;) c.push(a.call(this.decoder_));
-                return c
+                return c;
             };
             jspb.BinaryReader.prototype.readPackedInt32 = function () {
-                return this.readPackedField_(this.decoder_.readSignedVarint32)
+                return this.readPackedField_(this.decoder_.readSignedVarint32);
             };
             jspb.BinaryReader.prototype.readPackedInt32String = function () {
-                return this.readPackedField_(this.decoder_.readSignedVarint32String)
+                return this.readPackedField_(this.decoder_.readSignedVarint32String);
             };
             jspb.BinaryReader.prototype.readPackedInt64 = function () {
-                return this.readPackedField_(this.decoder_.readSignedVarint64)
+                return this.readPackedField_(this.decoder_.readSignedVarint64);
             };
             jspb.BinaryReader.prototype.readPackedInt64String = function () {
-                return this.readPackedField_(this.decoder_.readSignedVarint64String)
+                return this.readPackedField_(this.decoder_.readSignedVarint64String);
             };
             jspb.BinaryReader.prototype.readPackedUint32 = function () {
-                return this.readPackedField_(this.decoder_.readUnsignedVarint32)
+                return this.readPackedField_(this.decoder_.readUnsignedVarint32);
             };
             jspb.BinaryReader.prototype.readPackedUint32String = function () {
-                return this.readPackedField_(this.decoder_.readUnsignedVarint32String)
+                return this.readPackedField_(this.decoder_.readUnsignedVarint32String);
             };
             jspb.BinaryReader.prototype.readPackedUint64 = function () {
-                return this.readPackedField_(this.decoder_.readUnsignedVarint64)
+                return this.readPackedField_(this.decoder_.readUnsignedVarint64);
             };
             jspb.BinaryReader.prototype.readPackedUint64String = function () {
-                return this.readPackedField_(this.decoder_.readUnsignedVarint64String)
+                return this.readPackedField_(this.decoder_.readUnsignedVarint64String);
             };
             jspb.BinaryReader.prototype.readPackedSint32 = function () {
-                return this.readPackedField_(this.decoder_.readZigzagVarint32)
+                return this.readPackedField_(this.decoder_.readZigzagVarint32);
             };
             jspb.BinaryReader.prototype.readPackedSint64 = function () {
-                return this.readPackedField_(this.decoder_.readZigzagVarint64)
+                return this.readPackedField_(this.decoder_.readZigzagVarint64);
             };
             jspb.BinaryReader.prototype.readPackedSint64String = function () {
-                return this.readPackedField_(this.decoder_.readZigzagVarint64String)
+                return this.readPackedField_(this.decoder_.readZigzagVarint64String);
             };
             jspb.BinaryReader.prototype.readPackedFixed32 = function () {
-                return this.readPackedField_(this.decoder_.readUint32)
+                return this.readPackedField_(this.decoder_.readUint32);
             };
             jspb.BinaryReader.prototype.readPackedFixed64 = function () {
-                return this.readPackedField_(this.decoder_.readUint64)
+                return this.readPackedField_(this.decoder_.readUint64);
             };
             jspb.BinaryReader.prototype.readPackedFixed64String = function () {
-                return this.readPackedField_(this.decoder_.readUint64String)
+                return this.readPackedField_(this.decoder_.readUint64String);
             };
             jspb.BinaryReader.prototype.readPackedSfixed32 = function () {
-                return this.readPackedField_(this.decoder_.readInt32)
+                return this.readPackedField_(this.decoder_.readInt32);
             };
             jspb.BinaryReader.prototype.readPackedSfixed64 = function () {
-                return this.readPackedField_(this.decoder_.readInt64)
+                return this.readPackedField_(this.decoder_.readInt64);
             };
             jspb.BinaryReader.prototype.readPackedSfixed64String = function () {
-                return this.readPackedField_(this.decoder_.readInt64String)
+                return this.readPackedField_(this.decoder_.readInt64String);
             };
             jspb.BinaryReader.prototype.readPackedFloat = function () {
-                return this.readPackedField_(this.decoder_.readFloat)
+                return this.readPackedField_(this.decoder_.readFloat);
             };
             jspb.BinaryReader.prototype.readPackedDouble = function () {
-                return this.readPackedField_(this.decoder_.readDouble)
+                return this.readPackedField_(this.decoder_.readDouble);
             };
             jspb.BinaryReader.prototype.readPackedBool = function () {
-                return this.readPackedField_(this.decoder_.readBool)
+                return this.readPackedField_(this.decoder_.readBool);
             };
             jspb.BinaryReader.prototype.readPackedEnum = function () {
-                return this.readPackedField_(this.decoder_.readEnum)
+                return this.readPackedField_(this.decoder_.readEnum);
             };
             jspb.BinaryReader.prototype.readPackedVarintHash64 = function () {
-                return this.readPackedField_(this.decoder_.readVarintHash64)
+                return this.readPackedField_(this.decoder_.readVarintHash64);
             };
             jspb.BinaryReader.prototype.readPackedFixedHash64 = function () {
-                return this.readPackedField_(this.decoder_.readFixedHash64)
+                return this.readPackedField_(this.decoder_.readFixedHash64);
             };
             jspb.Export = {};
             exports.Map = jspb.Map;
@@ -5390,7 +5421,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
             exports.object = {extend: goog.object.extend};
             exports.typeOf = goog.typeOf;
 
-        }).call(this, typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+        }).call(this, typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {});
     }, {}], 2: [function (_require, module, exports) {
         /**
          * @fileoverview
@@ -5399,13 +5430,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
          *     field starts with 'MSG_' and isn't a translatable message.
          * @public
          */
-// GENERATED CODE -- DO NOT EDIT!
+        // GENERATED CODE -- DO NOT EDIT!
 
-        var jspb = _require('google-protobuf');
+        var jspb = _require("google-protobuf");
         var goog = jspb;
         var global = window;// var global = Function('return this')();
 
-        goog.exportSymbol('proto.stream.ErrorCode', null, global);
+        goog.exportSymbol("proto.stream.ErrorCode", null, global);
         /**
          * @enum {number}
          */
@@ -5428,14 +5459,14 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         goog.object.extend(exports, proto.stream);
 
     }, {"google-protobuf": 1}], 3: [function (_require, module, exports) {
-        var myProto = _require('./sdk_pb');
-        var myProto1 = _require('./gateway_pb');
-        var myProto2 = _require('./errorcode_pb');
+        var myProto = _require("./sdk_pb");
+        var myProto1 = _require("./gateway_pb");
+        var myProto2 = _require("./errorcode_pb");
         module.exports = {
             DataProto: myProto,
             DataProto: myProto1,
             DataProto: myProto2
-        }
+        };
     }, {"./errorcode_pb": 2, "./gateway_pb": 4, "./sdk_pb": 5}], 4: [function (_require, module, exports) {
         /**
          * @fileoverview
@@ -5444,64 +5475,64 @@ function commEngineStateCheck(engineState, roomLoock, type) {
          *     field starts with 'MSG_' and isn't a translatable message.
          * @public
          */
-// GENERATED CODE -- DO NOT EDIT!
+        // GENERATED CODE -- DO NOT EDIT!
 
-        var jspb = _require('google-protobuf');
+        var jspb = _require("google-protobuf");
         var goog = jspb;
         var global = window;// var global = Function('return this')();
 
-        var errorcode_pb = _require('./errorcode_pb.js');
-        goog.exportSymbol('proto.stream.BookInfo', null, global);
-        goog.exportSymbol('proto.stream.CmdId', null, global);
-        goog.exportSymbol('proto.stream.ConnDetailV2', null, global);
-        goog.exportSymbol('proto.stream.CreateRoom', null, global);
-        goog.exportSymbol('proto.stream.CreateRoomRsp', null, global);
-        goog.exportSymbol('proto.stream.DisconnectReq', null, global);
-        goog.exportSymbol('proto.stream.DisconnectRsp', null, global);
-        goog.exportSymbol('proto.stream.GetRoomDetailReq', null, global);
-        goog.exportSymbol('proto.stream.GetRoomDetailRsp', null, global);
-        goog.exportSymbol('proto.stream.GetRoomList', null, global);
-        goog.exportSymbol('proto.stream.GetRoomListExReq', null, global);
-        goog.exportSymbol('proto.stream.GetRoomListExRsp', null, global);
-        goog.exportSymbol('proto.stream.GetRoomListRsp', null, global);
-        goog.exportSymbol('proto.stream.HeartbeatReq', null, global);
-        goog.exportSymbol('proto.stream.HeartbeatRsp', null, global);
-        goog.exportSymbol('proto.stream.JoinOpenNotify', null, global);
-        goog.exportSymbol('proto.stream.JoinOpenReq', null, global);
-        goog.exportSymbol('proto.stream.JoinOpenRsp', null, global);
-        goog.exportSymbol('proto.stream.JoinOverNotify', null, global);
-        goog.exportSymbol('proto.stream.JoinOverReq', null, global);
-        goog.exportSymbol('proto.stream.JoinOverRsp', null, global);
-        goog.exportSymbol('proto.stream.JoinRoomReq', null, global);
-        goog.exportSymbol('proto.stream.JoinRoomRsp', null, global);
-        goog.exportSymbol('proto.stream.JoinRoomType', null, global);
-        goog.exportSymbol('proto.stream.KickPlayer', null, global);
-        goog.exportSymbol('proto.stream.KickPlayerNotify', null, global);
-        goog.exportSymbol('proto.stream.KickPlayerRsp', null, global);
-        goog.exportSymbol('proto.stream.LeaveRoomReq', null, global);
-        goog.exportSymbol('proto.stream.LeaveRoomRsp', null, global);
-        goog.exportSymbol('proto.stream.LoginReq', null, global);
-        goog.exportSymbol('proto.stream.LoginRsp', null, global);
-        goog.exportSymbol('proto.stream.LogoutRsp', null, global);
-        goog.exportSymbol('proto.stream.NetworkStateNotify', null, global);
-        goog.exportSymbol('proto.stream.NetworkStateReq', null, global);
-        goog.exportSymbol('proto.stream.NetworkStateRsp', null, global);
-        goog.exportSymbol('proto.stream.NoticeJoin', null, global);
-        goog.exportSymbol('proto.stream.NoticeLeave', null, global);
-        goog.exportSymbol('proto.stream.NoticeRoomProperty', null, global);
-        goog.exportSymbol('proto.stream.PlayerInfo', null, global);
-        goog.exportSymbol('proto.stream.RoomDetail', null, global);
-        goog.exportSymbol('proto.stream.RoomFilter', null, global);
-        goog.exportSymbol('proto.stream.RoomInfo', null, global);
-        goog.exportSymbol('proto.stream.RoomInfoEx', null, global);
-        goog.exportSymbol('proto.stream.RoomListSort', null, global);
-        goog.exportSymbol('proto.stream.RoomState', null, global);
-        goog.exportSymbol('proto.stream.SetRoomPropertyReq', null, global);
-        goog.exportSymbol('proto.stream.SetRoomPropertyRsp', null, global);
-        goog.exportSymbol('proto.stream.SortOrder', null, global);
-        goog.exportSymbol('proto.stream.TcpProtoHeader', null, global);
-        goog.exportSymbol('proto.stream.UserV2', null, global);
-        goog.exportSymbol('proto.stream.keyValue', null, global);
+        var errorcode_pb = _require("./errorcode_pb.js");
+        goog.exportSymbol("proto.stream.BookInfo", null, global);
+        goog.exportSymbol("proto.stream.CmdId", null, global);
+        goog.exportSymbol("proto.stream.ConnDetailV2", null, global);
+        goog.exportSymbol("proto.stream.CreateRoom", null, global);
+        goog.exportSymbol("proto.stream.CreateRoomRsp", null, global);
+        goog.exportSymbol("proto.stream.DisconnectReq", null, global);
+        goog.exportSymbol("proto.stream.DisconnectRsp", null, global);
+        goog.exportSymbol("proto.stream.GetRoomDetailReq", null, global);
+        goog.exportSymbol("proto.stream.GetRoomDetailRsp", null, global);
+        goog.exportSymbol("proto.stream.GetRoomList", null, global);
+        goog.exportSymbol("proto.stream.GetRoomListExReq", null, global);
+        goog.exportSymbol("proto.stream.GetRoomListExRsp", null, global);
+        goog.exportSymbol("proto.stream.GetRoomListRsp", null, global);
+        goog.exportSymbol("proto.stream.HeartbeatReq", null, global);
+        goog.exportSymbol("proto.stream.HeartbeatRsp", null, global);
+        goog.exportSymbol("proto.stream.JoinOpenNotify", null, global);
+        goog.exportSymbol("proto.stream.JoinOpenReq", null, global);
+        goog.exportSymbol("proto.stream.JoinOpenRsp", null, global);
+        goog.exportSymbol("proto.stream.JoinOverNotify", null, global);
+        goog.exportSymbol("proto.stream.JoinOverReq", null, global);
+        goog.exportSymbol("proto.stream.JoinOverRsp", null, global);
+        goog.exportSymbol("proto.stream.JoinRoomReq", null, global);
+        goog.exportSymbol("proto.stream.JoinRoomRsp", null, global);
+        goog.exportSymbol("proto.stream.JoinRoomType", null, global);
+        goog.exportSymbol("proto.stream.KickPlayer", null, global);
+        goog.exportSymbol("proto.stream.KickPlayerNotify", null, global);
+        goog.exportSymbol("proto.stream.KickPlayerRsp", null, global);
+        goog.exportSymbol("proto.stream.LeaveRoomReq", null, global);
+        goog.exportSymbol("proto.stream.LeaveRoomRsp", null, global);
+        goog.exportSymbol("proto.stream.LoginReq", null, global);
+        goog.exportSymbol("proto.stream.LoginRsp", null, global);
+        goog.exportSymbol("proto.stream.LogoutRsp", null, global);
+        goog.exportSymbol("proto.stream.NetworkStateNotify", null, global);
+        goog.exportSymbol("proto.stream.NetworkStateReq", null, global);
+        goog.exportSymbol("proto.stream.NetworkStateRsp", null, global);
+        goog.exportSymbol("proto.stream.NoticeJoin", null, global);
+        goog.exportSymbol("proto.stream.NoticeLeave", null, global);
+        goog.exportSymbol("proto.stream.NoticeRoomProperty", null, global);
+        goog.exportSymbol("proto.stream.PlayerInfo", null, global);
+        goog.exportSymbol("proto.stream.RoomDetail", null, global);
+        goog.exportSymbol("proto.stream.RoomFilter", null, global);
+        goog.exportSymbol("proto.stream.RoomInfo", null, global);
+        goog.exportSymbol("proto.stream.RoomInfoEx", null, global);
+        goog.exportSymbol("proto.stream.RoomListSort", null, global);
+        goog.exportSymbol("proto.stream.RoomState", null, global);
+        goog.exportSymbol("proto.stream.SetRoomPropertyReq", null, global);
+        goog.exportSymbol("proto.stream.SetRoomPropertyRsp", null, global);
+        goog.exportSymbol("proto.stream.SortOrder", null, global);
+        goog.exportSymbol("proto.stream.TcpProtoHeader", null, global);
+        goog.exportSymbol("proto.stream.UserV2", null, global);
+        goog.exportSymbol("proto.stream.keyValue", null, global);
 
         /**
          * Generated by JsPbCodeGenerator.
@@ -5518,7 +5549,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.LoginReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.LoginReq.displayName = 'proto.stream.LoginReq';
+            proto.stream.LoginReq.displayName = "proto.stream.LoginReq";
         }
 
 
@@ -5591,33 +5622,33 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setAppkey(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setDeviceid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setSign(value);
-                        break;
-                    case 5:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setSdkver(value);
-                        break;
-                    case 6:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setVendor(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setAppkey(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setDeviceid(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setSign(value);
+                    break;
+                case 5:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setSdkver(value);
+                    break;
+                case 6:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setVendor(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -5794,7 +5825,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.LoginRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.LoginRsp.displayName = 'proto.stream.LoginRsp';
+            proto.stream.LoginRsp.displayName = "proto.stream.LoginRsp";
         }
 
 
@@ -5863,17 +5894,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -5962,7 +5993,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.HeartbeatReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.HeartbeatReq.displayName = 'proto.stream.HeartbeatReq';
+            proto.stream.HeartbeatReq.displayName = "proto.stream.HeartbeatReq";
         }
 
 
@@ -6031,17 +6062,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -6130,7 +6161,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.HeartbeatRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.HeartbeatRsp.displayName = 'proto.stream.HeartbeatRsp';
+            proto.stream.HeartbeatRsp.displayName = "proto.stream.HeartbeatRsp";
         }
 
 
@@ -6199,17 +6230,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setGsexist(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setGsexist(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -6298,7 +6329,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.DisconnectReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.DisconnectReq.displayName = 'proto.stream.DisconnectReq';
+            proto.stream.DisconnectReq.displayName = "proto.stream.DisconnectReq";
         }
 
 
@@ -6368,21 +6399,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -6493,7 +6524,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.DisconnectRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.DisconnectRsp.displayName = 'proto.stream.DisconnectRsp';
+            proto.stream.DisconnectRsp.displayName = "proto.stream.DisconnectRsp";
         }
 
 
@@ -6561,13 +6592,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -6634,7 +6665,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.LogoutRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.LogoutRsp.displayName = 'proto.stream.LogoutRsp';
+            proto.stream.LogoutRsp.displayName = "proto.stream.LogoutRsp";
         }
 
 
@@ -6702,13 +6733,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -6775,7 +6806,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.keyValue, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.keyValue.displayName = 'proto.stream.keyValue';
+            proto.stream.keyValue.displayName = "proto.stream.keyValue";
         }
 
 
@@ -6844,17 +6875,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setKey(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setValue(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setKey(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setValue(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -6943,7 +6974,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.PlayerInfo, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.PlayerInfo.displayName = 'proto.stream.PlayerInfo';
+            proto.stream.PlayerInfo.displayName = "proto.stream.PlayerInfo";
         }
 
 
@@ -7012,17 +7043,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setUserprofile(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setUserprofile(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -7135,7 +7166,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.BookInfo, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.BookInfo.displayName = 'proto.stream.BookInfo';
+            proto.stream.BookInfo.displayName = "proto.stream.BookInfo";
         }
 
 
@@ -7206,25 +7237,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setBookid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setBookkey(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setHoteladdr(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setWssproxy(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setBookid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setBookkey(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setHoteladdr(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setWssproxy(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -7357,7 +7388,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.RoomInfo, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.RoomInfo.displayName = 'proto.stream.RoomInfo';
+            proto.stream.RoomInfo.displayName = "proto.stream.RoomInfo";
         }
 
 
@@ -7432,41 +7463,41 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setRoomname(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setMaxplayer(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setMode(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setCanwatch(value);
-                        break;
-                    case 6:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setVisibility(value);
-                        break;
-                    case 7:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    case 8:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setRoomname(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setMaxplayer(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setMode(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setCanwatch(value);
+                    break;
+                case 6:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setVisibility(value);
+                    break;
+                case 7:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                case 8:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -7711,7 +7742,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinRoomReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinRoomReq.displayName = 'proto.stream.JoinRoomReq';
+            proto.stream.JoinRoomReq.displayName = "proto.stream.JoinRoomReq";
         }
         /**
          * List of repeated fields within this message type.
@@ -7791,36 +7822,36 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.JoinRoomType} */ (reader.readEnum());
-                        msg.setJointype(value);
-                        break;
-                    case 2:
-                        var value = new proto.stream.PlayerInfo;
-                        reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
-                        msg.setPlayerinfo(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 4:
-                        var value = new proto.stream.RoomInfo;
-                        reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
-                        msg.setRoominfo(value);
-                        break;
-                    case 5:
-                        var value = new proto.stream.keyValue;
-                        reader.readMessage(value, proto.stream.keyValue.deserializeBinaryFromReader);
-                        msg.addTags(value);
-                        break;
-                    case 6:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.JoinRoomType} */ (reader.readEnum());
+                    msg.setJointype(value);
+                    break;
+                case 2:
+                    var value = new proto.stream.PlayerInfo;
+                    reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
+                    msg.setPlayerinfo(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 4:
+                    var value = new proto.stream.RoomInfo;
+                    reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
+                    msg.setRoominfo(value);
+                    break;
+                case 5:
+                    var value = new proto.stream.keyValue;
+                    reader.readMessage(value, proto.stream.keyValue.deserializeBinaryFromReader);
+                    msg.addTags(value);
+                    break;
+                case 6:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -8070,7 +8101,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinRoomRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinRoomRsp.displayName = 'proto.stream.JoinRoomRsp';
+            proto.stream.JoinRoomRsp.displayName = "proto.stream.JoinRoomRsp";
         }
         /**
          * List of repeated fields within this message type.
@@ -8149,32 +8180,32 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = new proto.stream.PlayerInfo;
-                        reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
-                        msg.addUsers(value);
-                        break;
-                    case 3:
-                        var value = new proto.stream.RoomInfo;
-                        reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
-                        msg.setRoominfo(value);
-                        break;
-                    case 4:
-                        var value = new proto.stream.BookInfo;
-                        reader.readMessage(value, proto.stream.BookInfo.deserializeBinaryFromReader);
-                        msg.setBookinfo(value);
-                        break;
-                    case 5:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = new proto.stream.PlayerInfo;
+                    reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
+                    msg.addUsers(value);
+                    break;
+                case 3:
+                    var value = new proto.stream.RoomInfo;
+                    reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
+                    msg.setRoominfo(value);
+                    break;
+                case 4:
+                    var value = new proto.stream.BookInfo;
+                    reader.readMessage(value, proto.stream.BookInfo.deserializeBinaryFromReader);
+                    msg.setBookinfo(value);
+                    break;
+                case 5:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -8402,7 +8433,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.NoticeJoin, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.NoticeJoin.displayName = 'proto.stream.NoticeJoin';
+            proto.stream.NoticeJoin.displayName = "proto.stream.NoticeJoin";
         }
 
 
@@ -8470,14 +8501,14 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = new proto.stream.PlayerInfo;
-                        reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
-                        msg.setUser(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = new proto.stream.PlayerInfo;
+                    reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
+                    msg.setUser(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -8560,7 +8591,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.NoticeLeave, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.NoticeLeave.displayName = 'proto.stream.NoticeLeave';
+            proto.stream.NoticeLeave.displayName = "proto.stream.NoticeLeave";
         }
 
 
@@ -8631,25 +8662,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -8806,7 +8837,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinOverReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinOverReq.displayName = 'proto.stream.JoinOverReq';
+            proto.stream.JoinOverReq.displayName = "proto.stream.JoinOverReq";
         }
 
 
@@ -8877,25 +8908,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -9052,7 +9083,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinOverRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinOverRsp.displayName = 'proto.stream.JoinOverRsp';
+            proto.stream.JoinOverRsp.displayName = "proto.stream.JoinOverRsp";
         }
 
 
@@ -9121,17 +9152,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -9244,7 +9275,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinOverNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinOverNotify.displayName = 'proto.stream.JoinOverNotify';
+            proto.stream.JoinOverNotify.displayName = "proto.stream.JoinOverNotify";
         }
 
 
@@ -9314,21 +9345,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSrcuserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSrcuserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -9463,7 +9494,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinOpenReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinOpenReq.displayName = 'proto.stream.JoinOpenReq';
+            proto.stream.JoinOpenReq.displayName = "proto.stream.JoinOpenReq";
         }
 
 
@@ -9534,25 +9565,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -9709,7 +9740,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinOpenRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinOpenRsp.displayName = 'proto.stream.JoinOpenRsp';
+            proto.stream.JoinOpenRsp.displayName = "proto.stream.JoinOpenRsp";
         }
 
 
@@ -9778,17 +9809,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -9901,7 +9932,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.JoinOpenNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.JoinOpenNotify.displayName = 'proto.stream.JoinOpenNotify';
+            proto.stream.JoinOpenNotify.displayName = "proto.stream.JoinOpenNotify";
         }
 
 
@@ -9971,21 +10002,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -10120,7 +10151,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.LeaveRoomReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.LeaveRoomReq.displayName = 'proto.stream.LeaveRoomReq';
+            proto.stream.LeaveRoomReq.displayName = "proto.stream.LeaveRoomReq";
         }
 
 
@@ -10191,25 +10222,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -10366,7 +10397,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.LeaveRoomRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.LeaveRoomRsp.displayName = 'proto.stream.LeaveRoomRsp';
+            proto.stream.LeaveRoomRsp.displayName = "proto.stream.LeaveRoomRsp";
         }
 
 
@@ -10437,25 +10468,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -10612,7 +10643,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.TcpProtoHeader, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.TcpProtoHeader.displayName = 'proto.stream.TcpProtoHeader';
+            proto.stream.TcpProtoHeader.displayName = "proto.stream.TcpProtoHeader";
         }
 
 
@@ -10684,29 +10715,29 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSize(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSeq(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setCmd(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setVersion(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSize(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSeq(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setCmd(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setVersion(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -10861,7 +10892,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.ConnDetailV2, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.ConnDetailV2.displayName = 'proto.stream.ConnDetailV2';
+            proto.stream.ConnDetailV2.displayName = "proto.stream.ConnDetailV2";
         }
 
 
@@ -10934,33 +10965,33 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFieldid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 5:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setHeartbeattime(value);
-                        break;
-                    case 6:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setVersion(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFieldid(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 5:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setHeartbeattime(value);
+                    break;
+                case 6:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setVersion(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -11137,7 +11168,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.UserV2, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.UserV2.displayName = 'proto.stream.UserV2';
+            proto.stream.UserV2.displayName = "proto.stream.UserV2";
         }
 
 
@@ -11212,41 +11243,41 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserId(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameId(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setVersionSdk(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setConnectionId(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setServiceId(value);
-                        break;
-                    case 6:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomId(value);
-                        break;
-                    case 7:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setDeviceId(value);
-                        break;
-                    case 8:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setConnStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserId(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameId(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setVersionSdk(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setConnectionId(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setServiceId(value);
+                    break;
+                case 6:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomId(value);
+                    break;
+                case 7:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setDeviceId(value);
+                    break;
+                case 8:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setConnStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -11467,7 +11498,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.NetworkStateReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.NetworkStateReq.displayName = 'proto.stream.NetworkStateReq';
+            proto.stream.NetworkStateReq.displayName = "proto.stream.NetworkStateReq";
         }
 
 
@@ -11538,25 +11569,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setState(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setState(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -11689,7 +11720,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.NetworkStateRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.NetworkStateRsp.displayName = 'proto.stream.NetworkStateRsp';
+            proto.stream.NetworkStateRsp.displayName = "proto.stream.NetworkStateRsp";
         }
 
 
@@ -11757,13 +11788,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -11830,7 +11861,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.NetworkStateNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.NetworkStateNotify.displayName = 'proto.stream.NetworkStateNotify';
+            proto.stream.NetworkStateNotify.displayName = "proto.stream.NetworkStateNotify";
         }
 
 
@@ -11901,25 +11932,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setState(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setState(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -12052,7 +12083,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.CreateRoom, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.CreateRoom.displayName = 'proto.stream.CreateRoom';
+            proto.stream.CreateRoom.displayName = "proto.stream.CreateRoom";
         }
 
 
@@ -12122,23 +12153,23 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = new proto.stream.PlayerInfo;
-                        reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
-                        msg.setPlayerinfo(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 3:
-                        var value = new proto.stream.RoomInfo;
-                        reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
-                        msg.setRoominfo(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = new proto.stream.PlayerInfo;
+                    reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
+                    msg.setPlayerinfo(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 3:
+                    var value = new proto.stream.RoomInfo;
+                    reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
+                    msg.setRoominfo(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -12281,7 +12312,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.CreateRoomRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.CreateRoomRsp.displayName = 'proto.stream.CreateRoomRsp';
+            proto.stream.CreateRoomRsp.displayName = "proto.stream.CreateRoomRsp";
         }
 
 
@@ -12352,26 +12383,26 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = new proto.stream.BookInfo;
-                        reader.readMessage(value, proto.stream.BookInfo.deserializeBinaryFromReader);
-                        msg.setBookinfo(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = new proto.stream.BookInfo;
+                    reader.readMessage(value, proto.stream.BookInfo.deserializeBinaryFromReader);
+                    msg.setBookinfo(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -12520,7 +12551,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.GetRoomList, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.GetRoomList.displayName = 'proto.stream.GetRoomList';
+            proto.stream.GetRoomList.displayName = "proto.stream.GetRoomList";
         }
 
 
@@ -12589,18 +12620,18 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = new proto.stream.RoomFilter;
-                        reader.readMessage(value, proto.stream.RoomFilter.deserializeBinaryFromReader);
-                        msg.setRoomfilter(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = new proto.stream.RoomFilter;
+                    reader.readMessage(value, proto.stream.RoomFilter.deserializeBinaryFromReader);
+                    msg.setRoomfilter(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -12705,7 +12736,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.RoomFilter, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.RoomFilter.displayName = 'proto.stream.RoomFilter';
+            proto.stream.RoomFilter.displayName = "proto.stream.RoomFilter";
         }
 
 
@@ -12778,33 +12809,33 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setMaxplayer(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setMode(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setCanwatch(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setFull(value);
-                        break;
-                    case 6:
-                        var value = /** @type {!proto.stream.RoomState} */ (reader.readEnum());
-                        msg.setState(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setMaxplayer(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setMode(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setCanwatch(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setFull(value);
+                    break;
+                case 6:
+                    var value = /** @type {!proto.stream.RoomState} */ (reader.readEnum());
+                    msg.setState(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -13005,7 +13036,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.GetRoomListRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.GetRoomListRsp.displayName = 'proto.stream.GetRoomListRsp';
+            proto.stream.GetRoomListRsp.displayName = "proto.stream.GetRoomListRsp";
         }
         /**
          * List of repeated fields within this message type.
@@ -13081,18 +13112,18 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = new proto.stream.RoomInfo;
-                        reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
-                        msg.addRoominfo(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = new proto.stream.RoomInfo;
+                    reader.readMessage(value, proto.stream.RoomInfo.deserializeBinaryFromReader);
+                    msg.addRoominfo(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -13198,7 +13229,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.GetRoomListExReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.GetRoomListExReq.displayName = 'proto.stream.GetRoomListExReq';
+            proto.stream.GetRoomListExReq.displayName = "proto.stream.GetRoomListExReq";
         }
 
 
@@ -13271,34 +13302,34 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = new proto.stream.RoomFilter;
-                        reader.readMessage(value, proto.stream.RoomFilter.deserializeBinaryFromReader);
-                        msg.setRoomfilter(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!proto.stream.RoomListSort} */ (reader.readEnum());
-                        msg.setSort(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!proto.stream.SortOrder} */ (reader.readEnum());
-                        msg.setOrder(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setPageno(value);
-                        break;
-                    case 6:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setPagesize(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = new proto.stream.RoomFilter;
+                    reader.readMessage(value, proto.stream.RoomFilter.deserializeBinaryFromReader);
+                    msg.setRoomfilter(value);
+                    break;
+                case 3:
+                    var value = /** @type {!proto.stream.RoomListSort} */ (reader.readEnum());
+                    msg.setSort(value);
+                    break;
+                case 4:
+                    var value = /** @type {!proto.stream.SortOrder} */ (reader.readEnum());
+                    msg.setOrder(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setPageno(value);
+                    break;
+                case 6:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setPagesize(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -13491,7 +13522,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.RoomInfoEx, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.RoomInfoEx.displayName = 'proto.stream.RoomInfoEx';
+            proto.stream.RoomInfoEx.displayName = "proto.stream.RoomInfoEx";
         }
 
 
@@ -13569,53 +13600,53 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setRoomname(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setMaxplayer(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameplayer(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setWatchplayer(value);
-                        break;
-                    case 6:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setMode(value);
-                        break;
-                    case 7:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setCanwatch(value);
-                        break;
-                    case 8:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    case 9:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    case 10:
-                        var value = /** @type {!proto.stream.RoomState} */ (reader.readEnum());
-                        msg.setState(value);
-                        break;
-                    case 11:
-                        var value = /** @type {number} */ (reader.readUint64());
-                        msg.setCreatetime(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setRoomname(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setMaxplayer(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameplayer(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setWatchplayer(value);
+                    break;
+                case 6:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setMode(value);
+                    break;
+                case 7:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setCanwatch(value);
+                    break;
+                case 8:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                case 9:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                case 10:
+                    var value = /** @type {!proto.stream.RoomState} */ (reader.readEnum());
+                    msg.setState(value);
+                    break;
+                case 11:
+                    var value = /** @type {number} */ (reader.readUint64());
+                    msg.setCreatetime(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -13926,7 +13957,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.GetRoomListExRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.GetRoomListExRsp.displayName = 'proto.stream.GetRoomListExRsp';
+            proto.stream.GetRoomListExRsp.displayName = "proto.stream.GetRoomListExRsp";
         }
         /**
          * List of repeated fields within this message type.
@@ -14003,22 +14034,22 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setTotal(value);
-                        break;
-                    case 3:
-                        var value = new proto.stream.RoomInfoEx;
-                        reader.readMessage(value, proto.stream.RoomInfoEx.deserializeBinaryFromReader);
-                        msg.addRoominfoex(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setTotal(value);
+                    break;
+                case 3:
+                    var value = new proto.stream.RoomInfoEx;
+                    reader.readMessage(value, proto.stream.RoomInfoEx.deserializeBinaryFromReader);
+                    msg.addRoominfoex(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -14146,7 +14177,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.GetRoomDetailReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.GetRoomDetailReq.displayName = 'proto.stream.GetRoomDetailReq';
+            proto.stream.GetRoomDetailReq.displayName = "proto.stream.GetRoomDetailReq";
         }
 
 
@@ -14215,17 +14246,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -14314,7 +14345,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.GetRoomDetailRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.GetRoomDetailRsp.displayName = 'proto.stream.GetRoomDetailRsp';
+            proto.stream.GetRoomDetailRsp.displayName = "proto.stream.GetRoomDetailRsp";
         }
 
 
@@ -14383,18 +14414,18 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = new proto.stream.RoomDetail;
-                        reader.readMessage(value, proto.stream.RoomDetail.deserializeBinaryFromReader);
-                        msg.setRoomdetail(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = new proto.stream.RoomDetail;
+                    reader.readMessage(value, proto.stream.RoomDetail.deserializeBinaryFromReader);
+                    msg.setRoomdetail(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -14499,7 +14530,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.RoomDetail, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.RoomDetail.displayName = 'proto.stream.RoomDetail';
+            proto.stream.RoomDetail.displayName = "proto.stream.RoomDetail";
         }
         /**
          * List of repeated fields within this message type.
@@ -14582,46 +14613,46 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setState(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setMaxplayer(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setMode(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readInt32());
-                        msg.setCanwatch(value);
-                        break;
-                    case 6:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    case 7:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    case 8:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setCreateflag(value);
-                        break;
-                    case 9:
-                        var value = new proto.stream.PlayerInfo;
-                        reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
-                        msg.addPlayerinfos(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setState(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setMaxplayer(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setMode(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readInt32());
+                    msg.setCanwatch(value);
+                    break;
+                case 6:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                case 7:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                case 8:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setCreateflag(value);
+                    break;
+                case 9:
+                    var value = new proto.stream.PlayerInfo;
+                    reader.readMessage(value, proto.stream.PlayerInfo.deserializeBinaryFromReader);
+                    msg.addPlayerinfos(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -14905,7 +14936,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.KickPlayer, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.KickPlayer.displayName = 'proto.stream.KickPlayer';
+            proto.stream.KickPlayer.displayName = "proto.stream.KickPlayer";
         }
 
 
@@ -14976,25 +15007,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSrcuserid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSrcuserid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -15151,7 +15182,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.KickPlayerRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.KickPlayerRsp.displayName = 'proto.stream.KickPlayerRsp';
+            proto.stream.KickPlayerRsp.displayName = "proto.stream.KickPlayerRsp";
         }
 
 
@@ -15222,25 +15253,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -15373,7 +15404,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.KickPlayerNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.KickPlayerNotify.displayName = 'proto.stream.KickPlayerNotify';
+            proto.stream.KickPlayerNotify.displayName = "proto.stream.KickPlayerNotify";
         }
 
 
@@ -15444,25 +15475,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSrcuserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setOwner(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSrcuserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setOwner(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -15619,7 +15650,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetRoomPropertyReq, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetRoomPropertyReq.displayName = 'proto.stream.SetRoomPropertyReq';
+            proto.stream.SetRoomPropertyReq.displayName = "proto.stream.SetRoomPropertyReq";
         }
 
 
@@ -15690,25 +15721,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -15865,7 +15896,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetRoomPropertyRsp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetRoomPropertyRsp.displayName = 'proto.stream.SetRoomPropertyRsp';
+            proto.stream.SetRoomPropertyRsp.displayName = "proto.stream.SetRoomPropertyRsp";
         }
 
 
@@ -15936,25 +15967,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {!proto.stream.ErrorCode} */ (reader.readEnum());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -16111,7 +16142,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.NoticeRoomProperty, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.NoticeRoomProperty.displayName = 'proto.stream.NoticeRoomProperty';
+            proto.stream.NoticeRoomProperty.displayName = "proto.stream.NoticeRoomProperty";
         }
 
 
@@ -16181,21 +16212,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setRoomproperty(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setRoomproperty(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -16405,35 +16436,35 @@ function commEngineStateCheck(engineState, roomLoock, type) {
          *     field starts with 'MSG_' and isn't a translatable message.
          * @public
          */
-// GENERATED CODE -- DO NOT EDIT!
+        // GENERATED CODE -- DO NOT EDIT!
 
-        var jspb = _require('google-protobuf');
+        var jspb = _require("google-protobuf");
         var goog = jspb;
         var global = window;// var global = Function('return this')();
 
-        goog.exportSymbol('proto.stream.Broadcast', null, global);
-        goog.exportSymbol('proto.stream.BroadcastAck', null, global);
-        goog.exportSymbol('proto.stream.CheckIn', null, global);
-        goog.exportSymbol('proto.stream.CheckInAck', null, global);
-        goog.exportSymbol('proto.stream.CheckInNotify', null, global);
-        goog.exportSymbol('proto.stream.FrameBroadcast', null, global);
-        goog.exportSymbol('proto.stream.FrameBroadcastAck', null, global);
-        goog.exportSymbol('proto.stream.FrameDataNotify', null, global);
-        goog.exportSymbol('proto.stream.FrameSyncNotify', null, global);
-        goog.exportSymbol('proto.stream.Heartbeat', null, global);
-        goog.exportSymbol('proto.stream.HeartbeatAck', null, global);
-        goog.exportSymbol('proto.stream.Notify', null, global);
-        goog.exportSymbol('proto.stream.Publish', null, global);
-        goog.exportSymbol('proto.stream.PublishAck', null, global);
-        goog.exportSymbol('proto.stream.PublishNotify', null, global);
-        goog.exportSymbol('proto.stream.SDKHotelCmdID', null, global);
-        goog.exportSymbol('proto.stream.SetFrameSyncRate', null, global);
-        goog.exportSymbol('proto.stream.SetFrameSyncRateAck', null, global);
-        goog.exportSymbol('proto.stream.SetFrameSyncRateNotify', null, global);
-        goog.exportSymbol('proto.stream.SetUseTimeStamp', null, global);
-        goog.exportSymbol('proto.stream.SetUseTimeStampAck', null, global);
-        goog.exportSymbol('proto.stream.Subscribe', null, global);
-        goog.exportSymbol('proto.stream.SubscribeAck', null, global);
+        goog.exportSymbol("proto.stream.Broadcast", null, global);
+        goog.exportSymbol("proto.stream.BroadcastAck", null, global);
+        goog.exportSymbol("proto.stream.CheckIn", null, global);
+        goog.exportSymbol("proto.stream.CheckInAck", null, global);
+        goog.exportSymbol("proto.stream.CheckInNotify", null, global);
+        goog.exportSymbol("proto.stream.FrameBroadcast", null, global);
+        goog.exportSymbol("proto.stream.FrameBroadcastAck", null, global);
+        goog.exportSymbol("proto.stream.FrameDataNotify", null, global);
+        goog.exportSymbol("proto.stream.FrameSyncNotify", null, global);
+        goog.exportSymbol("proto.stream.Heartbeat", null, global);
+        goog.exportSymbol("proto.stream.HeartbeatAck", null, global);
+        goog.exportSymbol("proto.stream.Notify", null, global);
+        goog.exportSymbol("proto.stream.Publish", null, global);
+        goog.exportSymbol("proto.stream.PublishAck", null, global);
+        goog.exportSymbol("proto.stream.PublishNotify", null, global);
+        goog.exportSymbol("proto.stream.SDKHotelCmdID", null, global);
+        goog.exportSymbol("proto.stream.SetFrameSyncRate", null, global);
+        goog.exportSymbol("proto.stream.SetFrameSyncRateAck", null, global);
+        goog.exportSymbol("proto.stream.SetFrameSyncRateNotify", null, global);
+        goog.exportSymbol("proto.stream.SetUseTimeStamp", null, global);
+        goog.exportSymbol("proto.stream.SetUseTimeStampAck", null, global);
+        goog.exportSymbol("proto.stream.Subscribe", null, global);
+        goog.exportSymbol("proto.stream.SubscribeAck", null, global);
 
         /**
          * Generated by JsPbCodeGenerator.
@@ -16450,7 +16481,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.CheckIn, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.CheckIn.displayName = 'proto.stream.CheckIn';
+            proto.stream.CheckIn.displayName = "proto.stream.CheckIn";
         }
 
 
@@ -16522,29 +16553,29 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setBookid(value);
-                        break;
-                    case 5:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setKey(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setBookid(value);
+                    break;
+                case 5:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setKey(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -16699,7 +16730,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.CheckInAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.CheckInAck.displayName = 'proto.stream.CheckInAck';
+            proto.stream.CheckInAck.displayName = "proto.stream.CheckInAck";
         }
         /**
          * List of repeated fields within this message type.
@@ -16777,29 +16808,29 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setBookid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
-                        msg.setCheckinsList(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
-                        msg.setPlayersList(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setMaxplayers(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setBookid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
+                    msg.setCheckinsList(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
+                    msg.setPlayersList(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setMaxplayers(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -16982,7 +17013,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.Heartbeat, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.Heartbeat.displayName = 'proto.stream.Heartbeat';
+            proto.stream.Heartbeat.displayName = "proto.stream.Heartbeat";
         }
 
 
@@ -17052,21 +17083,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -17177,7 +17208,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.HeartbeatAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.HeartbeatAck.displayName = 'proto.stream.HeartbeatAck';
+            proto.stream.HeartbeatAck.displayName = "proto.stream.HeartbeatAck";
         }
 
 
@@ -17245,13 +17276,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -17318,7 +17349,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.Broadcast, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.Broadcast.displayName = 'proto.stream.Broadcast';
+            proto.stream.Broadcast.displayName = "proto.stream.Broadcast";
         }
         /**
          * List of repeated fields within this message type.
@@ -17395,25 +17426,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFlag(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
-                        msg.setDstuidsList(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFlag(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
+                    msg.setDstuidsList(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -17584,7 +17615,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.BroadcastAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.BroadcastAck.displayName = 'proto.stream.BroadcastAck';
+            proto.stream.BroadcastAck.displayName = "proto.stream.BroadcastAck";
         }
 
 
@@ -17652,13 +17683,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -17725,7 +17756,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.CheckInNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.CheckInNotify.displayName = 'proto.stream.CheckInNotify';
+            proto.stream.CheckInNotify.displayName = "proto.stream.CheckInNotify";
         }
         /**
          * List of repeated fields within this message type.
@@ -17803,29 +17834,29 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setUserid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.setBookid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
-                        msg.setCheckinsList(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
-                        msg.setPlayersList(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setMaxplayers(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setUserid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.setBookid(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
+                    msg.setCheckinsList(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Array.<number>} */ (reader.readPackedUint32());
+                    msg.setPlayersList(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setMaxplayers(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -18008,7 +18039,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.Notify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.Notify.displayName = 'proto.stream.Notify';
+            proto.stream.Notify.displayName = "proto.stream.Notify";
         }
 
 
@@ -18078,21 +18109,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSrcuid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSrcuid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -18227,7 +18258,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.Subscribe, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.Subscribe.displayName = 'proto.stream.Subscribe';
+            proto.stream.Subscribe.displayName = "proto.stream.Subscribe";
         }
         /**
          * List of repeated fields within this message type.
@@ -18304,25 +18335,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.addConfirms(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.addCancels(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.addConfirms(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.addCancels(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -18483,7 +18514,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SubscribeAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SubscribeAck.displayName = 'proto.stream.SubscribeAck';
+            proto.stream.SubscribeAck.displayName = "proto.stream.SubscribeAck";
         }
         /**
          * List of repeated fields within this message type.
@@ -18558,17 +18589,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.addGroups(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.addGroups(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -18671,7 +18702,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.Publish, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.Publish.displayName = 'proto.stream.Publish';
+            proto.stream.Publish.displayName = "proto.stream.Publish";
         }
         /**
          * List of repeated fields within this message type.
@@ -18748,25 +18779,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.addGroups(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.addGroups(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -18937,7 +18968,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.PublishAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.PublishAck.displayName = 'proto.stream.PublishAck';
+            proto.stream.PublishAck.displayName = "proto.stream.PublishAck";
         }
 
 
@@ -19006,17 +19037,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setDstnum(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setDstnum(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -19105,7 +19136,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.PublishNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.PublishNotify.displayName = 'proto.stream.PublishNotify';
+            proto.stream.PublishNotify.displayName = "proto.stream.PublishNotify";
         }
         /**
          * List of repeated fields within this message type.
@@ -19182,25 +19213,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSrcuid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 3:
-                        var value = /** @type {string} */ (reader.readString());
-                        msg.addGroups(value);
-                        break;
-                    case 4:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSrcuid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 3:
+                    var value = /** @type {string} */ (reader.readString());
+                    msg.addGroups(value);
+                    break;
+                case 4:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -19371,7 +19402,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetUseTimeStamp, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetUseTimeStamp.displayName = 'proto.stream.SetUseTimeStamp';
+            proto.stream.SetUseTimeStamp.displayName = "proto.stream.SetUseTimeStamp";
         }
 
 
@@ -19442,25 +19473,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 4:
-                        var value = /** @type {boolean} */ (reader.readBool());
-                        msg.setUsetimestamp(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 4:
+                    var value = /** @type {boolean} */ (reader.readBool());
+                    msg.setUsetimestamp(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -19595,7 +19626,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetUseTimeStampAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetUseTimeStampAck.displayName = 'proto.stream.SetUseTimeStampAck';
+            proto.stream.SetUseTimeStampAck.displayName = "proto.stream.SetUseTimeStampAck";
         }
 
 
@@ -19664,17 +19695,17 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint64());
-                        msg.setTimestamp(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint64());
+                    msg.setTimestamp(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -19763,7 +19794,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetFrameSyncRate, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetFrameSyncRate.displayName = 'proto.stream.SetFrameSyncRate';
+            proto.stream.SetFrameSyncRate.displayName = "proto.stream.SetFrameSyncRate";
         }
 
 
@@ -19835,29 +19866,29 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setGameid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 4:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFramerate(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFrameidx(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setGameid(value);
+                    break;
+                case 2:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 4:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFramerate(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFrameidx(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -20012,7 +20043,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetFrameSyncRateAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetFrameSyncRateAck.displayName = 'proto.stream.SetFrameSyncRateAck';
+            proto.stream.SetFrameSyncRateAck.displayName = "proto.stream.SetFrameSyncRateAck";
         }
 
 
@@ -20080,13 +20111,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -20153,7 +20184,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.SetFrameSyncRateNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.SetFrameSyncRateNotify.displayName = 'proto.stream.SetFrameSyncRateNotify';
+            proto.stream.SetFrameSyncRateNotify.displayName = "proto.stream.SetFrameSyncRateNotify";
         }
 
 
@@ -20224,25 +20255,25 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFramerate(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFrameidx(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setTimestamp(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFramerate(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFrameidx(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setTimestamp(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -20375,7 +20406,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.FrameBroadcast, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.FrameBroadcast.displayName = 'proto.stream.FrameBroadcast';
+            proto.stream.FrameBroadcast.displayName = "proto.stream.FrameBroadcast";
         }
 
 
@@ -20445,21 +20476,21 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setRoomid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setRoomid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -20594,7 +20625,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.FrameBroadcastAck, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.FrameBroadcastAck.displayName = 'proto.stream.FrameBroadcastAck';
+            proto.stream.FrameBroadcastAck.displayName = "proto.stream.FrameBroadcastAck";
         }
 
 
@@ -20662,13 +20693,13 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setStatus(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setStatus(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -20735,7 +20766,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.FrameDataNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.FrameDataNotify.displayName = 'proto.stream.FrameDataNotify';
+            proto.stream.FrameDataNotify.displayName = "proto.stream.FrameDataNotify";
         }
 
 
@@ -20807,29 +20838,29 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setSrcuid(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 3:
-                        var value = /** @type {!Uint8Array} */ (reader.readBytes());
-                        msg.setCpproto(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setTimestamp(value);
-                        break;
-                    case 5:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setFrameidx(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setSrcuid(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 3:
+                    var value = /** @type {!Uint8Array} */ (reader.readBytes());
+                    msg.setCpproto(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setTimestamp(value);
+                    break;
+                case 5:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setFrameidx(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -21008,7 +21039,7 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         };
         goog.inherits(proto.stream.FrameSyncNotify, jspb.Message);
         if (goog.DEBUG && !COMPILED) {
-            proto.stream.FrameSyncNotify.displayName = 'proto.stream.FrameSyncNotify';
+            proto.stream.FrameSyncNotify.displayName = "proto.stream.FrameSyncNotify";
         }
 
 
@@ -21081,33 +21112,33 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                 }
                 var field = reader.getFieldNumber();
                 switch (field) {
-                    case 1:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setPriority(value);
-                        break;
-                    case 2:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setLastidx(value);
-                        break;
-                    case 3:
-                        var value = /** @type {number} */ (reader.readUint32());
-                        msg.setNextidx(value);
-                        break;
-                    case 4:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setStartts(value);
-                        break;
-                    case 5:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setEndts(value);
-                        break;
-                    case 6:
-                        var value = /** @type {string} */ (reader.readUint64String());
-                        msg.setTimestamp(value);
-                        break;
-                    default:
-                        reader.skipField();
-                        break;
+                case 1:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setPriority(value);
+                    break;
+                case 2:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setLastidx(value);
+                    break;
+                case 3:
+                    var value = /** @type {number} */ (reader.readUint32());
+                    msg.setNextidx(value);
+                    break;
+                case 4:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setStartts(value);
+                    break;
+                case 5:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setEndts(value);
+                    break;
+                case 6:
+                    var value = /** @type {string} */ (reader.readUint64String());
+                    msg.setTimestamp(value);
+                    break;
+                default:
+                    reader.skipField();
+                    break;
                 }
             }
             return msg;
@@ -21309,7 +21340,8 @@ function MsCreateRoomInfo(roomName, maxPlayer, mode, canWatch, visibility, roomP
         +" visibility:"+this.visibility
         +" roomProperty:"+this.roomProperty;
 
-    }
+    };
+    MatchvsLog.logI(this+" MsCreateRoomInfo:"+JSON.stringify(this));
 }
 function MsEnum() {}
 /**
@@ -21332,11 +21364,13 @@ function  MsRoomJoin(joinType, userID, roomID, gameID, maxPlayer, mode, canWatch
     this.canWatch    =canWatch;
     this.tags        =tags ;//k-v map as json object  ex:[{dd:'SB',AA:'dd',re1:123},{cc:'dd',lk:'1qw'}];
     this.userProfile =userProfile;
+    MatchvsLog.logI(this+" MsRoomJoin:"+JSON.stringify(this));
 }
 
 function MsJoinOverRsp(status, cpProto) {
     this.status = status;
     this.cpProto = cpProto;
+    MatchvsLog.logI(this+" MsJoinOverRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21350,6 +21384,7 @@ function MsJoinOverNotifyInfo(roomID, srcUserID, cpProto) {
     this.roomID = roomID;
     this.srcUserID = srcUserID;
     this.cpProto = cpProto;
+    MatchvsLog.logI(this+" MsJoinOverNotifyInfo:"+JSON.stringify(this));
 }
 
 
@@ -21364,6 +21399,7 @@ function MsCreateRoomRsp(status, roomID, owner) {
     this.status = status;
     this.roomID = roomID;
     this.owner = owner;
+    MatchvsLog.logI(this+" MsCreateRoomRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21399,6 +21435,7 @@ function MsMatchInfo(maxplayer, mode, canWatch, tags) {
     this.canWatch = canWatch;
     this.tags = {};
     this.tags = tags;
+    MatchvsLog.logI(this+" MsMatchInfo:"+JSON.stringify(this));
 }
 
 /**
@@ -21412,6 +21449,7 @@ function MsRoomInfo(roomID, roomProperty, ownerID) {
     this.roomID = roomID;       // string
     this.roomProperty = roomProperty; //
     this.ownerId = ownerID;
+    MatchvsLog.logI(this+" MsRoomInfo:"+JSON.stringify(this));
 }
 
 /**
@@ -21423,6 +21461,7 @@ function MsRoomInfo(roomID, roomProperty, ownerID) {
 function MsRoomUserInfo(userID, userProfile) {
     this.userId = userID;
     this.userProfile = userProfile;
+    MatchvsLog.logI(this+" MsRoomUserInfo:"+JSON.stringify(this));
 }
 
 /**
@@ -21438,6 +21477,7 @@ function MsLeaveRoomRsp(status, roomId, userId, cpProto) {
     this.roomID = roomId;
     this.userId = userId;
     this.cpProto = cpProto;
+    MatchvsLog.logI(this+" MsLeaveRoomRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21453,6 +21493,7 @@ function MsLeaveRoomNotify(roomID,userID, owner, cpProto) {
     this.roomID = roomID;
     this.owner = owner;
     this.cpProto = cpProto;
+    MatchvsLog.logI(this+" MsLeaveRoomNotify:"+JSON.stringify(this));
 }
 
 
@@ -21463,7 +21504,7 @@ function MsLeaveRoomNotify(roomID,userID, owner, cpProto) {
  * @constructor
  */
 function MsSubscribeEventGroupRsp(status, groups) {
-    this.status = status  //number
+    this.status = status;  //number
     this.groups = groups; // array<string>
 }
 
@@ -21491,11 +21532,14 @@ function MsRegistRsp(status, userID, token, name, avatar) {
     this.token = token;
     this.name = name;
     this.avatar = avatar;
+    MatchvsLog.logI("MsRegistRsp"+":"+JSON.stringify(this));
 }
 
 function MsLoginRsp(status, roomID) {
     this.status = status;//int
     this.roomID = roomID;//unsigned long long
+    MatchvsLog.logI("MsLoginRsp:"
+        +":"+JSON.stringify(this));
 }
 
 function MsPublicMemberArgs(channle, platform,userID, token, gameID, gameVersion, appkey, secretKey, deviceID, gatewayID) {
@@ -21509,6 +21553,7 @@ function MsPublicMemberArgs(channle, platform,userID, token, gameID, gameVersion
     this.gatewayID = gatewayID;
     this.channel = channle;
     this.platform = platform;
+    MatchvsLog.logI(this+":"+JSON.stringify(this));
 }
 
 /**
@@ -21524,6 +21569,7 @@ function MsCheckInNotify(userID, checkins, players, maxPlayers) {
     this.checkins = checkins;
     this.players = players;
     this.maxPlayers = maxPlayers;
+    MatchvsLog.logI(this+":"+JSON.stringify(this));
 }
 
 /**
@@ -21576,6 +21622,7 @@ function MsRoomInfoEx(roomID, roomName, maxplayer, mode, canWatch, roomProperty)
     this.mode = mode;
     this.canWatch = canWatch;
     this.roomProperty = roomProperty;
+    MatchvsLog.logI(" MsRoomInfoEx"+":"+JSON.stringify(this));
 }
 
 /**
@@ -21587,6 +21634,7 @@ function MsRoomInfoEx(roomID, roomName, maxplayer, mode, canWatch, roomProperty)
 function MsRoomListRsp(status, roomInfos) {
     this.status = status;
     this.roomInfos = roomInfos;
+    MatchvsLog.logI(this+" MsRoomListRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21602,12 +21650,14 @@ function MsKickPlayerNotify(userId, srcUserId, data,owner) {
     this.srcUserId = srcUserId;
     this.cpProto = data;
     this.owner = owner;
+    MatchvsLog.logI(this+" MsKickPlayerNotify:"+JSON.stringify(this));
 }
 
 function MsKickPlayerRsp(status, owner, userID) {
     this.status = status;
     this.owner = owner;
     this.userID = userID;
+    MatchvsLog.logI(this+" MsKickPlayerRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21649,6 +21699,7 @@ function MsRoomFilter(maxPlayer,mode,canWatch,roomProperty) {
     this.mode = mode;
     this.canWatch = canWatch;
     this.roomProperty = roomProperty;
+    MatchvsLog.logI(this+" MsRoomFilter:"+JSON.stringify(this));
 }
 
 /**
@@ -21676,6 +21727,7 @@ function MsRoomFilterEx(maxPlayer, mode, canWatch, roomProperty, full, state, so
     this.order = order;
     this.pageNo = pageNo;
     this.pageSize = pageSize ? pageSize : 10;
+    MatchvsLog.logI(this+" MsRoomFilterEx:"+JSON.stringify(this));
 }
 
 /**
@@ -21702,6 +21754,7 @@ function MsGetRoomDetailRsp(status, state, maxPlayer, mode, canWatch, roomProper
     this.createFlag = createFlag;
     this.userInfos = [];
     this.userInfos = userInfos;
+    MatchvsLog.logI(this+" MsGetRoomDetailRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21731,6 +21784,7 @@ function MsRoomAttribute(roomID, roomName, maxPlayer, gamePlayer, watchPlaer, mo
     this.owner = owner;
     this.state = state;
     this.createTime = createTime;
+    MatchvsLog.logI(this+" MsRoomAttribute:"+JSON.stringify(this));
 }
 
 /**
@@ -21745,6 +21799,7 @@ function MsGetRoomListExRsp(status, total, roomAttrs) {
     this.total = total;
     this.roomAttrs = [];
     this.roomAttrs = roomAttrs;
+    MatchvsLog.logI(this+" MsGetRoomListExRsp:"+JSON.stringify(this));
 }
 
 /**
@@ -21758,7 +21813,6 @@ function MsFrameItem (srcUserID,cpProto,timestamp) {
     this.srcUserID = srcUserID;
     this.cpProto =cpProto;
     this.timestamp =timestamp;
-    
 }
 
 /**
@@ -21802,6 +21856,7 @@ function MsSetRoomPropertyRspInfo(status, roomID, userID, roomProperty) {
     this.roomID = roomID;
     this.userID = userID;
     this.roomProperty = roomProperty;
+    MatchvsLog.logI(this+" MsSetRoomPropertyRspInfo:"+JSON.stringify(this));
 }
 
 /**
@@ -21815,10 +21870,11 @@ function MsRoomPropertyNotifyInfo( roomID, userID, roomProperty) {
     this.roomID = roomID;
     this.userID = userID;
     this.roomProperty = roomProperty;
+    MatchvsLog.logI(this+" MsRoomPropertyNotifyInfo:"+JSON.stringify(this));
 }
 
-function MsHeartBeatResponse(gameid,gsExist) {
-    this.gameID = gameid;
+function MsHeartBeatResponse(gameID,gsExist) {
+    this.gameID = gameID;
     this.gsExist = gsExist;
 }
 
@@ -21829,12 +21885,16 @@ function MsGatewaySpeedResponse(Status, Seq) {
 function MsReopenRoomResponse(Status, cpProto) {
     this.status = Status;
     this.cpProto = cpProto;
+    MatchvsLog.logI(this+" MsReopenRoomResponse:"+JSON.stringify(this));
 }
 function MsReopenRoomNotify(roomID, userID, cpProto) {
     this.roomID = roomID;
     this.userID = userID;
     this.cpProto = cpProto;
+    MatchvsLog.logI(this+" MsReopenRoomNotify:"+JSON.stringify(this));
 }/* ================ matchvsnetwork.js ================= */
+//adapter weixin
+
 function MatchvsNetWorkCallBack() {
     /**
      *
@@ -21853,262 +21913,240 @@ function MatchvsNetWorkCallBack() {
     };
 }
 
-/**
- * var callback = new MatchvsNetWorkCallBack();
- * @param host String,ex:"127.0.0.1:12345";
- * @param callback MatchvsNetWorkCallBack
- * @constructor
- */
-function MatchvsNetWork(host, callback) {
-    var socket;
-    var mCallBack = callback;
-    var mHost = host;
-    var bufQueue = [];
-    this.send = function (message) {
-
-        if (!window.WebSocket) {
-            return;
-        }
-        if (isIE()) {
-            var uint8A = new Uint8Array(message.buffer.byteLength);
-            for (var i = 0; i < uint8A.length; i++) {
-                uint8A[i] = (message.getUint8(i));
-            }
-            message = uint8A;
-        }
-        if (socket.readyState === WebSocket.OPEN) {
-            //log(message);
-            socket.send(message);
-        } else {
-            bufQueue.push(message);
-        }
-    };
-    this.close = function () {
-        if (socket) {
-            socket.close();
-        }
-    };
-    if (!window.WebSocket) {
-        window.WebSocket = window.MozWebSocket;
-    }
-
-    if (window.WebSocket) {
-        socket = new WebSocket(host);
-        socket.onmessage = function (event) {
-            var reader = new FileReader();
-            reader.readAsArrayBuffer(event.data);
-            //  当读取操作成功完成时调用.
-            reader.onload = function (evt) {
-                if (evt.target.readyState === FileReader.DONE) {
-                    var dataView = new DataView(reader.result);
-                    mCallBack.onMsg(dataView);
-                } else {
-                    mCallBack.onErr(1606, "[err]parse fail");
+var MatchvsNetWork;
+var MatchvsHttp;
+try {
+    if (typeof (wx) !== "undefined") {
+        MatchvsNetWork = function MatchvsNetWork(host, callback) {
+            /**
+             * WebSocket 任务，可通过 wx.connectSocket() 接口创建返回。
+             * @type {socket}
+             */
+            var socket = null;
+            var socketOpen = false;
+            var socketMsgQueue = [];
+            var mCallBack = callback;
+            var mHost = host;
+            var that = this;
+            this.close = function () {
+                if (socket) {
+                    socket.close();
                 }
+            };
+            /**
+             * msg {DataView}
+             */
+            this.send = function (msg) {
 
-            }
-
-        };
-        socket.onopen = function (event) {
-            while (bufQueue.length > 0) {
-                socket.send(bufQueue.pop());
-            }
-            mCallBack.onConnect && mCallBack.onConnect(mHost);
-
-        };
-        socket.onclose = function (event) {
-            mCallBack.onDisConnect && mCallBack.onDisConnect(mHost);
-        };
-        socket.onerror = function (event) {
-            if (event.type && event.type === "error") {
-                return;
-            }
-            callback.onErr(1606, event);
-        };
-    } else {
-        alert("Not Support the WebSocket！");
-    }
-
-}
-
-function MatchvsHttp(callback) {
-    this.mCallback = callback;
-
-    function send(url, callback, isPost, params) {
-        var http = new XMLHttpRequest();
-        http.open(isPost ? "POST" : "GET", url, true);
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.onreadystatechange = function () {//Call a function when the state changes.
-            if (http.readyState === 4) {
-                if (http.status === 200) {
-                    callback.onMsg(http.responseText);
-                    MatchvsLog.logI("[HTTP:](" + url + ")+" + http.responseText);
+                if (socketOpen) {
+                    socket.send({
+                        data: msg.buffer
+                    });
                 } else {
-                    callback.onErr(http.status, http.statusText);
+
+                    //只缓存一百
+                    if (socketMsgQueue.length < 100) {
+                        socketMsgQueue.push(msg);
+                    }
                 }
-            }
-        };
-        if (isPost) {
-            http.send(params);
-        } else {
-            http.send(null);
-        }
-    }
+            };
 
-    /**
-     * HTTP GET
-     * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do?key=fa"
-     */
-    this.get = function (url) {
-        send(url, this.mCallback, false, null);
-    };
-    /**
-     * HTTP POST
-     * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do"
-     * @param params {String} ex:"lorem=ipsum&name=binny";
-     */
-    this.post = function (url, params) {
-        send(url, this.mCallback, true, params);
-    };
-}
 
-//adapter weixin
-if (typeof (wx)!=="undefined") {
-    function MatchvsNetWorkCallBack() {
-        /**
-         *
-         * @param buf DataView
-         */
-        this.onMsg = function (buf) {
-
-        };
-        /**
-         *
-         * @param errCode int
-         * @param errMsg String
-         */
-        this.onErr = function (errCode, errMsg) {
-
-        };
-    }
-
-    function MatchvsNetWork(host, callback) {
-
-        /**
-         * WebSocket 任务，可通过 wx.connectSocket() 接口创建返回。
-         * @type {SocketTask}
-         */
-        var socket = null;
-        var socketOpen = false;
-        var socketMsgQueue = [];
-        var mCallBack = callback;
-        var mHost = host;
-        var that = this;
-        this.close = function () {
-            if (socket) {
-                socket.close();
-            }
-        };
-        /**
-         * msg {DataView}
-         */
-        this.send = function (msg) {
-
-            if (socketOpen) {
-                socket.send({
-                    data: msg.buffer,
+            function connect() {
+                socket = wx.connectSocket({
+                    url: host,
+                    header: {
+                        "engine": "WeiXinGame"
+                    }
                 });
+            }
+
+            connect();
+            socket.onOpen(function (res) {
+                MatchvsLog.logI("[wx.WebSocket][connect]:" + res);
+                socketOpen = true;
+                while (socketMsgQueue.length > 0) {
+                    that.send(socketMsgQueue.pop());
+                }
+
+                mCallBack.onConnect && mCallBack.onConnect(mHost);
+            });
+
+            socket.onClose(function (e) {
+                socketOpen = false;
+                mCallBack.onDisConnect && mCallBack.onDisConnect(mHost,e);
+                MatchvsLog.logI("[wx.WebSocket] [onClose] case:"+JSON.stringify(e));
+            });
+
+            socket.onMessage(function (res) {
+                var dataView = new DataView(res.data);
+                mCallBack.onMsg(dataView);
+            });
+            socket.onError(function(event) {
+                mCallBack.onDisConnect && mCallBack.onDisConnect(mHost,event);
+                MatchvsLog.logI("[wx.WebSocket] [onError] case:" + JSON.stringify(event));
+            }) ;
+        };
+        MatchvsHttp = function MatchvsHttp(callback) {
+            this.mCallback = callback;
+
+
+            function send(url, callback, isPost, params) {
+                wx.request({
+                    url: url,
+                    data: {
+                        x: "",
+                        y: ""
+                    },
+                    header: {
+                        "content-type": "application/json"
+                    },
+                    success: function (res) {
+                        var rsp = JSON.stringify(res.data);
+                        MatchvsLog.logI("http success:" + rsp);
+                        callback.onMsg(rsp);
+                    },
+                    fail: function (res) {
+                        MatchvsLog.logI("http fail:" + res.errMsg);
+                        callback.onErr(0, res.errMsg);
+                    }
+                });
+            }
+
+            /**
+             * HTTP GET
+             * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do?key=fa"
+             */
+            this.get = function (url) {
+                send(url, this.mCallback, false, null);
+            };
+            /**
+             * HTTP POST
+             * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do"
+             * @param params {String} ex:"lorem=ipsum&name=binny";
+             */
+            this.post = function (url, params) {
+                send(url, this.mCallback, true, params);
+            };
+        };
+    }
+    else {
+        MatchvsNetWork = function MatchvsNetWork(host, callback) {
+            var socket;
+            var mCallBack = callback;
+            var mHost = host;
+            var bufQueue = [];
+            this.send = function (message) {
+
+                if (!window.WebSocket) {
+                    return;
+                }
+                if (isIE()) {
+                    var uint8A = new Uint8Array(message.buffer.byteLength);
+                    for (var i = 0; i < uint8A.length; i++) {
+                        uint8A[i] = (message.getUint8(i));
+                    }
+                    message = uint8A;
+                }
+                if (socket.readyState === WebSocket.OPEN) {
+                    //log(message);
+                    socket.send(message);
+                } else {
+                    bufQueue.push(message);
+                }
+            };
+            this.close = function () {
+                if (socket) {
+                    socket.close();
+                }
+            };
+            if (!window.WebSocket) {
+                window.WebSocket = window.MozWebSocket;
+            }
+
+            if (window.WebSocket) {
+                socket = new WebSocket(host);
+                socket.onmessage = function (event) {
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(event.data);
+                    //  当读取操作成功完成时调用.
+                    reader.onload = function (evt) {
+                        if (evt.target.readyState === FileReader.DONE) {
+                            var dataView = new DataView(reader.result);
+                            mCallBack.onMsg(dataView);
+                        } else {
+                            mCallBack.onErr(1606, "[err]parse fail");
+                        }
+
+                    };
+
+                };
+                socket.onopen = function (event) {
+                    while (bufQueue.length > 0) {
+                        socket.send(bufQueue.pop());
+                    }
+                    mCallBack.onConnect && mCallBack.onConnect(mHost);
+
+                };
+                socket.onclose = function (e) {
+                    mCallBack.onDisConnect && mCallBack.onDisConnect(mHost,e);
+                    MatchvsLog.logI("socket on closed ,code:"+e.code+"(1000:NORMAL,1005:CLOSE_NO_STATUS,1006:RESET,1009:CLOSE_TOO_LARGE) msg:"+e.reason);
+                };
+                socket.onerror = function (event) {
+                    MatchvsLog.logI("socket on error ,event:"+JSON.stringify(event));
+                    mCallBack.onDisConnect && mCallBack.onDisConnect(mHost,event);
+                };
             } else {
-
-                //只缓存一百
-                if (socketMsgQueue.length < 100) {
-                    socketMsgQueue.push(msg);
-                }
-            }
-        };
-
-
-        function connect() {
-            socket = wx.connectSocket({
-                url: host,
-                header: {
-                    'engine': 'WeiXinGame'
-                }
-            });
-        }
-
-        connect();
-        console.log("SocketTask:" + socket);
-        socket.onOpen(function (res) {
-            console.log("[wx.WebSocket][connect]:" + res);
-            socketOpen = true;
-            while (socketMsgQueue.length > 0) {
-                that.send(socketMsgQueue.pop());
+                alert("Not Support the WebSocket！");
             }
 
-            mCallBack.onConnect && mCallBack.onConnect(mHost);
-        });
+        };
+        MatchvsHttp = function MatchvsHttp(callback) {
+            this.mCallback = callback;
 
-        socket.onClose(function (res) {
-            socketOpen = false;
-            mCallBack.onDisConnect && mCallBack.onDisConnect(mHost);
-        });
-
-        socket.onMessage(function (res) {
-            var dataView = new DataView(res.data);
-            //console.log("[wx.WebSocket] [recv] size:" + dataView.byteLength);
-            mCallBack.onMsg(dataView);
-        });
-
-    }
-
-
-    function MatchvsHttp(callback) {
-        this.mCallback = callback;
-
-
-        function send(url, callback, isPost, params) {
-            // var pars = params.splt("&");
-            //TODO post
-            const requestTask = wx.request({
-                url: url,
-                data: {
-                    x: '',
-                    y: ''
-                },
-                header: {
-                    'content-type': 'application/json'
-                },
-                success: function (res) {
-                    var rsp = JSON.stringify(res.data);
-                    MatchvsLog.logI("http success:" + rsp);
-                    callback.onMsg(rsp);
-                },
-                fail: function (res) {
-                    MatchvsLog.logI("http fail:" + res.errMsg);
-                    callback.onErr(0, res.errMsg);
+            function send(url, callback, isPost, params) {
+                var http = new XMLHttpRequest();
+                http.open(isPost ? "POST" : "GET", url, true);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.onreadystatechange = function () {//Call a function when the state changes.
+                    if (http.readyState === 4) {
+                        if (http.status === 200) {
+                            callback.onMsg(http.responseText);
+                            MatchvsLog.logI("[HTTP:](" + url + ")+" + http.responseText);
+                        } else {
+                            callback.onErr(http.status, http.statusText);
+                        }
+                    }
+                };
+                if (isPost) {
+                    http.send(params);
+                } else {
+                    http.send(null);
                 }
-            });
-        }
+            }
 
-        /**
-         * HTTP GET
-         * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do?key=fa"
-         */
-        this.get = function (url) {
-            send(url, this.mCallback, false, null);
-        };
-        /**
-         * HTTP POST
-         * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do"
-         * @param params {String} ex:"lorem=ipsum&name=binny";
-         */
-        this.post = function (url, params) {
-            send(url, this.mCallback, true, params);
+            /**
+             * HTTP GET
+             * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do?key=fa"
+             */
+            this.get = function (url) {
+                send(url, this.mCallback, false, null);
+            };
+            /**
+             * HTTP POST
+             * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do"
+             * @param params {String} ex:"lorem=ipsum&name=binny";
+             */
+            this.post = function (url, params) {
+                send(url, this.mCallback, true, params);
+            };
         };
     }
-
+} catch (e) {
+    console.warn("network adapter warning:"+e.message);
 }
+
+
 
 /* ================ matchvsprotocol.js ================= */
 //================== CMD =======================
@@ -22346,7 +22384,7 @@ function MatchvsProtocol() {
      * @returns {DataView}
      */
     this.login = function (userID, userToken, gameID, gameVersion,
-                           app_key, app_secret, deviceID, gateway_id) {
+        app_key, app_secret, deviceID, gateway_id) {
         var toMd5 = format("%s&UserID=%s&GameID=%s&VersionSdk=%d&%s",
             app_key, userID, gameID, VERSION, app_secret);
         mUserID = userID;
@@ -22526,7 +22564,7 @@ function MatchvsProtocol() {
         roomFilter.setCanwatch(filter.canWatch);
         roomFilter.setMaxplayer(filter.maxPlayer);
         roomFilter.setMode(Number(filter.mode));
-        roomFilter.setRoomproperty(str2u8array(filter.roomproperty));
+        roomFilter.setRoomproperty(stringToUtf8ByteArray(filter.roomProperty));
         pkg.setGameid(gameID);
         pkg.setRoomfilter(roomFilter);
         var bytes = pkg.serializeBinary();
@@ -22546,7 +22584,7 @@ function MatchvsProtocol() {
         roomFilter.setMode(Number(filter.mode));
         roomFilter.setFull(filter.full);
         roomFilter.setCanwatch(filter.canWatch);
-        roomFilter.setRoomproperty(str2u8array(filter.roomproperty));
+        roomFilter.setRoomproperty(stringToUtf8ByteArray(filter.roomProperty));
         roomFilter.setState(filter.state);
 
         pkg.setGameid(gameID);
@@ -22870,340 +22908,342 @@ function MatchvsEngine() {
             if (packet && packet.header) {
             }
             switch (packet.header.cmd) {
-                case MATCHVS_USER_LOGIN_RSP:
-                    if (packet.payload.getStatus() === 200) {
-                        engine.mEngineState |= ENGE_STATE.HAVE_LOGIN;
-                    } else {
-                        engine.mEngineState &= ~ENGE_STATE.LOGINING;
-                        engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                    }
-                    engine.mEngineState &= ~ENGE_STATE.LOGINING;
-                    engine.mRecntRoomID = packet.payload.getRoomid();
-                    if (((engine.mEngineState & ENGE_STATE.RECONNECTING) === ENGE_STATE.RECONNECTING)) {
-                        if (engine.mRecntRoomID !== "0") {
-                            var roomJoin = new MsRoomJoin(MsEnum.JoinRoomType.reconnect, engine.mMsPubArgs.userID,
-                                engine.mRecntRoomID, engine.mMsPubArgs.gameID, 0, 0, 0, "reconnect", [{name: "MatchVS"}]);
-                            var reconbuf = engine.mProtocol && engine.mProtocol.joinRoomSpecial(roomJoin);
-                            engine.mNetWork && engine.mNetWork.send(reconbuf);
-                        } else {
-                            engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
-                            //201 重连成功但是不在房间
-                            engine.mRsp.reconnectResponse && engine.mRsp.reconnectResponse(201, null, null);
-                        }
-
-                    } else {
-                        engine.mRsp.loginResponse(new MsLoginRsp(packet.payload.getStatus(), engine.mRecntRoomID));
-                    }
-                    break;
-                case MATCHVS_ROOM_JOIN_RSP:
-                    if (packet.payload.getStatus() === 200) {
-                        engine.mEngineState |= ENGE_STATE.IN_ROOM;
-                        engine.mBookInfo = packet.payload.getBookinfo();
-                        engine.mRoomInfo = packet.payload.getRoominfo();
-                        engine.mUserListForJoinRoomRsp = packet.payload.getUsersList();
-                        HttpConf.HOST_HOTEL_ADDR = getHotelUrl(engine);
-                        engine.mHotelNetWork = new MatchvsNetWork(HttpConf.HOST_HOTEL_ADDR, engine.mNetWorkCallBackImp);
-                        engine.mNetWorkCallBackImp.onConnect = function (host) {
-                            engine.roomCheckIn(engine.mHotelNetWork, engine.mBookInfo, engine.mRoomInfo);
-                            engine.mRsp.onConnect && engine.mRsp.onConnect(host);
-                        };
-                        if (engine.mHotelHeartBeatTimer == null) {
-                            engine.mHotelHeartBeatTimer = setInterval(engine.hotelHeartBeat, HEART_BEAT_INTERVAL);
-                        }
-                    } else {
-                        engine.mEngineState &= ~ENGE_STATE.JOIN_ROOMING;
-                        engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                        engine.mRsp.joinRoomResponse && engine.mRsp.joinRoomResponse(packet.payload.getStatus(), null, null);
-                    }
-                    break;
-                case MATCHVS_ROOM_CREATE_RSP:
-                    if (packet.payload.getStatus() === 200) {
-                        engine.mEngineState |= ENGE_STATE.IN_ROOM;
-                        engine.mBookInfo = packet.payload.getBookinfo();
-                        var roomid = packet.payload.getRoomid();
-                        roomInfo.setRoomid(roomid);
-                        roomInfo.setOwner(packet.payload.getOwner());
-                        engine.mRoomInfo = roomInfo;
-                        HttpConf.HOST_HOTEL_ADDR = getHotelUrl(engine);
-                        engine.mHotelNetWork = new MatchvsNetWork(HttpConf.HOST_HOTEL_ADDR, engine.mNetWorkCallBackImp);
-                        engine.mNetWorkCallBackImp.onConnect = function (host) {
-                            engine.roomCheckIn(engine.mHotelNetWork, engine.mBookInfo, engine.mRoomInfo);
-                            engine.mRsp.onConnect && engine.mRsp.onConnect(host);
-                        };
-                        if (engine.mHotelHeartBeatTimer == null) {
-                            engine.mHotelHeartBeatTimer = setInterval(engine.hotelHeartBeat, HEART_BEAT_INTERVAL);
-                        }
-                    } else {
-                        engine.mEngineState &= ~ENGE_STATE.CREATEROOM;
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                    }
-                    break;
-                case MATCHVS_ROOM_CHECK_IN_RSP: {
-                    if (packet.payload.getStatus() !== 200) {
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                    }
-                    engine.mAllPlayers = packet.payload.getCheckinsList();//checkins;
-                    var roomUserList = [];
-                    engine.mUserListForJoinRoomRsp.forEach(function (user) {
-                        var roomuser = new MsRoomUserInfo(user.getUserid(), utf8ByteArrayToString(user.getUserprofile()));
-                        roomUserList.push(roomuser);
-                    });
-                    //房间信息
-                    var roominfo = new MsRoomInfo(engine.mRoomInfo.getRoomid(), utf8ByteArrayToString(engine.mRoomInfo.getRoomproperty()), engine.mRoomInfo.getOwner());
-
-                    if ((engine.mEngineState & ENGE_STATE.CREATEROOM) === ENGE_STATE.CREATEROOM) {
-                        //创建房间
-                        engine.mEngineState &= ~ENGE_STATE.CREATEROOM;
-                        engine.mRsp.createRoomResponse && engine.mRsp.createRoomResponse(new MsCreateRoomRsp(packet.payload.getStatus(), engine.mRoomInfo.getRoomid(), engine.mRoomInfo.getOwner()));
-                    } else if ((engine.mEngineState & ENGE_STATE.JOIN_ROOMING) === ENGE_STATE.JOIN_ROOMING) {
-                        //加入房间
-                        engine.mEngineState &= ~ENGE_STATE.JOIN_ROOMING;
-                        engine.mRsp.joinRoomResponse && engine.mRsp.joinRoomResponse(packet.payload.getStatus(), roomUserList, roominfo);
-                    } else if ((engine.mEngineState & ENGE_STATE.RECONNECTING) === ENGE_STATE.RECONNECTING) {
-                        engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
-                        engine.mRsp.reconnectResponse && engine.mRsp.reconnectResponse(packet.payload.getStatus(), roomUserList, roominfo);
-                    }
-                }
-                    break;
-                case MATCHVS_ROOM_CHECKIN_NOTIFY:
-                    if (engine.joinRoomNotifyInfo) {
-                        engine.mRsp.joinRoomNotify && engine.mRsp.joinRoomNotify(engine.joinRoomNotifyInfo);
-                    }
-                    engine.mAllPlayers = packet.payload.getCheckinsList();
-                    engine.mRsp.roomCheckInNotify && engine.mRsp.roomCheckInNotify(new MsCheckInNotify(packet.payload.getUserid(), packet.payload.getCheckinsList(), packet.payload.getPlayersList(), packet.payload.getMaxplayers()));
-                    engine.joinRoomNotifyInfo = null;
-                    break;
-                case MATCHVS_ROOM_LEAVE_RSP:
-                    //退出房间状态取消
-                    engine.mEngineState &= ~ENGE_STATE.LEAVE_ROOMING;
-                    if (packet.payload.getStatus() !== 200) {
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                    }
-                    roomInfo.setRoomid("0");
-                    engine.mRoomInfo = roomInfo;
-                    var leaveRoomRsp = new MsLeaveRoomRsp(packet.payload.getStatus(), packet.payload.getRoomid(), packet.payload.getUserid(), packet.payload.getCpproto());
-                    engine.mRsp.leaveRoomResponse && engine.mRsp.leaveRoomResponse(leaveRoomRsp);
-                    engine.mEngineState &= ~ENGE_STATE.IN_ROOM;
-                    break;
-                case MATCHVS_ROOM_JOIN_OVER_RSP:
-                    if (packet.payload.getStatus() !== 200) {
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                    }
-                    engine.mRsp.joinOverResponse && engine.mRsp.joinOverResponse(new MsJoinOverRsp(packet.payload.getStatus(), utf8ByteArrayToString(packet.payload.getCpproto())));
-                    break;
-                case MATCHVS_ROOM_NOTICE_USER_JOIN:
-                    engine.joinRoomNotifyInfo = new MsRoomUserInfo(packet.payload.getUser().getUserid(), utf8ByteArrayToString(packet.payload.getUser().getUserprofile()));
-                    break;
-                case MATCHVS_ROOM_NOTICE_USER_LEAVE:
-                    var leaveRoomInfo = new MsLeaveRoomNotify(packet.payload.getRoomid(), packet.payload.getUserid(), packet.payload.getOwner(), utf8ByteArrayToString(packet.payload.getCpproto()));
-                    engine.mRsp.leaveRoomNotify && engine.mRsp.leaveRoomNotify(leaveRoomInfo);
-                    break;
-                case MATCHVS_HEARTBEAT_HOTEL_RSP:
-                    //房间的心跳返回
-                    engine.mRsp.hotelHeartBeatRsp && engine.mRsp.hotelHeartBeatRsp(packet.payload.getStatus());
-                    break;
-                case MATCHVS_BROADCAST_HOTEL_RSP:
-                    if (packet.payload.getStatus() !== 200) {
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
-                    }
-                    engine.mRsp.sendEventResponse && engine.mRsp.sendEventResponse(new MsSendEventRsp(packet.payload.getStatus(), packet.header.seq));
-                    break;
-                case MATCHVS_HOTEL_NOTIFY:
-                    var srcUserID = packet.payload.getSrcuid();
-                    if (srcUserID === 0) {
-                        engine.mRsp.gameServerNotify && engine.mRsp.gameServerNotify(new MsGameServerNotifyInfo(packet.payload.getSrcuid(), utf8ByteArrayToString(packet.payload.getCpproto())));
-                    } else {
-                        engine.mRsp.sendEventNotify && engine.mRsp.sendEventNotify(new MsSendEventNotify(packet.payload.getSrcuid(), utf8ByteArrayToString(packet.payload.getCpproto())));
-                    }
-                    break;
-                case CMD_SUBSCRIBE_ACK_CMDID://MATCHVS_SUBSCRIBE_EVENT_GROUP_RSP:
-                    engine.mRsp.subscribeEventGroupResponse && engine.mRsp.subscribeEventGroupResponse(packet.payload.getStatus(), packet.payload.getGroupsList());
-                    break;
-                case CMD_PUBLISH_ACKCMDID://MATCHVS_SEND_EVENT_GROUP_RSP:
-                    engine.mRsp.sendEventGroupResponse && engine.mRsp.sendEventGroupResponse(packet.payload.getStatus(), packet.payload.getDstnum());
-                    break;
-                case CMD_PUBLISH_NOTIFYCMDID://SEND_EVENT_GROUP_NOTIFY:
-                    engine.mRsp.sendEventGroupNotify && engine.mRsp.sendEventGroupNotify(packet.payload.getSrcuid(), packet.payload.getGroupsList(), utf8ByteArrayToString(packet.payload.getCpproto()));
-                    break;
-                case MATCHVS_USER_GATEWAY_SPEED_RSP:
-                    var status = packet.payload.getStatus();
-                    var seq = packet.payload.getSeq();
-                    engine.mRsp.gatewaySpeedResponse && engine.mRsp.gatewaySpeedResponse(new MsGatewaySpeedResponse(status, seq));
-                    break;
-                case MATCHVS_USER_HEARTBEAT_RSP:
-                    var gameid = packet.payload.getGameid();
-                    var gsExist = packet.payload.getGsexist();
-                    //如果心跳存在视为已登录状态
+            case MATCHVS_USER_LOGIN_RSP:
+                if (packet.payload.getStatus() === 200) {
                     engine.mEngineState |= ENGE_STATE.HAVE_LOGIN;
-                    engine.mRsp.heartBeatResponse && engine.mRsp.heartBeatResponse(new MsHeartBeatResponse(gameid, gsExist));
-                    break;
-                case MATCHVS_USER_LOGOUT_RSP:
-                    engine.mNetWork.close();
-                    engine.mRsp.logoutResponse && engine.mRsp.logoutResponse(packet.payload.getStatus());
-                    break;
-                case MATCHVS_NETWORK_STATE_NOTIFY:
-                    engine.mRsp.networkStateNotify && engine.mRsp.networkStateNotify(new MsNetworkStateNotify(
-                        packet.payload.getRoomid(),
-                        packet.payload.getUserid(),
-                        packet.payload.getState(),
+                } else {
+                    engine.mEngineState &= ~ENGE_STATE.LOGINING;
+                    engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Login is fail,Server Response Error");
+                }
+                engine.mEngineState &= ~ENGE_STATE.LOGINING;
+                engine.mRecntRoomID = packet.payload.getRoomid();
+                if (((engine.mEngineState & ENGE_STATE.RECONNECTING) === ENGE_STATE.RECONNECTING)) {
+                    if (engine.mRecntRoomID !== "0") {
+                        var roomJoin = new MsRoomJoin(MsEnum.JoinRoomType.reconnect, engine.mMsPubArgs.userID,
+                            engine.mRecntRoomID, engine.mMsPubArgs.gameID, 0, 0, 0, "reconnect", [{name: "MatchVS"}]);
+                        var reconbuf = engine.mProtocol && engine.mProtocol.joinRoomSpecial(roomJoin);
+                        engine.mNetWork && engine.mNetWork.send(reconbuf);
+                    } else {
+                        engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
+                        //201 重连成功但是不在房间
+                        engine.mRsp.reconnectResponse && engine.mRsp.reconnectResponse(201, null, null);
+                    }
+
+                } else {
+                    engine.mRsp.loginResponse(new MsLoginRsp(packet.payload.getStatus(), engine.mRecntRoomID));
+                }
+                break;
+            case MATCHVS_ROOM_JOIN_RSP:
+                if (packet.payload.getStatus() === 200) {
+                    engine.mEngineState |= ENGE_STATE.IN_ROOM;
+                    engine.mBookInfo = packet.payload.getBookinfo();
+                    engine.mRoomInfo = packet.payload.getRoominfo();
+                    engine.mUserListForJoinRoomRsp = packet.payload.getUsersList();
+                    HttpConf.HOST_HOTEL_ADDR = getHotelUrl(engine);
+                    engine.mHotelNetWork = new MatchvsNetWork(HttpConf.HOST_HOTEL_ADDR, engine.mNetWorkCallBackImp);
+                    engine.mNetWorkCallBackImp.onConnect = function (host) {
+                        engine.roomCheckIn(engine.mHotelNetWork, engine.mBookInfo, engine.mRoomInfo);
+                        engine.mRsp.onConnect && engine.mRsp.onConnect(host);
+                    };
+                    if (engine.mHotelHeartBeatTimer == null) {
+                        engine.mHotelHeartBeatTimer = setInterval(engine.hotelHeartBeat, HEART_BEAT_INTERVAL);
+                    }
+                } else {
+                    engine.mEngineState &= ~ENGE_STATE.JOIN_ROOMING;
+                    engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
+                    engine.mRsp.joinRoomResponse && engine.mRsp.joinRoomResponse(packet.payload.getStatus(), null, null);
+                }
+                break;
+            case MATCHVS_ROOM_CREATE_RSP:
+                if (packet.payload.getStatus() === 200) {
+                    engine.mEngineState |= ENGE_STATE.IN_ROOM;
+                    engine.mBookInfo = packet.payload.getBookinfo();
+                    var roomid = packet.payload.getRoomid();
+                    roomInfo.setRoomid(roomid);
+                    roomInfo.setOwner(packet.payload.getOwner());
+                    engine.mRoomInfo = roomInfo;
+                    HttpConf.HOST_HOTEL_ADDR = getHotelUrl(engine);
+                    engine.mHotelNetWork = new MatchvsNetWork(HttpConf.HOST_HOTEL_ADDR, engine.mNetWorkCallBackImp);
+                    engine.mNetWorkCallBackImp.onConnect = function (host) {
+                        engine.roomCheckIn(engine.mHotelNetWork, engine.mBookInfo, engine.mRoomInfo);
+                        engine.mRsp.onConnect && engine.mRsp.onConnect(host);
+                    };
+                    if (engine.mHotelHeartBeatTimer == null) {
+                        engine.mHotelHeartBeatTimer = setInterval(engine.hotelHeartBeat, HEART_BEAT_INTERVAL);
+                    }
+                } else {
+                    engine.mEngineState &= ~ENGE_STATE.CREATEROOM;
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
+                }
+                break;
+            case MATCHVS_ROOM_CHECK_IN_RSP: {
+                if (packet.payload.getStatus() !== 200) {
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
+                }
+                engine.mAllPlayers = packet.payload.getCheckinsList();//checkins;
+                var roomUserList = [];
+                engine.mUserListForJoinRoomRsp.forEach(function (user) {
+                    var roomuser = new MsRoomUserInfo(user.getUserid(), utf8ByteArrayToString(user.getUserprofile()));
+                    roomUserList.push(roomuser);
+                });
+                //房间信息
+                var roominfo = new MsRoomInfo(engine.mRoomInfo.getRoomid(), utf8ByteArrayToString(engine.mRoomInfo.getRoomproperty()), engine.mRoomInfo.getOwner());
+
+                if ((engine.mEngineState & ENGE_STATE.CREATEROOM) === ENGE_STATE.CREATEROOM) {
+                    //创建房间
+                    engine.mEngineState &= ~ENGE_STATE.CREATEROOM;
+                    engine.mRsp.createRoomResponse && engine.mRsp.createRoomResponse(new MsCreateRoomRsp(packet.payload.getStatus(), engine.mRoomInfo.getRoomid(), engine.mRoomInfo.getOwner()));
+                } else if ((engine.mEngineState & ENGE_STATE.JOIN_ROOMING) === ENGE_STATE.JOIN_ROOMING) {
+                    //加入房间
+                    engine.mEngineState &= ~ENGE_STATE.JOIN_ROOMING;
+                    engine.mRsp.joinRoomResponse && engine.mRsp.joinRoomResponse(packet.payload.getStatus(), roomUserList, roominfo);
+                } else if ((engine.mEngineState & ENGE_STATE.RECONNECTING) === ENGE_STATE.RECONNECTING) {
+                    engine.mEngineState &= ~ENGE_STATE.RECONNECTING;
+                    engine.mRsp.reconnectResponse && engine.mRsp.reconnectResponse(packet.payload.getStatus(), roomUserList, roominfo);
+                }
+            }
+                break;
+            case MATCHVS_ROOM_CHECKIN_NOTIFY:
+                if (engine.joinRoomNotifyInfo) {
+                    engine.mRsp.joinRoomNotify && engine.mRsp.joinRoomNotify(engine.joinRoomNotifyInfo);
+                }
+                engine.mAllPlayers = packet.payload.getCheckinsList();
+                engine.mRsp.roomCheckInNotify && engine.mRsp.roomCheckInNotify(new MsCheckInNotify(packet.payload.getUserid(), packet.payload.getCheckinsList(), packet.payload.getPlayersList(), packet.payload.getMaxplayers()));
+                engine.joinRoomNotifyInfo = null;
+                break;
+            case MATCHVS_ROOM_LEAVE_RSP:
+                //退出房间状态取消
+                engine.mEngineState &= ~ENGE_STATE.LEAVE_ROOMING;
+                if (packet.payload.getStatus() !== 200) {
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
+                }
+                roomInfo.setRoomid("0");
+                engine.mRoomInfo = roomInfo;
+                var leaveRoomRsp = new MsLeaveRoomRsp(packet.payload.getStatus(), packet.payload.getRoomid(), packet.payload.getUserid(), packet.payload.getCpproto());
+                engine.mRsp.leaveRoomResponse && engine.mRsp.leaveRoomResponse(leaveRoomRsp);
+                engine.mEngineState &= ~ENGE_STATE.IN_ROOM;
+                break;
+            case MATCHVS_ROOM_JOIN_OVER_RSP:
+                if (packet.payload.getStatus() !== 200) {
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
+                }
+                engine.mRsp.joinOverResponse && engine.mRsp.joinOverResponse(new MsJoinOverRsp(packet.payload.getStatus(), utf8ByteArrayToString(packet.payload.getCpproto())));
+                break;
+            case MATCHVS_ROOM_NOTICE_USER_JOIN:
+                engine.joinRoomNotifyInfo = new MsRoomUserInfo(packet.payload.getUser().getUserid(), utf8ByteArrayToString(packet.payload.getUser().getUserprofile()));
+                break;
+            case MATCHVS_ROOM_NOTICE_USER_LEAVE:
+                var leaveRoomInfo = new MsLeaveRoomNotify(packet.payload.getRoomid(), packet.payload.getUserid(), packet.payload.getOwner(), utf8ByteArrayToString(packet.payload.getCpproto()));
+                engine.mRsp.leaveRoomNotify && engine.mRsp.leaveRoomNotify(leaveRoomInfo);
+                break;
+            case MATCHVS_HEARTBEAT_HOTEL_RSP:
+                //房间的心跳返回
+                engine.mRsp.hotelHeartBeatRsp && engine.mRsp.hotelHeartBeatRsp(packet.payload.getStatus());
+                MatchvsLog.logI("hotelHeartBeatRsp");
+                break;
+            case MATCHVS_BROADCAST_HOTEL_RSP:
+                if (packet.payload.getStatus() !== 200) {
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server Response Error");
+                }
+                engine.mRsp.sendEventResponse && engine.mRsp.sendEventResponse(new MsSendEventRsp(packet.payload.getStatus(), packet.header.seq));
+                break;
+            case MATCHVS_HOTEL_NOTIFY:
+                var srcUserID = packet.payload.getSrcuid();
+                if (srcUserID === 0) {
+                    engine.mRsp.gameServerNotify && engine.mRsp.gameServerNotify(new MsGameServerNotifyInfo(packet.payload.getSrcuid(), utf8ByteArrayToString(packet.payload.getCpproto())));
+                } else {
+                    engine.mRsp.sendEventNotify && engine.mRsp.sendEventNotify(new MsSendEventNotify(packet.payload.getSrcuid(), utf8ByteArrayToString(packet.payload.getCpproto())));
+                }
+                break;
+            case CMD_SUBSCRIBE_ACK_CMDID://MATCHVS_SUBSCRIBE_EVENT_GROUP_RSP:
+                engine.mRsp.subscribeEventGroupResponse && engine.mRsp.subscribeEventGroupResponse(packet.payload.getStatus(), packet.payload.getGroupsList());
+                break;
+            case CMD_PUBLISH_ACKCMDID://MATCHVS_SEND_EVENT_GROUP_RSP:
+                engine.mRsp.sendEventGroupResponse && engine.mRsp.sendEventGroupResponse(packet.payload.getStatus(), packet.payload.getDstnum());
+                break;
+            case CMD_PUBLISH_NOTIFYCMDID://SEND_EVENT_GROUP_NOTIFY:
+                engine.mRsp.sendEventGroupNotify && engine.mRsp.sendEventGroupNotify(packet.payload.getSrcuid(), packet.payload.getGroupsList(), utf8ByteArrayToString(packet.payload.getCpproto()));
+                break;
+            case MATCHVS_USER_GATEWAY_SPEED_RSP:
+                var status = packet.payload.getStatus();
+                var seq = packet.payload.getSeq();
+                engine.mRsp.gatewaySpeedResponse && engine.mRsp.gatewaySpeedResponse(new MsGatewaySpeedResponse(status, seq));
+                break;
+            case MATCHVS_USER_HEARTBEAT_RSP:
+                var gameid = packet.payload.getGameid();
+                var gsExist = packet.payload.getGsexist();
+                //如果心跳存在视为已登录状态
+                engine.mEngineState |= ENGE_STATE.HAVE_LOGIN;
+                engine.mRsp.heartBeatResponse && engine.mRsp.heartBeatResponse(new MsHeartBeatResponse(gameid, gsExist));
+                MatchvsLog.logI("gatewayHeartBeatResponse");
+                break;
+            case MATCHVS_USER_LOGOUT_RSP:
+                engine.mNetWork.close();
+                engine.mRsp.logoutResponse && engine.mRsp.logoutResponse(packet.payload.getStatus());
+                break;
+            case MATCHVS_NETWORK_STATE_NOTIFY:
+                engine.mRsp.networkStateNotify && engine.mRsp.networkStateNotify(new MsNetworkStateNotify(
+                    packet.payload.getRoomid(),
+                    packet.payload.getUserid(),
+                    packet.payload.getState(),
+                    packet.payload.getOwner()
+                ));
+                break;
+            case CMD_GET_ROOM_LIST_RSP:
+                var roominfolist = packet.payload.getRoominfoList();
+                var roomList = [];
+                for (var i = 0; i < roominfolist.length; i++) {
+                    roomList[i] = new MsRoomInfoEx(roominfolist[i].getRoomid(),
+                        roominfolist[i].getRoomname(),
+                        roominfolist[i].getMaxplayer(),
+                        roominfolist[i].getMode(),
+                        roominfolist[i].getCanwatch(),
+                        utf8ByteArrayToString(roominfolist[i].getRoomproperty()));
+                }
+                engine.mRsp.getRoomListResponse && engine.mRsp.getRoomListResponse(packet.payload.getStatus(), roomList);
+                break;
+            case CMD_DISCONNECT_RSP:
+                engine.mRsp.disConnectResponse && engine.mRsp.disConnectResponse(packet.payload.getStatus());
+                break;
+            case CMD_KICK_PLAYER_RSP:
+                engine.mRsp.kickPlayerResponse && engine.mRsp.kickPlayerResponse(new MsKickPlayerRsp(packet.payload.getStatus(), packet.payload.getOwner(), packet.payload.getUserid()));
+                break;
+            case CMD_KICK_PLAYER_NOTIFY:
+                if (packet.payload.getUserid().toString() === (""+engine.mUserID) && engine.mHotelHeartBeatTimer != null) {
+                    clearInterval(engine.mHotelHeartBeatTimer);
+                    engine.mHotelHeartBeatTimer = null;
+                    engine.mEngineState &= ~ENGE_STATE.IN_ROOM;
+                    engine.mEngineState |= ENGE_STATE.HAVE_LOGIN;
+                }
+                engine.mRsp.kickPlayerNotify && engine.mRsp.kickPlayerNotify(
+                    new MsKickPlayerNotify(packet.payload.getUserid(),
+                        packet.payload.getSrcuserid(),
+                        utf8ByteArrayToString(packet.payload.getCpproto()),
                         packet.payload.getOwner()
                     ));
-                    break;
-                case CMD_GET_ROOM_LIST_RSP:
-                    var roominfolist = packet.payload.getRoominfoList();
-                    var roomList = [];
-                    for (var i = 0; i < roominfolist.length; i++) {
-                        roomList[i] = new MsRoomInfoEx(roominfolist[i].getRoomid(),
-                            roominfolist[i].getRoomname(),
-                            roominfolist[i].getMaxplayer(),
-                            roominfolist[i].getMode(),
-                            roominfolist[i].getCanwatch(),
-                            utf8ByteArrayToString(roominfolist[i].getRoomproperty()));
-                    }
-                    engine.mRsp.getRoomListResponse && engine.mRsp.getRoomListResponse(packet.payload.getStatus(), roomList);
-                    break;
-                case CMD_DISCONNECT_RSP:
-                    engine.mRsp.disConnectResponse && engine.mRsp.disConnectResponse(packet.payload.getStatus());
-                    break;
-                case CMD_KICK_PLAYER_RSP:
-                    engine.mRsp.kickPlayerResponse && engine.mRsp.kickPlayerResponse(new MsKickPlayerRsp(packet.payload.getStatus(), packet.payload.getOwner(), packet.payload.getUserid()));
-                    break;
-                case CMD_KICK_PLAYER_NOTIFY:
-                    if (packet.payload.getUserid().toString() === engine.mUserID && engine.mHotelHeartBeatTimer != null) {
-                        clearInterval(engine.mHotelHeartBeatTimer);
-                        engine.mHotelHeartBeatTimer = null;
-                        engine.mEngineState &= ~ENGE_STATE.IN_ROOM;
-                        engine.mEngineState |= ENGE_STATE.LEAVE_ROOMING;
-                    }
-                    engine.mRsp.kickPlayerNotify && engine.mRsp.kickPlayerNotify(
-                        new MsKickPlayerNotify(packet.payload.getUserid(),
-                            packet.payload.getSrcuserid(),
-                            utf8ByteArrayToString(packet.payload.getCpproto()),
-                            packet.payload.getOwner()
-                        ));
-                    break;
-                case CMD_SET_FRAME_SYNCRATEACK_CMDID:
-                    MatchvsLog.logI("SetFrameSyncRateAck:" + packet.payload);
-                    engine.mRsp.setFrameSyncResponse && engine.mRsp.setFrameSyncResponse(
-                        new MsSetChannelFrameSyncRsp(packet.payload.getStatus()));
-                    break;
-                case CMD_SET_FRAME_SYNCRATENOTIFY_CMDID:
-                    //MatchvsLog.logI("SetFrameSyncRateNotify:"+packet.payload);
-                    break;
-                case CMD_FRAME_BROADCASTACK_CMDID:
-                    //MatchvsLog.logI("FrameBroadcastAck:"+packet.payload);
-                    engine.mRsp.sendFrameEventResponse && engine.mRsp.sendFrameEventResponse(
-                        new MsSendFrameEventRsp(packet.payload.getStatus())
+                break;
+            case CMD_SET_FRAME_SYNCRATEACK_CMDID:
+                MatchvsLog.logI("SetFrameSyncRateAck:" + packet.payload);
+                engine.mRsp.setFrameSyncResponse && engine.mRsp.setFrameSyncResponse(
+                    new MsSetChannelFrameSyncRsp(packet.payload.getStatus()));
+                break;
+            case CMD_SET_FRAME_SYNCRATENOTIFY_CMDID:
+                //MatchvsLog.logI("SetFrameSyncRateNotify:"+packet.payload);
+                break;
+            case CMD_FRAME_BROADCASTACK_CMDID:
+                //MatchvsLog.logI("FrameBroadcastAck:"+packet.payload);
+                engine.mRsp.sendFrameEventResponse && engine.mRsp.sendFrameEventResponse(
+                    new MsSendFrameEventRsp(packet.payload.getStatus())
+                );
+                break;
+            case CMD_FRAME_DATANOTIFY_CMDID:
+                //MatchvsLog.logI("FrameDataNotify:"+packet.payload);
+                frameCache.push(new MsFrameItem(packet.payload.getSrcuid(), utf8ByteArrayToString(packet.payload.getCpproto()), packet.payload.getTimestamp()));
+                break;
+            case CMD_FRAME_SYNCNOTIFY_CMDID:
+                //MatchvsLog.logI("FrameSyncNotify:"+packet.payload);
+                var frameData = [];
+                while (frameCache.length > 0) {
+                    frameData.push(frameCache.pop());
+                }
+                var msFrameData = new MsFrameData(packet.payload.getLastidx(), frameData, frameData.length);
+                engine.mRsp.frameUpdate && engine.mRsp.frameUpdate(msFrameData);
+                break;
+            case CMD_GET_ROOM_LIST_EX_RSP:
+                var roomInfoList = packet.payload.getRoominfoexList();
+                var roomAttrs = [];
+                roomInfoList.forEach(function (roominfo) {
+                    var roomAttr = new MsRoomAttribute(
+                        roominfo.getRoomid(),
+                        roominfo.getRoomname(),
+                        roominfo.getMaxplayer(),
+                        roominfo.getGameplayer(),
+                        roominfo.getWatchplayer(),
+                        roominfo.getMode(),
+                        roominfo.getCanwatch(),
+                        utf8ByteArrayToString(roominfo.getRoomproperty()),
+                        roominfo.getOwner(),
+                        roominfo.getState(),
+                        roominfo.getCreatetime().toString()
                     );
-                    break;
-                case CMD_FRAME_DATANOTIFY_CMDID:
-                    //MatchvsLog.logI("FrameDataNotify:"+packet.payload);
-                    frameCache.push(new MsFrameItem(packet.payload.getSrcuid(), utf8ByteArrayToString(packet.payload.getCpproto()), packet.payload.getTimestamp()));
-                    break;
-                case CMD_FRAME_SYNCNOTIFY_CMDID:
-                    //MatchvsLog.logI("FrameSyncNotify:"+packet.payload);
-                    var frameData = [];
-                    while (frameCache.length > 0) {
-                        frameData.push(frameCache.pop());
-                    }
-                    var msFrameData = new MsFrameData(packet.payload.getLastidx(), frameData, frameData.length);
-                    engine.mRsp.frameUpdate && engine.mRsp.frameUpdate(msFrameData);
-                    break;
-                case CMD_GET_ROOM_LIST_EX_RSP:
-                    var roomInfoList = packet.payload.getRoominfoexList();
-                    var roomAttrs = [];
-                    roomInfoList.forEach(function (roominfo) {
-                        var roomAttr = new MsRoomAttribute(
-                            roominfo.getRoomid(),
-                            roominfo.getRoomname(),
-                            roominfo.getMaxplayer(),
-                            roominfo.getGameplayer(),
-                            roominfo.getWatchplayer(),
-                            roominfo.getMode(),
-                            roominfo.getCanwatch(),
-                            utf8ByteArrayToString(roominfo.getRoomproperty()),
-                            roominfo.getOwner(),
-                            roominfo.getState(),
-                            roominfo.getCreatetime().toString()
-                        );
-                        roomAttrs.push(roomAttr);
-                    });
+                    roomAttrs.push(roomAttr);
+                });
 
-                    var roomListExInfo = new MsGetRoomListExRsp(
-                        packet.payload.getStatus(),
-                        packet.payload.getTotal(),
-                        roomAttrs
-                    );
-                    engine.mRsp.getRoomListExResponse && engine.mRsp.getRoomListExResponse(roomListExInfo);
-                    break;
-                case CMD_GET_ROOM_DETAIL_RSP:
-                    if (packet.payload.getStatus() !== 200) {
-                        engine.mRsp.getRoomDetailResponse && engine.mRsp.getRoomDetailResponse(new MsGetRoomDetailRsp(packet.payload.getStatus()));
-                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server error");
-                    }
-                    var roomDetail = packet.payload.getRoomdetail();
-                    var userInfos = [];
-                    var playerlist = roomDetail.getPlayerinfosList();
-                    playerlist.forEach(function (player) {
-                        var userinfo = new MsRoomUserInfo(player.getUserid(), utf8ByteArrayToString(player.getUserprofile()));
-                        userInfos.push(userinfo);
-                    });
-                    var roomDetailRsp = new MsGetRoomDetailRsp(
-                        packet.payload.getStatus(),
-                        roomDetail.getState(),
-                        roomDetail.getMaxplayer(),
-                        roomDetail.getMode(),
-                        roomDetail.getCanwatch(),
-                        utf8ByteArrayToString(roomDetail.getRoomproperty()),
-                        roomDetail.getOwner(),
-                        roomDetail.getCreateflag(),
-                        userInfos
-                    );
-                    engine.mRsp.getRoomDetailResponse && engine.mRsp.getRoomDetailResponse(roomDetailRsp);
-                    break;
-                case MATCHVS_ROOM_JOIN_OVER_NOTIFY:
-                    var joinoverNotifyInfo = new MsJoinOverNotifyInfo(
-                        packet.payload.getRoomid(),
-                        packet.payload.getSrcuserid(),
-                        utf8ByteArrayToString(packet.payload.getCpproto())
-                    );
-                    engine.mRsp.joinOverNotify && engine.mRsp.joinOverNotify(joinoverNotifyInfo);
-                    break;
-                case CMD_SET_ROOM_PROPERTY_RSP:
-                    if (packet.payload.getStatus() !== 200) {
-                        engine.errorResponse && engine.errorResponse(packet.payload.getStatus(), "Server response error");
-                    }
-                    engine.mRsp.setRoomPropertyResponse && engine.mRsp.setRoomPropertyResponse(new MsSetRoomPropertyRspInfo(
-                        packet.payload.getStatus(),
-                        packet.payload.getRoomid(),
-                        packet.payload.getUserid(),
-                        utf8ByteArrayToString(packet.payload.getRoomproperty())
-                    ));
-                    break;
-                case CMD_SET_ROOM_PROPERTY_NOTIFY:
-                    engine.mRsp.setRoomPropertyNotify && engine.mRsp.setRoomPropertyNotify(new MsRoomPropertyNotifyInfo(
-                        packet.payload.getRoomid(),
-                        packet.payload.getUserid(),
-                        utf8ByteArrayToString(packet.payload.getRoomproperty())
-                    ));
-                    break;
-                case CMD_ROOM_JOIN_OPEN_RSP:
-                    engine.mRsp.joinOpenResponse && engine.mRsp.joinOpenResponse(new MsReopenRoomResponse(
-                        packet.payload.getStatus(),
-                        utf8ByteArrayToString(packet.payload.getCpproto())
-                    ));
-                    break;
-                case CMD_ROOM_JOIN_OPEN_NOT:
-                    engine.mRsp.joinOpenNotify && engine.mRsp.joinOpenNotify(new MsReopenRoomNotify(
-                        packet.payload.getRoomid(),
-                        packet.payload.getUserid(),
-                        utf8ByteArrayToString(packet.payload.getCpproto())
-                    ));
-                    break;
-                default:
-                    break;
+                var roomListExInfo = new MsGetRoomListExRsp(
+                    packet.payload.getStatus(),
+                    packet.payload.getTotal(),
+                    roomAttrs
+                );
+                engine.mRsp.getRoomListExResponse && engine.mRsp.getRoomListExResponse(roomListExInfo);
+                break;
+            case CMD_GET_ROOM_DETAIL_RSP:
+                if (packet.payload.getStatus() !== 200) {
+                    engine.mRsp.getRoomDetailResponse && engine.mRsp.getRoomDetailResponse(new MsGetRoomDetailRsp(packet.payload.getStatus()));
+                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(packet.payload.getStatus(), "Server error");
+                }
+                var roomDetail = packet.payload.getRoomdetail();
+                var userInfos = [];
+                var playerlist = roomDetail.getPlayerinfosList();
+                playerlist.forEach(function (player) {
+                    var userinfo = new MsRoomUserInfo(player.getUserid(), utf8ByteArrayToString(player.getUserprofile()));
+                    userInfos.push(userinfo);
+                });
+                var roomDetailRsp = new MsGetRoomDetailRsp(
+                    packet.payload.getStatus(),
+                    roomDetail.getState(),
+                    roomDetail.getMaxplayer(),
+                    roomDetail.getMode(),
+                    roomDetail.getCanwatch(),
+                    utf8ByteArrayToString(roomDetail.getRoomproperty()),
+                    roomDetail.getOwner(),
+                    roomDetail.getCreateflag(),
+                    userInfos
+                );
+                engine.mRsp.getRoomDetailResponse && engine.mRsp.getRoomDetailResponse(roomDetailRsp);
+                break;
+            case MATCHVS_ROOM_JOIN_OVER_NOTIFY:
+                var joinoverNotifyInfo = new MsJoinOverNotifyInfo(
+                    packet.payload.getRoomid(),
+                    packet.payload.getSrcuserid(),
+                    utf8ByteArrayToString(packet.payload.getCpproto())
+                );
+                engine.mRsp.joinOverNotify && engine.mRsp.joinOverNotify(joinoverNotifyInfo);
+                break;
+            case CMD_SET_ROOM_PROPERTY_RSP:
+                if (packet.payload.getStatus() !== 200) {
+                    engine.errorResponse && engine.errorResponse(packet.payload.getStatus(), "Server response error");
+                }
+                engine.mRsp.setRoomPropertyResponse && engine.mRsp.setRoomPropertyResponse(new MsSetRoomPropertyRspInfo(
+                    packet.payload.getStatus(),
+                    packet.payload.getRoomid(),
+                    packet.payload.getUserid(),
+                    utf8ByteArrayToString(packet.payload.getRoomproperty())
+                ));
+                break;
+            case CMD_SET_ROOM_PROPERTY_NOTIFY:
+                engine.mRsp.setRoomPropertyNotify && engine.mRsp.setRoomPropertyNotify(new MsRoomPropertyNotifyInfo(
+                    packet.payload.getRoomid(),
+                    packet.payload.getUserid(),
+                    utf8ByteArrayToString(packet.payload.getRoomproperty())
+                ));
+                break;
+            case CMD_ROOM_JOIN_OPEN_RSP:
+                engine.mRsp.joinOpenResponse && engine.mRsp.joinOpenResponse(new MsReopenRoomResponse(
+                    packet.payload.getStatus(),
+                    utf8ByteArrayToString(packet.payload.getCpproto())
+                ));
+                break;
+            case CMD_ROOM_JOIN_OPEN_NOT:
+                engine.mRsp.joinOpenNotify && engine.mRsp.joinOpenNotify(new MsReopenRoomNotify(
+                    packet.payload.getRoomid(),
+                    packet.payload.getUserid(),
+                    utf8ByteArrayToString(packet.payload.getCpproto())
+                ));
+                break;
+            default:
+                break;
             }
 
         };
@@ -23215,21 +23255,30 @@ function MatchvsEngine() {
             timer = setInterval(engine.heartBeat, HEART_BEAT_INTERVAL);
 
         };
-        this.onDisConnect = function (host) {
+        this.onDisConnect = function (host,event) {
             engine.mRsp.onDisConnect && engine.mRsp.onDisConnect(host);
             if (host.endsWith(HttpConf.HOST_GATWAY_ADDR)) {
                 if ((engine.mEngineState & ENGE_STATE.LOGOUTING) !== ENGE_STATE.LOGOUTING) {
                     //如果gateway 异常断开连接了就返回错误消息
-                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(1001, "gateway network error");
+                    if (event&&event.code&&(event.code===1000||event.code===1005)){
+                        MatchvsLog.logI("gateway close is friend");
+                    } else{
+                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(1001, "gateway network error");
+                    }
                 }
                 engine.mEngineState = ENGE_STATE.NONE;
                 engine.mEngineState |= ENGE_STATE.HAVE_INIT;
+                MatchvsLog.logI("EngineState",engine.mEngineState);
                 clearInterval(timer);
             } else if (host.endsWith(HttpConf.HOST_HOTEL_ADDR)) {
                 MatchvsLog.logI("hotel disconnect");
                 if ((engine.mEngineState & ENGE_STATE.LEAVE_ROOMING) !== ENGE_STATE.LEAVE_ROOMING) {
                     //针对，如果直接退出房间，没有调用 leaveRoom接口
-                    engine.mRsp.errorResponse && engine.mRsp.errorResponse(1001, "hotel network error");
+                    if (event&&event.code&&(event.code===1000||event.code===1005)){
+                        MatchvsLog.logI("hotel close is friend");
+                    } else{
+                        engine.mRsp.errorResponse && engine.mRsp.errorResponse(1001, "hotel network error");
+                    }
                 }
                 //如果房间服务器断开了(包括异常断开情况)就把定时器关掉
                 if (engine.mHotelHeartBeatTimer != null) {
@@ -23243,15 +23292,13 @@ function MatchvsEngine() {
         };
     };
     this.init = function (response, channel, platform, gameID) {
-        if (!(("Matchvs" === channel) || ("MatchVS" === channel) || ("MatchVS-Test" === channel) || ("MatchVS-Test1" === channel))) return -25; //非法channel
-        if (!("alpha" === platform || "Alpha" === platform || "release" === platform || "Release" === platform)) return -26;//非法Environment
         this.mRsp = response;
         this.mChannel = channel;
         this.mPlatform = platform;
         this.mGameID = gameID;
         this.mMsPubArgs.channel = channel;
         this.mMsPubArgs.platform = platform;
-        this.mEngineState |= ENGE_STATE.INITING;
+        this.mEngineState = ENGE_STATE.INITING;
         this.mProtocol.init();
         this.getHostList();
         return 0;
@@ -23332,6 +23379,7 @@ function MatchvsEngine() {
         var buf = this.mProtocol.login(userID, token, pGameID, pGameVersion, pAppKey, pSecretKey, deviceID, gatewayID);
         this.mEngineState |= ENGE_STATE.LOGINING;
         this.mNetWork.send(buf);
+        MatchvsLog.logI("login,userID"+userID+", token:"+token);
         return 0;
     };
     /**
@@ -23371,6 +23419,7 @@ function MatchvsEngine() {
         if (buf.byteLength > 1024 || userProfile.length > 512) return -21;
         this.mEngineState |= ENGE_STATE.CREATEROOM;//设置用户正在创建房间
         this.mNetWork.send(buf);
+        MatchvsLog.logI("create room");
         return 0;
     };
     this.getVersion = function () {
@@ -23378,6 +23427,8 @@ function MatchvsEngine() {
     };
 
     this.uninit = function () {
+        this.mEngineState = ENGE_STATE.NONE;
+        MatchvsLog.logI("unInit ");
         return 0;
     };
 
@@ -23431,8 +23482,8 @@ function MatchvsEngine() {
         var ret = commEngineStateCheck(this.mEngineState, this.mEngineState, 2);
         if (ret !== 0) return ret;
         if (userProfile.length > 512) return -21;
-        if (typeof matchinfo !== 'object') return -1;
-        if (typeof userProfile !== 'string') return -1;
+        if (typeof matchinfo !== "object") return -1;
+        if (typeof userProfile !== "string") return -1;
         var roomJoin = new MsRoomJoin(MsEnum.JoinRoomType.joinRoomWithProperty, this.mUserID,
             1, this.mGameID, matchinfo.maxPlayer, matchinfo.mode, matchinfo.canWatch, userProfile, matchinfo.tags);
         var buf = this.mProtocol.joinRoomWithProperties(roomJoin);
@@ -23458,6 +23509,7 @@ function MatchvsEngine() {
         var buf = this.mProtocol.joinRoomSpecial(roomJoin);
         this.mEngineState |= ENGE_STATE.JOIN_ROOMING;
         this.mNetWork.send(buf);
+        MatchvsLog.logI("join room");
         return 0;
     };
 
@@ -23494,6 +23546,7 @@ function MatchvsEngine() {
         if (this.mHotelNetWork) {
             this.mHotelNetWork.close();
         }
+        MatchvsLog.logI("leaveRoom");
         return 0;
     };
     /**
@@ -23545,7 +23598,7 @@ function MatchvsEngine() {
         var buf = this.mProtocol.joinOpen(this.mGameID, this.mUserID, this.mRoomInfo.getRoomid(), cpProto);
         this.mNetWork.send(buf);
         return 0;
-    }
+    };
 
 }
 
@@ -23862,6 +23915,7 @@ MatchvsEngine.prototype.logout = function (cpProto) {
     if ((this.mEngineState & ENGE_STATE.HAVE_LOGIN) !== ENGE_STATE.HAVE_LOGIN) return -4;
     if ((this.mEngineState & ENGE_STATE.IN_ROOM) === ENGE_STATE.IN_ROOM) {
         this.mEngineState |= ENGE_STATE.LEAVE_ROOMING;
+        this.leaveRoom("user logout");
         this.mHotelNetWork && this.mHotelNetWork.close();
     }
     var buf = this.mProtocol.logout(cpProto);
@@ -23875,10 +23929,9 @@ MatchvsEngine.prototype.logout = function (cpProto) {
  */
 MatchvsEngine.prototype.heartBeat = function () {
     var Instance = M_ENGINE;
-    if (Instance.mGameID === undefined || Instance.mGameID === '' || Instance.mGameID === 0) {
+    if (Instance.mGameID === undefined || Instance.mGameID === "" || Instance.mGameID === 0) {
         return;
     }
-    MatchvsLog.logI("heartBeat_engine");
     var roomID;
     if (Instance.mRoomInfo === undefined) {
         roomID = 0;
@@ -23887,6 +23940,7 @@ MatchvsEngine.prototype.heartBeat = function () {
     }
     var buf = Instance.mProtocol.heartBeat(Instance.mGameID, roomID);
     Instance.mNetWork.send(buf);
+    MatchvsLog.logI("gateway heartBeat");
 };
 
 
@@ -23923,7 +23977,7 @@ MatchvsEngine.prototype.sendEvent = function (data) {
         sequence: this.mProtocol.seq - 1,
         result: -7
     };//正在加入房间
-    if (typeof data !== 'string') return {sequence: this.mProtocol.seq - 1, result: -1};
+    if (typeof data !== "string") return {sequence: this.mProtocol.seq - 1, result: -1};
 
     var destType = 0;
     var msgType = 0;
@@ -23975,7 +24029,7 @@ MatchvsEngine.prototype.sendEventEx = function (msgType, data, desttype, userids
         sequence: this.mProtocol.seq - 1,
         result: -7
     };//正在加入房间
-    if (typeof data !== 'string') return {sequence: this.mProtocol.seq - 1, result: -1};
+    if (typeof data !== "string") return {sequence: this.mProtocol.seq - 1, result: -1};
     if (!(msgType === 0 || msgType === 1 || msgType === 2)) return {sequence: this.mProtocol.seq - 1, result: -23};
     if (!(desttype === 0 || desttype === 1)) return {sequence: this.mProtocol.seq - 1, result: -24};
 
@@ -24023,12 +24077,12 @@ MatchvsEngine.prototype.sendEventGroup = function (data, groups) {
  * @userID { number } value  要订阅的分组集合
  */
 MatchvsEngine.prototype.hotelHeartBeat = function () {
-    MatchvsLog.logI("hotelHeartBeat_engine");
     var _engine = M_ENGINE;
     this.mEngineState |= ENGE_STATE.IN_ROOM;
     this.mEngineState |= ENGE_STATE.HAVE_LOGIN;
     var buf = _engine.mProtocol.hotelHeartBeat(_engine.mGameID, _engine.mRoomInfo.getRoomid(), _engine.mUserID);
     _engine.mHotelNetWork.send(buf);
+    MatchvsLog.logI("hotel heartBeat");
 };
 
 /**
@@ -24230,7 +24284,7 @@ function Base64() {
                 _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
         }
         return output;
-    }
+    };
 
     // public method for decoding
     this.decode = function (input) {
@@ -24257,7 +24311,7 @@ function Base64() {
         }
         output = _utf8_decode(output);
         return output;
-    }
+    };
 
     // private method for UTF-8 encoding
     _utf8_encode = function (string) {
@@ -24278,7 +24332,7 @@ function Base64() {
 
         }
         return utftext;
-    }
+    };
 
     // private method for UTF-8 decoding
     _utf8_decode = function (utftext) {
@@ -24302,7 +24356,7 @@ function Base64() {
             }
         }
         return string;
-    }
+    };
 }
 
 try {
@@ -24317,8 +24371,9 @@ try {
      MsRoomFilterEx: MsRoomFilterEx, 
      LocalStore_Clear: LocalStore_Clear,
      MsReopenRoomResponse:MsReopenRoomResponse,
-     MsReopenRoomNotify:MsReopenRoomNotify
-     
+     MsReopenRoomNotify:MsReopenRoomNotify,
+     MatchvsHttp:MatchvsHttp
+	 
      };
     }  
 } catch (error) {
@@ -24335,5 +24390,6 @@ window.MsRoomFilterEx= MsRoomFilterEx;
 window.LocalStore_Clear= LocalStore_Clear;
 window.MsReopenRoomResponse=MsReopenRoomResponse;
 window.MsReopenRoomNotify=MsReopenRoomNotify;
+window.MatchvsHttp = MatchvsHttp;
      
     
