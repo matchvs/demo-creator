@@ -1,7 +1,9 @@
-var mvs = require("Matchvs");
+/**
+ * 登录
+ */
 var GLB = require("Glb");
 var engine = require("MatchvsEngine");
-var response = require("assets/scripts/MatchvsDemoResponse");
+var response = require("MatchvsDemoResponse");
 var msg = require("MatvhsMessage");
 cc.Class({
     extends: cc.Component,
@@ -19,13 +21,13 @@ cc.Class({
         }
     },
 
-    labelLog: function (info) {
-        this.labelInfo.string += '\n[LOG]: ' + info;
-    },
 
+    /**
+     * load 显示页面
+     */
     onLoad: function () {
         var self = this;
-        this.matchVSInit(self);
+        this.initEvent(self);
         this.alphaRadio.getComponent(cc.Toggle).isChecked = true;
         this.confirm.on(cc.Node.EventType.TOUCH_END, function (event) {
             engine.prototype.init(GLB.channel,GLB.platform,GLB.gameID);
@@ -33,7 +35,7 @@ cc.Class({
             if (Number(self.gameIdInput.getComponent(cc.EditBox).string) != 0) {
                 GLB.gameID = Number(self.gameIdInput.getComponent(cc.EditBox).string);
             }
-            if ( self.appKeyInput.getComponent(cc.EditBox).string != "")
+            if (self.appKeyInput.getComponent(cc.EditBox).string != "")
                 GLB.appKey = self.appKeyInput.getComponent(cc.EditBox).string;
 
             if (self.secret.getComponent(cc.EditBox).string != "") {
@@ -58,8 +60,9 @@ cc.Class({
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    matchVSInit:function (self) {
+    initEvent:function (self) {
         response.prototype.init(self);
+        this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.on(msg.MATCHVS_INIT, this.onEvent, this);
         this.node.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
         this.node.on(msg.MATCHVS_LOGIN,this.onEvent,this);
@@ -91,7 +94,9 @@ cc.Class({
                     cc.director.loadScene("lobby");
                 }
                 break;
-
+            case msg.MATCHVS_ERROE_MSG:
+                this.labelLog(event.detail.msg);
+                break;
         }
     },
 
@@ -107,9 +112,30 @@ cc.Class({
         engine.prototype.login(id,token);
     },
 
+    /**
+     * 移除监听
+     */
+    removeEvent:function () {
+        this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
+        this.node.off(msg.MATCHVS_INIT, this.onEvent, this);
+        this.node.off(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
+        this.node.off(msg.MATCHVS_LOGIN,this.onEvent,this);
+    },
 
-    onDe
+    /**
+     * 页面log打印
+     * @param info
+     */
+    labelLog: function (info) {
+        this.labelInfo.string += '\n[LOG]: ' + info;
+    },
 
-
+    /**
+     * 生命周期，页面销毁
+     */
+    onDestroy:function () {
+        this.removeEvent();
+        console.log("Login页面销毁");
+    }
 
 });

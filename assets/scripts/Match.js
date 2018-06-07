@@ -1,4 +1,5 @@
-var mvs = require("Matchvs");
+var engine = require("MatchvsEngine");
+var response = require("MatchvsDemoResponse");
 var GLB = require("Glb");
 cc.Class({
     extends: cc.Component,
@@ -36,34 +37,29 @@ cc.Class({
         joinopen: cc.Node
     },
 
-    labelLog: function (info) {
-        this.labelInfo.string += '\n' + info;
-    },
-    startGame: function () {
-        this.labelLog('游戏即将开始');
-        cc.director.loadScene('game');
-    },
+
     onLoad: function () {
         var result = 0;
-        mvs.response.joinRoomResponse = this.joinRoomResponse.bind(this);
-        mvs.response.joinRoomNotify = this.joinRoomNotify.bind(this);
-        mvs.response.getRoomDetailResponse = this.getRoomDetailResponse.bind(this);
-        mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
-        if (GLB.matchType === GLB.RANDOM_MATCH) {
-            result = mvs.engine.joinRandomRoom(GLB.MAX_PLAYER_COUNT, '');
-            if (result !== 0)
-                return this.labelLog('进入房间失败,错误码:' + result)
-        } else if (GLB.matchType === GLB.PROPERTY_MATCH) {
-            var matchinfo = new mvs.MsMatchInfo();
-            matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
-            matchinfo.mode = 0;
-            matchinfo.canWatch = 0;
-            matchinfo.tags = GLB.tagsInfo;
-            this.labelProperty.string = "自定义属性:" + JSON.stringify(GLB.tagsInfo);
-            result = mvs.engine.joinRoomWithProperties(matchinfo, "china");
-            if (result !== 0)
-                return this.labelLog('进入房间失败,错误码:' + result);
-        }
+        // mvs.response.joinRoomResponse = this.joinRoomResponse.bind(this);
+        // mvs.response.joinRoomNotify = this.joinRoomNotify.bind(this);
+        // mvs.response.getRoomDetailResponse = this.getRoomDetailResponse.bind(this);
+        // mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
+        engine.prototype.joinRandomRoom(GLB.MAX_PLAYER_COUNT);
+        // if (GLB.matchType === GLB.RANDOM_MATCH) {
+        //     result = mvs.engine.joinRandomRoom(GLB.MAX_PLAYER_COUNT, '');
+        //     if (result !== 0)
+        //         return this.labelLog('进入房间失败,错误码:' + result)
+        // } else if (GLB.matchType === GLB.PROPERTY_MATCH) {
+        //     var matchinfo = new mvs.MsMatchInfo();
+        //     matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
+        //     matchinfo.mode = 0;
+        //     matchinfo.canWatch = 0;
+        //     matchinfo.tags = GLB.tagsInfo;
+        //     this.labelProperty.string = "自定义属性:" + JSON.stringify(GLB.tagsInfo);
+        //     result = mvs.engine.joinRoomWithProperties(matchinfo, "china");
+        //     if (result !== 0)
+        //         return this.labelLog('进入房间失败,错误码:' + result);
+        // }
         this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function (event) {
             mvs.engine.leaveRoom("");
             cc.director.loadScene('lobby');
@@ -235,5 +231,13 @@ cc.Class({
             });
             this.startGame()
         }
-    }
+    },
+
+    labelLog: function (info) {
+        this.labelInfo.string += '\n' + info;
+    },
+    startGame: function () {
+        this.labelLog('游戏即将开始');
+        cc.director.loadScene('game');
+    },
 });

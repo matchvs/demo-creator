@@ -18,6 +18,7 @@ MatchvsDemoResponse.prototype.bind = function () {
     mvs.response.registerUserResponse = this.registerUserResponse.bind(this);
     mvs.response.loginResponse = this.loginResponse.bind(this);
     mvs.response.reconnectResponse = this.reconnectResponse.bind(this);
+    mvs.response.errorResponse = this.errorResponse.bind(this);
 };
 
 /**
@@ -42,9 +43,7 @@ MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
     if (userInfo.status == 0) {
         console.log("注册成功");
         console.log(this.context);
-        this.context.node.emit(msg.MATCHVS_REGISTER_USER, {
-            msg: userInfo,
-        })
+        this.context.node.emit(msg.MATCHVS_REGISTER_USER, {msg: userInfo,});
     } else {
         console.log("注册失败"+userInfo.status);
     }
@@ -55,8 +54,8 @@ MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
 */
 MatchvsDemoResponse.prototype.loginResponse = function (loginRsp) {
     if (loginRsp.status == 200) {
-        console.log("登录成功")
-        this.context.node.emit(msg.MATCHVS_LOGIN, {msg:loginRsp})
+        console.log("登录成功");
+        this.context.node.emit(msg.MATCHVS_LOGIN, {msg:loginRsp});
     } else {
         console.log("登录失败"+ loginRsp.status);
     }
@@ -71,11 +70,29 @@ MatchvsDemoResponse.prototype.loginResponse = function (loginRsp) {
 MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoList,roomInfo) {
     if(status == 200) {
         console.log("重连成功");
+        this.context.node.emit(msg.MATCHVS_RE_CONNECT, {});
     } else {
         console.log("重连失败"+status);
     }
 };
 
+/**
+ * 错误回调
+ * @param error
+ */
+MatchvsDemoResponse.prototype.errorResponse = function (error) {
+    this.context.node.emit(msg.MATCHVS_ERROE_MSG, {msg:error});
+};
+
+MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList, roomInfo) {
+    if (status == 200) {
+        console.log("进入房间成功");
+        // this.context.node.emit(msg.MATCHVS_JOIN_ROOM_RSP,)
+    } else {
+        console.log("进入房间失败");
+    }
+
+}
 
 module.exports = MatchvsDemoResponse;
 

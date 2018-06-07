@@ -52,33 +52,36 @@ MatchvsDemoEngine.prototype.reconnect = function () {
     var result = mvs.engine.reconnect();
     console.log("重连result"+result);
     return result;
-}
-
+};
 
 /**
- * 
+ * 退出游戏
+ * @returns {DataView|number|*}
+ */
+MatchvsDemoEngine.prototype.logout = function () {
+    var result = mvs.engine.logout("退出游戏");
+    console.log('退出游戏result'+result);
+    return result;
+};
+
+/**
+ * 反初始化
+ */
+MatchvsDemoEngine.prototype.uninit =function () {
+    var result = mvs.engine.uninit();
+    console.log('反初始化result'+result);
+    return result;
+}
+
+/**
+ * 随机匹配
+ * @param mxaNumer 房间最大人数
  * @returns {number}
  */
-MatchvsDemoEngine.prototype.joinRandomRoom = function(){
-    this._forEachResponse(function(res) {
-        setTimeout(function(){
-            var roomInfo = {
-                status: 0,
-                userInfoList: [
-                    {userID: 10086,userProfile: '张三'},
-                    {userID: 10087,userProfile: '李四'},
-                    {userID: 10088,userProfile: '王五'},
-                ],
-                roomInfo: {
-                    rootID: 1028374,
-                    rootProperty: "好房间",
-                    owner: 10086,
-                }
-            };
-            res && res.roomJoinResponse(roomInfo);
-        }, 100);
-    });
-    return 0;
+MatchvsDemoEngine.prototype.joinRandomRoom = function(mxaNumer){
+    var result = mvs.engine.joinRandomRoom(mxaNumer);
+    console.log("随机匹配result"+result)
+    return result;
 };
 
 MatchvsDemoEngine.prototype._forEachResponse = function(func) {
