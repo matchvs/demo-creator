@@ -86,13 +86,14 @@ cc.Class({
                 break;
             case msg.MATCHVS_LOGIN:
                 var loginRsp = event.detail.msg;
-                if (loginRsp.roomID != null && loginRsp.roomID !== '0') {
-                    console.log("开始重连"+ loginRsp.roomID);
-                    engine.prototype.reconnect();
-                    //todo 直接跳游戏页面
-                } else {
+                // // todo 先不管重连
+                // if (loginRsp.roomID != null && loginRsp.roomID !== '0') {
+                //     console.log("开始重连"+ loginRsp.roomID);
+                //     engine.prototype.reconnect();
+                //     //todo 直接跳游戏页面
+                // } else {
                     cc.director.loadScene("lobby");
-                }
+                // }
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog(event.detail.msg);

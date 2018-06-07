@@ -19,6 +19,14 @@ MatchvsDemoResponse.prototype.bind = function () {
     mvs.response.loginResponse = this.loginResponse.bind(this);
     mvs.response.reconnectResponse = this.reconnectResponse.bind(this);
     mvs.response.errorResponse = this.errorResponse.bind(this);
+    mvs.response.joinRoomResponse = this.joinRoomResponse.bind(this)
+    mvs.response.joinRoomNotify = this.joinRoomNotify.bind(this);
+    mvs.response.leaveRoomResponse = this.leaveRoomResponse.bind(this);
+    mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
+    mvs.response.joinOpenResponse = this.joinOpenResponse.bind(this);
+    mvs.response.joinOpenNotify = this.joinOpenNotify.bind(this);
+    mvs.response.joinOverResponse = this.joinOverResponse.bind(this);
+    mvs.response.joinOverNotify = this.joinOverNotify.bind(this);
 };
 
 /**
@@ -43,6 +51,13 @@ MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
     if (userInfo.status == 0) {
         console.log("注册成功");
         console.log(this.context);
+        if (userInfo.name != "") {
+            GLB.name = userInfo.name;
+        } else {
+            GLB.name = userInfo.id;
+        }
+        GLB.avatar = userInfo.avatar;
+        GLB.userID = userInfo.id;
         this.context.node.emit(msg.MATCHVS_REGISTER_USER, {msg: userInfo,});
     } else {
         console.log("注册失败"+userInfo.status);
@@ -70,7 +85,8 @@ MatchvsDemoResponse.prototype.loginResponse = function (loginRsp) {
 MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoList,roomInfo) {
     if(status == 200) {
         console.log("重连成功");
-        this.context.node.emit(msg.MATCHVS_RE_CONNECT, {});
+        roomUserInfoList.roomID = roomInfo.rootID;
+        this.context.node.emit(msg.MATCHVS_RE_CONNECT, {msg:roomUserInfoList});
     } else {
         console.log("重连失败"+status);
     }
@@ -84,15 +100,95 @@ MatchvsDemoResponse.prototype.errorResponse = function (error) {
     this.context.node.emit(msg.MATCHVS_ERROE_MSG, {msg:error});
 };
 
+/**
+ * 进入房间回调
+ * @param status
+ * @param userInfoList
+ * @param roomInfo
+ */
 MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList, roomInfo) {
     if (status == 200) {
         console.log("进入房间成功");
-        // this.context.node.emit(msg.MATCHVS_JOIN_ROOM_RSP,)
+        userInfoList.roomID = roomInfo.roomID;
+        this.context.node.emit(msg.MATCHVS_JOIN_ROOM_RSP,{msg:userInfoList});
     } else {
-        console.log("进入房间失败");
+        console.log("进入房间失败"+status);
+    }
+};
+
+/**
+ * 其他玩家进入房间通知
+ * @param roomUserInfo
+ */
+MatchvsDemoResponse.prototype.joinRoomNotify = function (roomUserInfo) {
+    console.log(roomUserInfo.userId+"加入了房间");
+    this.context.node.emit(msg.MATCHVS_JOIN_ROOM_NOTIFY,{msg:roomUserInfo});
+};
+
+/**
+ * 房间打开通知
+ * @param notify
+ */
+MatchvsDemoResponse.prototype.joinOpenNotify = function (notify) {
+    console.log("房间打开通知");
+    this.context.node.emit(msg.MATCHVS_JOIN_OPEN_NOTIFY,{msg:notify});
+};
+
+/**
+ * 房间打开回调
+ * @param rep
+ */
+MatchvsDemoResponse.prototype.joinOpenResponse =function (rsp) {
+    if (rsp.status == 200) {
+        console.log("房间打开成功");
+        this.context.node.emit(msg.MATCHVS_JOIN_OPEN_RSP,{msg:rsp});
+    } else {
+        console.log("房间打开失败"+rsp.status);
     }
 
-}
+};
+
+/**
+ * 房间关闭回调
+ * @param rep
+ */
+MatchvsDemoResponse.prototype.joinOverResponse = function (rsp) {
+    if(rsp.status == 200) {
+        console.log("房间关闭成功");
+        this.context.node.emit(msg.MATCHVS_JOIN_OVER_RSP,{msg:rsp});
+    } else  {
+        console.log("房间关闭失败"+rsp.status);
+    }
+};
+/**
+ * 房间关闭通知
+ * @param notify
+ */
+MatchvsDemoResponse.prototype.joinOverNotify = function (notify) {
+    console.log("房间关闭通知");
+    this.context.node.emit(msg.MATCHVS_JOIN_OVER_NOTIFY,{msg:notify});
+};
+
+/**
+ * 离开房间回调
+ * @param leaveRoomRsp
+ */
+MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
+    if (leaveRoomRsp.status == 200) {
+        console.log("离开房间成功");
+        this.context.node.emit(msg.MATCHVS_LEAVE_ROOM,{msg:leaveRoomRsp});
+    } else {
+        console.log("离开房间失败"+leaveRoomRsp.status);
+    }
+};
+
+/**
+ * 离开房间通知
+ * @param leaveRoomInfo
+ */
+MatchvsDemoResponse.prototype.leaveRoomNotify = function (leaveRoomInfo) {
+    this.context.node.emit(msg.MATCHVS_LEAVE_ROOM_NOTIFY,{msg:leaveRoomInfo});
+};
 
 module.exports = MatchvsDemoResponse;
 

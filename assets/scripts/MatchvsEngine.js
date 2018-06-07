@@ -78,22 +78,39 @@ MatchvsDemoEngine.prototype.uninit =function () {
  * @param mxaNumer 房间最大人数
  * @returns {number}
  */
-MatchvsDemoEngine.prototype.joinRandomRoom = function(mxaNumer){
-    var result = mvs.engine.joinRandomRoom(mxaNumer);
+MatchvsDemoEngine.prototype.joinRandomRoom = function(mxaNumer,profile){
+    var result = mvs.engine.joinRandomRoom(mxaNumer,MatchvsDemoEngine.prototype.getUserProfile(profile));
     console.log("随机匹配result"+result)
     return result;
 };
 
-MatchvsDemoEngine.prototype._forEachResponse = function(func) {
-    if (this.responses) {
-        for(var i = 0; i<this.responses.length; i++) {
-            this.responses[i] && func(this.responses[i]);
-        }
-    }
+/**
+ * 离开房间
+ */
+MatchvsDemoEngine.prototype.leaveRoom = function () {
+    var result = mvs.engine.leaveRoom(Glb.name+"主动离开了房间");
+    console.log(Glb.name+"主动离开房间result"+result);
+    return result;
 };
 
+/**
+ * 关闭房间
+ * @returns {number}
+ */
 MatchvsDemoEngine.prototype.joinOver = function(){
-    return 0;
+    var result = mvs.engine.joinOver("关闭房间");
+    console.log("joinOver result"+result);
+    return result;
+};
+
+/**
+ * 打开房间
+ * @returns {number}
+ */
+MatchvsDemoEngine.prototype.joinOpen = function(){
+    var result = mvs.engine.joinOpen("打开房间");
+    console.log("joinOpen result"+result);
+    return result;
 };
 
 MatchvsDemoEngine.prototype.sendEvent = function(event){
@@ -106,4 +123,15 @@ MatchvsDemoEngine.prototype.sendEvent = function(event){
     return {status: 0, seq: mockEventId};
 };
 
+/**
+ * 获取进入房间负载信息
+ * @param profile
+ * @returns {string}
+ */
+MatchvsDemoEngine.prototype.getUserProfile = function (profile) {
+    var userProfile = {name:Glb.name,avatar:Glb.avatar,profile:profile};
+    var userProfileStr = JSON.stringify(userProfile);
+    console.log("进入房间负载信息"+userProfileStr);
+    return userProfileStr;
+};
 module.exports = MatchvsDemoEngine;

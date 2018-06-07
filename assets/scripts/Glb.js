@@ -19,6 +19,8 @@ var obj = {
     matchType: 1,
     tagsInfo: {"title": "A"},
     userID: 0,
+    name: "",
+    avatar: "",
     reconnectSorce: null,
     playerUserIds: [],
     playerSet: new Set(),
