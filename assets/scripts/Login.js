@@ -85,7 +85,7 @@ cc.Class({
                 this.login(userInfo.id,userInfo.token);
                 break;
             case msg.MATCHVS_LOGIN:
-                var loginRsp = event.detail.msg;
+                var loginRsp = event.detail;
                 // // todo 先不管重连
                 // if (loginRsp.roomID != null && loginRsp.roomID !== '0') {
                 //     console.log("开始重连"+ loginRsp.roomID);
@@ -96,7 +96,7 @@ cc.Class({
                 // }
                 break;
             case msg.MATCHVS_ERROE_MSG:
-                this.labelLog(event.detail.msg);
+                this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 break;
         }
     },

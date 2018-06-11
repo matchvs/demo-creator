@@ -4,6 +4,7 @@
 var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
 var GLB = require("Glb");
+var mvs = require("Matchvs");
 var msg = require("MatvhsMessage");
 cc.Class({
     extends: cc.Component,
@@ -62,6 +63,14 @@ cc.Class({
 
         // 创建房间
         this.createRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+            var create = new mvs.MsCreateRoomInfo();
+            create.name = 'roomName';
+            create.maxPlayer = GLB.MAX_PLAYER_COUNT;
+            create.mode = 0;
+            create.canWatch = 0;
+            create.visibility = 1;
+            create.roomProperty = '白天模式';
+            engine.prototype.createRoom(create,"china");
             cc.director.loadScene("createRoom");
         });
 
@@ -89,7 +98,7 @@ cc.Class({
      */
     onEvent:function (event) {
         if (event.type == msg.MATCHVS_ERROE_MSG) {
-            this.labelLog(event.detail.msg)
+            this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
         }
     },
 

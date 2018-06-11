@@ -1,6 +1,8 @@
 var mvs = require("Matchvs");
 var GLB = require("Glb");
-
+var msg = require("MatvhsMessage");
+var engine = require("MatchvsEngine");
+var response = require("MatchvsDemoResponse");
 cc.Class({
     extends: cc.Component,
 
@@ -14,13 +16,7 @@ cc.Class({
         },
 
         players: [cc.Node],
-        // 注意此时不能写成以下形式
-        // players: {
-        //     default: null,
-        //     type: [cc.Node]
-        // },
 
-        // scoreDisplays: [cc.Label],
         scoreDisplays0: {
             default: null,
             type: cc.Label
@@ -78,17 +74,22 @@ cc.Class({
 
 
     onLoad: function () {
+        engine.prototype.getRoomDetail(GLB.roomID);
         this.scoreDisplays = [this.scoreDisplays0, this.scoreDisplays1, this.scoreDisplays2];
         this.timer = 0;
         this.starDuration = this.maxStarDuration - this.minStarDuration;
         this.gameTime = 9999;
         this.scores = [0, 0, 0];
-        this.roomidLabel.string = "房间号:" + GLB.roomId;
+        this.roomidLabel.string = "房间号:" + GLB.roomID;
         this.useridLabel.string = "用户id:" + GLB.userID;
         // 场景ground的高度
         this.groundY = this.ground.y + this.ground.height / 2;
         this.compensation = 50;
         this.starMaxX = this.node.width / 2;
+        if (GLB.mapType == "黑夜模式") {
+            this.ground.opacity =  40;
+        }
+
 
 
         mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
@@ -100,11 +101,11 @@ cc.Class({
         for (var i = 0; i < this.players.length; i++) {
             (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
             this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.playerUserIds[i];
-
         }
         this.refreshScore();
 
         var self = this;
+        this.initEvent(self);
         this.buttonSubscribe.on(cc.Node.EventType.TOUCH_END, function (event) {
             var result = mvs.engine.subscribeEventGroup(["MatchVS"], ["hello"]);
             if (result !== 0)
@@ -160,10 +161,42 @@ cc.Class({
         }, 1000);
     },
 
+    /**
+     * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
+     */
+    initEvent:function (self) {
+        response.prototype.init(self);
+        this.node.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
+        this.node.on(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
+        this.node.on(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
+        this.node.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
+        this.node.on(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
+    },
+    
+    onEvent :function (event) {
+        switch(event.type) {
+            case msg.MATCHVS_ROOM_DETAIL:
+               console.log(event.detail);
+                for (var i = 0; i < this.players.length; i++) {
+                    // event.detail.rsp.userInfos[i].userId;
+                    (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
+                    this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = event.detail.rsp.userInfos[i].userId;
+                }
+                break;
+            case msg.MATCHVS_SEND_EVENT_RSP:
+                break;
+            case msg.MATCHVS_SEND_EVENT_NOTIFY:
+                break;
+            case msg.MATCHVS_ERROE_MSG:
+                break;
+            case msg.MATCHVS_FRAME_UPDATE:
+                break;
+        }
+    },
+
     update: function (dt) {
         if (this.timer > this.gameTime)
             return this.gameOver();
-
         this.timer += dt
     },
 
@@ -258,7 +291,9 @@ cc.Class({
         this.timer = 0
     },
 
-    // 发送创建星星事件
+    /**
+     * 发送创建星星事件
+     */
     spawnNewStar: function () {
         if (!GLB.isRoomOwner) return;    // 只有房主可创建星星
 

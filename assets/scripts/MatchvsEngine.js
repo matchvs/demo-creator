@@ -80,7 +80,7 @@ MatchvsDemoEngine.prototype.uninit =function () {
  */
 MatchvsDemoEngine.prototype.joinRandomRoom = function(mxaNumer,profile){
     var result = mvs.engine.joinRandomRoom(mxaNumer,MatchvsDemoEngine.prototype.getUserProfile(profile));
-    console.log("随机匹配result"+result)
+    console.log("随机匹配result"+result);
     return result;
 };
 
@@ -88,7 +88,7 @@ MatchvsDemoEngine.prototype.joinRandomRoom = function(mxaNumer,profile){
  * 离开房间
  */
 MatchvsDemoEngine.prototype.leaveRoom = function () {
-    var result = mvs.engine.leaveRoom(Glb.name+"主动离开了房间");
+    var result = mvs.engine.leaveRoom(Glb.name+"/n主动离开了房间");
     console.log(Glb.name+"主动离开房间result"+result);
     return result;
 };
@@ -113,15 +113,84 @@ MatchvsDemoEngine.prototype.joinOpen = function(){
     return result;
 };
 
-MatchvsDemoEngine.prototype.sendEvent = function(event){
-    var mockEventId = new Date().getTime();
-    this._forEachResponse(function(res){
-        setTimeout(function(){
-            res.sendEventRsp && res.sendEventRsp({"status": 0, "seq": mockEventId});
-        }, 100);
-    });
-    return {status: 0, seq: mockEventId};
+/**
+ * 获取房间列表扩展接口
+ * @param roomFilter
+ * @returns {*|number}
+ */
+MatchvsDemoEngine.prototype.getRoomListEx = function (roomFilter) {
+    var result = mvs.engine.getRoomListEx(roomFilter);
+    console.log("加载房间列表扩展接口 result"+result);
+    return result;
+}
+
+/**
+ * 加入指定房间
+ * @param roomID
+ * @param userProfile
+ */
+MatchvsDemoEngine.prototype.joinRoom = function (roomID,profile) {
+    var result = mvs.engine.joinRoom(roomID,MatchvsDemoEngine.prototype.getUserProfile(profile));
+    console.log("加入指定房间 result"+result);
+    return result;
+}
+
+/**
+ * 创建指定房间
+ * @param roomFilter
+ * @returns {number}
+ */
+MatchvsDemoEngine.prototype.createRoom = function (roomFilter,profile) {
+    var result = mvs.engine.createRoom(roomFilter,MatchvsDemoEngine.prototype.getUserProfile(profile));
+    console.log("创建指定类型房间 result"+result);
+    return result;
+}
+
+/**
+ * 踢出指定玩家
+ * @param userID
+ * @param cpProto
+ */
+MatchvsDemoEngine.prototype.kickPlayer = function (userID,profile) {
+    var result = mvs.engine.kickPlayer(userID,profile+"/n被踢出了房间");
+    console.log(userID+"被踢出游戏 result"+result);
+    return result;
+}
+
+/**
+ * 修改房间属性
+ * @param roomID
+ * @param roomProperty
+ * @returns {*}
+ */
+MatchvsDemoEngine.prototype.setRoomProperty = function(roomID,roomProperty){
+    var result = mvs.engine.setRoomProperty(roomID,roomProperty);
+    console.log("修改房间属性 result"+ result);
+    return result;
 };
+
+
+/**
+ * 修改房间属性
+ * @param roomID
+ * @param roomProperty
+ * @returns {*}
+ */
+MatchvsDemoEngine.prototype.getRoomDetail = function(roomID){
+    var result = mvs.engine.getRoomDetail(roomID);
+    console.log("获取房间详情 result"+ result);
+    return result;
+};
+
+MatchvsDemoEngine.prototype.sendEvent = function (msg) {
+    var data =  mvs.engine.sendEvent(msg);
+    console.log("发送信息 result"+ data.result);
+    return data.result;
+};
+
+
+
+
 
 /**
  * 获取进入房间负载信息
@@ -134,4 +203,7 @@ MatchvsDemoEngine.prototype.getUserProfile = function (profile) {
     console.log("进入房间负载信息"+userProfileStr);
     return userProfileStr;
 };
+
+
+
 module.exports = MatchvsDemoEngine;
