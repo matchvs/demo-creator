@@ -188,11 +188,24 @@ MatchvsDemoEngine.prototype.sendEvent = function (msg) {
     return data.result;
 };
 
-
-
-
+/**
+ * http
+ */
+MatchvsDemoEngine.prototype.httpPost = function (httpUrl,params) {
+    mvs.http(response.prototype);
+    mvs.post(httpUrl,params);
+},
 
 /**
+ * http
+ */
+MatchvsDemoEngine.prototype.httpGet = function (httpUrl) {
+    mvs.http(response.prototype);
+    mvs.get(httpUrl);
+},
+
+
+    /**
  * 获取进入房间负载信息
  * @param profile
  * @returns {string}

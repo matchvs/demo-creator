@@ -312,5 +312,21 @@ MatchvsDemoResponse.prototype.frameUpdate = function (data) {
     this.context.node.emit(msg.MATCHVS_FRAME_UPDATE, {data});
 };
 
+MatchvsDemoResponse.prototype.onMsg = function (buf) {
+    var data = JSON.parse(buf);
+    if (data.status == 0) {
+        var val = data.data;
+        this.context.node.emit(msg.MATCHVS_WX_BINDING,{val})
+    } else {
+
+    }
+
+
+};
+
+MatchvsDemoResponse.prototype.onErr = function (errCode,errMsg) {
+    console.log(errCode,errMsg+"11111111111111111111111");
+};
+
 module.exports = MatchvsDemoResponse;
 

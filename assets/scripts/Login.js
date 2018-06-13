@@ -66,6 +66,7 @@ cc.Class({
         this.node.on(msg.MATCHVS_INIT, this.onEvent, this);
         this.node.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
         this.node.on(msg.MATCHVS_LOGIN,this.onEvent,this);
+        this.node.on(msg.MATCHVS_WX_BINDING,this.onEvent,this);
     },
 
 
@@ -77,7 +78,7 @@ cc.Class({
         switch (event.type){
             case msg.MATCHVS_INIT:
                 this.labelLog('初始化成功');
-                engine.prototype.registerUser();
+                this.getUserFromWeChat(this);
                 break;
             case msg.MATCHVS_REGISTER_USER:
                 var userInfo = event.detail.msg;
@@ -98,9 +99,27 @@ cc.Class({
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 break;
+            case msg.MATCHVS_WX_BINDING:
+                engine.prototype.login(event.detail.val.userid,event.detail.val.token);
+                break;
         }
     },
 
+
+    getUserFromWeChat:function(self){
+        //获取微信信息
+        try {
+            getWxUserInfo(function(userInfos){
+                getUserOpenID(function (openInfos) {
+                    userInfos.openInfos = openInfos;
+                    self.bindOpenIDWithUserID(userInfos);
+                });
+            });
+        } catch (error) {
+            console.log("不是在微信平台，调用不进行绑定！");
+            engine.prototype.registerUser();
+        }
+    },
 
     /**
      * 登录
@@ -121,6 +140,7 @@ cc.Class({
         this.node.off(msg.MATCHVS_INIT, this.onEvent, this);
         this.node.off(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
         this.node.off(msg.MATCHVS_LOGIN,this.onEvent,this);
+        this.node.off(msg.MATCHVS_WX_BINDING,this.onEvent,this);
     },
 
     /**
@@ -137,6 +157,62 @@ cc.Class({
     onDestroy:function () {
         this.removeEvent();
         console.log("Login页面销毁");
+    },
+
+    /**
+     * 绑定微信OpenID 返回用户信息
+     */
+    bindOpenIDWithUserID:function(wxUserInfo){
+        console.log("获取到的微信用户信息",wxUserInfo);
+        if(!wxUserInfo){
+            return;
+        }
+        GLB.name = wxUserInfo.nickName;
+        GLB.avatar = wxUserInfo.avatarUrl;
+        let reqUrl = this.getBindOpenIDAddr(GLB.channel,GLB.platform);
+        //sign=md5(appKey&gameID=value1&openID=value2&session=value3&thirdFlag=value4&appSecret)
+        let params = "gameID="+GLB.gameID+"&openID="+wxUserInfo.openInfos.data.openid+"&session="+wxUserInfo.openInfos.data.session_key+"&thirdFlag=1";
+
+        //计算签名
+        let signstr = this.getSign(params);
+        //重组参数
+        params = "userID=0&"+params+"&sign="+signstr;
+
+        let jsonParam ={
+            userID:0,
+            gameID:GLB.gameID,
+            openID:wxUserInfo.openInfos.data.openid,
+            session:wxUserInfo.openInfos.data.session_key,
+            thirdFlag:1,
+            sign:signstr
+        };
+         console.log(reqUrl+params);
+        //engine.prototype.httpGet(reqUrl+params)
+		engine.prototype.httpPost(reqUrl,jsonParam);
+    },
+
+    getBindOpenIDAddr :function(channel, platform){
+        if(channel == "MatchVS" || channel == "Matchvs"){
+            if(platform == "release"){
+                return "http://vsuser.matchvs.com/wc6/thirdBind.do?"
+            }else if(platform == "alpha"){
+                return "http://alphavsuser.matchvs.com/wc6/thirdBind.do?";
+            }
+        }else if(channel == "MatchVS-Test1"){
+            if(platform == "release"){
+                return "http://zwuser.matchvs.com/wc6/thirdBind.do?"
+            }else if(platform == "alpha"){
+                return "http://alphazwuser.matchvs.com/wc6/thirdBind.do?";
+            }
+        }
+    },
+
+    getSign:function(params){
+        let str = GLB.appKey+"&"+params+"&"+GLB.secret;
+        console.log(str);
+        let md5Str = hex_md5(str);
+        console.log(md5Str);
+        return md5Str;
     }
 
 });

@@ -214,8 +214,8 @@
     "_scaleY": 2,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": -2,
+      "y": 13
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1030,7 +1030,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 139.17,
+      "width": 130,
       "height": 33.33
     },
     "_rotationX": 0,
@@ -1067,7 +1067,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "Player2: 0",
+    "_N$string": "Score2: 0",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -1106,7 +1106,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 139.17,
+      "width": 130,
       "height": 33.33
     },
     "_rotationX": 0,
@@ -1143,7 +1143,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "Player3: 0",
+    "_N$string": "Score3: 0",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -2316,7 +2316,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -114,
+      "x": -2,
       "y": -120
     },
     "_skewX": 0,
@@ -3571,8 +3571,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 87,
-      "y": -120
+      "x": -3,
+      "y": -119
     },
     "_skewX": 0,
     "_skewY": 0,

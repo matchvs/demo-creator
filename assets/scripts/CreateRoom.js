@@ -64,7 +64,7 @@ cc.Class({
             self.leaveRoom1();
         });
         this.btnStartGame.on(cc.Node.EventType.TOUCH_END, function(event){
-            if (self.userList.length = GLB.MAX_PLAYER_COUNT-1) {
+            if (self.userList.length === GLB.MAX_PLAYER_COUNT-1) {
                 var event = {
                     action: msg.EVENT_GAME_START,
                 };

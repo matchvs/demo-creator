@@ -21992,14 +21992,12 @@ try {
 
 
             function send(url, callback, isPost, params) {
+				var contentType = isPost? "application/json":"application/x-www-form-urlencoded"
                 wx.request({
                     url: url,
-                    data: {
-                        x: "",
-                        y: ""
-                    },
+                    data: params,
                     header: {
-                        "content-type": "application/json"
+                        "content-type": contentType
                     },
                     success: function (res) {
                         var rsp = JSON.stringify(res.data);
@@ -22105,6 +22103,7 @@ try {
             this.mCallback = callback;
 
             function send(url, callback, isPost, params) {
+
                 var http = new XMLHttpRequest();
                 http.open(isPost ? "POST" : "GET", url, true);
                 http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -24372,8 +24371,8 @@ try {
      LocalStore_Clear: LocalStore_Clear,
      MsReopenRoomResponse:MsReopenRoomResponse,
      MsReopenRoomNotify:MsReopenRoomNotify,
-     MatchvsHttp:MatchvsHttp
-	 
+     MatchvsHttp:MatchvsHttp,
+	 MD5:hex_md5,
      };
     }  
 } catch (error) {
@@ -24391,5 +24390,5 @@ window.LocalStore_Clear= LocalStore_Clear;
 window.MsReopenRoomResponse=MsReopenRoomResponse;
 window.MsReopenRoomNotify=MsReopenRoomNotify;
 window.MatchvsHttp = MatchvsHttp;
-     
+window.MD5 = hex_md5;
     

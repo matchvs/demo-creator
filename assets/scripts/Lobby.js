@@ -27,11 +27,27 @@ cc.Class({
             type: cc.Label
         },
 
+
+        nickName: {
+            default:null,
+            type:cc.Label
+        },
+        avatar111: {
+            default:null,
+            type:cc.Sprite
+        },
     },
 
     onLoad:function () {
         var self = this;
         this.initEvent(self);
+        this.nickName.string = GLB.name;
+        console.log(GLB.avatar);
+        cc.loader.load(GLB.avatar, function (error, texture) {
+            var frame = new cc.SpriteFrame(texture);
+            self.avatar111.spriteFrame  = frame;
+        });
+        // this.avatar._spriteFrames
         // 返回登录
         this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(event){
             engine.prototype.logout();

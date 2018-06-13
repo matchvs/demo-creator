@@ -244,7 +244,6 @@ cc.Class({
     },
     sendEventNotify: function (info) {
         this.onNewWorkGameEvent(info);
-
     },
     frameUpdate: function (rsp) {
         for (var i = 0; i < rsp.frameItems.length; i++) {
@@ -261,6 +260,7 @@ cc.Class({
     updatePlayerMoveDirection: function (event) {
         var player = this.getPlayerByUserId(event.userID);
         if (player) {
+            console.log(event.userID+"userID",event.x+"userID X")
             player.onPostionChanged(event.x, event.arrow);
         } else {
             console.warn("Not Found the user:" + event.userID);
@@ -269,8 +269,7 @@ cc.Class({
 
     getPlayerByUserId: function (userId) {
         for (var i = 0; i < this.players.length; i++) {
-
-            if (this.players[i].getComponent("Player").userID === userId) {
+            if (this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string == userId) {
                 return this.players[i].getComponent("Player");
             }
         }
