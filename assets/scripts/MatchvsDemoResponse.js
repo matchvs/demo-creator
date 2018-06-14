@@ -95,7 +95,7 @@ MatchvsDemoResponse.prototype.loginResponse = function (loginRsp) {
 MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoList,roomInfo) {
     if(status == 200) {
         console.log("重连成功");
-        roomUserInfoList.roomID = roomInfo.rootID;
+        roomUserInfoList.roomID = roomInfo.roomID;
         this.context.node.emit(msg.MATCHVS_RE_CONNECT, {roomUserInfoList});
     } else {
         console.log("重连失败"+status);
@@ -130,9 +130,9 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
  * 其他玩家进入房间通知
  * @param roomUserInfo
  */
-MatchvsDemoResponse.prototype.joinRoomNotify = function (rsp) {
-    console.log(rsp.userId+"加入了房间");
-    this.context.node.emit(msg.MATCHVS_JOIN_ROOM_NOTIFY,{rsp});
+MatchvsDemoResponse.prototype.joinRoomNotify = function (roomUserInfo) {
+    console.log(roomUserInfo.userId+"加入了房间");
+    this.context.node.emit(msg.MATCHVS_JOIN_ROOM_NOTIFY,{roomUserInfo});
 };
 
 /**
@@ -290,7 +290,7 @@ MatchvsDemoResponse.prototype.getRoomDetailResponse = function (rsp) {
 MatchvsDemoResponse.prototype.sendEventResponse = function (sendEventRsp) {
     if (sendEventRsp.status == 200) {
         this.context.node.emit(msg.MATCHVS_SEND_EVENT_RSP,{sendEventRsp});
-        console.log("发送消息成功");
+        // console.log("发送消息成功");
     } else {
         console.log("发送消息失败 status"+sendEventRsp.status);
     }
@@ -301,7 +301,7 @@ MatchvsDemoResponse.prototype.sendEventResponse = function (sendEventRsp) {
  * @param eventInfo
  */
 MatchvsDemoResponse.prototype.sendEventNotify = function (eventInfo) {
-        this.context.node.emit(msg.MATCHVS_SEND_EVENT_NOTIFY, {eventInfo});
+    this.context.node.emit(msg.MATCHVS_SEND_EVENT_NOTIFY, {eventInfo});
 };
 
 /**

@@ -1,5 +1,6 @@
 var GLB = require("Glb");
 var mvs = require("Matchvs");
+var engine = require("MatchvsEngine");
 cc.Class({
     extends: cc.Component,
 
@@ -63,9 +64,12 @@ cc.Class({
                     "x": self.getPostion(), "arrow": self.isUserInputing
                 });
 
-                if (self.isDebug){
-                    self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
-                }
+                // if (self.isDebug){
+                //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
+                // } else  {
+                    engine.prototype.sendEvent(frameData);
+                // }
+
                 try {
                     // if (self.isUserInputing !== 0) {
                     GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))

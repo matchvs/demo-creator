@@ -59,6 +59,7 @@ cc.Class({
         }
 
         this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function (event) {
+            GLB.roomID = "";
             engine.prototype.leaveRoom();
         });
         var isOpen = true;
@@ -103,7 +104,7 @@ cc.Class({
                 this.joinRoom(userInfoList);
                 break;
             case msg.MATCHVS_JOIN_ROOM_NOTIFY:
-                this.userList.push(event.detail)
+                this.userList.push(event.detail.roomUserInfo)
                 this.initUserView(this.userList);
                 break;
             case msg.MATCHVS_LEAVE_ROOM:
@@ -125,6 +126,7 @@ cc.Class({
                 checkBox.isChecked = true;
                 break;
             case msg.MATCHVS_ERROE_MSG:
+                GLB.roomID = "";
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 cc.director.loadScene("login")
                 break
@@ -163,6 +165,7 @@ cc.Class({
         this.labelLog('进入房间成功');
         this.labelLog('房间号: ' + userInfoList.roomID);
         this.labelRoomID.string = userInfoList.roomID;
+        GLB.roomID = userInfoList.roomID;
         this.player1.string = GLB.name;
         this.userList = userInfoList;
         this.initUserView(this.userList);

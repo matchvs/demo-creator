@@ -4027,6 +4027,8 @@
     },
     "labelGameoverTime": {
       "__id__": 10
-    }
+    },
+    "userInfos": [],
+    "articlePositonX": 0
   }
 ]

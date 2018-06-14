@@ -70,6 +70,8 @@ cc.Class({
             default: null,
             type: cc.Label
         },
+        userInfos :[],
+        articlePositonX:0,  // 生成的物品的X坐标
     },
 
 
@@ -90,18 +92,18 @@ cc.Class({
             this.ground.opacity =  40;
         }
 
+        cc.director.getCollisionManager().enabled = true;
+        cc.director.getCollisionManager().enabledDebugDraw = true;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = true;
 
-
-        mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
         mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
         mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
-        this.spawnNewStar();
 
-        for (var i = 0; i < this.players.length; i++) {
-            (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
-            this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.playerUserIds[i];
-        }
+        // for (var i = 0; i < this.players.length; i++) {
+        //     (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
+        //     this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.playerUserIds[i];
+        // }
         this.refreshScore();
 
         var self = this;
@@ -159,6 +161,7 @@ cc.Class({
                 self.gameOver();
             }
         }, 1000);
+        this.touchingNumber = 0;
     },
 
     /**
@@ -176,16 +179,26 @@ cc.Class({
     onEvent :function (event) {
         switch(event.type) {
             case msg.MATCHVS_ROOM_DETAIL:
-               console.log(event.detail);
-                for (var i = 0; i < this.players.length; i++) {
-                    // event.detail.rsp.userInfos[i].userId;
-                    (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
-                    this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = event.detail.rsp.userInfos[i].userId;
+                for (var i = 0; i <event.detail.rsp.userInfos.length;i++) {
+                    if (event.detail.rsp.userInfos[i].userId !== GLB.userID) {
+                        this.userInfos.push(event.detail.rsp.userInfos[i]);
+                    }
+                    if (event.detail.rsp.owner === GLB.userID) {
+                        GLB.isRoomOwner = true;
+                        // 创建星星
+                        this.spawnNewStar();
+                    }
                 }
+                for (var i = 1; i < this.players.length; i++) {
+                    (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
+                    this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = this.userInfos[i-1].userId;
+                }
+                this.players[0].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.userID;
                 break;
             case msg.MATCHVS_SEND_EVENT_RSP:
                 break;
             case msg.MATCHVS_SEND_EVENT_NOTIFY:
+                this.onNewWorkGameEvent(event.detail.eventInfo);
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 break;
@@ -193,6 +206,18 @@ cc.Class({
                 break;
         }
     },
+
+    /**
+     * 碰撞监听
+     * @param other
+     */
+    onCollisionEnter: function (other) {
+        this.node.color = cc.Color.RED;
+        this.touchingNumber ++;
+        console.log("碰撞了");
+        console.log(this.touchingNumber);
+    },
+
 
     update: function (dt) {
         if (this.timer > this.gameTime)
@@ -286,7 +311,7 @@ cc.Class({
 
         newStar.setPosition(cc.p(position.x, position.y))
         newStar.getComponent('Star').game = this;
-
+        // this.articlePositonX = position.x;
         this.timer = 0
     },
 
@@ -310,8 +335,8 @@ cc.Class({
 
     // 随机返回'新的星星'的位置
     getNewStarPosition: function () {
-        var randX = cc.randomMinus1To1() * this.starMaxX
-        var randY = this.groundY + cc.random0To1() * this.playerJumpHeight + this.compensation
+        var randX = cc.randomMinus1To1() * this.starMaxX;
+        var randY = -90;
         return cc.p(randX, randY)
     },
 
