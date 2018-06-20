@@ -77,12 +77,12 @@ MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
 /**
 *  登录回调
 */
-MatchvsDemoResponse.prototype.loginResponse = function (loginRsp) {
-    if (loginRsp.status == 200) {
+MatchvsDemoResponse.prototype.loginResponse = function (MsLoginRsp) {
+    if (MsLoginRsp.status == 200) {
         console.log("登录成功");
-        this.context.node.emit(msg.MATCHVS_LOGIN, {loginRsp});
+        this.context.node.emit(msg.MATCHVS_LOGIN, {MsLoginRsp});
     } else {
-        console.log("登录失败"+ loginRsp.status);
+        console.log("登录失败"+ MsLoginRsp.status);
     }
 };
 
@@ -96,6 +96,7 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
     if(status == 200) {
         console.log("重连成功");
         roomUserInfoList.roomID = roomInfo.roomID;
+        roomUserInfoList.roomProperty = roomInfo.roomProperty;
         this.context.node.emit(msg.MATCHVS_RE_CONNECT, {roomUserInfoList});
     } else {
         console.log("重连失败"+status);
@@ -107,6 +108,7 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
  * @param error
  */
 MatchvsDemoResponse.prototype.errorResponse = function (errorCode,errorMsg) {
+    console.log("发生错误了！！！！！！！！！！！！！");
     this.context.node.emit(msg.MATCHVS_ERROE_MSG, {errorCode,errorMsg});
 };
 
@@ -290,7 +292,7 @@ MatchvsDemoResponse.prototype.getRoomDetailResponse = function (rsp) {
 MatchvsDemoResponse.prototype.sendEventResponse = function (sendEventRsp) {
     if (sendEventRsp.status == 200) {
         this.context.node.emit(msg.MATCHVS_SEND_EVENT_RSP,{sendEventRsp});
-        // console.log("发送消息成功");
+        // console.log("发送消息Response");
     } else {
         console.log("发送消息失败 status"+sendEventRsp.status);
     }
@@ -301,6 +303,7 @@ MatchvsDemoResponse.prototype.sendEventResponse = function (sendEventRsp) {
  * @param eventInfo
  */
 MatchvsDemoResponse.prototype.sendEventNotify = function (eventInfo) {
+    // console.log("收到信息");
     this.context.node.emit(msg.MATCHVS_SEND_EVENT_NOTIFY, {eventInfo});
 };
 

@@ -184,7 +184,7 @@ MatchvsDemoEngine.prototype.getRoomDetail = function(roomID){
 
 MatchvsDemoEngine.prototype.sendEvent = function (msg) {
     var data =  mvs.engine.sendEvent(msg);
-    console.log("发送信息 result"+ data.result);
+    // console.log("发送信息 result"+ data.result);
     return data.result;
 };
 

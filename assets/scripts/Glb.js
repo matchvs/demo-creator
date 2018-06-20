@@ -39,6 +39,7 @@ var obj = {
     second: null,
     third: null,
     isGameOver: false,
+    NEW_STAR_POSITION : 0,
 
     scoreMap: [{"uid":0,score:0},{"uid":0,score:0},{"uid":0,score:0}],
 
@@ -52,14 +53,14 @@ var obj = {
 
     isReconnect:false,
 
-    updateUserScore:function (id,score) {
-        for (var i = 0; i < this.scoreMap.length; i++) {
-            if (this.scoreMap[i].userID ===id){
-                this.scoreMap[i].score = score;
-                console.log( "[update score] userID:"+id+" score:"+score);
-            }
-        }
-    },
+    // updateUserScore:function (id,score) {
+    //     for (var i = 0; i < this.scoreMap.length; i++) {
+    //         if (this.scoreMap[i].userID ===id){
+    //             this.scoreMap[i].score = score;
+    //             console.log( "[update score] userID:"+id+" score:"+score);
+    //         }
+    //     }
+    // },
     FPS:30,//数据帧每秒采样次数
     noSuchMethod:null,
     putPushID2Set : function(item){

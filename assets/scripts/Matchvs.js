@@ -5,7 +5,6 @@ var MsCreateRoomInfo;
 var MsRoomFilterEx;
 var LocalStore_Clear;
 var http;
-var md5;
 try {
 	console.log("load matchvs JSB  a ");
     engine = Matchvs.MatchvsEngine.getInstance();
@@ -24,7 +23,7 @@ try {
         response = new jsMatchvs.MatchvsResponse();
         MsMatchInfo = jsMatchvs.MsMatchInfo;
         http = new jsMatchvs.MatchvsHttp();
-        md5 =
+        // md5 =
         MsCreateRoomInfo = jsMatchvs.MsCreateRoomInfo;
         MsRoomFilterEx  = jsMatchvs.MsRoomFilterEx ;
         LocalStore_Clear = jsMatchvs.LocalStore_Clear;

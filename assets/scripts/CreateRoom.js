@@ -114,7 +114,7 @@ cc.Class({
                 this.joinRoom(event.detail.rsp);
                 break;
             case msg.MATCHVS_JOIN_ROOM_NOTIFY:
-                this.userList.push(event.detail.rsp)
+                this.userList.push(event.detail.roomUserInfo)
                 this.initUserView(this.userList);
                 break;
             case msg.MATCHVS_KICK_PLAYER:

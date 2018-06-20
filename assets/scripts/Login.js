@@ -62,6 +62,7 @@ cc.Class({
      */
     initEvent:function (self) {
         response.prototype.init(self);
+        this.node.on(msg.MATCHVS_RE_CONNECT,this.onEvent,this);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.on(msg.MATCHVS_INIT, this.onEvent, this);
         this.node.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
@@ -86,15 +87,26 @@ cc.Class({
                 this.login(userInfo.id,userInfo.token);
                 break;
             case msg.MATCHVS_LOGIN:
-                var loginRsp = event.detail;
+                var MsLoginRsp = event.detail.MsLoginRsp;
                 // // todo 先不管重连
-                // if (loginRsp.roomID != null && loginRsp.roomID !== '0') {
-                //     console.log("开始重连"+ loginRsp.roomID);
-                //     engine.prototype.reconnect();
+                if (MsLoginRsp.roomID != null && MsLoginRsp.roomID !== '0') {
+                    console.log("开始重连"+ MsLoginRsp.roomID);
+                    engine.prototype.reconnect();
                 //     //todo 直接跳游戏页面
-                // } else {
+                } else {
                     cc.director.loadScene("lobby");
-                // }
+                }
+                break;
+            case msg.MATCHVS_RE_CONNECT:
+                console.log("重连进来了");
+                var reConnect  = event.detail.roomUserInfoList;
+                if (reConnect.roomProperty) {
+                    GLB.roomID = reConnect.roomID;
+                    cc.director.loadScene("game");
+                } else {
+                    GLB.roomID = reConnect.roomID;
+                    cc.director.loadScene('match');
+                }
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
@@ -102,6 +114,7 @@ cc.Class({
             case msg.MATCHVS_WX_BINDING:
                 engine.prototype.login(event.detail.val.userid,event.detail.val.token);
                 break;
+
         }
     },
 
@@ -141,6 +154,7 @@ cc.Class({
         this.node.off(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
         this.node.off(msg.MATCHVS_LOGIN,this.onEvent,this);
         this.node.off(msg.MATCHVS_WX_BINDING,this.onEvent,this);
+        this.node.off(msg.MATCHVS_RE_CONNECT,this.onEvent,this);
     },
 
     /**

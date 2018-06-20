@@ -409,7 +409,8 @@
     "speed": 2,
     "isDebug": false,
     "userID": 0,
-    "playerLabel": null
+    "playerLabel": null,
+    "startPostion": 0
   },
   {
     "__type__": "cc.PrefabInfo",

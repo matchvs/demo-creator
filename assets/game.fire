@@ -2810,6 +2810,7 @@
     "jumpAudio": {
       "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
     },
+    "starPrefab": null,
     "playerSpriteLeft": null,
     "playerSpriteRight": null,
     "rightAnim": null,
@@ -2823,7 +2824,8 @@
     "speed": 2,
     "isDebug": true,
     "userID": 0,
-    "playerLabel": null
+    "playerLabel": null,
+    "startPostion": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3075,6 +3077,7 @@
     "jumpAudio": {
       "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
     },
+    "starPrefab": null,
     "playerSpriteLeft": null,
     "playerSpriteRight": null,
     "rightAnim": null,
@@ -3088,7 +3091,8 @@
     "speed": 2,
     "isDebug": true,
     "userID": 1,
-    "playerLabel": null
+    "playerLabel": null,
+    "startPostion": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3491,6 +3495,7 @@
     "jumpAudio": {
       "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
     },
+    "starPrefab": null,
     "playerSpriteLeft": null,
     "playerSpriteRight": null,
     "rightAnim": null,
@@ -3504,7 +3509,8 @@
     "speed": 2,
     "isDebug": false,
     "userID": 1,
-    "playerLabel": null
+    "playerLabel": null,
+    "startPostion": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3907,6 +3913,7 @@
     "jumpAudio": {
       "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
     },
+    "starPrefab": null,
     "playerSpriteLeft": null,
     "playerSpriteRight": null,
     "rightAnim": null,
@@ -3920,7 +3927,8 @@
     "speed": 2,
     "isDebug": false,
     "userID": 0,
-    "playerLabel": null
+    "playerLabel": null,
+    "startPostion": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4029,6 +4037,9 @@
       "__id__": 10
     },
     "userInfos": [],
-    "articlePositonX": 0
+    "articlePositonX": 0,
+    "newStar": null,
+    "score": 0,
+    "userScores": []
   }
 ]

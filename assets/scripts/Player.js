@@ -1,6 +1,7 @@
 var GLB = require("Glb");
 var mvs = require("Matchvs");
 var engine = require("MatchvsEngine");
+var msg = require("MatvhsMessage");
 cc.Class({
     extends: cc.Component,
 
@@ -9,6 +10,17 @@ cc.Class({
         jumpAudio: {
             default: null,
             url: cc.AudioClip
+        },
+
+        // 暂存 Game 对象的引用
+        game: {
+            default: null,
+            serializable: false,
+        },
+        // 引用星星预支资源
+        starPrefab: {
+            default: null,
+            type: cc.Prefab
         },
         playerSpriteLeft: null,
         playerSpriteRight: null,
@@ -23,7 +35,9 @@ cc.Class({
         speed: 2,
         isDebug:false,
         userID:0,
-        playerLabel:null
+        playerLabel:null,
+
+        startPostion:0,
     },
 
     playJumpSound: function () {
@@ -36,6 +50,8 @@ cc.Class({
         this.playJumpSound();
         this.playAnimation(arrow);
         this.playerLabel.node.x = x;
+        // console.log(x,GLB.NEW_STAR_POSITION);
+
     },
     getPostion: function () {
         return this.playerSpriteRight.node.x;
@@ -63,7 +79,8 @@ cc.Class({
                     "action": GLB.EVENT_PLAYER_POSINTON_CHANGED,
                     "x": self.getPostion(), "arrow": self.isUserInputing
                 });
-
+                var  x = self.getPostion();
+                self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x});
                 // if (self.isDebug){
                 //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
                 // } else  {
@@ -84,6 +101,8 @@ cc.Class({
             this.setInputControl();
         }
     },
+
+
 
     playAnimation: function (arrow) {
         if (arrow === GLB.ARROW_STOP) {
@@ -127,21 +146,38 @@ cc.Class({
         };
         cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            fakeMove: Number,
             onTouchBegan: function (touch, event) {
                 console.log("begin move ");
                 onTouch(touch);
+                this.fakeMove = setInterval(function () {
+                    onTouch(touch);
+                },GLB.FPS);
                 return true;
             },
             onTouchMoved: function (touch) {
-                onTouch(touch);
+                // onTouch(touch);
                 return true;
             },
             onTouchEnded: function (touch, event) {
+                clearInterval(this.fakeMove);
                 self.isUserInputing = GLB.ARROW_STOP;
                 self.onPostionChanged(self.playerSpriteRight.node.x, self.isUserInputing);
             }
         }, self.node);
     },
+
+
+
+    // 随机返回'新的星星'的位置
+    getNewStarPosition: function () {
+        var randX = cc.randomMinus1To1() * this.starMaxX;
+        var randY = -90;
+        return cc.p(randX, randY)
+    },
+
+
+
     onDestroy: function () {
         this.postionSampler && clearInterval(this.postionSampler);
     }

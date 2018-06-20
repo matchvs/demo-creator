@@ -13,13 +13,27 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-
+        cc.director.getCollisionManager().enabled = true;
     },
+
+    onCollisionEnter: function (other, self) {
+        console.log("碰撞生效了！！！！！！")
+        if (self.tag === 0) {
+            // this.view.active = true;
+            // this.label.string = "you win";
+        } else {
+            // this.view.active = true;
+            // this.label.string = "you lose";
+
+        }
+    },
+
 
 
     getPlayerDistance: function () {
         // 根据 player 节点位置判断距离
         var playerPos = this.game.players[0].getPosition();
+        // this.game.players[0].node.x;
         // 根据两点位置计算两点之间距离
         var dist = cc.pDistance(this.node.position, playerPos);
         return dist;
