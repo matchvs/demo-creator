@@ -204,7 +204,7 @@ cc.Class({
      */
     removeView:function (info) {
         for(var i = 0; i < this.userList.length;i++ ) {
-            if(info.userId == this.userList[i].userId) {
+            if(info.userID == this.userList[i].userId) {
                 this.userList.splice(i,1);
             }
         }
@@ -270,7 +270,7 @@ cc.Class({
 
     leaveRoom1 :function () {
         GLB.roomID = ""
-        cc.director.loadScene('roomList');
+        cc.director.loadScene('lobby');
     },
 
     startGame: function () {

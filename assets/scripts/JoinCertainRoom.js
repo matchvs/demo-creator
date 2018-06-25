@@ -27,6 +27,7 @@ cc.Class({
 
     onLoad () {
         var self = this;
+        this.initEvent(self);
         this.back.on(cc.Node.EventType.TOUCH_END, function(event){
             cc.director.loadScene("lobby");
         });
@@ -48,6 +49,7 @@ cc.Class({
     initEvent:function (self) {
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
+        this.node.on(msg.MATCHVS_JOIN_ROOM_RSP, this.onEvent, this);
     },
 
     /**
@@ -57,6 +59,9 @@ cc.Class({
     onEvent:function (event) {
         if (event.type == msg.MATCHVS_ERROE_MSG) {
             this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+        } else if (event.type == msg.MATCHVS_JOIN_ROOM_RSP) {
+            GLB.roomID = this.roomID.string;
+            cc.director.loadScene("createRoom");
         }
     },
 
