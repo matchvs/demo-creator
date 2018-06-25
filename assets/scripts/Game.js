@@ -227,7 +227,7 @@ cc.Class({
                                 "action": GLB.EVENT_GAIN_SCORE,
                                 "userID": GLB.userID,
                             });
-                            engine.prototype.sendEvent(frameData);
+                            engine.prototype.sendEventEx(frameData);
                             this.gainScore();
                             var event = {
                                 action: GLB.EVENT_NEW_START,
@@ -383,16 +383,15 @@ cc.Class({
     // 自己得分
     gainScore: function () {
         // this.score ++ ;
-        this.userScores[0].Score++;
-        console.log("自己得分");
-        this.scoreDisplays0.string =this.userScores[0].userID + ': ' +  this.userScores[0].Score;
-        GLB.number1 = GLB.userID + ': ' + this.score;
+        // this.userScores[0].Score++;
+        // console.log("自己得分");
+        // this.scoreDisplays0.string =this.userScores[0].userID + ': ' +  this.userScores[0].Score;
     },
 
     //其他的玩家得分
     refreshScore: function (event) {
         if (event != undefined) {
-            for (var i = 1; i < this.userScores.length;i++) {
+            for (var i = 0; i < this.userScores.length;i++) {
                 if (event.userID == this.userScores[i].userID) {
                     console.log(event.userID+"得分了");
                     this.userScores[i].Score ++;

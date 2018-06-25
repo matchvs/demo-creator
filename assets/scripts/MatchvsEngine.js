@@ -188,6 +188,11 @@ MatchvsDemoEngine.prototype.sendEvent = function (msg) {
     return data.result;
 };
 
+MatchvsDemoEngine.prototype.sendEventEx = function (msg) {
+    var data = mvs.engine.sendEventEx(0,msg,1,[]);
+    return data.result;
+}
+
 /**
  * http
  */
