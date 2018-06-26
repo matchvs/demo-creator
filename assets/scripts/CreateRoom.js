@@ -203,8 +203,14 @@ cc.Class({
      * @param userID
      */
     removeView:function (info) {
+        var userID ;
+        if (info.userID == undefined) {
+            userID = info.userId;
+        } else {
+            userID = info.userID;
+        }
         for(var i = 0; i < this.userList.length;i++ ) {
-            if(info.userID == this.userList[i].userId) {
+            if(userID == this.userList[i].userId) {
                 this.userList.splice(i,1);
             }
         }
