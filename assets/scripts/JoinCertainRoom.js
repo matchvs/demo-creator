@@ -36,7 +36,7 @@ cc.Class({
             if (roomidTmp !== null && roomidTmp !== "") {
                 self.labelLog("开始加入指定房间, roomid:" + roomidTmp);
                 engine.prototype.joinRoom(roomidTmp, "china");
-                c.director.loadScene("match");
+                cc.director.loadScene("match");
             } else {
                 self.labelLog("房间ID为空，请输入指定房间号");
             }
