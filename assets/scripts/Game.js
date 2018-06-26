@@ -398,8 +398,9 @@ cc.Class({
                     this.scoreDisplays[i].string = this.userScores[i].userID + ':' + this.userScores[i].Score;
                 }
             }
-            GLB.number2 = this.userScores[0].userID + ':' + this.userScores[0].Score;
-            GLB.number3 = this.userScores[1].userID + ':' + this.userScores[1].Score;
+            GLB.number1 = this.userScores[0].userID + ':' + this.userScores[0].Score;
+            GLB.number2 = this.userScores[1].userID + ':' + this.userScores[1].Score;
+            GLB.number3 = this.userScores[2].userID + ':' + this.userScores[2].Score;
         }
     },
 
