@@ -68,6 +68,7 @@ cc.Class({
         this.node.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
         this.node.on(msg.MATCHVS_LOGIN,this.onEvent,this);
         this.node.on(msg.MATCHVS_WX_BINDING,this.onEvent,this);
+        this.node.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
     },
 
 
@@ -101,11 +102,8 @@ cc.Class({
                 console.log("重连进来了");
                 var reConnect  = event.detail.roomUserInfoList;
                 if (reConnect.roomProperty) {
+                    engine.prototype.getRoomDetail(reConnect.roomID);
                     GLB.roomID = reConnect.roomID;
-                    cc.director.loadScene("game");
-                } else {
-                    GLB.roomID = reConnect.roomID;
-                    cc.director.loadScene('match');
                 }
                 break;
             case msg.MATCHVS_ERROE_MSG:
@@ -114,7 +112,18 @@ cc.Class({
             case msg.MATCHVS_WX_BINDING:
                 engine.prototype.login(event.detail.val.userid,event.detail.val.token);
                 break;
-
+            case msg.MATCHVS_ROOM_DETAIL:
+                if (event.detail.rsp.state == 1) {
+                    cc.director.loadScene('createRoom');
+                } else {
+                    cc.director.loadScene("game");
+                }
+                if (event.detail.rsp.owner == GLB.userID) {
+                    GLB.isRoomOwner = true;
+                } else {
+                    GLB.isRoomOwner = false;
+                }
+                break;
         }
     },
 

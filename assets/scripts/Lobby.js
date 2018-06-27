@@ -87,7 +87,6 @@ cc.Class({
             create.visibility = 1;
             create.roomProperty = '白天模式';
             engine.prototype.createRoom(create,"china");
-            cc.director.loadScene("createRoom");
         });
 
         this.buttonSyncFrame.on(cc.Node.EventType.TOUCH_END, function(event){
@@ -106,6 +105,7 @@ cc.Class({
     initEvent:function (self) {
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
+        this.node.on(msg.MATCHVS_CREATE_ROOM,this.onEvent,this);
     },
 
     /**
@@ -115,6 +115,9 @@ cc.Class({
     onEvent:function (event) {
         if (event.type == msg.MATCHVS_ERROE_MSG) {
             this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+        } else if (event.type == msg.MATCHVS_CREATE_ROOM) {
+            GLB.roomID = event.detail.rsp.roomID;
+            cc.director.loadScene("createRoom");
         }
     },
 
@@ -122,6 +125,7 @@ cc.Class({
      * 移除监听
      */
     removeEvent:function () {
+        this.node.off(msg.MATCHVS_CREATE_ROOM,this.onEvent, this);
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
     },
 

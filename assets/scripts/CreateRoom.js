@@ -89,7 +89,6 @@ cc.Class({
     initEvent:function (self) {
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.on(msg.MATCHVS_CREATE_ROOM,this.onEvent, this);
         this.node.on(msg.MATCHVS_KICK_PLAYER, this.onEvent, this)
         this.node.on(msg.MATCHVS_KICK_PLAYER_NOTIFY, this.onEvent, this)
         this.node.on(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent, this);
@@ -109,10 +108,6 @@ cc.Class({
      */
     onEvent :function (event) {
         switch(event.type) {
-            case msg.MATCHVS_CREATE_ROOM:
-                // this.labelLog('创建房间成功:' + event.detail);
-                this.joinRoom(event.detail.rsp);
-                break;
             case msg.MATCHVS_JOIN_ROOM_NOTIFY:
                 this.userList.push(event.detail.roomUserInfo)
                 this.initUserView(this.userList);
@@ -130,7 +125,7 @@ cc.Class({
                 this.setRoomPropertyResponse(event.detail.rsp);
                 break;
             case msg.MATCHVS_ROOM_DETAIL:
-                this.joinRoom(event.detail);
+                this.joinRoom(event.detail.rsp);
                 for (var i in event.detail.rsp.userInfos) {
                     if (GLB.userID != event.detail.rsp.userInfos[i].userId) {
                         this.userList.push(event.detail.rsp.userInfos[i]);
@@ -171,10 +166,15 @@ cc.Class({
      * @param rsp
      */
     joinRoom: function (rsp) {
+        if (rsp.owner === GLB.userID) {
+            GLB.isRoomOwner = true;
+        } else {
+            GLB.isRoomOwner = false;
+        }
+        this.buttonIsShow(GLB.isRoomOwner);
         if (GLB.roomID != "") {
             this.labelLog('房间号: ' + GLB.roomID);
             this.labelMyRoomID.string = GLB.roomID;
-            this.buttonIsShow(false);
         } else {
             this.labelLog('房间号: ' + rsp.roomID);
             this.labelMyRoomID.string = rsp.roomID;
@@ -226,6 +226,10 @@ cc.Class({
                 }
             }
         }
+        if (info.owner === GLB.userID) {
+            GLB.isRoomOwner = true;
+            this.buttonIsShow(true);
+        }
     },
 
     /**
@@ -251,7 +255,6 @@ cc.Class({
      */
     removeEvent:function () {
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.off(msg.MATCHVS_CREATE_ROOM,this.onEvent, this);
         this.node.off(msg.MATCHVS_KICK_PLAYER, this.onEvent, this)
         this.node.off(msg.MATCHVS_KICK_PLAYER_NOTIFY, this.onEvent, this)
         this.node.off(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent, this);

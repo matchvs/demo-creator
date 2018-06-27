@@ -19,113 +19,116 @@ cc.Class({
 
     properties: {
         back: cc.Node,
-        button1: cc.Node,
-        button2: cc.Node,
-        button3: cc.Node,
+        itemTemplate: { // item template to instantiate other items
+            default: null,
+            type: cc.Node
+        },
+        scrollView: {
+            default: null,
+            type: cc.ScrollView
+        },
+        spacing: 0,
+        // button1: cc.Node,
+        // button2: cc.Node,
+        // button3: cc.Node,
         labelInfo: {
             default: null,
             type: cc.Label
         },
 
-        roomID1: {
-            default: null,
-            type: cc.Label
-        },
-        roomID2: {
-            default: null,
-            type: cc.Label
-        },
-        roomID3: {
-            default: null,
-            type: cc.Label
-        },
-        state1: {
-            default: null,
-            type: cc.Label
-        },
-        state2: {
-            default: null,
-            type: cc.Label
-        },
-        state3: {
-            default: null,
-            type: cc.Label
-        },
-        gamePlayer1: {
-            default: null,
-            type: cc.Label
-        },
-        gamePlayer2: {
-            default: null,
-            type: cc.Label
-        },
-        gamePlayer3: {
-            default: null,
-            type: cc.Label
-        },
+        // roomID1: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // roomID2: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // roomID3: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // state1: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // state2: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // state3: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // gamePlayer1: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // gamePlayer2: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // gamePlayer3: {
+        //     default: null,
+        //     type: cc.Label
+        // },
         refreshNumText: {
             default: null,
             type: cc.Label
         },
-        map1: {
-            default: null,
-            type: cc.Label
-        },
-        map2: {
-            default: null,
-            type: cc.Label
-        },
-        map3: {
-            default: null,
-            type: cc.Label
-        },
+        // map1: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // map2: {
+        //     default: null,
+        //     type: cc.Label
+        // },
+        // map3: {
+        //     default: null,
+        //     type: cc.Label
+        // },
 
     },
 
 
+    getPositionInView: function (item) { // get item position in scrollview's node space
+        let worldPos = item.parent.convertToWorldSpaceAR(item.position);
+        let viewPos = this.scrollView.node.convertToNodeSpaceAR(worldPos);
+        return viewPos;
+    },
+
 
     onLoad:function () {
-        this.roomIDs = [this.roomID1,this.roomID2,this.roomID3];
-        this.buttonS = [this.button1,this.button2,this.button3];
-        this.stateS = [this.state1,this.state2,this.state3];
-        this.gamePlayerS = [this.gamePlayer1,this.gamePlayer2,this.gamePlayer3];
-        this.maps = [this.map1,this.map2,this.map3];
+        this.content = this.scrollView.content;
+        this.items = [];
+        this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
+        // this.initialize();
         var self = this;
         this.initEvent(self);
         this.getRooomList();
         this.back.on(cc.Node.EventType.TOUCH_END, function(event){
             cc.director.loadScene("lobby");
         });
-        this.button1.on(cc.Node.EventType.TOUCH_END,this.onClick,this);
-        this.button2.on(cc.Node.EventType.TOUCH_END,this.onClick,this);
-        this.button3.on(cc.Node.EventType.TOUCH_END,this.onClick,this);
-        this.button1.active = false;
-        this.button2.active = false;
-        this.button3.active = false;
+
         time = setInterval(this.getRooomList,10000);
     },
+
+    // initialize:function () {
+    //
+    //     for (let i = 0; i < this.spawnCount; ++i) { // spawn items, we only need to do this once
+    //         let item = cc.instantiate(this.itemTemplate);
+    //         this.content.addChild(item);
+    //         item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));
+    //         item.getComponent('Item').updateItem(i, i);
+    //         this.items.push(item);
+    //     }
+    // },
 
     getRooomList:function () {
         mvs.engine.getRoomListEx(RoomFilterEx);
     },
 
-    onClick:function (event) {
-        console.log(event.target._name);
-        switch (event.target._name) {
-            case "button1":
-                this.labelLog("开始加入指定房间, roomid:" + this.roomID1.string);
-                engine.prototype.joinRoom(this.roomID1.string, "china");
-            break;
-            case "button2":
-                this.labelLog("开始加入指定房间, roomid:" + this.roomID2.string);
-                engine.prototype.joinRoom(this.roomID2.string, "china");
-            break;
-            case "button3":
-                this.labelLog("开始加入指定房间, roomid:" + this.roomID3.string);
-                engine.prototype.joinRoom(this.roomID3.string, "china");
-            break;
-        }
-    },
 
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
@@ -163,30 +166,34 @@ cc.Class({
     getRoomListExResponse: function(roomListExInfo) {
         refreshNum ++;
         this.refreshNumText.string = '获取列表次数'+ refreshNum;
-        for (var i = 0; i < 3; i++) {
-            this.roomIDs[i].string = "";
-            this.stateS[i].string = "";
-            this.stateS[i].string = "";
-            this.gamePlayerS[i].string = "";
-            this.maps[i].string = "";
-            this.buttonS[i].active = false;
-        }
+        // for (var i = 0; i < 3; i++) {
+        //     this.roomIDs[i].string = "";
+        //     this.stateS[i].string = "";
+        //     this.stateS[i].string = "";
+        //     this.gamePlayerS[i].string = "";
+        //     this.maps[i].string = "";
+        //     this.buttonS[i].active = false;
+        // }
         for(var i = 0; i < roomListExInfo.rsp.total; i++) {
-            this.roomIDs[i].string = roomListExInfo.rsp.roomAttrs[i].roomID;
-            this.buttonS[i].active = true;
-            var state = roomListExInfo.rsp.roomAttrs[i].state;
-            if (state == 1) {
-                this.stateS[i].string = "开放";
-            } else {
-                this.stateS[i].string = "关闭";
-            }
-            this.maps[i].string = roomListExInfo.rsp.roomAttrs[i].roomProperty;
-            this.gamePlayerS[i].string = roomListExInfo.rsp.roomAttrs[i].gamePlayer+"/"+roomListExInfo.rsp.roomAttrs[i].maxPlayer;
+            let item = cc.instantiate(this.itemTemplate);
+            this.content.addChild(item);
+            item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));
+            item.getComponent('Item').updateItem(roomListExInfo.rsp.roomAttrs[i]);
+            // this.roomIDs[i].string = roomListExInfo.rsp.roomAttrs[i].roomID;
+            // this.buttonS[i].active = true;
+            // var state = roomListExInfo.rsp.roomAttrs[i].state;
+            // if (state == 1) {
+            //     this.stateS[i].string = "开放";
+            // } else {
+            //     this.stateS[i].string = "关闭";
+            // }
+            // this.maps[i].string = roomListExInfo.rsp.roomAttrs[i].roomProperty;
+            // this.gamePlayerS[i].string = roomListExInfo.rsp.roomAttrs[i].gamePlayer+"/"+roomListExInfo.rsp.roomAttrs[i].maxPlayer;
         }
     },
 
     labelLog: function (info) {
-        this.labelInfo.string += '\n' + info;
+        // this.labelInfo.string += '\n' + info;
     },
 
     onDestroy:function() {
