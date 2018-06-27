@@ -186,16 +186,29 @@ cc.Class({
      * 绑定微信OpenID 返回用户信息
      */
     bindOpenIDWithUserID:function(wxUserInfo){
+        var self = this;
         console.log("获取到的微信用户信息",wxUserInfo);
         if(!wxUserInfo){
             return;
         }
         GLB.name = wxUserInfo.nickName;
         GLB.avatar = wxUserInfo.avatarUrl;
+        var req = new  XMLHttpRequest();
         let reqUrl = this.getBindOpenIDAddr(GLB.channel,GLB.platform);
+        req.open("post",reqUrl , true);
+        req.setRequestHeader("Content-Type", "application/json")
+        req.onreadystatechange = function () {
+            if (req.readyState == 4 && (req.status >= 200 && req.status < 400)) {
+                var response = req.responseText;
+                console.log(response);
+                var data = JSON.parse(response).data;
+                console.log(data);
+                console.log(data.userid,data.token);
+                self.login(data.userid,data.token);
+            }
+        };
         //sign=md5(appKey&gameID=value1&openID=value2&session=value3&thirdFlag=value4&appSecret)
         let params = "gameID="+GLB.gameID+"&openID="+wxUserInfo.openInfos.data.openid+"&session="+wxUserInfo.openInfos.data.session_key+"&thirdFlag=1";
-
         //计算签名
         let signstr = this.getSign(params);
         //重组参数
@@ -209,9 +222,8 @@ cc.Class({
             thirdFlag:1,
             sign:signstr
         };
-         console.log(reqUrl+params);
-        //engine.prototype.httpGet(reqUrl+params)
-		engine.prototype.httpPost(reqUrl,jsonParam);
+        req.send(jsonParam);
+
     },
 
     getBindOpenIDAddr :function(channel, platform){

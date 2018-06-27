@@ -196,18 +196,18 @@ MatchvsDemoEngine.prototype.sendEventEx = function (msg) {
 /**
  * http
  */
-MatchvsDemoEngine.prototype.httpPost = function (httpUrl,params) {
-    mvs.http(response.prototype);
-    mvs.post(httpUrl,params);
-},
+// MatchvsDemoEngine.prototype.httpPost = function (httpUrl,params) {
+//     mvs.http(response.prototype);
+//     mvs.post(httpUrl,params);
+// },
 
 /**
  * http
  */
-MatchvsDemoEngine.prototype.httpGet = function (httpUrl) {
-    mvs.http(response.prototype);
-    mvs.get(httpUrl);
-},
+// MatchvsDemoEngine.prototype.httpGet = function (httpUrl) {
+    // mvs.http(response.prototype);
+    // mvs.get(httpUrl);
+// },
 
 
     /**
