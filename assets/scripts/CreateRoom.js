@@ -144,7 +144,7 @@ cc.Class({
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-
+                cc.director.loadScene('login');
                 break;
         }
     },
@@ -284,6 +284,7 @@ cc.Class({
     },
 
     startGame: function () {
+        engine.prototype.joinOver();
         this.labelLog('游戏即将开始')
         cc.director.loadScene('game')
     },

@@ -381,9 +381,7 @@ cc.Class({
             GLB.number2 = this.userScores[1].userID + ':' + this.userScores[1].Score;
             GLB.number3 = this.userScores[2].userID + ':' + this.userScores[2].Score;
         }
-        if (GLB.isRoomOwner) {
-            this.spawnNewStar();
-        }
+        this.spawnNewStar();
     },
 
     // 游戏结束

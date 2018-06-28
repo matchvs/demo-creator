@@ -66,7 +66,7 @@ cc.Class({
 
 
     getRooomList:function () {
-        mvs.engine.getRoomListEx(RoomFilterEx);
+        engine.prototype.getRoomListEx(RoomFilterEx)
     },
 
 
@@ -90,6 +90,9 @@ cc.Class({
                 this.getRoomListExResponse(event.detail);
                 break;
             case msg.MATCHVS_ERROE_MSG:
+                if (event.detail.errorCode == 405) {
+                    this.labelLog("房间人数已满");
+                }
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 cc.director.loadScene('login');
                 break;
