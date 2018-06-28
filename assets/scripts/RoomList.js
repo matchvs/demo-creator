@@ -28,6 +28,8 @@ cc.Class({
             type: cc.ScrollView
         },
         spacing: 0,
+        totalCount: 0,
+        spacing: 0,
         // button1: cc.Node,
         // button2: cc.Node,
         // button3: cc.Node,

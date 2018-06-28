@@ -2387,7 +2387,8 @@
     "scrollView": {
       "__id__": 12
     },
-    "spacing": 0,
+    "spacing": 20,
+    "totalCount": 30,
     "labelInfo": {
       "__id__": 6
     },
