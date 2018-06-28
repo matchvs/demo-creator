@@ -222,7 +222,6 @@ cc.Class({
                                 "userID": GLB.userID,
                             });
                             engine.prototype.sendEventEx(frameData);
-                            this.gainScore();
                             var event = {
                                 action: GLB.EVENT_NEW_START,
                                 position: this.getNewStarPosition()
