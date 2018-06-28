@@ -92,6 +92,7 @@ cc.Class({
             case msg.MATCHVS_ERROE_MSG:
                 if (event.detail.errorCode == 405) {
                     this.labelLog("房间人数已满");
+                    return;
                 }
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 cc.director.loadScene('login');
