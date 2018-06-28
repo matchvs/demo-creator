@@ -29,7 +29,6 @@ cc.Class({
         },
         spacing: 0,
         totalCount: 0,
-        spacing: 0,
         // button1: cc.Node,
         // button2: cc.Node,
         // button3: cc.Node,
@@ -104,7 +103,6 @@ cc.Class({
     onLoad:function () {
         this.content = this.scrollView.content;
         this.items = [];
-        this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
         // this.initialize();
         var self = this;
         this.initEvent(self);
@@ -177,6 +175,8 @@ cc.Class({
         //     this.buttonS[i].active = false;
         // }
         for(var i = 0; i < roomListExInfo.rsp.total; i++) {
+            this.totalCount  = roomListExInfo.rsp.total;
+            this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
             let item = cc.instantiate(this.itemTemplate);
             this.content.addChild(item);
             item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));
