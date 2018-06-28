@@ -144,6 +144,7 @@ cc.Class({
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+
                 break;
         }
     },

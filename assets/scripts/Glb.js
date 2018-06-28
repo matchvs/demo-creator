@@ -51,16 +51,7 @@ var obj = {
     lastErrMsg: "2018-05-17",
 
 
-    isReconnect:false,
 
-    // updateUserScore:function (id,score) {
-    //     for (var i = 0; i < this.scoreMap.length; i++) {
-    //         if (this.scoreMap[i].userID ===id){
-    //             this.scoreMap[i].score = score;
-    //             console.log( "[update score] userID:"+id+" score:"+score);
-    //         }
-    //     }
-    // },
     FPS:30,//数据帧每秒采样次数
     noSuchMethod:null,
     putPushID2Set : function(item){

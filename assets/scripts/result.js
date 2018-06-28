@@ -42,6 +42,7 @@ cc.Class({
         switch (event.type){
             case msg.MATCHVS_ERROE_MSG:
                 console.log("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+                cc.director.loadScene('login');
             break;
         }
 

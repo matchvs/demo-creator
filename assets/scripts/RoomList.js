@@ -19,76 +19,26 @@ cc.Class({
 
     properties: {
         back: cc.Node,
+
         itemTemplate: { // item template to instantiate other items
             default: null,
             type: cc.Node
         },
+
         scrollView: {
             default: null,
             type: cc.ScrollView
         },
         spacing: 0,
         totalCount: 0,
-        // button1: cc.Node,
-        // button2: cc.Node,
-        // button3: cc.Node,
         labelInfo: {
             default: null,
             type: cc.Label
         },
-
-        // roomID1: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // roomID2: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // roomID3: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // state1: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // state2: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // state3: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // gamePlayer1: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // gamePlayer2: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // gamePlayer3: {
-        //     default: null,
-        //     type: cc.Label
-        // },
         refreshNumText: {
             default: null,
             type: cc.Label
         },
-        // map1: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // map2: {
-        //     default: null,
-        //     type: cc.Label
-        // },
-        // map3: {
-        //     default: null,
-        //     type: cc.Label
-        // },
 
     },
 
@@ -114,16 +64,6 @@ cc.Class({
         time = setInterval(this.getRooomList,10000);
     },
 
-    // initialize:function () {
-    //
-    //     for (let i = 0; i < this.spawnCount; ++i) { // spawn items, we only need to do this once
-    //         let item = cc.instantiate(this.itemTemplate);
-    //         this.content.addChild(item);
-    //         item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));
-    //         item.getComponent('Item').updateItem(i, i);
-    //         this.items.push(item);
-    //     }
-    // },
 
     getRooomList:function () {
         mvs.engine.getRoomListEx(RoomFilterEx);
@@ -151,6 +91,7 @@ cc.Class({
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+                cc.director.loadScene('login');
                 break;
             case msg.MATCHVS_JOIN_ROOM_RSP:
                 GLB.roomID = event.detail.userInfoList.roomID;
@@ -166,14 +107,7 @@ cc.Class({
     getRoomListExResponse: function(roomListExInfo) {
         refreshNum ++;
         this.refreshNumText.string = '获取列表次数'+ refreshNum;
-        // for (var i = 0; i < 3; i++) {
-        //     this.roomIDs[i].string = "";
-        //     this.stateS[i].string = "";
-        //     this.stateS[i].string = "";
-        //     this.gamePlayerS[i].string = "";
-        //     this.maps[i].string = "";
-        //     this.buttonS[i].active = false;
-        // }
+
         for(var i = 0; i < roomListExInfo.rsp.total; i++) {
             this.totalCount  = roomListExInfo.rsp.total;
             this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
@@ -181,21 +115,11 @@ cc.Class({
             this.content.addChild(item);
             item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));
             item.getComponent('Item').updateItem(roomListExInfo.rsp.roomAttrs[i]);
-            // this.roomIDs[i].string = roomListExInfo.rsp.roomAttrs[i].roomID;
-            // this.buttonS[i].active = true;
-            // var state = roomListExInfo.rsp.roomAttrs[i].state;
-            // if (state == 1) {
-            //     this.stateS[i].string = "开放";
-            // } else {
-            //     this.stateS[i].string = "关闭";
-            // }
-            // this.maps[i].string = roomListExInfo.rsp.roomAttrs[i].roomProperty;
-            // this.gamePlayerS[i].string = roomListExInfo.rsp.roomAttrs[i].gamePlayer+"/"+roomListExInfo.rsp.roomAttrs[i].maxPlayer;
         }
     },
 
     labelLog: function (info) {
-        // this.labelInfo.string += '\n' + info;
+        this.labelInfo.string += '\n' + info;
     },
 
     onDestroy:function() {

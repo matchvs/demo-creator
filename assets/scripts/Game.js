@@ -81,13 +81,11 @@ cc.Class({
     onLoad: function () {
         engine.prototype.getRoomDetail(GLB.roomID);
         this.scoreDisplays = [this.scoreDisplays0,this.scoreDisplays1, this.scoreDisplays2];
-        this.scoreDisplays0.string = GLB.userID+':'+ this.score;
         this.timer = 0;
         var myScorce = {userID:GLB.userID,Score:this.score};
         this.userScores.push(myScorce);
         this.starDuration = this.maxStarDuration - this.minStarDuration;
         this.gameTime = 9999;
-        this.scores = [0, 0, 0];
         this.roomidLabel.string = "房间号:" + GLB.roomID;
         this.useridLabel.string = "用户id:" + GLB.userID;
         // 场景ground的高度
@@ -97,20 +95,12 @@ cc.Class({
         if (GLB.mapType == "黑夜模式") {
             this.ground.opacity =  40;
         }
-
         cc.director.getCollisionManager().enabled = true;
         cc.director.getCollisionManager().enabledDebugDraw = true;
         cc.director.getCollisionManager().enabledDrawBoundingBox = true;
-
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
         mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
         mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
-
-        // for (var i = 0; i < this.players.length; i++) {
-        //     (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
-        //     this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.playerUserIds[i];
-        // }
-        // this.refreshScore();
 
         var self = this;
         this.initEvent(self);
@@ -156,7 +146,6 @@ cc.Class({
         this.buttonSend.active = false;
         self.labelGameoverTime.string = GLB.playertime;
         GLB.isGameOver = false;
-
         this.id = setInterval(function () {
             self.labelGameoverTime.string = self.labelGameoverTime.string - 1;
             if (self.labelGameoverTime.string === "2") {
@@ -194,13 +183,11 @@ cc.Class({
                         userScore.Score = 0;
                         this.userScores.push(userScore);
                     }
-
                 }
                 if (event.detail.rsp.owner === GLB.userID) {
                     GLB.isRoomOwner = true;
                     // 创建星星
                     this.spawnNewStar();
-                    console.log("星星2");
                 }
                 for (var i = 1; i < this.players.length; i++) {
                     (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
@@ -215,8 +202,15 @@ cc.Class({
                 this.onNewWorkGameEvent(event.detail.eventInfo);
                 break;
             case msg.MATCHVS_ERROE_MSG:
+                this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+                cc.director.loadScene('login');
                 break;
             case msg.MATCHVS_FRAME_UPDATE:
+                var rsp = event.detail.data;
+                for (var i = 0; i < rsp.frameItems.length; i++) {
+                    var info = rsp.frameItems[i];
+                    this.onNewWorkGameEvent(info);
+                }
                 break;
             case msg.PLAYER_POSINTON:
                 if (this.newStar != undefined) {
@@ -272,48 +266,41 @@ cc.Class({
         this.labelLog("[Rsp]sendEventGroupResponse:status=" + status + " dstNum=" + dstNum);
     },
     onNewWorkGameEvent : function(info) {
-        // try {
-            if (info && info.cpProto) {
-                var event = JSON.parse(info.cpProto);
-                if (event.action === GLB.EVENT_NEW_START) {
-                    // 收到创建星星的消息通知，根据消息给的坐标创建星星
-                    this.createStarNode(event.position)
-                } else if (event.action === GLB.EVENT_PLAYER_POSINTON_CHANGED) {
-                    this.updatePlayerMoveDirection(event);
-                } else if (event.action === GLB.EVENT_GAIN_SCORE) {
-                    this.refreshScore(event);
-                } else if (event.action === GLB.GAME_RECONNECT) {
-                    this.a(event.cpProto);
+        if (info && info.cpProto) {
+            var event = JSON.parse(info.cpProto);
+            if (event.action === GLB.EVENT_NEW_START) {
+                // 收到创建星星的消息通知，根据消息给的坐标创建星星
+                this.createStarNode(event.position)
+            } else if (event.action === GLB.EVENT_PLAYER_POSINTON_CHANGED) {
+                this.updatePlayerMoveDirection(event);
+            } else if (event.action === GLB.EVENT_GAIN_SCORE) {
+                this.refreshScore(event);
+            } else if (event.action === GLB.GAME_RECONNECT) {
+                this.reconnection(event.cpProto);
 
-                }
             }
-        // } catch (e) {
-        //     console.log(e.message);
-        // }
+        }
     },
-    
-    a :function (event) {
-        console.log("收到重连消息");
+
+    /**
+     * 重连进来的玩家
+     * @param event
+     */
+    reconnection :function (event) {
         for (var a = 0; a <this.userScores.length; a++) {
             for (var i = 0; i <event.length; i++) {
                 if (this.userScores[a].userID=== event[i].userID ) {
                     console.log(this.userScores[a].Score, event[i].Score);
                     this.userScores[a].Score = event[i].Score;
-                    console.log(this.userScores[a].Score );
                 }
             }
             this.scoreDisplays[a].string = this.userScores[a].userID+":"+this.userScores[a].Score;
         }
     },
 
-    sendEventNotify: function (info) {
-        this.onNewWorkGameEvent(info);
-    },
+
     frameUpdate: function (rsp) {
-        for (var i = 0; i < rsp.frameItems.length; i++) {
-            var info = rsp.frameItems[i];
-            this.onNewWorkGameEvent(info);
-        }
+
     },
 
     sendEventGroupNotify: function (srcUid, groups, cpProto) {
@@ -350,7 +337,6 @@ cc.Class({
         this.newStar.setPosition(cc.p(position.x, position.y))
         this.newStar.getComponent('Star').game = this;
         this.newStar.active = true;
-        // this.articlePositonX = position.x;
         this.timer = 0
         GLB.NEW_STAR_POSITION = position.x;
     },
@@ -380,15 +366,8 @@ cc.Class({
         return cc.p(randX, randY)
     },
 
-    // 自己得分
-    gainScore: function () {
-        // this.score ++ ;
-        // this.userScores[0].Score++;
-        // console.log("自己得分");
-        // this.scoreDisplays0.string =this.userScores[0].userID + ': ' +  this.userScores[0].Score;
-    },
 
-    //其他的玩家得分
+    //玩家得分
     refreshScore: function (event) {
         if (event != undefined) {
             for (var i = 0; i < this.userScores.length;i++) {
@@ -401,6 +380,9 @@ cc.Class({
             GLB.number1 = this.userScores[0].userID + ':' + this.userScores[0].Score;
             GLB.number2 = this.userScores[1].userID + ':' + this.userScores[1].Score;
             GLB.number3 = this.userScores[2].userID + ':' + this.userScores[2].Score;
+        }
+        if (GLB.isRoomOwner) {
+            this.spawnNewStar();
         }
     },
 
@@ -437,11 +419,6 @@ cc.Class({
                 mvs.engine.sendEventEx(0,JSON.stringify(event),0,[netNotify.userID]);
                 } ,500
             );
-
-            // if (!result || result.result !== 0) {
-            //     console.log("发送分数信息失败");
-            //     mvs.engine.sendEvent(JSON.stringify(event))
-            // }
         }
     },
 

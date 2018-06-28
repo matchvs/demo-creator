@@ -22,13 +22,10 @@
       },
       {
         "__id__": 3
-      },
-      {
-        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 4
     },
     "_id": "",
     "_opacity": 255,
@@ -101,26 +98,6 @@
     },
     "_enabled": true,
     "pickRadius": 60
-  },
-  {
-    "__type__": "cc.BoxCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "tag": 1,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": 1.5,
-      "y": 0
-    },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 60,
-      "height": 66
-    }
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -115,6 +115,7 @@ cc.Class({
     onEvent:function (event) {
         if (event.type == msg.MATCHVS_ERROE_MSG) {
             this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
+            cc.director.loadScene('login');
         } else if (event.type == msg.MATCHVS_CREATE_ROOM) {
             GLB.roomID = event.detail.rsp.roomID;
             cc.director.loadScene("createRoom");
