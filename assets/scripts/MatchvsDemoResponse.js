@@ -58,9 +58,8 @@ MatchvsDemoResponse.prototype.initResponse =function (status) {
 * 注册回调
 */
 MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
-    if (userInfo.status == 0) {
+    if (userInfo.id != undefined) {
         console.log("注册成功");
-        console.log(this.context);
         if (userInfo.name != "") {
             GLB.name = userInfo.name;
         } else {
