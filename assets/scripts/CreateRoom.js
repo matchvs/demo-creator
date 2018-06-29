@@ -41,6 +41,9 @@ cc.Class({
 
     onLoad () {
         this.nameViewList = [this.labelUserID2,this.labelUserID3];
+        GLB.number1 = "";
+        GLB.number2 = "";
+        GLB.number3 = "";
         var self = this;
         // roomID的全局赋值要慎重使用，离开房间记得置空
         if (GLB.roomID != "") {
@@ -68,7 +71,8 @@ cc.Class({
                 var event = {
                     action: msg.EVENT_GAME_START,
                 };
-                engine.prototype.sendEvent(JSON.stringify(event));
+                engine.prototype.sendEventEx(JSON.stringify(event));
+                engine.prototype.joinOver();
             } else {
                 self.labelLog('房间人数小于' + GLB.MAX_PLAYER_COUNT);
             }
@@ -99,7 +103,6 @@ cc.Class({
         this.node.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
         this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
         this.node.on(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
     },
 
     /**
@@ -136,12 +139,11 @@ cc.Class({
             case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
                 this.removeView(event.detail.leaveRoomInfo)
                 break;
-            case msg.MATCHVS_SEND_EVENT_RSP:
-                engine.prototype.joinOver();
-                this.startGame();
-                break;
             case msg.MATCHVS_SEND_EVENT_NOTIFY:
-                this.startGame();
+                var  data = JSON.parse(event.detail.eventInfo.cpProto);
+                if (data.action == msg.EVENT_GAME_START) {
+                    this.startGame();
+                }
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
@@ -267,7 +269,6 @@ cc.Class({
         this.node.off(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
         this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
         this.node.off(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
     },
 
 

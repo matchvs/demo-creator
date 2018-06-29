@@ -271,6 +271,7 @@ cc.Class({
                 // 收到创建星星的消息通知，根据消息给的坐标创建星星
                 this.createStarNode(event.position)
             } else if (event.action === GLB.EVENT_PLAYER_POSINTON_CHANGED) {
+                console.log(new Date().getSeconds(), "收到位移消息"+event.x);
                 this.updatePlayerMoveDirection(event);
             } else if (event.action === GLB.EVENT_GAIN_SCORE) {
                 this.refreshScore(event);
@@ -310,6 +311,7 @@ cc.Class({
     updatePlayerMoveDirection: function (event) {
         var player = this.getPlayerByUserId(event.userID);
         if (player) {
+            console.warn(new Date().getSeconds(), "开始执行移动");
             player.onPostionChanged(event.x, event.arrow);
         } else {
             console.warn("Not Found the user:" + event.userID);
