@@ -137,6 +137,7 @@ cc.Class({
                 this.removeView(event.detail.leaveRoomInfo)
                 break;
             case msg.MATCHVS_SEND_EVENT_RSP:
+                engine.prototype.joinOver();
                 this.startGame();
                 break;
             case msg.MATCHVS_SEND_EVENT_NOTIFY:
@@ -284,7 +285,6 @@ cc.Class({
     },
 
     startGame: function () {
-        engine.prototype.joinOver();
         this.labelLog('游戏即将开始')
         cc.director.loadScene('game')
     },
