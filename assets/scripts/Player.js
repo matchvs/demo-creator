@@ -40,14 +40,14 @@ cc.Class({
         startPostion:0,
     },
 
-    playJumpSound: function () {
-        // 调用声音引擎播放声音
-        cc.audioEngine.playEffect(this.jumpAudio, false);
-    },
+    // playJumpSound: function () {
+    //     // 调用声音引擎播放声音
+    //     cc.audioEngine.playEffect(this.jumpAudio, false);
+    // },
     onPostionChanged(x, arrow) {
         this.playerSpriteRight.node.x = x;
         this.playerSpriteLeft.node.x = x;
-        this.playJumpSound();
+        // this.playJumpSound();
         this.playAnimation(arrow);
         this.playerLabel.node.x = x;
         // console.log(x,GLB.NEW_STAR_POSITION);

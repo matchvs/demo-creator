@@ -188,9 +188,9 @@ cc.Class({
         }
         if (this.userList.length == GLB.MAX_PLAYER_COUNT-1) {
             engine.prototype.joinOver();
+            engine.prototype.setRoomProperty(GLB.roomID,"1")
             this.startGame();
             //1 是游戏已经开始
-            engine.prototype.setRoomProperty(GLB.roomID,"1")
         }
     },
 

@@ -393,9 +393,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "jumpAudio": {
-      "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
-    },
+    "starPrefab": null,
     "playerSpriteLeft": null,
     "playerSpriteRight": null,
     "rightAnim": null,

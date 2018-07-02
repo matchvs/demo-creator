@@ -52,7 +52,7 @@ var obj = {
 
 
 
-    FPS:10,//数据帧每秒采样次数
+    FPS:15,//数据帧每秒采样次数
     noSuchMethod:null,
     putPushID2Set : function(item){
         this.playerUserIds.push(item);

@@ -311,7 +311,7 @@ cc.Class({
     updatePlayerMoveDirection: function (event) {
         var player = this.getPlayerByUserId(event.userID);
         if (player) {
-            console.warn(new Date().getSeconds(), "开始执行移动");
+            // console.warn(new Date().getSeconds(), "开始执行移动");
             player.onPostionChanged(event.x, event.arrow);
         } else {
             console.warn("Not Found the user:" + event.userID);
