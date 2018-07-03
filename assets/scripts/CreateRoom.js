@@ -208,6 +208,7 @@ cc.Class({
      */
     removeView:function (info) {
         var userID ;
+        console.log(info.cpProto,1111);
         if (info.userID == undefined) {
             userID = info.userId;
         } else {
