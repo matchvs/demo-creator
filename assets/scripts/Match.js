@@ -111,7 +111,7 @@ cc.Class({
                 cc.director.loadScene('lobby');
                 break;
             case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
-                this.removeView(event.detail);
+                this.removeView(event.detail.leaveRoomInfo);
                 break;
             case msg.MATCHVS_JOIN_OVER_NOTIFY:
                 checkBox.isChecked = false;
