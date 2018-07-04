@@ -214,21 +214,23 @@ cc.Class({
         } else {
             userID = info.userID;
         }
+        console.log(userID,1111);
         for(var i = 0; i < this.userList.length;i++ ) {
             if(userID == this.userList[i].userId) {
+                console.log("userList 删除");
                 this.userList.splice(i,1);
             }
         }
         if (info.cpProto != undefined) {
             var name = info.cpProto.split("/n")[0];
-            console.log(name);
+            for(var a = 0; a < this.nameViewList.length; a++) {
+                console.log("名字置空");
+                if(name == this.nameViewList[a].string) {
+                    this.nameViewList[a].string = "";
+                }
+            }
             if(name == GLB.name) {
                 this.leaveRoom1();
-            }
-            for(var i = 0; i < this.nameViewList.length; i++) {
-                if(name == this.nameViewList[i].string) {
-                    this.nameViewList[i].string = "";
-                }
             }
         }
         if (info.owner === GLB.userID) {
