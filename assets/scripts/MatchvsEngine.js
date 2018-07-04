@@ -85,6 +85,17 @@ MatchvsDemoEngine.prototype.joinRandomRoom = function(mxaNumer,profile){
 };
 
 /**
+ * 属性匹配
+ * @param matchinfo
+ * @param profile
+ */
+MatchvsDemoEngine.prototype.joinRoomWithProperties = function (matchinfo,profile) {
+    var result = mvs.engine.joinRoomWithProperties(matchinfo,MatchvsDemoEngine.prototype.getUserProfile(profile));
+    console.log("属性匹配result"+result);
+    return result;
+}
+
+/**
  * 离开房间
  */
 MatchvsDemoEngine.prototype.leaveRoom = function () {

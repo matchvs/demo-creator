@@ -55,7 +55,7 @@ cc.Class({
             matchinfo.canWatch = 0;
             matchinfo.tags = GLB.tagsInfo;
             this.labelProperty.string = "自定义属性:" + JSON.stringify(GLB.tagsInfo);
-            mvs.engine.joinRoomWithProperties(matchinfo, "china");
+            engine.prototype.joinRoomWithProperties(matchinfo,"china");
         }
 
         this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function (event) {
