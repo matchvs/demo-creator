@@ -112,8 +112,8 @@ cc.Class({
     onEvent :function (event) {
         switch(event.type) {
             case msg.MATCHVS_JOIN_ROOM_NOTIFY:
-                this.userList.push(event.detail.roomUserInfo)
-                this.initUserView(this.userList);
+                this.userList.push(event.detail.roomUserInfo);
+                this.initUserView(event.detail.roomUserInfo.userProfile);
                 break;
             case msg.MATCHVS_KICK_PLAYER:
                 this.removeView(event.detail.kickPlayerRsp);
@@ -131,10 +131,11 @@ cc.Class({
                 this.joinRoom(event.detail.rsp);
                 for (var i in event.detail.rsp.userInfos) {
                     if (GLB.userID != event.detail.rsp.userInfos[i].userId) {
+                        this.initUserView(event.detail.rsp.userInfos[i].userProfile);
                         this.userList.push(event.detail.rsp.userInfos[i]);
+
                     }
                 }
-                this.initUserView(this.userList);
                 break;
             case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
                 this.removeView(event.detail.leaveRoomInfo)
@@ -193,11 +194,12 @@ cc.Class({
      * 展示玩家信息
      * @param userList
      */
-    initUserView :function(userList){
-        for(var i = 0; i < userList.length; i++) {
-            var info = JSON.parse(userList[i].userProfile);
+    initUserView :function(userProfile){
+        for(var i = 0; i < this.nameViewList.length; i++) {
+            var info = JSON.parse(userProfile);
             if (this.nameViewList[i].string === "") {
                 this.nameViewList[i].string = info.name;
+                return;
             }
         }
     },
