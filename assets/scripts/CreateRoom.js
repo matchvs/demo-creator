@@ -51,16 +51,14 @@ cc.Class({
         }
         this.initEvent(self);
         this.kickPlayer2.on(cc.Node.EventType.TOUCH_END, function(event){
-            if (self.userList[0] != null) {
-                engine.prototype.kickPlayer(self.userList[0].userId,self.labelUserID2.string);
-                self.labelUserID2.string = "";
-            }
+            var userID = self.kickPlayerName(self.labelUserID2.string);
+            engine.prototype.kickPlayer(userID,self.labelUserID2.string);
+            self.labelUserID2.string = "";
         });
         this.kickPlayer3.on(cc.Node.EventType.TOUCH_END, function(event){
-            if (self.userList[1] != null) {
-                engine.prototype.kickPlayer(self.userList[1].userId,self.labelUserID3.string);
-                self.labelUserID3.string = "";
-            }
+            var userID = self.kickPlayerName(self.labelUserID3.string);
+            engine.prototype.kickPlayer(userID,self.labelUserID3.string);
+            self.labelUserID3.string = "";
         });
         this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function(event){
             engine.prototype.leaveRoom("");
@@ -162,6 +160,15 @@ cc.Class({
             this.mapString.string = rsp.roomProperty;
             GLB.mapType = rsp.roomProperty;
             this.seleButton.getChildByName("Label").getComponent(cc.Label).string = '切换为白天模式';
+        }
+    },
+    
+    kickPlayerName :function (name) {
+        for (var i in  this.userList) {
+            var obj = JSON.parse(this.userList[i].userProfile);
+            if (obj.name == name) {
+                return this.userList[i].userId
+            }
         }
     },
 

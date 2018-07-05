@@ -89,11 +89,9 @@ cc.Class({
                 break;
             case msg.MATCHVS_LOGIN:
                 var MsLoginRsp = event.detail.MsLoginRsp;
-                // // todo 先不管重连
                 if (MsLoginRsp.roomID != null && MsLoginRsp.roomID !== '0') {
                     console.log("开始重连"+ MsLoginRsp.roomID);
                     engine.prototype.reconnect();
-                //     //todo 直接跳游戏页面
                 } else {
                     cc.director.loadScene("lobby");
                 }
