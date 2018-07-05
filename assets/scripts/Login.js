@@ -99,12 +99,9 @@ cc.Class({
                 }
                 break;
             case msg.MATCHVS_RE_CONNECT:
-                console.log("重连进来了");
                 var reConnect  = event.detail.roomUserInfoList;
-                if (reConnect.roomProperty) {
-                    engine.prototype.getRoomDetail(reConnect.roomID);
-                    GLB.roomID = reConnect.roomID;
-                }
+                engine.prototype.getRoomDetail(reConnect.roomID);
+                GLB.roomID = reConnect.roomID;
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);

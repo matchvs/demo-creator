@@ -210,23 +210,19 @@ cc.Class({
      */
     removeView:function (info) {
         var userID ;
-        console.log(info.cpProto,1111);
         if (info.userID == undefined) {
             userID = info.userId;
         } else {
             userID = info.userID;
         }
-        console.log(userID,1111);
         for(var i = 0; i < this.userList.length;i++ ) {
             if(userID == this.userList[i].userId) {
-                console.log("userList 删除");
                 this.userList.splice(i,1);
             }
         }
         if (info.cpProto != undefined) {
             var name = info.cpProto.split("/n")[0];
             for(var a = 0; a < this.nameViewList.length; a++) {
-                console.log("名字置空");
                 if(name == this.nameViewList[a].string) {
                     this.nameViewList[a].string = "";
                 }
