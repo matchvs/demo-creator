@@ -42,12 +42,30 @@ cc.Class({
         var self = this;
         this.initEvent(self);
         this.nickName.string = GLB.name;
-        console.log(GLB.avatar);
-        cc.loader.load(GLB.avatar, function (error, texture) {
-            var frame = new cc.SpriteFrame(texture);
-            self.avatar111.spriteFrame  = frame;
-        });
-        // this.avatar._spriteFrames
+        console.log('avatar url', GLB.avatar);
+        if (GLB.isWX) {
+            let image = wx.createImage();
+            image.onload = () => {
+                try {
+                    let texture = new cc.Texture2D();
+                    texture.initWithElement(image);
+                    texture.handleLoadedTexture();
+                    self.avatar111.spriteFrame = new cc.SpriteFrame(texture);
+                } catch (e) {
+                    console.log('wx onload image error');
+                }
+            }
+            image.src = GLB.avatar;
+        } else {
+            cc.loader.load(GLB.avatar, function (err, res) {
+                if (err) {
+                    console.error('load avatar image error', err);
+                    return;
+                }
+                var frame = new cc.SpriteFrame(res);
+                self.avatar111.spriteFrame  = frame;
+            }) ;
+        }
         // 返回登录
         this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(event){
             engine.prototype.logout();
@@ -143,9 +161,6 @@ cc.Class({
         this.removeEvent();
         console.log("Lobby页面销毁");
     }
-
-
-
 
 
 });

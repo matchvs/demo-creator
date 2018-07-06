@@ -188,6 +188,7 @@ cc.Class({
         }
         GLB.name = wxUserInfo.nickName;
         GLB.avatar = wxUserInfo.avatarUrl;
+        GLB.isWX = true;
         var req = new  XMLHttpRequest();
         let reqUrl = this.getBindOpenIDAddr(GLB.channel,GLB.platform);
         req.open("post",reqUrl , true);

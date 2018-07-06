@@ -15,7 +15,7 @@ var obj = {
     gameVersion: 1,
     appKey: '4fd4a67c10e84e259a2c3c417b9114f4',
     secret: 'bd00c3953f6a447eaaa1e36f19684764',
-
+    isWX:false,
     matchType: 1,
     tagsInfo: {"title": "A"},
     userID: 0,

@@ -198,6 +198,7 @@ MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
  * @param leaveRoomInfo
  */
 MatchvsDemoResponse.prototype.leaveRoomNotify = function (leaveRoomInfo) {
+    console.log(JSON.stringify(leaveRoomInfo));
     this.context.node.emit(msg.MATCHVS_LEAVE_ROOM_NOTIFY,{leaveRoomInfo});
 };
 
