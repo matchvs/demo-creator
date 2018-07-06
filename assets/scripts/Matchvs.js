@@ -15,7 +15,7 @@ try {
     MsRoomFilterEx  = Matchvs.RoomFilterEx ;
 	console.log("load matchvs JSB b ");
 } catch (e) {
-	console.error("load matchvs JSB fail,"+e.message);
+	console.warn("load matchvs JSB fail,"+e.message);
     try {
         var jsMatchvs = require("matchvs.all");
         engine = new jsMatchvs.MatchvsEngine();
@@ -26,9 +26,9 @@ try {
         LocalStore_Clear = jsMatchvs.LocalStore_Clear;
 		console.log("load matchvs.all.js");
     } catch (e) {
-		console.error(e);
+		console.warn("load matchvs.all.js fail,"+e.message);
         var MatchVSEngine = require('MatchvsEngine');
-		console.log("load matchvs JSB");
+		console.log("load matchvs test code");
         engine = new MatchVSEngine();
     }
 }
@@ -38,5 +38,5 @@ module.exports = {
     MsMatchInfo: MsMatchInfo,
     MsCreateRoomInfo: MsCreateRoomInfo,
     MsRoomFilterEx :MsRoomFilterEx ,
-    LocalStore_Clear:LocalStore_Clear
+    LocalStore_Clear:LocalStore_Clear,
 };
