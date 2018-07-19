@@ -5,6 +5,7 @@ var GLB = require("Glb");
 var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
 var msg = require("MatvhsMessage");
+var userInfo;
 cc.Class({
     extends: cc.Component,
 
@@ -49,6 +50,9 @@ cc.Class({
             }
         });
         this.clear.on(cc.Node.EventType.TOUCH_END, function (event) {
+            self.gameIdInput.getComponent(cc.EditBox).string = '';
+            self.appKeyInput.getComponent(cc.EditBox).string =  '';
+            self.secret.getComponent(cc.EditBox).string = '';
             if (LocalStore_Clear) {
                 LocalStore_Clear()
             }
@@ -83,7 +87,7 @@ cc.Class({
                 this.getUserFromWeChat(this);
                 break;
             case msg.MATCHVS_REGISTER_USER:
-                var userInfo = event.detail.msg;
+                userInfo = event.detail.msg;
                 console.log(userInfo);
                 this.login(userInfo.id,userInfo.token);
                 break;
@@ -186,6 +190,12 @@ cc.Class({
         if(!wxUserInfo){
             return;
         }
+        console.log('openid:'+wxUserInfo.openInfos.data.openid);
+        if (wxUserInfo.openInfos.data.openid == undefined) {
+            console.warn("没有获取到微信OpenID，获取OpenID请参考："+'http://www.matchvs.com/service?page=third');
+            engine.prototype.registerUser();
+            return;
+        }
         GLB.name = wxUserInfo.nickName;
         GLB.avatar = wxUserInfo.avatarUrl;
         GLB.isWX = true;
@@ -195,12 +205,15 @@ cc.Class({
         req.setRequestHeader("Content-Type", "application/json")
         req.onreadystatechange = function () {
             if (req.readyState == 4 && (req.status >= 200 && req.status < 400)) {
-                var response = req.responseText;
-                console.log(response);
-                var data = JSON.parse(response).data;
-                console.log(data);
-                console.log(data.userid,data.token);
-                self.login(data.userid,data.token);
+                try{
+                    var response = req.responseText;
+                    var data = JSON.parse(response).data;
+                    console.log(data.userid,data.token);
+                    self.login(data.userid,data.token);
+                } catch(error){
+                    console.warn(error.message);
+                    engine.prototype.registerUser();
+                }
             }
         };
         //sign=md5(appKey&gameID=value1&openID=value2&session=value3&thirdFlag=value4&appSecret)

@@ -53,7 +53,7 @@ cc.Class({
             matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
             matchinfo.mode = 0;
             matchinfo.canWatch = 0;
-            matchinfo.tags = GLB.tagsInfo;
+            matchinfo.tags =  GLB.tagsInfo;
             this.labelProperty.string = "自定义属性:" + JSON.stringify(GLB.tagsInfo);
             engine.prototype.joinRoomWithProperties(matchinfo,"china");
         }
@@ -203,8 +203,9 @@ cc.Class({
                 this.userList.splice(i,1);
             }
         }
-        var name = info.cpProto.split("/n")[0];
-        console.log(name);
+        var name = JSON.parse(info.cpProto).name;
+        // var name = info.cpProto.split("/n")[0];
+        // console.log(name);
         for(var i = 0; i < this.nameViewList.length; i++) {
             if(name == this.nameViewList[i].string) {
                 this.nameViewList[i].string = "";

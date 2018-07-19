@@ -99,7 +99,8 @@ MatchvsDemoEngine.prototype.joinRoomWithProperties = function (matchinfo,profile
  * 离开房间
  */
 MatchvsDemoEngine.prototype.leaveRoom = function () {
-    var result = mvs.engine.leaveRoom(Glb.name+"/n主动离开了房间");
+    var obj = {name:Glb.name,profile:'主动离开了房间'};
+    var result = mvs.engine.leaveRoom(JSON.stringify(obj));
     console.log(Glb.name+"主动离开房间result"+result);
     return result;
 };

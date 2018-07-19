@@ -2331,9 +2331,6 @@
     "_components": [
       {
         "__id__": 59
-      },
-      {
-        "__id__": 60
       }
     ],
     "_prefab": null,
@@ -2374,33 +2371,7 @@
     "groupIndex": 0
   },
   {
-    "__type__": "18dea+Cs5hE1ZwDUiwxb09f",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 58
-    },
-    "_enabled": true,
-    "back": {
-      "__id__": 20
-    },
-    "itemTemplate": {
-      "__id__": 27
-    },
-    "scrollView": {
-      "__id__": 12
-    },
-    "spacing": 20,
-    "totalCount": 0,
-    "labelInfo": {
-      "__id__": 6
-    },
-    "refreshNumText": {
-      "__id__": 26
-    }
-  },
-  {
-    "__type__": "d36f5jtSeBP1KioylxcFL63",
+    "__type__": "4cf8aAo3zhGCpy3KJJBdkOW",
     "_name": "",
     "_objFlags": 0,
     "node": {

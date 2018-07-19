@@ -228,7 +228,7 @@ cc.Class({
             }
         }
         if (info.cpProto != undefined) {
-            var name = info.cpProto.split("/n")[0];
+            var name = JSON.parse(info.cpProto).name;
             for(var a = 0; a < this.nameViewList.length; a++) {
                 if(name == this.nameViewList[a].string) {
                     this.nameViewList[a].string = "";
@@ -300,6 +300,7 @@ cc.Class({
 
     labelLog: function (info) {
         this.labelInfo.string += '\n' + info;
-    }
+    },
 
+    
 });
