@@ -96,6 +96,8 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
         console.log("重连成功");
         roomUserInfoList.roomID = roomInfo.roomID;
         roomUserInfoList.roomProperty = roomInfo.roomProperty;
+        roomUserInfoList.state = roomInfo.state;
+        roomUserInfoList.ownerID = roomInfo.ownerID;
         this.context.node.emit(msg.MATCHVS_RE_CONNECT, {roomUserInfoList});
     } else {
         console.log("重连失败"+status);

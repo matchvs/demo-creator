@@ -52,13 +52,17 @@ cc.Class({
         this.initEvent(self);
         this.kickPlayer2.on(cc.Node.EventType.TOUCH_END, function(event){
             var userID = self.kickPlayerName(self.labelUserID2.string);
-            engine.prototype.kickPlayer(userID,self.labelUserID2.string);
-            self.labelUserID2.string = "";
+            if (userID != undefined) {
+                engine.prototype.kickPlayer(userID,self.labelUserID2.string);
+                self.labelUserID2.string = "";
+            }
         });
         this.kickPlayer3.on(cc.Node.EventType.TOUCH_END, function(event){
             var userID = self.kickPlayerName(self.labelUserID3.string);
-            engine.prototype.kickPlayer(userID,self.labelUserID3.string);
-            self.labelUserID3.string = "";
+            if (userID != undefined) {
+                engine.prototype.kickPlayer(userID,self.labelUserID3.string);
+                self.labelUserID3.string = "";
+            }
         });
         this.leaveRoom.on(cc.Node.EventType.TOUCH_END, function(event){
             engine.prototype.leaveRoom("");
@@ -131,7 +135,6 @@ cc.Class({
                     if (GLB.userID != event.detail.rsp.userInfos[i].userId) {
                         this.initUserView(event.detail.rsp.userInfos[i].userProfile);
                         this.userList.push(event.detail.rsp.userInfos[i]);
-
                     }
                 }
                 break;
@@ -228,6 +231,7 @@ cc.Class({
             }
         }
         if (info.cpProto != undefined) {
+            console.log(JSON.parse(info.cpProto));
             var name = JSON.parse(info.cpProto).name;
             for(var a = 0; a < this.nameViewList.length; a++) {
                 if(name == this.nameViewList[a].string) {

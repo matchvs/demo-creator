@@ -164,7 +164,8 @@ MatchvsDemoEngine.prototype.createRoom = function (roomFilter,profile) {
  * @param cpProto
  */
 MatchvsDemoEngine.prototype.kickPlayer = function (userID,profile) {
-    var result = mvs.engine.kickPlayer(userID,profile+"/n被踢出了房间");
+    var obj = {name:profile,profile:profile+'被踢出了房间'};
+    var result = mvs.engine.kickPlayer(userID,JSON.stringify(obj));
     console.log(userID+"被踢出游戏 result"+result);
     return result;
 }
