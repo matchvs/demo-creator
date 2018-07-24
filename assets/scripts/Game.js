@@ -75,6 +75,7 @@ cc.Class({
         newStar : null,
         score:0,
         userScores:[],
+        countDown:null
     },
 
 
@@ -146,13 +147,13 @@ cc.Class({
         this.buttonSend.active = false;
         self.labelGameoverTime.string = GLB.playertime;
         GLB.isGameOver = false;
-        this.id = setInterval(function () {
+        this.countDown = setInterval(function () {
             self.labelGameoverTime.string = self.labelGameoverTime.string - 1;
             if (self.labelGameoverTime.string === "2") {
                 GLB.isGameOver = true;
             }
             if (self.labelGameoverTime.string == "0") {
-                clearInterval(self.id);
+                // clearInterval(self.countDown);
                 self.gameOver();
             }
         }, 1000);
@@ -422,7 +423,9 @@ cc.Class({
     },
 
     onDestroy: function () {
-        clearInterval(this.id);
+        if (this.countDown != null) {
+            clearInterval(this.countDown);
+        }
         GLB.isGameOver = true;
     }
 });
