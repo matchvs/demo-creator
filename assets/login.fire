@@ -666,7 +666,7 @@
       "b": 0,
       "a": 255
     },
-    "_N$placeholder": "Enter text here...",
+    "_N$placeholder": "200978",
     "_N$placeholderFontSize": 20,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
@@ -834,7 +834,7 @@
       "b": 0,
       "a": 255
     },
-    "_N$placeholder": "Enter text here...",
+    "_N$placeholder": "*********************************",
     "_N$placeholderFontSize": 20,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",
@@ -1002,7 +1002,7 @@
       "b": 0,
       "a": 255
     },
-    "_N$placeholder": "Enter text here...",
+    "_N$placeholder": "*********************************",
     "_N$placeholderFontSize": 20,
     "_N$placeholderFontColor": {
       "__type__": "cc.Color",

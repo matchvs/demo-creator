@@ -51,8 +51,11 @@ cc.Class({
         });
         this.clear.on(cc.Node.EventType.TOUCH_END, function (event) {
             self.gameIdInput.getComponent(cc.EditBox).string = '';
+            self.gameIdInput.getComponent(cc.EditBox).placeholder = '请输入gameID';
             self.appKeyInput.getComponent(cc.EditBox).string =  '';
+            self.appKeyInput.getComponent(cc.EditBox).placeholder = '请输入gameKey';
             self.secret.getComponent(cc.EditBox).string = '';
+            self.secret.getComponent(cc.EditBox).placeholder = '请输入secret';
             if (LocalStore_Clear) {
                 LocalStore_Clear()
             }
