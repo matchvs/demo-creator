@@ -100,7 +100,6 @@ cc.Class({
         cc.director.getCollisionManager().enabledDebugDraw = true;
         cc.director.getCollisionManager().enabledDrawBoundingBox = true;
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
-        mvs.response.leaveRoomNotify = this.leaveRoomNotify.bind(this);
         mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
 
         var self = this;
@@ -171,6 +170,7 @@ cc.Class({
         this.node.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
         this.node.on(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
         this.node.on(msg.PLAYER_POSINTON,this.onEvent , this);
+        this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
     },
     
     onEvent :function (event) {
@@ -233,6 +233,10 @@ cc.Class({
                     }
                 }
                 break;
+            case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
+                this.labelLog("leaveRoomNotify");
+                this.gameOver();
+                break;
         }
     },
 
@@ -243,11 +247,11 @@ cc.Class({
             return this.gameOver();
         this.timer += dt
     },
-
-    leaveRoomNotify: function () {
-        this.labelLog("leaveRoomNotify");
-        this.gameOver();
-    },
+    //
+    // leaveRoomNotify: function () {
+    //     this.labelLog("leaveRoomNotify");
+    //     this.gameOver();
+    // },
 
     setFrameSyncResponse: function (rsp) {
         this.labelLog('setFrameSyncResponse, status=' + rsp.status);
@@ -422,7 +426,21 @@ cc.Class({
         }
     },
 
+    /**
+     * 移除监听
+     */
+    removeEvent:function () {
+        this.node.off(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
+        this.node.off(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
+        this.node.off(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
+        this.node.off(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
+        this.node.off(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
+        this.node.off(msg.PLAYER_POSINTON,this.onEvent , this);
+        this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
+    },
+
     onDestroy: function () {
+        this.removeEvent();
         if (this.countDown != null) {
             clearInterval(this.countDown);
         }
