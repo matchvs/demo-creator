@@ -10,7 +10,7 @@ var obj = {
     GAME_RECONNECT:"Reconnect",
 
     channel: 'MatchVS',
-    platform: 'alpha',
+    platform: 'release',
     gameID: 200978,
     gameVersion: 1,
     appKey: '4fd4a67c10e84e259a2c3c417b9114f4',

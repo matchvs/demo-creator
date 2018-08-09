@@ -100,7 +100,7 @@ cc.Class({
         cc.director.getCollisionManager().enabledDebugDraw = true;
         cc.director.getCollisionManager().enabledDrawBoundingBox = true;
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
-        mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
+        // mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
 
         var self = this;
         this.initEvent(self);
@@ -171,6 +171,7 @@ cc.Class({
         this.node.on(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
         this.node.on(msg.PLAYER_POSINTON,this.onEvent , this);
         this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
     
     onEvent :function (event) {
@@ -236,6 +237,9 @@ cc.Class({
             case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
                 this.labelLog("leaveRoomNotify");
                 this.gameOver();
+                break;
+            case msg.MATCHVS_NETWORK_STATE_NOTIFY:
+                this.networkStateNotify(event.detail);
                 break;
         }
     },

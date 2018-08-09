@@ -190,8 +190,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -287,
-      "y": 124
+      "x": -280,
+      "y": 120
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -264,8 +264,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -287,
-      "y": 31
+      "x": -280,
+      "y": 30
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -338,8 +338,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -287,
-      "y": -63
+      "x": -280,
+      "y": -60
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -412,8 +412,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -374,
-      "y": 296
+      "x": -380,
+      "y": 300
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -634,8 +634,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -82,
-      "y": 124
+      "x": -80,
+      "y": 120
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -708,8 +708,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -81,
-      "y": 32
+      "x": -80,
+      "y": 30
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -783,7 +783,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -80,
-      "y": -61
+      "y": -60
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1238,7 +1238,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -174,
+      "x": -175,
       "y": -190
     },
     "_skewX": 0,
@@ -1461,8 +1461,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 116,
-      "y": -192
+      "x": 115,
+      "y": -190
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1684,8 +1684,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 291,
-      "y": -64
+      "x": 290,
+      "y": -60
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1907,8 +1907,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 289,
-      "y": 31
+      "x": 290,
+      "y": 30
     },
     "_skewX": 0,
     "_skewY": 0,

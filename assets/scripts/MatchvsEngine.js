@@ -18,6 +18,18 @@ MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
     console.log("初始化result"+result);
     return result;
 };
+/**
+ * 独立部署使用的初始化接口
+ * @param {MatchvsResponse} response1
+ * @param {string} endPoint
+ * @param {number} gameID
+ */
+MatchvsDemoEngine.prototype.premiseInit = function (endPoint, gameID) {
+    response.prototype.bind();
+    var result = mvs.engine.premiseInit(mvs.response,endPoint,gameID);
+    console.log("独立部署初始化result"+result);
+    return result;
+}
 
 /**
  * 注册

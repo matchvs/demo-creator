@@ -2807,9 +2807,6 @@
       "__id__": 60
     },
     "_enabled": true,
-    "jumpAudio": {
-      "__uuid__": "eb514f5f-4725-41b8-9568-2643e4af2871"
-    },
     "starPrefab": null,
     "playerSpriteLeft": null,
     "playerSpriteRight": null,
@@ -3984,9 +3981,6 @@
     "starPrefab": {
       "__uuid__": "3ccd5b0c-fd42-4360-8b3d-30e9cd933e6d"
     },
-    "scoreAudio": {
-      "__uuid__": "5e9fa9a1-c6a0-4fcb-9cab-8bf22d49c771"
-    },
     "delay": {
       "__id__": 29
     },
@@ -4031,6 +4025,7 @@
     "articlePositonX": 0,
     "newStar": null,
     "score": 0,
-    "userScores": []
+    "userScores": [],
+    "countDown": null
   }
 ]

@@ -25,7 +25,6 @@
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait"
   },
-  "renderMode": "0",
   "startScene": "458cbdf5-efc9-4be6-87d3-040eaae36764",
   "title": "complete_project",
   "webOrientation": "auto",
@@ -34,5 +33,6 @@
     "orientation": "landscape"
   },
   "xxteaKey": "f134fe96-f183-44",
-  "zipCompressJs": true
+  "zipCompressJs": true,
+  "renderMode": "0"
 }

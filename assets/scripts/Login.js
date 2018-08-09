@@ -16,6 +16,7 @@ cc.Class({
         alphaRadio: cc.Node,
         confirm: cc.Node,
         clear: cc.Node,
+        independent: cc.Node,
         labelInfo: {
             default: null,
             type: cc.Label
@@ -60,6 +61,9 @@ cc.Class({
                 LocalStore_Clear()
             }
             console.log("clear user info cache");
+        });
+        this.independent.on(cc.Node.EventType.TOUCH_END,function (event) {
+            cc.director.loadScene("independent");
         });
         this.labelLog(GLB.lastErrMsg);
     },

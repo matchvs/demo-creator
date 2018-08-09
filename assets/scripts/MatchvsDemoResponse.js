@@ -37,6 +37,7 @@ MatchvsDemoResponse.prototype.bind = function () {
     mvs.response.sendEventResponse = this.sendEventResponse.bind(this);
     mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
     mvs.response.frameUpdate = this.frameUpdate.bind(this);
+    mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
 };
 
 /**
@@ -317,6 +318,12 @@ MatchvsDemoResponse.prototype.frameUpdate = function (data) {
     this.context.node.emit(msg.MATCHVS_FRAME_UPDATE, {data});
 };
 
+MatchvsDemoResponse.prototype.networkStateNotify = function (netNotify) {
+    console.log("netNotify");
+    console.log("netNotify.owner:" + netNotify.owner);
+    this.context.node.emit(msg.MATCHVS_NETWORK_STATE_NOTIFY,{netNotify});
+};
+
 MatchvsDemoResponse.prototype.onMsg = function (buf) {
     var data = JSON.parse(buf);
     if (data.status == 0) {
@@ -325,8 +332,6 @@ MatchvsDemoResponse.prototype.onMsg = function (buf) {
     } else {
 
     }
-
-
 };
 
 MatchvsDemoResponse.prototype.onErr = function (errCode,errMsg) {
