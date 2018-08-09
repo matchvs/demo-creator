@@ -280,10 +280,11 @@ cc.Class({
                 // 收到创建星星的消息通知，根据消息给的坐标创建星星
                 this.createStarNode(event.position)
             } else if (event.action === GLB.EVENT_PLAYER_POSINTON_CHANGED) {
-                console.log(new Date().getSeconds(), "收到位移消息"+event.x);
+                // console.log(new Date().getSeconds(), "收到位移消息"+event.x);
                 this.updatePlayerMoveDirection(event);
             } else if (event.action === GLB.EVENT_GAIN_SCORE) {
                 this.refreshScore(event);
+                console.log('得分');
             } else if (event.action === GLB.GAME_RECONNECT) {
                 this.reconnection(event.cpProto);
 
@@ -361,12 +362,12 @@ cc.Class({
             action: GLB.EVENT_NEW_START,
             position: this.getNewStarPosition()
         };
-
         var result = mvs.engine.sendEvent(JSON.stringify(event))
         if (!result || result.result !== 0)
             return console.error('创建星星事件发送失败');
 
         this.createStarNode(event.position);
+        console.log('创建星星');
     },
 
     // 随机返回'新的星星'的位置
@@ -391,7 +392,8 @@ cc.Class({
             GLB.number2 = this.userScores[1].userID + ':' + this.userScores[1].Score;
             GLB.number3 = this.userScores[2].userID + ':' + this.userScores[2].Score;
         }
-        this.spawnNewStar();
+        // this.spawnNewStar();
+        console.log('得分调用创建星星');
     },
 
     // 游戏结束
