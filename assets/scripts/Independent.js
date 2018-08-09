@@ -44,7 +44,9 @@ cc.Class({
     },
 
     login(id,token) {
-        GLB.userID = id;
+        GLB.userID = Number(id);
+        GLB.name = id;
+        GLB.avatar = 'http://pic.vszone.cn/upload/avatar/1464079969.png';
         this.labelLog('开始登录...用户ID:' + id + " gameID " + GLB.gameID);
         engine.prototype.login(id,token);
     },
