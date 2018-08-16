@@ -34,7 +34,7 @@ Matchvs.js文件主要用于加载插件以及在native环境下加载JSB。
 
 anim放的是对应的动画文件。 
 
-prefab放的是对应的预知体。
+prefab放的是对应的预制体。
 
 scripts 放的是对应的JS文件。
 
