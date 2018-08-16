@@ -1,7 +1,7 @@
 var GLB = require("Glb");
 var mvs = require("Matchvs");
 var engine = require("MatchvsEngine");
-var msg = require("MatvhsMessage");
+var msg = require("MatvhvsMessage");
 cc.Class({
     extends: cc.Component,
 
@@ -70,7 +70,7 @@ cc.Class({
         if (this.isAllowInput) {
             this.postionSampler = setInterval(function () {
                 if (GLB.isGameOver === true) {
-                    console.log("checked game(syncFrame) is over!, clearInterval:" + id);
+                    // console.log("checked game(syncFrame) is over!, clearInterval:" + id);
                     clearInterval(self.postionSampler);
                     return;
                 }

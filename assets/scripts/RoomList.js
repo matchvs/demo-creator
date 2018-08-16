@@ -2,7 +2,7 @@ var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
 var mvs = require("Matchvs");
 var GLB = require("Glb");
-var msg = require("MatvhsMessage");
+var msg = require("MatvhvsMessage");
 var RoomFilterEx = new mvs.MsRoomFilterEx();
 RoomFilterEx.maxPlayer = GLB.MAX_PLAYER_COUNT;
 RoomFilterEx.mode = 0;
@@ -43,11 +43,11 @@ cc.Class({
     },
 
 
-    getPositionInView: function (item) { // get item position in scrollview's node space
-        let worldPos = item.parent.convertToWorldSpaceAR(item.position);
-        let viewPos = this.scrollView.node.convertToNodeSpaceAR(worldPos);
-        return viewPos;
-    },
+    // getPositionInView: function (item) { // get item position in scrollview's node space
+    //     let worldPos = item.parent.convertToWorldSpaceAR(item.position);
+    //     let viewPos = this.scrollView.node.convertToNodeSpaceAR(worldPos);
+    //     return viewPos;
+    // },
 
 
     onLoad:function () {
@@ -111,10 +111,9 @@ cc.Class({
     getRoomListExResponse: function(roomListExInfo) {
         refreshNum ++;
         this.refreshNumText.string = '获取列表次数'+ refreshNum;
-
+        this.totalCount  = roomListExInfo.rsp.total;
+        this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
         for(var i = 0; i < roomListExInfo.rsp.total; i++) {
-            this.totalCount  = roomListExInfo.rsp.total;
-            this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
             let item = cc.instantiate(this.itemTemplate);
             this.content.addChild(item);
             item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));

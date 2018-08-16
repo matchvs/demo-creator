@@ -1,5 +1,5 @@
 var mvs = require("Matchvs");
-var msg = require("MatvhsMessage");
+var msg = require("MatvhvsMessage");
 var GLB = require("Glb");
 function MatchvsDemoResponse() {
 

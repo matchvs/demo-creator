@@ -1,6 +1,6 @@
 var mvs = require("Matchvs");
 var GLB = require("Glb");
-var msg = require("MatvhsMessage");
+var msg = require("MatvhvsMessage");
 var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
 cc.Class({
@@ -36,10 +36,10 @@ cc.Class({
         },
 
         // 音频资源
-        scoreAudio: {
-            default: null,
-            url: cc.AudioClip
-        },
+        // scoreAudio: {
+        //     default: null,
+        //     url: cc.AudioClip
+        // },
 
         delay: cc.Label,
         maxDelay: cc.Label,
@@ -100,7 +100,6 @@ cc.Class({
         cc.director.getCollisionManager().enabledDebugDraw = true;
         cc.director.getCollisionManager().enabledDrawBoundingBox = true;
         mvs.response.frameUpdate = this.frameUpdate.bind(this);
-        // mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
 
         var self = this;
         this.initEvent(self);
@@ -251,11 +250,6 @@ cc.Class({
             return this.gameOver();
         this.timer += dt
     },
-    //
-    // leaveRoomNotify: function () {
-    //     this.labelLog("leaveRoomNotify");
-    //     this.gameOver();
-    // },
 
     setFrameSyncResponse: function (rsp) {
         this.labelLog('setFrameSyncResponse, status=' + rsp.status);
@@ -321,7 +315,6 @@ cc.Class({
     updatePlayerMoveDirection: function (event) {
         var player = this.getPlayerByUserId(event.userID);
         if (player) {
-            // console.warn(new Date().getSeconds(), "开始执行移动");
             player.onPostionChanged(event.x, event.arrow);
         } else {
             console.warn("Not Found the user:" + event.userID);
@@ -392,8 +385,6 @@ cc.Class({
             GLB.number2 = this.userScores[1].userID + ':' + this.userScores[1].Score;
             GLB.number3 = this.userScores[2].userID + ':' + this.userScores[2].Score;
         }
-        // this.spawnNewStar();
-        console.log('得分调用创建星星');
     },
 
     // 游戏结束
@@ -402,7 +393,6 @@ cc.Class({
         for (var i = 0, l = this.players.length; i < l; i++) {
             this.players[i].stopAllActions()
         }
-        // 跳转到场景Game
         mvs.engine.leaveRoom("");
         cc.director.loadScene('result');
     },

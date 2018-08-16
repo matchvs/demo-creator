@@ -1,6 +1,6 @@
 var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
-var msg = require("MatvhsMessage");
+var msg = require("MatvhvsMessage");
 var GLB = require("Glb");
 cc.Class({
     extends: cc.Component,
@@ -12,6 +12,7 @@ cc.Class({
         secretEditBox: cc.EditBox,
         userIDEditBox:cc.EditBox,
         confirmButton:cc.Node,
+        backButton:cc.Node,
         tokenEditBox:cc.EditBox,
         labelInfo: {
             default: null,
@@ -29,7 +30,9 @@ cc.Class({
         this.confirmButton.on(cc.Node.EventType.TOUCH_END, function (event) {
             selt.premiseInit(endPoint,gameID);
         });
-
+        this.backButton.on(cc.Node.EventType.TOUCH_END,function (event) {
+            cc.director.loadScene('login');
+        })
     },
     /**
      * 初始化
@@ -75,15 +78,6 @@ cc.Class({
                     cc.director.loadScene("lobby");
                 break;
         }
-
-
-
-
-
-
-
-
-
     },
 
     /**
@@ -95,7 +89,12 @@ cc.Class({
     },
 
 
-    onDestroy() {
+    removeEvent() {
+        this.node.off(msg.MATCHVS_INIT, this.onEvent, this);
+        this.node.off(msg.MATCHVS_LOGIN,this.onEvent,this);
+    },
 
+    onDestroy() {
+        this.removeEvent();
     }
 });

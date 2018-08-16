@@ -199,7 +199,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 0,
+    "_localZOrder": 4,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -251,7 +251,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 0,
+    "_localZOrder": 5,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -265,7 +265,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
+    "_actualFontSize": 40,
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -415,7 +415,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 4,
+    "_localZOrder": 6,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -485,7 +485,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 5,
+    "_localZOrder": 7,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -537,7 +537,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 6,
+    "_localZOrder": 8,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -701,7 +701,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 7,
+    "_localZOrder": 9,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -775,7 +775,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 8,
+    "_localZOrder": 10,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -849,7 +849,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 9,
+    "_localZOrder": 11,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -933,7 +933,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 10,
+    "_localZOrder": 12,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -985,7 +985,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 11,
+    "_localZOrder": 13,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1063,7 +1063,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 12,
+    "_localZOrder": 14,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1123,7 +1123,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 67,
+      "width": 548,
       "height": 40
     },
     "_rotationX": 0,
@@ -1137,7 +1137,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 13,
+    "_localZOrder": 15,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1151,7 +1151,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 20,
+    "_actualFontSize": 40,
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -1253,7 +1253,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 14,
+    "_localZOrder": 16,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1267,7 +1267,7 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 30,
+    "_actualFontSize": 40,
     "_fontSize": 30,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -1337,7 +1337,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 15,
+    "_localZOrder": 17,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1389,7 +1389,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 16,
+    "_localZOrder": 18,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1467,7 +1467,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 17,
+    "_localZOrder": 19,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1527,7 +1527,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 257,
+      "width": 548,
       "height": 40
     },
     "_rotationX": 0,
@@ -1541,7 +1541,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 18,
+    "_localZOrder": 20,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1657,7 +1657,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 19,
+    "_localZOrder": 21,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1741,7 +1741,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 20,
+    "_localZOrder": 22,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1793,7 +1793,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 21,
+    "_localZOrder": 23,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1871,7 +1871,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 22,
+    "_localZOrder": 24,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -1931,7 +1931,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 257,
+      "width": 548,
       "height": 40
     },
     "_rotationX": 0,
@@ -1945,7 +1945,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 23,
+    "_localZOrder": 25,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -2061,7 +2061,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 24,
+    "_localZOrder": 26,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -2142,7 +2142,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 25,
+    "_localZOrder": 27,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -2194,7 +2194,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 26,
+    "_localZOrder": 28,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -2272,7 +2272,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 27,
+    "_localZOrder": 29,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -2415,7 +2415,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 28,
+    "_localZOrder": 30,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0
@@ -2467,7 +2467,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_localZOrder": 29,
+    "_localZOrder": 31,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0

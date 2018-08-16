@@ -12,7 +12,6 @@ function MatchvsDemoEngine() {
  * @param gameID
  */
 MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
-    console.log(response);
     response.prototype.bind();
     var result = mvs.engine.init(mvs.response,channel,platform,gameID);
     console.log("初始化result"+result);

@@ -1,7 +1,7 @@
 var mvs = require("Matchvs");
 var GLB = require("Glb");
 var engine = require("MatchvsEngine");
-var msg = require("MatvhsMessage");
+var msg = require("MatvhvsMessage");
 var response = require("MatchvsDemoResponse");
 
 cc.Class({
