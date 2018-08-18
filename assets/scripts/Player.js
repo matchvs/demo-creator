@@ -45,10 +45,18 @@ cc.Class({
     //     cc.audioEngine.playEffect(this.jumpAudio, false);
     // },
     onPostionChanged(x, arrow) {
-        this.playerSpriteRight.node.x = x;
-        this.playerSpriteLeft.node.x = x;
-        this.playerSpriteLeft.
+        // var action = cc.moveTo(1,x,0);
+        // if (x != this.playerSpriteRight.node.x) {
+        //     this.playerSpriteRight.node.runAction(action);
+            this.playerSpriteRight.node.x = x;
+            // this.playerSpriteRight.node.stopAction(action);
+        // }
 
+        // if (x !=  this.playerSpriteLeft.node.x) {
+            // this.playerSpriteLeft.node.runAction(action);
+            this.playerSpriteLeft.node.x = x;
+            // this.playerSpriteLeft.node.stopAction(action);
+        // }
         // this.playJumpSound();
         this.playAnimation(arrow);
         this.playerLabel.node.x = x;
@@ -147,7 +155,7 @@ cc.Class({
 
         var onTouch = function (touch) {
             var touchLoc = touch.getLocation();
-            if (touchLoc.x >= cc.winSize.width / 2) {
+            if (touchLoc.x >= cc.winSize.width / 3) {
                 self.isUserInputing = GLB.ARROW_RIGHT;
                 self.onPostionChanged(self.playerSpriteRight.node.x + self.speed, self.isUserInputing);
             } else {

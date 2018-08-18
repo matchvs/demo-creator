@@ -444,6 +444,7 @@ cc.Class({
         if (this.countDown != null) {
             clearInterval(this.countDown);
         }
+        GLB.syncFrame = false;
         GLB.isGameOver = true;
     }
 });
