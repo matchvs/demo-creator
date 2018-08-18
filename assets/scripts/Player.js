@@ -47,6 +47,8 @@ cc.Class({
     onPostionChanged(x, arrow) {
         this.playerSpriteRight.node.x = x;
         this.playerSpriteLeft.node.x = x;
+        this.playerSpriteLeft.
+
         // this.playJumpSound();
         this.playAnimation(arrow);
         this.playerLabel.node.x = x;
@@ -77,24 +79,33 @@ cc.Class({
                 var frameData = JSON.stringify({
                     "userID": GLB.userID,
                     "action": GLB.EVENT_PLAYER_POSINTON_CHANGED,
-                    "x": self.getPostion(), "arrow": self.isUserInputing
+                    "x": self.getPostion(),
+                    "arrow": self.isUserInputing
                 });
                 var  x = self.getPostion();
                 self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x});
                 // if (self.isDebug){
                 //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
                 // } else  {
-                    engine.prototype.sendEvent(frameData);
+                //     engine.prototype.sendEvent(frameData);
                 // }
 
-                try {
-                    // if (self.isUserInputing !== 0) {
-                    GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))
-                        : (mvs.engine.sendFrameEvent(frameData));
-                    // }
-                } catch (e) {
-                    console.log(e);
+                if (GLB.syncFrame === true) {
+                    engine.prototype.sendFrameEvent(frameData);
+                } else {
+                    engine.prototype.sendEvent(frameData);
                 }
+
+
+
+                // try {
+                    // if (self.isUserInputing !== 0) {
+                    // GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))
+                    //     : (mvs.engine.sendFrameEvent(frameData));
+                    // }
+                // } catch (e) {
+                    // console.log(e);
+                // }
 
             }, 1000 / GLB.FPS);
             // 初始化键盘输入监听

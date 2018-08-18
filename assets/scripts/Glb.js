@@ -32,7 +32,7 @@ var obj = {
     events: {},
     playerUserScore :[],
     syncFrame: false,
-    FRAME_RATE: 25,
+    FRAME_RATE: 20,
     roomID: 0,
     playertime: 180,
     first: null,

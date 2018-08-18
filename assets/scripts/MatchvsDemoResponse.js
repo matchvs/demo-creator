@@ -38,6 +38,7 @@ MatchvsDemoResponse.prototype.bind = function () {
     mvs.response.sendEventNotify = this.sendEventNotify.bind(this);
     mvs.response.frameUpdate = this.frameUpdate.bind(this);
     mvs.response.networkStateNotify = this.networkStateNotify.bind(this);
+    mvs.response.setFrameSyncResponse = this.setFrameSyncResponse.bind(this);
 };
 
 /**
@@ -310,16 +311,26 @@ MatchvsDemoResponse.prototype.sendEventNotify = function (eventInfo) {
     this.context.node.emit(msg.MATCHVS_SEND_EVENT_NOTIFY, {eventInfo});
 };
 
+MatchvsDemoResponse.prototype.setFrameSyncResponse = function (rsp) {
+    this.context.node.emit(msg.MATCHVS_SET_FRAME_SYNC_RSP,rsp);
+    if (rsp.mStatus == 200) {
+        console.log('帧率设置成功');
+    } else if (rsp.mStatus ==519 ) {
+        console.log('帧率设置失败,重复设置');
+    } else if (rsp.mStatus == 500) {
+        console.log('帧率设置失败,帧率需被1000整除');
+    }
+}
+
 /**
  * 帧同步回调
  * @param data
  */
 MatchvsDemoResponse.prototype.frameUpdate = function (data) {
-    this.context.node.emit(msg.MATCHVS_FRAME_UPDATE, {data});
+    this.context.node.emit(msg.MATCHVS_FRAME_UPDATE, data);
 };
 
 MatchvsDemoResponse.prototype.networkStateNotify = function (netNotify) {
-    console.log("netNotify");
     console.log("netNotify.owner:" + netNotify.owner);
     this.context.node.emit(msg.MATCHVS_NETWORK_STATE_NOTIFY,{netNotify});
 };

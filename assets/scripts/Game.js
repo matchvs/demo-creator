@@ -99,8 +99,9 @@ cc.Class({
         cc.director.getCollisionManager().enabled = true;
         cc.director.getCollisionManager().enabledDebugDraw = true;
         cc.director.getCollisionManager().enabledDrawBoundingBox = true;
-        mvs.response.frameUpdate = this.frameUpdate.bind(this);
-
+        if (GLB.syncFrame === true) {
+            this.labelsyncrate.string = "同步帧率:" + GLB.FRAME_RATE;
+        }
         var self = this;
         this.initEvent(self);
         this.buttonSubscribe.on(cc.Node.EventType.TOUCH_END, function (event) {
@@ -130,15 +131,7 @@ cc.Class({
             mvs.engine.leaveRoom("");
             cc.director.loadScene('lobby');
         });
-        if (GLB.syncFrame === true && GLB.isRoomOwner === true) {
-            mvs.response.setFrameSyncResponse = self.setFrameSyncResponse.bind(self);
-            var result = mvs.engine.setFrameSync(GLB.FRAME_RATE);
-            if (result !== 0)
-                this.labelLog('设置帧同步率失败,错误码:' + result);
-        }
-        if (GLB.syncFrame === true) {
-            this.labelsyncrate.string = "同步帧率:" + GLB.FRAME_RATE;
-        }
+
 
         this.buttonSubscribe.active = false;
         this.buttonUnsubscribe.active = false;
@@ -151,7 +144,6 @@ cc.Class({
                 GLB.isGameOver = true;
             }
             if (self.labelGameoverTime.string == "0") {
-                // clearInterval(self.countDown);
                 self.gameOver();
             }
         }, 1000);
@@ -171,6 +163,7 @@ cc.Class({
         this.node.on(msg.PLAYER_POSINTON,this.onEvent , this);
         this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
         this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+        this.node.on(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.setFrameSyncResponse, this);
     },
     
     onEvent :function (event) {
@@ -189,6 +182,9 @@ cc.Class({
                     GLB.isRoomOwner = true;
                     // 创建星星
                     this.spawnNewStar();
+                    if (GLB.syncFrame == true) {
+                        this.setFrameRate();
+                    }
                 }
                 for (var i = 1; i < this.players.length; i++) {
                     (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
@@ -207,7 +203,7 @@ cc.Class({
                 cc.director.loadScene('login');
                 break;
             case msg.MATCHVS_FRAME_UPDATE:
-                var rsp = event.detail.data;
+                var rsp = event.detail;
                 for (var i = 0; i < rsp.frameItems.length; i++) {
                     var info = rsp.frameItems[i];
                     this.onNewWorkGameEvent(info);
@@ -243,7 +239,15 @@ cc.Class({
         }
     },
 
-
+    /**
+     * 设置帧率
+     */
+    setFrameRate () {
+        var  result =  engine.prototype.setFrameSync(GLB.FRAME_RATE);
+        if (result !== 0) {
+            this.labelLog('设置帧同步率失败,错误码:' + result);
+        }
+    },
 
     update: function (dt) {
         if (this.timer > this.gameTime)
@@ -252,9 +256,9 @@ cc.Class({
     },
 
     setFrameSyncResponse: function (rsp) {
-        this.labelLog('setFrameSyncResponse, status=' + rsp.status);
-        if (rsp.status !== 200) {
-            this.labelLog('设置同步帧率失败，status=' + rsp.status);
+        this.labelLog('setFrameSyncResponse, status=' + rsp.detail.mStatus);
+        if (rsp.detail.mStatus !== 200) {
+            this.labelLog('设置同步帧率失败，status=' + rsp.mStatus);
         } else {
             this.labelLog('设置同步帧率成功, 帧率为:' + GLB.FRAME_RATE);
         }
@@ -267,6 +271,7 @@ cc.Class({
     sendEventGroupResponse: function (status, dstNum) {
         this.labelLog("[Rsp]sendEventGroupResponse:status=" + status + " dstNum=" + dstNum);
     },
+
     onNewWorkGameEvent : function(info) {
         if (info && info.cpProto) {
             var event = JSON.parse(info.cpProto);
@@ -302,22 +307,19 @@ cc.Class({
         }
     },
 
-
-    frameUpdate: function (rsp) {
-
-    },
-
     sendEventGroupNotify: function (srcUid, groups, cpProto) {
         this.labelLog("收到分组消息：" + cpProto);
     },
 
     // 更新每个玩家的移动方向
     updatePlayerMoveDirection: function (event) {
-        var player = this.getPlayerByUserId(event.userID);
-        if (player) {
-            player.onPostionChanged(event.x, event.arrow);
-        } else {
-            console.warn("Not Found the user:" + event.userID);
+        if (event.userID != GLB.userID) {
+            var player = this.getPlayerByUserId(event.userID);
+            if (player) {
+                player.onPostionChanged(event.x, event.arrow);
+            } else {
+                console.warn("Not Found the user:" + event.userID);
+            }
         }
     },
 
@@ -433,6 +435,8 @@ cc.Class({
         this.node.off(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
         this.node.off(msg.PLAYER_POSINTON,this.onEvent , this);
         this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+        this.node.off(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.setFrameSyncResponse, this);
     },
 
     onDestroy: function () {

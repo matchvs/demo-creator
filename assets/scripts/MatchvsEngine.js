@@ -215,7 +215,27 @@ MatchvsDemoEngine.prototype.sendEvent = function (msg) {
 MatchvsDemoEngine.prototype.sendEventEx = function (msg) {
     var data = mvs.engine.sendEventEx(0,msg,1,[]);
     return data.result;
+};
+/**
+ * 设置帧率
+ * @param frameRate
+ * @returns {DataView|number|*}
+ */
+MatchvsDemoEngine.prototype.setFrameSync = function (frameRate) {
+    var result = mvs.engine.setFrameSync(frameRate);
+    console.log('设置帧率 result：'+result);
+    return result;
 }
+
+/**
+ * 帧同步发送
+ * @param cpProto
+ * @returns {DataView|number|*}
+ */
+MatchvsDemoEngine.prototype.sendFrameEvent = function (cpProto) {
+    var result = mvs.engine.sendFrameEvent(cpProto);
+    return result;
+};
 
 /**
  * http
