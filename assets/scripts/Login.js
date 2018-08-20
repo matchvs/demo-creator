@@ -32,7 +32,6 @@ cc.Class({
         this.initEvent(self);
         this.alphaRadio.getComponent(cc.Toggle).isChecked = true;
         this.confirm.on(cc.Node.EventType.TOUCH_END, function (event) {
-            engine.prototype.init(GLB.channel,GLB.platform,GLB.gameID);
             // 获取用户输入的参数
             if (Number(self.gameIdInput.getComponent(cc.EditBox).string) != 0) {
                 GLB.gameID = Number(self.gameIdInput.getComponent(cc.EditBox).string);
@@ -49,6 +48,8 @@ cc.Class({
             } else {
                 GLB.platform = 'release';
             }
+            console.log('platform:'+GLB.platform);
+            engine.prototype.init(GLB.channel,GLB.platform,GLB.gameID);
         });
         this.clear.on(cc.Node.EventType.TOUCH_END, function (event) {
             self.gameIdInput.getComponent(cc.EditBox).string = '';
