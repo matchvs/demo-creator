@@ -332,7 +332,7 @@ MatchvsDemoResponse.prototype.frameUpdate = function (data) {
 
 MatchvsDemoResponse.prototype.networkStateNotify = function (netNotify) {
     console.log("netNotify.owner:" + netNotify.owner);
-    this.context.node.emit(msg.MATCHVS_NETWORK_STATE_NOTIFY,{netNotify});
+    this.context.node.emit(msg.MATCHVS_NETWORK_STATE_NOTIFY,netNotify);
 };
 
 MatchvsDemoResponse.prototype.onMsg = function (buf) {
