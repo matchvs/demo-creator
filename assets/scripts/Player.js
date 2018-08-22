@@ -7,10 +7,10 @@ cc.Class({
 
     properties: {
         // 跳跃音效资源
-        jumpAudio: {
-            default: null,
-            url: cc.AudioClip
-        },
+        // jumpAudio: {
+        //     default: null,
+        //     url: cc.AudioClip
+        // },
 
         // 暂存 Game 对象的引用
         game: {

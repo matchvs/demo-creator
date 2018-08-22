@@ -204,8 +204,6 @@ cc.Class({
             }
         }
         var name = JSON.parse(info.cpProto).name;
-        // var name = info.cpProto.split("/n")[0];
-        // console.log(name);
         for(var i = 0; i < this.nameViewList.length; i++) {
             if(name == this.nameViewList[i].string) {
                 this.nameViewList[i].string = "";
