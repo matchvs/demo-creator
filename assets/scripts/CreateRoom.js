@@ -196,8 +196,8 @@ cc.Class({
             GLB.roomID = rsp.roomID;
         }
         this.labelUserID1.string = GLB.name;
-        GLB.mapType = "白天模式";
-        this.mapString.string = "白天模式";
+        GLB.mapType = rsp.roomProperty;
+        this.setRoomPropertyResponse(rsp);
     },
 
     /**
