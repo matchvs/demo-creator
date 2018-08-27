@@ -80,7 +80,6 @@ cc.Class({
         if (this.isAllowInput) {
             this.postionSampler = setInterval(function () {
                 if (GLB.isGameOver === true) {
-                    // console.log("checked game(syncFrame) is over!, clearInterval:" + id);
                     clearInterval(self.postionSampler);
                     return;
                 }
@@ -92,29 +91,11 @@ cc.Class({
                 });
                 var  x = self.getPostion();
                 self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x});
-                // if (self.isDebug){
-                //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
-                // } else  {
-                //     engine.prototype.sendEvent(frameData);
-                // }
-
                 if (GLB.syncFrame === true) {
                     engine.prototype.sendFrameEvent(frameData);
                 } else {
                     engine.prototype.sendEvent(frameData);
                 }
-
-
-
-                // try {
-                    // if (self.isUserInputing !== 0) {
-                    // GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))
-                    //     : (mvs.engine.sendFrameEvent(frameData));
-                    // }
-                // } catch (e) {
-                    // console.log(e);
-                // }
-
             }, 1000 / GLB.FPS);
             // 初始化键盘输入监听
             this.setInputControl();

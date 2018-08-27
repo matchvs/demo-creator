@@ -66,9 +66,9 @@ login —> Lobby -> Match -> game -> result -> Lobby;
 登陆 ——》大厅 ——》 随机匹配 ——》游戏场景 ——》 结算页面 ——》大厅。
 
 
+### 4：游戏内运行效果
 
-
-
+![conv_ops](demo.gif) 
 
 
 
