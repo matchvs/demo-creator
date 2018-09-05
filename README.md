@@ -1,6 +1,8 @@
 # Matchvs_demo_creator
 
-用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，本demo开始使用的creator版本为1.9.3,因为creator修改了部分API，暂不支持。下面是游戏内同步效果图。
+**注意** 本demo只支持creator1.X版本，因为creator2.0修改了部分API，暂不支持。
+
+用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，下面是游戏内同步效果图。
 
 ![conv_ops](demo.gif) 
 
