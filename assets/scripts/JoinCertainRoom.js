@@ -11,34 +11,38 @@ cc.Class({
 
         match: cc.Node,
         back: cc.Node,
+        nickName:cc.Label,
         roomID: {
             default: null,
             type: cc.EditBox
         },
-        labelInfo: {
+        errorHint: {
             default: null,
             type: cc.Label
-        }        
+        }
     },
 
-    labelLog: function (info) {
-        this.labelInfo.string += '\n' + info;
-    },
 
     onLoad () {
         var self = this;
         this.initEvent(self);
+        self.nickName.string = '用户ID:'+GLB.userID;
         this.back.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.director.loadScene("lobby");
+            cc.director.loadScene("Lobby");
         });
         this.match.on(cc.Node.EventType.TOUCH_END, function(event){
             var roomidTmp = self.roomID.string;
             if (roomidTmp !== null && roomidTmp !== "") {
-                self.labelLog("开始加入指定房间, roomid:" + roomidTmp);
-                engine.prototype.joinRoom(roomidTmp, "china");
-                // cc.director.loadScene("match");
+                var result = engine.prototype.joinRoom(roomidTmp, "Matchvs");
+                if (result === 0) {
+                    self.errorHint.node.active = false;
+                } else {
+                    self.errorHint.node.active = true;
+                    self.errorHint.string = "没有查找到此房间，请重新输入"
+                }
             } else {
-                self.labelLog("房间ID为空，请输入指定房间号");
+                self.errorHint.node.active = true;
+                self.errorHint.string = "房间号不能为空，请输入房间号在进行加入"
             }
         });
     },
@@ -58,11 +62,10 @@ cc.Class({
      */
     onEvent:function (event) {
         if (event.type == msg.MATCHVS_ERROE_MSG) {
-            this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-            cc.director.loadScene('login');
+            cc.director.loadScene('Login');
         } else if (event.type == msg.MATCHVS_JOIN_ROOM_RSP) {
             GLB.roomID = this.roomID.string;
-            cc.director.loadScene("createRoom");
+            cc.director.loadScene("Matchvs");
         }
     },
 
@@ -71,6 +74,7 @@ cc.Class({
      */
     removeEvent:function () {
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
+        this.node.off(msg.MATCHVS_JOIN_ROOM_RSP, this.onEvent, this);
     },
 
 

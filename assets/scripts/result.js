@@ -1,6 +1,6 @@
 // var mvs = require("Matchvs");
+
 var GLB = require("Glb");
-var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
 var msg = require("MatvhvsMessage");
 
@@ -8,23 +8,50 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
-        labelFirst: {
-            default: null,
-            type: cc.Label
-        },
+        roomNum:cc.Label,
+        ownerID:cc.Label,
+        ownerScore:cc.Label,
+        oneID:cc.Label,
+        oneScore:cc.Label,
+        twoID:cc.Label,
+        twoScore:cc.Label,
         buttonBack: cc.Node,
     },
 
 
     onLoad () {
         var self = this;
-        this.labelFirst.string = GLB.number1 + "\n" + GLB.number2 + "\n" + GLB.number3 + "\n";
+        this.sortScore(self);
         this.initEvent(self);
         this.buttonBack.on(cc.Node.EventType.TOUCH_END, function(event){
-            // engine.prototype.leaveRoom();
-            cc.director.loadScene('lobby');
+            cc.director.loadScene('Lobby');
         });
+    },
+
+    sortScore() {
+        var nums = [GLB.number1,GLB.number2,GLB.number3];
+        for(var i = 0; i < nums.length;i++) {
+            var num = nums[i].split(":")
+            //如果自己是房主
+            this.showNum(num);
+        }
+    },
+
+    showNum(num) {
+        var IDS = [this.oneID,this.twoID];
+        var scoreS = [this.oneScore,this.twoScore];
+        if (num[0] == GLB.ownew) {
+            this.ownerID .string= num[0];
+            this.ownerScore.string = num[1];
+        } else {
+            for(var i = 0; i < IDS.length ;i++) {
+                if(IDS[i].string === "") {
+                    IDS[i].string = num[0];
+                    scoreS[i].string = num[1]
+                    return;
+                }
+            }
+        }
     },
 
 
@@ -34,7 +61,6 @@ cc.Class({
     initEvent:function (self) {
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.on(msg.MATCHVS_LEAVE_ROOM, this.onEvent, this);
     },
     
     
@@ -42,14 +68,13 @@ cc.Class({
         switch (event.type){
             case msg.MATCHVS_ERROE_MSG:
                 console.log("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-                cc.director.loadScene('login');
+                cc.director.loadScene('Login');
             break;
         }
 
     },
 
     start () {
-
     },
 
     onDestroy() {
@@ -57,7 +82,6 @@ cc.Class({
         GLB.number2 = 0;
         GLB.number3 = 0;
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.off(msg.MATCHVS_LEAVE_ROOM, this.onEvent, this);
     }
 
 });

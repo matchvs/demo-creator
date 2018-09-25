@@ -3,13 +3,7 @@ var response = require("MatchvsDemoResponse");
 var mvs = require("Matchvs");
 var GLB = require("Glb");
 var msg = require("MatvhvsMessage");
-var RoomFilterEx = new mvs.MsRoomFilterEx();
-RoomFilterEx.maxPlayer = GLB.MAX_PLAYER_COUNT;
-RoomFilterEx.mode = 0;
-RoomFilterEx.canWatch = 0;
-RoomFilterEx.roomProperty = "";
-RoomFilterEx.pageNo = 0;
-RoomFilterEx.pageSize = 10;
+
 var refreshNum = 0;
 var time;
 
@@ -43,22 +37,14 @@ cc.Class({
     },
 
 
-    // getPositionInView: function (item) { // get item position in scrollview's node space
-    //     let worldPos = item.parent.convertToWorldSpaceAR(item.position);
-    //     let viewPos = this.scrollView.node.convertToNodeSpaceAR(worldPos);
-    //     return viewPos;
-    // },
-
-
     onLoad:function () {
         this.content = this.scrollView.content;
         this.items = [];
-        // this.initialize();
         var self = this;
         this.initEvent(self);
         this.getRooomList();
         this.back.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.director.loadScene("lobby");
+            cc.director.loadScene("Lobby");
         });
 
         time = setInterval(this.getRooomList,10000);
@@ -66,6 +52,13 @@ cc.Class({
 
 
     getRooomList:function () {
+        var RoomFilterEx = new mvs.MsRoomFilterEx();
+        RoomFilterEx.maxPlayer = GLB.MAX_PLAYER_COUNT;
+        RoomFilterEx.mode = 0;
+        RoomFilterEx.canWatch = 0;
+        RoomFilterEx.roomProperty = "白天模式";
+        RoomFilterEx.pageNo = 0;
+        RoomFilterEx.pageSize = 10;
         engine.prototype.getRoomListEx(RoomFilterEx)
     },
 
@@ -85,22 +78,26 @@ cc.Class({
      * @param event
      */
     onEvent :function (event) {
+        var eventData = event.detail;
+        if (eventData == undefined) {
+            eventData = event;
+        }
         switch (event.type) {
             case msg.MATCHVS_ROOM_LIST_EX:
-                this.getRoomListExResponse(event.detail);
+                this.getRoomListExResponse(eventData.rsp);
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 if (event.detail.errorCode == 405) {
                     this.labelLog("房间人数已满");
                     return;
                 }
-                this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-                cc.director.loadScene('login');
+                this.labelLog("[Err]errCode:"+eventData.errorCode+" errMsg:"+eventData.errorMsg);
+                cc.director.loadScene('Login');
                 break;
             case msg.MATCHVS_JOIN_ROOM_RSP:
-                GLB.roomID = event.detail.userInfoList.roomID;
+                GLB.roomID = eventData.userInfoList.roomID;
                 this.labelLog("加入指定房间成功, roomID:" +  GLB.roomID);
-                cc.director.loadScene('createRoom');
+                cc.director.loadScene('CreateRoom');
                 break;
         }
 
@@ -111,13 +108,13 @@ cc.Class({
     getRoomListExResponse: function(roomListExInfo) {
         refreshNum ++;
         this.refreshNumText.string = '获取列表次数'+ refreshNum;
-        this.totalCount  = roomListExInfo.rsp.total;
+        this.totalCount  = roomListExInfo.total;
         this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
-        for(var i = 0; i < roomListExInfo.rsp.total; i++) {
+        for(var i = 0; i < roomListExInfo.total; i++) {
             let item = cc.instantiate(this.itemTemplate);
             this.content.addChild(item);
             item.setPosition(0, -item.height * (0.5 + i) - this.spacing * (i + 1));
-            item.getComponent('Item').updateItem(roomListExInfo.rsp.roomAttrs[i]);
+            item.getComponent('Item').updateItem(roomListExInfo.roomAttrs[i]);
         }
     },
 

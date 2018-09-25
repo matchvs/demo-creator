@@ -36,46 +36,34 @@ cc.Class({
         isDebug:false,
         userID:0,
         playerLabel:null,
-
+        mouseListener:null,
         startPostion:0,
     },
 
-    // playJumpSound: function () {
-    //     // 调用声音引擎播放声音
-    //     cc.audioEngine.playEffect(this.jumpAudio, false);
-    // },
-    onPostionChanged(x, arrow) {
-        // var action = cc.moveTo(1,x,0);
-        // if (x != this.playerSpriteRight.node.x) {
-        //     this.playerSpriteRight.node.runAction(action);
-            this.playerSpriteRight.node.x = x;
-            // this.playerSpriteRight.node.stopAction(action);
-        // }
 
-        // if (x !=  this.playerSpriteLeft.node.x) {
-            // this.playerSpriteLeft.node.runAction(action);
-            this.playerSpriteLeft.node.x = x;
-            // this.playerSpriteLeft.node.stopAction(action);
-        // }
-        // this.playJumpSound();
+    onPostionChanged(x, arrow) {
+        this.playerSpriteRight.node.x = x;
+        this.playerSpriteLeft.node.x = x;
         this.playAnimation(arrow);
         this.playerLabel.node.x = x;
-        // console.log(x,GLB.NEW_STAR_POSITION);
-
     },
+
     getPostion: function () {
         return this.playerSpriteRight.node.x;
     },
 
     onLoad: function () {
-        this.rightAnimNode = this.node.getChildByName("rightAnimNode");
-        this.leftAnimNode = this.node.getChildByName("leftAnimNode");
-        this.animRightComp = this.rightAnimNode.getComponent(cc.Animation);
-        this.animLeftComp = this.leftAnimNode.getComponent(cc.Animation);
-        this.playerSpriteRight = this.rightAnimNode.getComponent(cc.Sprite);
-        this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
-        this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
+        // if (this.node != undefined && this.node != null) {
+            this.rightAnimNode = this.node.getChildByName("rightAnimNode");
+            this.leftAnimNode = this.node.getChildByName("leftAnimNode");
+            this.animRightComp = this.rightAnimNode.getComponent(cc.Animation);
+            this.animLeftComp = this.leftAnimNode.getComponent(cc.Animation);
+            this.playerSpriteRight = this.rightAnimNode.getComponent(cc.Sprite);
 
+            this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
+            this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
+        // }
+        console.log("xxxxxxxx",this.playerSpriteRight.node.x);
         var self = this;
         if (this.isAllowInput) {
             this.postionSampler = setInterval(function () {
@@ -91,7 +79,7 @@ cc.Class({
                     "arrow": self.isUserInputing
                 });
                 var  x = self.getPostion();
-                self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x});
+                self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x:x,type:msg.PLAYER_POSINTON});
                 // if (self.isDebug){
                 //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
                 // } else  {
@@ -104,23 +92,11 @@ cc.Class({
                     engine.prototype.sendEvent(frameData);
                 }
 
-
-
-                // try {
-                    // if (self.isUserInputing !== 0) {
-                    // GLB.syncFrame === false ? (mvs.engine.sendEventEx(0, frameData, 0, GLB.playerUserIds))
-                    //     : (mvs.engine.sendFrameEvent(frameData));
-                    // }
-                // } catch (e) {
-                    // console.log(e);
-                // }
-
             }, 1000 / GLB.FPS);
             // 初始化键盘输入监听
-            this.setInputControl();
+            this.setInputControl(self);
         }
     },
-
 
 
     playAnimation: function (arrow) {
@@ -150,9 +126,8 @@ cc.Class({
 
 
     },
-    setInputControl: function () {
-        var self = this;
-
+    setInputControl: function (self) {
+        // var self = this;
         var onTouch = function (touch) {
             var touchLoc = touch.getLocation();
             if (touchLoc.x >= cc.winSize.width / 3) {
@@ -163,11 +138,11 @@ cc.Class({
                 self.onPostionChanged(self.playerSpriteRight.node.x - self.speed, self.isUserInputing);
             }
         };
-        cc.eventManager.addListener({
+        //2.0 需要手动移除
+        this.mouseListener = cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             fakeMove: Number,
             onTouchBegan: function (touch, event) {
-                console.log("begin move ");
                 onTouch(touch);
                 this.fakeMove = setInterval(function () {
                     onTouch(touch);
@@ -187,7 +162,6 @@ cc.Class({
     },
 
 
-
     // 随机返回'新的星星'的位置
     getNewStarPosition: function () {
         var randX = cc.randomMinus1To1() * this.starMaxX;
@@ -197,7 +171,11 @@ cc.Class({
 
 
 
+
+
     onDestroy: function () {
+        console.log("人物节点销毁");
         this.postionSampler && clearInterval(this.postionSampler);
+        cc.eventManager.removeListener(this.mouseListener);
     }
 });

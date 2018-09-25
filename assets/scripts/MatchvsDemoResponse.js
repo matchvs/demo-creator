@@ -48,9 +48,7 @@ MatchvsDemoResponse.prototype.initResponse =function (status) {
     if (status == 200) {
         console.log("初始化成功");
         console.log(this.context);
-        this.context.node.emit(msg.MATCHVS_INIT, {
-            msg: status,
-        });
+        this.context.node.emit(msg.MATCHVS_INIT,{status:status,type:msg.MATCHVS_INIT});
     } else {
         console.log("初始化失败"+status);
     }
@@ -60,7 +58,7 @@ MatchvsDemoResponse.prototype.initResponse =function (status) {
 * 注册回调
 */
 MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
-    if (userInfo.id != undefined) {
+    if (userInfo.status == 0) {
         console.log("注册成功");
         if (userInfo.name != "") {
             GLB.name = userInfo.name;
@@ -69,7 +67,7 @@ MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
         }
         GLB.avatar = userInfo.avatar;
         GLB.userID = userInfo.id;
-        this.context.node.emit(msg.MATCHVS_REGISTER_USER, {msg: userInfo,});
+        this.context.node.emit(msg.MATCHVS_REGISTER_USER,{userInfo:userInfo,type:msg.MATCHVS_REGISTER_USER});
     } else {
         console.log("注册失败"+userInfo.status);
     }
@@ -81,7 +79,7 @@ MatchvsDemoResponse.prototype.registerUserResponse = function (userInfo) {
 MatchvsDemoResponse.prototype.loginResponse = function (MsLoginRsp) {
     if (MsLoginRsp.status == 200) {
         console.log("登录成功");
-        this.context.node.emit(msg.MATCHVS_LOGIN, {MsLoginRsp});
+        this.context.node.emit(msg.MATCHVS_LOGIN, {MsLoginRsp:MsLoginRsp,type:msg.MATCHVS_LOGIN});
     } else {
         console.log("登录失败"+ MsLoginRsp.status);
     }
@@ -100,7 +98,7 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
         roomUserInfoList.roomProperty = roomInfo.roomProperty;
         roomUserInfoList.state = roomInfo.state;
         roomUserInfoList.ownerID = roomInfo.ownerID;
-        this.context.node.emit(msg.MATCHVS_RE_CONNECT, {roomUserInfoList});
+        this.context.node.emit(msg.MATCHVS_RE_CONNECT, {roomUserInfoList:roomUserInfoList,type:msg.MATCHVS_RE_CONNECT});
     } else {
         console.log("重连失败"+status);
     }
@@ -112,7 +110,7 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
  */
 MatchvsDemoResponse.prototype.errorResponse = function (errorCode,errorMsg) {
     console.log("发生错误了！！！！！！！！！！！！！");
-    this.context.node.emit(msg.MATCHVS_ERROE_MSG, {errorCode,errorMsg});
+    this.context.node.emit(msg.MATCHVS_ERROE_MSG, {errorCode,errorMsg,type:msg.MATCHVS_ERROE_MSG});
 };
 
 /**
@@ -125,7 +123,7 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
     if (status == 200) {
         console.log("进入房间成功");
         userInfoList.roomID = roomInfo.roomID;
-        this.context.node.emit(msg.MATCHVS_JOIN_ROOM_RSP,{userInfoList});
+        this.context.node.emit(msg.MATCHVS_JOIN_ROOM_RSP,{userInfoList:userInfoList,type:msg.MATCHVS_JOIN_ROOM_RSP});
     } else {
         console.log("进入房间失败"+status);
     }
@@ -137,7 +135,7 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
  */
 MatchvsDemoResponse.prototype.joinRoomNotify = function (roomUserInfo) {
     console.log(roomUserInfo.userId+"加入了房间");
-    this.context.node.emit(msg.MATCHVS_JOIN_ROOM_NOTIFY,{roomUserInfo});
+    this.context.node.emit(msg.MATCHVS_JOIN_ROOM_NOTIFY,{roomUserInfo:roomUserInfo,type:msg.MATCHVS_JOIN_ROOM_NOTIFY});
 };
 
 /**
@@ -146,7 +144,7 @@ MatchvsDemoResponse.prototype.joinRoomNotify = function (roomUserInfo) {
  */
 MatchvsDemoResponse.prototype.joinOpenNotify = function (notify) {
     console.log("房间打开通知");
-    this.context.node.emit(msg.MATCHVS_JOIN_OPEN_NOTIFY,{notify});
+    this.context.node.emit(msg.MATCHVS_JOIN_OPEN_NOTIFY,{notify,type:msg.MATCHVS_JOIN_OPEN_NOTIFY});
 };
 
 /**
@@ -156,7 +154,7 @@ MatchvsDemoResponse.prototype.joinOpenNotify = function (notify) {
 MatchvsDemoResponse.prototype.joinOpenResponse =function (rsp) {
     if (rsp.status == 200) {
         console.log("房间打开成功");
-        this.context.node.emit(msg.MATCHVS_JOIN_OPEN_RSP,{rsp});
+        this.context.node.emit(msg.MATCHVS_JOIN_OPEN_RSP,{rsp,type:msg.MATCHVS_JOIN_OPEN_RSP});
     } else {
         console.log("房间打开失败"+rsp.status);
     }
@@ -170,7 +168,7 @@ MatchvsDemoResponse.prototype.joinOpenResponse =function (rsp) {
 MatchvsDemoResponse.prototype.joinOverResponse = function (rsp) {
     if(rsp.status == 200) {
         console.log("房间关闭成功");
-        this.context.node.emit(msg.MATCHVS_JOIN_OVER_RSP,{rsp});
+        this.context.node.emit(msg.MATCHVS_JOIN_OVER_RSP,{rsp,type:msg.MATCHVS_JOIN_OPEN_RSP});
     } else  {
         console.log("房间关闭失败"+rsp.status);
     }
@@ -181,7 +179,7 @@ MatchvsDemoResponse.prototype.joinOverResponse = function (rsp) {
  */
 MatchvsDemoResponse.prototype.joinOverNotify = function (notify) {
     console.log("房间关闭通知");
-    this.context.node.emit(msg.MATCHVS_JOIN_OVER_NOTIFY,{notify});
+    this.context.node.emit(msg.MATCHVS_JOIN_OVER_NOTIFY,{notify,type:msg.MATCHVS_JOIN_OVER_NOTIFY});
 };
 
 /**
@@ -191,7 +189,9 @@ MatchvsDemoResponse.prototype.joinOverNotify = function (notify) {
 MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
     if (leaveRoomRsp.status == 200) {
         console.log("离开房间成功");
-        this.context.node.emit(msg.MATCHVS_LEAVE_ROOM,{leaveRoomRsp});
+        if (this.context != null) {
+            this.context.node.emit(msg.MATCHVS_LEAVE_ROOM,{leaveRoomRsp,type:msg.MATCHVS_LEAVE_ROOM});
+        }
     } else {
         console.log("离开房间失败"+leaveRoomRsp.status);
     }
@@ -202,8 +202,9 @@ MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
  * @param leaveRoomInfo
  */
 MatchvsDemoResponse.prototype.leaveRoomNotify = function (leaveRoomInfo) {
-    console.log(JSON.stringify(leaveRoomInfo));
-    this.context.node.emit(msg.MATCHVS_LEAVE_ROOM_NOTIFY,{leaveRoomInfo});
+    if (this.context != null) {
+        this.context.node.emit(msg.MATCHVS_LEAVE_ROOM_NOTIFY,{leaveRoomInfo:leaveRoomInfo,type:msg.MATCHVS_LEAVE_ROOM_NOTIFY});
+    }
 };
 
 /**
@@ -213,7 +214,7 @@ MatchvsDemoResponse.prototype.leaveRoomNotify = function (leaveRoomInfo) {
 MatchvsDemoResponse.prototype.getRoomListExResponse = function (rsp) {
     if (rsp.status == 200) {
         console.log("获取房间列表扩展接口成功");
-        this.context.node.emit(msg.MATCHVS_ROOM_LIST_EX,{rsp});
+        this.context.node.emit(msg.MATCHVS_ROOM_LIST_EX,{rsp:rsp,type:msg.MATCHVS_ROOM_LIST_EX});
     } else {
         console.log("获取房间列表扩展接口失败 status" + rsp.status);
     }
@@ -227,7 +228,7 @@ MatchvsDemoResponse.prototype.getRoomListExResponse = function (rsp) {
 MatchvsDemoResponse.prototype.createRoomResponse = function (rsp) {
     if (rsp.status == 200) {
         console.log("创建指定类型房间接口成功");
-        this.context.node.emit(msg.MATCHVS_CREATE_ROOM,{rsp});
+        this.context.node.emit(msg.MATCHVS_CREATE_ROOM,{rsp:rsp,type:msg.MATCHVS_CREATE_ROOM});
     } else {
         console.log("创建指定类型房间接口失败 status" + rsp.status);
     }
@@ -240,7 +241,7 @@ MatchvsDemoResponse.prototype.createRoomResponse = function (rsp) {
 MatchvsDemoResponse.prototype.kickPlayerResponse = function (kickPlayerRsp) {
     if (kickPlayerRsp.status == 200) {
         console.log("踢出指定玩家成功");
-        this.context.node.emit(msg.MATCHVS_KICK_PLAYER, {kickPlayerRsp})
+        this.context.node.emit(msg.MATCHVS_KICK_PLAYER,{kickPlayerRsp:kickPlayerRsp,type:msg.MATCHVS_KICK_PLAYER} );
     } else {
         console.log("踢出指定玩家失败 status" + kickPlayerRsp.status);
     }
@@ -252,7 +253,7 @@ MatchvsDemoResponse.prototype.kickPlayerResponse = function (kickPlayerRsp) {
  */
 MatchvsDemoResponse.prototype.kickPlayerNotify = function (kickPlayerNotify) {
     console.log("踢出指定玩家通知");
-    this.context.node.emit(msg.MATCHVS_KICK_PLAYER_NOTIFY, {kickPlayerNotify})
+    this.context.node.emit(msg.MATCHVS_KICK_PLAYER_NOTIFY, {kickPlayerNotify:kickPlayerNotify,type:msg.MATCHVS_KICK_PLAYER_NOTIFY});
 };
 
 /**
@@ -262,7 +263,7 @@ MatchvsDemoResponse.prototype.kickPlayerNotify = function (kickPlayerNotify) {
 MatchvsDemoResponse.prototype.setRoomPropertyResponse = function (rsp) {
     if (rsp.status == 200) {
         console.log("修改房间属性成功");
-        this.context.node.emit(msg.MATCHVS_SET_ROOM_PROPETY, {rsp})
+        this.context.node.emit(msg.MATCHVS_SET_ROOM_PROPETY, {rsp:rsp,type:msg.MATCHVS_SET_ROOM_PROPETY});
     } else {
         console.log("修改房间属性失败 status" + rsp.status);
     }
@@ -273,7 +274,8 @@ MatchvsDemoResponse.prototype.setRoomPropertyResponse = function (rsp) {
  */
 MatchvsDemoResponse.prototype.setRoomPropertyNotify = function (rsp) {
     console.log("修改房间属性通知");
-    this.context.node.emit(msg.MATCHVS_SET_ROOM_PROPETY_NOTIFY, {rsp})
+    console.log(rsp.userID+"修改了房间属性，新的房间属性是"+rsp.roomProperty);
+this.context.node.emit(msg.MATCHVS_SET_ROOM_PROPETY_NOTIFY, {rsp:rsp,type:msg.MATCHVS_SET_ROOM_PROPETY_NOTIFY})
 };
 
 /**
@@ -282,7 +284,7 @@ MatchvsDemoResponse.prototype.setRoomPropertyNotify = function (rsp) {
  */
 MatchvsDemoResponse.prototype.getRoomDetailResponse = function (rsp) {
     if (rsp.status == 200) {
-        this.context.node.emit(msg.MATCHVS_ROOM_DETAIL,{rsp});
+        this.context.node.emit(msg.MATCHVS_ROOM_DETAIL,{rsp:rsp,type:msg.MATCHVS_ROOM_DETAIL});
         console.log("获取房间详情成功");
     } else {
         console.log("获取房间详情失败 status "+ rsp.status);
@@ -295,8 +297,7 @@ MatchvsDemoResponse.prototype.getRoomDetailResponse = function (rsp) {
  */
 MatchvsDemoResponse.prototype.sendEventResponse = function (sendEventRsp) {
     if (sendEventRsp.status == 200) {
-        this.context.node.emit(msg.MATCHVS_SEND_EVENT_RSP,{sendEventRsp});
-        // console.log("发送消息Response");
+        this.context.node.emit(msg.MATCHVS_SEND_EVENT_RSP,{sendEventRsp,type:msg.MATCHVS_SEND_EVENT_RSP});
     } else {
         console.log("发送消息失败 status"+sendEventRsp.status);
     }
@@ -307,12 +308,12 @@ MatchvsDemoResponse.prototype.sendEventResponse = function (sendEventRsp) {
  * @param eventInfo
  */
 MatchvsDemoResponse.prototype.sendEventNotify = function (eventInfo) {
-    // console.log("收到信息");
-    this.context.node.emit(msg.MATCHVS_SEND_EVENT_NOTIFY, {eventInfo});
+    //console.log('ID为'+eventInfo.srcUserID+'通知了'+eventInfo.cpProto);
+    this.context.node.emit(msg.MATCHVS_SEND_EVENT_NOTIFY,{eventInfo:eventInfo,type:msg.MATCHVS_SEND_EVENT_NOTIFY});
 };
 
 MatchvsDemoResponse.prototype.setFrameSyncResponse = function (rsp) {
-    this.context.node.emit(msg.MATCHVS_SET_FRAME_SYNC_RSP,rsp);
+    this.context.node.emit(msg.MATCHVS_SET_FRAME_SYNC_RSP,{rsp,type:msg.MATCHVS_SET_FRAME_SYNC_RSP});
     if (rsp.mStatus == 200) {
         console.log('帧率设置成功');
     } else if (rsp.mStatus ==519 ) {
@@ -327,26 +328,25 @@ MatchvsDemoResponse.prototype.setFrameSyncResponse = function (rsp) {
  * @param data
  */
 MatchvsDemoResponse.prototype.frameUpdate = function (data) {
-    this.context.node.emit(msg.MATCHVS_FRAME_UPDATE, data);
+    this.context.node.emit(msg.MATCHVS_FRAME_UPDATE, {data:data,type:msg.MATCHVS_FRAME_UPDATE});
 };
 
 MatchvsDemoResponse.prototype.networkStateNotify = function (netNotify) {
     console.log("netNotify.owner:" + netNotify.owner);
-    this.context.node.emit(msg.MATCHVS_NETWORK_STATE_NOTIFY,netNotify);
+    this.context.node.emit(msg.MATCHVS_NETWORK_STATE_NOTIFY,{netNotify:netNotify,type:msg.MATCHVS_NETWORK_STATE_NOTIFY});
 };
 
 MatchvsDemoResponse.prototype.onMsg = function (buf) {
     var data = JSON.parse(buf);
     if (data.status == 0) {
-        var val = data.data;
-        this.context.node.emit(msg.MATCHVS_WX_BINDING,{val})
+        this.context.node.emit(msg.MATCHVS_WX_BINDING,{data:data.data,type:msg.MATCHVS_WX_BINDING})
     } else {
 
     }
 };
 
 MatchvsDemoResponse.prototype.onErr = function (errCode,errMsg) {
-    console.log(errCode,errMsg+"11111111111111111111111");
+    console.log(errCode,errMsg+"！！！");
 };
 
 module.exports = MatchvsDemoResponse;

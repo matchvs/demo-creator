@@ -15,8 +15,8 @@
       false
     ]
   ],
-  "design-resolution-height": 640,
-  "design-resolution-width": 960,
+  "design-resolution-height": 720,
+  "design-resolution-width": 1280,
   "excluded-modules": [
     "VideoPlayer",
     "WebView",
@@ -27,17 +27,17 @@
     "Native NetWork"
   ],
   "fit-height": true,
-  "fit-width": false,
+  "fit-width": true,
   "group-list": [
     "Default",
     "New Group 3"
   ],
-  "simulator-orientation": false,
+  "simulator-orientation": true,
   "simulator-resolution": {
-    "height": 640,
-    "width": 960
+    "height": 720,
+    "width": 1280
   },
-  "start-scene": "458cbdf5-efc9-4be6-87d3-040eaae36764",
+  "start-scene": "5333efe9-5cb8-4d80-ac32-fd3c440e6857",
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false
+  "use-project-simulator-setting": true
 }

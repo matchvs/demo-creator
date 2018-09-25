@@ -9,8 +9,8 @@ var obj = {
     EVENT_PLAYER_POSINTON_CHANGED: "playerPosition",
     GAME_RECONNECT:"Reconnect",
 
-    channel: 'MatchVS',
-    platform: 'release',
+    channel: 'Matchvs',
+    platform: 'alpha',
     gameID: 200978,
     gameVersion: 1,
     appKey: '4fd4a67c10e84e259a2c3c417b9114f4',
@@ -34,21 +34,21 @@ var obj = {
     syncFrame: false,
     FRAME_RATE: 20,
     roomID: 0,
-    playertime: 180,
+    playertime: 30,
     first: null,
     second: null,
     third: null,
     isGameOver: false,
     NEW_STAR_POSITION : 0,
 
-    scoreMap: [{"uid":0,score:0},{"uid":0,score:0},{"uid":0,score:0}],
+    // scoreMap: [{"uid":0,score:0},{"uid":0,score:0},{"uid":0,score:0}],
 
     number1: "",
     number2: "",
     number3: "",
-
+    ownew:0, //只为做分数展示时判断使用
     mapType: "",
-    lastErrMsg: "2018-05-17",
+    // lastErrMsg: "2018-05-17",
 
 
 

@@ -13,33 +13,26 @@ cc.Class({
         labelInfoSelfDefineMatch: {
             default: null,
             type: cc.Label
-        }
+        },
+        nickName:cc.Label,
     },
 
 
     onLoad () {
         var self = this;
+        self.nickName.string = '用户ID：'+ GLB.userID;
         this.startMatch.on(cc.Node.EventType.TOUCH_END, function(event){
-            self.labelLog('开始属性匹配');
             if (self.odd.isChecked) {
                 GLB.tagsInfo={"title": "A"};
-                self.labelLog('设置标签A');
             } else {
                 GLB.tagsInfo={"title": "B"};
-                self.labelLog('设置标签B');
             }
-            // 设置当前模式为属性匹配
             GLB.matchType = GLB.PROPERTY_MATCH;
-            cc.director.loadScene('match');
+            cc.director.loadScene('Match');
         });
         this.returnLobby.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.director.loadScene('lobby');
+            cc.director.loadScene('Lobby');
         });
-    },
-
-
-    labelLog: function (info) {
-        this.labelInfoSelfDefineMatch.string += '\n' + info;
     },
 
     startGame: function () {

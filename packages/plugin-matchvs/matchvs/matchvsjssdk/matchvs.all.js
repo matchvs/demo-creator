@@ -1,5 +1,18 @@
 
-/* ================ md5.js ================= */
+/**************************************************************************************************
+ * 								Matchvs SDK														  *
+ *                                                                                     *
+ * 								2018-08-24											        	  *
+ * 								https://www.matchvs.com/home									  *
+ **************************************************************************************************/
+ 
+/* ================ MVS.js ================= */
+var MVS = (function (_obj) {
+    var MVS = (function () {
+    });
+    _obj = MVS;
+    return _obj;
+})({})/* ================ md5.js ================= */
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
  * Digest Algorithm, as defined in RFC 1321.
@@ -257,17 +270,14 @@ function binl2b64(binarray)
     return str;
 }
 /* ================ format.js ================= */
-//
-// format - printf-like string formatting for JavaScript
-// github.com/samsonjs/format
-// @_sjs
-//
-// Copyright 2010 - 2013 Sami Samhuri <sami@samhuri.net>
-//
-// MIT License
-// http://sjs.mit-license.org
-//
-
+/************************************************************************************
+ * format - printf-like string formatting for JavaScript
+ * github.com/samsonjs/format
+ * @_sjs
+ * Copyright 2010 - 2013 Sami Samhuri <sami@samhuri.net>
+ * MIT License
+ * http://sjs.mit-license.org
+ ************************************************************************************/
 var format = function (fmt){
     var argIndex = 1 // skip initial format argument
         , args = [].slice.call(arguments)
@@ -385,9 +395,9 @@ MatchvsLog.openLog = function () {
     console.log("---- open log ----");
     if (typeof (wx) === "undefined") {
         MatchvsLog.logI = console.log.bind(console
-            , "[INFO ] " + " ");
+            , "[INFO][Matchvs] " + " ");
         MatchvsLog.logE = console.error.bind(console
-            , "[ERROR] " + " ");
+            , "[ERROR][Matchvs] " + " ");
     } else {
         MatchvsLog.logI = function () {
             var loc = "";
@@ -397,7 +407,7 @@ MatchvsLog.openLog = function () {
                 var line = e.stack.split(/\n/)[1];
                 loc= line.slice(line.lastIndexOf("/")+1,line.lastIndexOf(")"));
             }
-            console.info("[INFO ] " + getNowFormatDate() + " " + this.toArray(arguments) + " " + loc);
+            console.log("[INFO][Matchvs] " + getNowFormatDate() + " " + this.toArray(arguments) + " " + loc);
         };
 
         MatchvsLog.logE = function () {
@@ -408,7 +418,7 @@ MatchvsLog.openLog = function () {
                 var line = e.stack.split(/\n/)[1];
                 loc= line.slice(line.lastIndexOf("/")+1,line.lastIndexOf(")"));
             }
-            console.error("[ERROR] " + getNowFormatDate() + " " + this.toArray(arguments) + " " + loc);
+            console.error("[ERROR][Matchvs] " + getNowFormatDate() + " " + this.toArray(arguments) + " " + loc);
         };
     }
 };
@@ -451,7 +461,8 @@ var ENMU_MVS_PTF = {
 
 
 var MVSCONFIG ={
-    MAXPLAYER_LIMIT : 20,
+    MAXPLAYER_LIMIT : 100,
+    MINPLAYER_LIMIT : 2,
     MVS_PTF_ADATPER : ENMU_MVS_PTF.MVS_COMMON //如果是白鹭适配就需要填 1
 };
 
@@ -615,6 +626,12 @@ function isIE() { //ie?
     return !!window.ActiveXObject || "ActiveXObject" in window;
 }
 
+function isNeedUseWSS() {
+    return typeof wx !== "undefined";
+
+}
+
+
 /**
  * 同时在SDK加入房间时mvs在bookInfo中会返回hotel的wssProxy
  * 建立连接时用 wss://proxyAddress/proxy?hotel=hotelAddress
@@ -622,12 +639,21 @@ function isIE() { //ie?
  * @returns {string} url
  */
 function getHotelUrl(bookInfo) {
-    return "wss://" + bookInfo.getWssproxy() + "/proxy?hotel=" + bookInfo.getHoteladdr();
+    //TODO isNeedUseWSS;
+
+    return isNeedUseWSS()?("wss://" + bookInfo.getWssproxy() + "/proxy?hotel=" + bookInfo.getHoteladdr()):("ws://"+bookInfo.getHoteladdr());
 }
 
+/**
+ * 检测engine状态
+ * @param engineState
+ * @param roomLoock
+ * @param type
+ * @returns {number}
+ */
 function commEngineStateCheck(engineState, roomLoock, type) {
     var resNo = 0;
-    if ((engineState & ENGE_STATE.HAVE_INIT) !== ENGE_STATE.HAVE_INIT) resNo= -2;         //未初始化
+    if ((engineState & ENGE_STATE.HAVE_INIT) !== ENGE_STATE.HAVE_INIT) resNo = -2;         //未初始化
     if ((engineState & ENGE_STATE.INITING) === ENGE_STATE.INITING) resNo = -3;             //正在初始化
     if ((engineState & ENGE_STATE.HAVE_LOGIN) !== ENGE_STATE.HAVE_LOGIN) resNo = -4;       //未登录
     if ((engineState & ENGE_STATE.LOGINING) === ENGE_STATE.LOGINING) resNo = -5;           //正在登录
@@ -644,12 +670,101 @@ function commEngineStateCheck(engineState, roomLoock, type) {
         if ((engineState & ENGE_STATE.LEAVE_ROOMING) === ENGE_STATE.LEAVE_ROOMING) resNo = -10;//正在离开房间
     }
 
-    if(resNo !== 0){
-        MatchvsLog.logI("error code:"+resNo+" see the error documentation : http://www.matchvs.com/service?page=js");
+    if (resNo !== 0) {
+        MatchvsLog.logI("error code:" + resNo + " see the error documentation : http://www.matchvs.com/service?page=js");
     }
 
     return resNo;
-}/* ================ mspb.js ================= */
+}
+
+var MvsTicker = (function (obj) {
+    var _tickMap = {};
+    var _count = 0;
+
+    function MvsTicker() {
+    }
+
+    if ("undefined" !== typeof (BK)) {
+        MvsTicker.prototype.setInterval = function (callback, interval) {
+            var t = new BK.Ticker();
+            t.interval = interval * 6 / 100;
+            t.setTickerCallBack(callback);
+            var flag = ++_count;
+            _tickMap[flag] = t;
+            return flag;
+        };
+        MvsTicker.prototype.clearInterval = function (flag) {
+            var ti = _tickMap[flag];
+            if (ti) {
+                ti.dispose();
+                delete _tickMap[flag];
+            }
+        };
+    } else {
+        MvsTicker.prototype.setInterval = function (callback, interval) {
+            return setInterval(callback, interval);
+        };
+        MvsTicker.prototype.clearInterval = function (flag) {
+            clearInterval(flag);
+        };
+    }
+    return MvsTicker;
+})(MvsTicker);
+
+var MVS = (function (_obj) {
+    _obj.ticker = new MvsTicker();
+    return _obj;
+})(MVS || {});
+
+
+
+/* ================ DefaultAppKeyCheck.js ================= */
+/**
+ * DefaultAppKeyCheck.js
+ * 默认 appkey 合法性检测
+ */
+
+var MVS = (function (_super) {
+
+    var AppKeyCheck = (function(_obj){
+        var _tags = ["","EG","CC"];
+        /**
+         * 获取 appkey 里的渠道标记
+         * @param appkey
+         * @returns {string}
+         */
+        var getTag = function(appkey){
+            var len = appkey.length;
+            if(len !== 35){
+                return "";
+            }
+            var tags = appkey.split('#');
+            if(tags.length !== 2){
+                return "";
+            }
+            return tags[1];
+        };
+
+        var AppkeyCheck = (function(){
+
+        });
+
+        AppkeyCheck.prototype.isInvailed = function(appkey){
+            var tag = getTag(appkey)
+            for(var i = 0; i < _tags.length; i++){
+                if(tag === _tags[i]){
+                    return true;
+                }
+            }
+            return false;
+        };
+        _obj = AppkeyCheck;
+        return _obj;
+    })(AppKeyCheck || {});
+
+    _super.AppKeyCheck = AppKeyCheck;
+    return _super;
+})(MVS ||{});/* ================ mspb.js ================= */
 (function e(t, n, r) {
     function s(o, u) {
         if (!n[o]) {
@@ -1400,7 +1515,8 @@ function commEngineStateCheck(engineState, roomLoock, type) {
                     goog.moduleLoaderState_ = b;
                 }
             }, goog.loadModuleFromSource_ = function (a) {
-                eval(a);
+                //eval(a);
+                console.log("eval(a) need open");
                 return {};
             }, goog.writeScriptSrcNode_ = function (a) {
                 goog.global.document.write("<script type=\"text/javascript\" src=\"" + a + "\">\x3c/script>");
@@ -21400,7 +21516,13 @@ var MvsCode = {
     CODE_405            :   405,
     CODE_406            :   406,
     CODE_500            :   500,
+    CODE_502            :   502,
+    CODE_503            :   503,
+    CODE_504            :   504,
+    CODE_507            :   507,
     CODE_521            :   521,
+    CODE_522            :   522,
+    CODE_527            :   527,
     CODE_1000           :   1000,
     NetWorkErr          :   1001,
     CODE_1005           :   1005,
@@ -21410,20 +21532,26 @@ var MvsCode = {
  * 错误码描述
  */
 var MvsErrMsg = new (function () {
-    this[MvsCode.NoLogin]               = "you are not logined, please reference http://www.matchvs.com/service?page=js";
-    this[MvsCode.NetWorkErr]            = "network error, please reference http://www.matchvs.com/service?page=egretGuide";
+    this[MvsCode.NoLogin]               = "you are not logined, please reference [http://www.matchvs.com/service?page=js]";
+    this[MvsCode.NetWorkErr]            = "network error, please reference [http://www.matchvs.com/service?page=egretGuide]";
     this[MvsCode.CODE_1000]             = "netwrk closed normal ";
     this[MvsCode.CODE_1005]             = "netwrk closed no status ";
     this[MvsCode.DataParseErr]          = "you data parse error ";
     this[MvsCode.CODE_400]              = "bad request ";
     this[MvsCode.CODE_401]              = "invaild appkey ";
-    this[MvsCode.CODE_402]              = "invaild sign http://www.matchvs.com/service?page=js";
+    this[MvsCode.CODE_402]              = "invaild sign [http://www.matchvs.com/service?page=js]";
     this[MvsCode.CODE_403]              = "forbidden";
-    this[MvsCode.CODE_404]              = "not found anything, please reference http://www.matchvs.com/service?page=js";
-    this[MvsCode.CODE_405]              = "room have full, please reference http://www.matchvs.com/service?page=js";
-    this[MvsCode.CODE_406]              = "room had joinOver, please reference http://www.matchvs.com/service?page=js";
-    this[MvsCode.CODE_500]              = "server error, please reference http://www.matchvs.com/service?page=egretGuide";
+    this[MvsCode.CODE_404]              = "not found anything, please reference [ http://www.matchvs.com/service?page=js ]";
+    this[MvsCode.CODE_405]              = "room have full, please reference [ http://www.matchvs.com/service?page=js ]";
+    this[MvsCode.CODE_406]              = "room had joinOver, please reference [ http://www.matchvs.com/service?page=js ]";
+    this[MvsCode.CODE_500]              = "server error, please reference [ http://www.matchvs.com/service?page=egretGuide ]";
+    this[MvsCode.CODE_502]              = "service stoped,the license expires or the account is in arrears. please reference [ http://www.matchvs.com/price ]";
+    this[MvsCode.CODE_503]              = "the ccu exceed the limit. please reference [ http://www.matchvs.com/price ]";
+    this[MvsCode.CODE_504]              = "your traffic is running out today,please recharge [ http://www.matchvs.com/price ]";
+    this[MvsCode.CODE_507]              = "room does not exist";
     this[MvsCode.CODE_521]              = "gameServer not exist, please check your gameserver is ok http://www.matchvs.com/service?page=gameServer";
+    this[MvsCode.CODE_522]              = "frame sync is close, please call the api 'setFrameSync' [http://www.matchvs.com/service?page=js]";
+    this[MvsCode.CODE_527]              = "sending message too often ,  can't exceed 500 times per second";
     this[MvsCode.CODE_201]              = "reconnect not in room http://www.matchvs.com/service?page=js";
 
 });
@@ -21553,7 +21681,7 @@ function MsRoomInfo(roomID, roomProperty, ownerID, state) {
     this.roomID = roomID;       // string
     this.roomProperty = roomProperty; //
     this.ownerId = ownerID;
-    this.ownerID = ownerID;
+    this.owner = ownerID;
     this.state = state;
     MatchvsLog.logI(this+" MsRoomInfo:"+JSON.stringify(this));
 }
@@ -21777,21 +21905,21 @@ function MsKickPlayerRsp(status, owner, userID) {
 
 /**
  *
- * @param mStatus {Number} 200 is ok
+ * @param status {Number} 200 is ok
  * @constructor
  */
-function MsSetChannelFrameSyncRsp(mStatus) {
-    this.mStatus = mStatus;
+function MsSetChannelFrameSyncRsp(status) {
+    this.status = status;
 }
 
 
 /**
  *
- * @param mStatus {Number} 200 is ok
+ * @param status {Number} 200 is ok
  * @constructor
  */
-function MsSendFrameEventRsp(mStatus) {
-    this.mStatus = mStatus;
+function MsSendFrameEventRsp(status) {
+    this.status = status;
 }
 
 
@@ -22031,6 +22159,7 @@ var MatchvsNetWork;
 var MatchvsHttp;
 try {
     if (typeof (wx) !== "undefined") {
+        console.log("network api->WX");
         MatchvsNetWork = function MatchvsNetWork(host, callback) {
             /**
              * WebSocket 任务，可通过 wx.connectSocket() 接口创建返回。
@@ -22102,6 +22231,7 @@ try {
                 mCallBack.onDisConnect && mCallBack.onDisConnect(mHost,event);
                 MatchvsLog.logI("[wx.WebSocket] [onError] case:" + JSON.stringify(event));
             }) ;
+
         };
         MatchvsHttp = function MatchvsHttp(callback) {
             this.mCallback = callback;
@@ -22143,8 +22273,116 @@ try {
                 send(url, this.mCallback, true, params);
             };
         };
-    }
-    else {
+    }else if(typeof (BK) !== "undefined"){
+        console.log("network api->BK");
+        MatchvsNetWork = function MatchvsNetWork(host, callback) {
+            var mCallBack = callback;
+            var mHost = host;
+            var socketMsgQueue = [];
+            var socketOpen = false;
+            var socket = new BK.WebSocket(host);
+            var that = this;
+            this.send = function (msg) {
+                if(socketOpen){
+                    socket.send(msg.buffer)
+                }else{
+                    if (socketMsgQueue.length < 100) {
+                        socketMsgQueue.push(msg);
+                    }
+                }
+            };
+
+            this.close = function () {
+                if(socket){
+                    socket.close()
+                }
+            };
+
+            socket.onOpen = function(res) {
+                socketOpen = true;
+                MatchvsLog.logI("[BK.WebSocket][connect]:" + res);
+                while (socketMsgQueue.length > 0) {
+                    that.send(socketMsgQueue.pop());
+                }
+                mCallBack.onConnect && mCallBack.onConnect(mHost);
+            };
+            socket.onClose = function(res) {
+                socketOpen = false;
+                var e = {code:1000, message:" close normal"};
+                mCallBack.onDisConnect && mCallBack.onDisConnect(mHost, e);
+                MatchvsLog.logI("[BK.WebSocket] [onClose] case:"+JSON.stringify(res));
+            };
+
+            socket.onError = function(err){
+                if(socket && socketOpen){
+                    socketOpen = false;
+                    socket.close()
+                }
+                var e = {code:err.getErrorCode(), message: err.getErrorString()};
+                if(e.code === 65535){
+                    e.code = 1000;
+                }
+                mCallBack.onDisConnect && mCallBack.onDisConnect(mHost,e);
+                MatchvsLog.logI("[BK.WebSocket] [onError] case:" + JSON.stringify(err));
+            };
+
+            socket.onMessage = function (res, data) {
+                var buf = data.data;
+                buf.rewind();
+                var ab = new ArrayBuffer(buf.length);
+                var dataView = new DataView(ab);
+                while (!buf.eof) {
+                    dataView.setUint8(buf.pointer, buf.readUint8Buffer());
+                }
+                mCallBack.onMsg && mCallBack.onMsg(dataView);
+            };
+
+            if(socket){
+                socket.connect()
+            }
+        };
+        MatchvsHttp = function MatchvsHttp(callback) {
+            this.mCallback = callback;
+            function send(url, call, isPost, params) {
+                var http = new BK.HttpUtil(url);
+                http.setHttpMethod(isPost ? "post" : "get");
+                http.setHttpHeader("Content-type", "application/x-www-form-urlencoded");
+                http.requestAsync(function (res, code) {
+                    if (code === 200) {
+                        var dt = res.readAsString(true);
+                        call.onMsg(dt);
+                        MatchvsLog.logI("[HTTP:](" + url + ")+" + dt);
+                    }
+                    else {
+                        call.onErr(code, res.readAsString(true));
+                    }
+                });
+                if (isPost) {
+                    http.setHttpPostData(params);
+                }
+                else {
+                    http.setHttpUrl(url);
+                }
+            }
+            /**
+             * HTTP GET
+             * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do?key=fa"
+             */
+            this.get = function (url) {
+                send(url, this.mCallback, false, null);
+            };
+            /**
+             * HTTP POST
+             * @param url {String} ex:"http://testpay.matchvs.com/wc3/submitOrder.do"
+             * @param params {String} ex:"lorem=ipsum&name=binny";
+             */
+            this.post = function (url, params) {
+                send(url, this.mCallback, true, params);
+            };
+        };
+
+    } else {
+        console.log("network api->browser");
         MatchvsNetWork = function MatchvsNetWork(host, callback) {
             this.socket = null;
             this.mCallBack = callback;
@@ -22165,7 +22403,7 @@ try {
                 }
                 if (this.socket.readyState === WebSocket.OPEN) {
                     //log(message);
-                    this.socket.send(message);
+                    this.socket.send(message.buffer);
                 } else {
                     bufQueue.push(message);
                 }
@@ -22173,7 +22411,11 @@ try {
 
             this.close = function () {
                 if (this.socket) {
-                    this.socket.close(1000, "");
+                    if(typeof cc.Component !=="undefined"){
+                        this.socket.close();
+                    }else{
+                        this.socket.close(1000, "");
+                    }
                 }
             };
 
@@ -22189,33 +22431,45 @@ try {
 
                 this.socket.onmessage = function (event) {
 
-                    var reader = new FileReader();
-                    reader.readAsArrayBuffer(event.data);
-                    //  当读取操作成功完成时调用.
-                    reader.onload = function (evt) {
-                        if (evt.target.readyState === FileReader.DONE) {
-                            var dataView = new DataView(reader.result);
-                            this.mCallBack.onMsg(dataView);
-                        } else {
-                            this.mCallBack.onErr(MvsCode.DataParseErr, "[err]parse fail");
-                        }
-
-                    }.bind(this);
-
+                    if (typeof FileReader !== 'undefined'&& (event.data instanceof Blob)){
+                        var reader = new FileReader();
+                        reader.readAsArrayBuffer(event.data);
+                        //  当读取操作成功完成时调用.
+                        reader.onload = function (evt) {
+                            if (evt.target.readyState === FileReader.DONE) {
+                                var dataView = new DataView(reader.result);
+                                this.mCallBack.onMsg(dataView);
+                            } else {
+                                this.mCallBack.onErr(MvsCode.DataParseErr, "[err]parse fail");
+                            }
+                        }.bind(this);
+                    } else if(event.data instanceof ArrayBuffer){
+                        //for CC jsb_websocket.cpp.onMessage()
+                        // console.log("[INFO] event "+event +" json:"+JSON.stringify(event));
+                        var dataView = new DataView(event.data);
+                        this.mCallBack.onMsg(dataView);
+                    }else{
+                        console.log("[error] unknown event :"+event +" => "+JSON.stringify(event));
+                        this.mCallBack.onErr(MvsCode.DataParseErr, "[err]parse fail");
+                    }
                 }.bind(this);
 
                 this.socket.onopen = function (event) {
                     MatchvsLog.logI("Create the socket is success :"+this.mHost+" socket is "+this.socket.hashcode );
                     while (bufQueue.length > 0) {
-                        this.socket.send(bufQueue.pop());
+                        this.send(bufQueue.pop());
                     }
                     this.mCallBack.onConnect && this.mCallBack.onConnect(this.mHost);
 
                 }.bind(this);
 
                 this.socket.onclose = function (e) {
+                    if(typeof cc.Component !=="undefined"){
+                        e = {"code":1000,"reason":"jsb friend close "};
+                    }
+                    MatchvsLog.logI("socket on closed ,code:"+e.code+"(1000:NORMAL,1005:CLOSE_NO_STATUS,1006:RESET,1009:CLOSE_TOO_LARGE) err:"+ JSON.stringify(e));
                     this.mCallBack.onDisConnect && this.mCallBack.onDisConnect(this.mHost,e);
-                    MatchvsLog.logI("socket on closed ,code:"+e.code+"(1000:NORMAL,1005:CLOSE_NO_STATUS,1006:RESET,1009:CLOSE_TOO_LARGE) msg:"+e.reason);
+
                 }.bind(this);
 
                 this.socket.onerror = function (event) {
@@ -23078,7 +23332,12 @@ var NetWorkCallBackImp = function (engine) {
      */
     this.clearAllBeatTimer = function () {
         while (this.hbTimers.length > 0){
-            clearInterval(this.hbTimers.pop());
+            // if("undefined" !== typeof (BK)){
+            //     BK.Director.ticker.removeInterval(this.hbTimers.pop());
+            // }else{
+            //     clearInterval(this.hbTimers.pop());
+            // }
+            MVS.ticker.clearInterval(this.hbTimers.pop());
         }
     };
 
@@ -23108,11 +23367,12 @@ var NetWorkCallBackImp = function (engine) {
      * @param host
      */
     this.onConnect = function (host) {
-        if(HttpConf.HOST_HOTEL_ADDR !== "" && host.indexOf(HttpConf.HOST_HOTEL_ADDR) >= 0){
-            this.mHotelTimer = setInterval(engine.hotelHeartBeat, HEART_BEAT_INTERVAL);
+        if (HttpConf.HOST_HOTEL_ADDR !== "" && host.indexOf(HttpConf.HOST_HOTEL_ADDR) >= 0) {
+            this.mHotelTimer = MVS.ticker.setInterval(engine.hotelHeartBeat, HEART_BEAT_INTERVAL);
             this.hbTimers.push(this.mHotelTimer);
-        }else if(HttpConf.HOST_GATWAY_ADDR !== "" && host.indexOf(HttpConf.HOST_GATWAY_ADDR) >=0){
-            this.gtwTimer = setInterval(engine.heartBeat, HEART_BEAT_INTERVAL);
+        }
+        else if (HttpConf.HOST_GATWAY_ADDR !== "" && host.indexOf(HttpConf.HOST_GATWAY_ADDR) >= 0) {
+            this.gtwTimer = MVS.ticker.setInterval(engine.heartBeat, HEART_BEAT_INTERVAL);
             this.hbTimers.push(this.gtwTimer);
         }
         engine.mRsp.onConnect && engine.mRsp.onConnect(host);
@@ -23122,38 +23382,41 @@ var NetWorkCallBackImp = function (engine) {
      * @param host
      * @param event
      */
-    this.onDisConnect = function (host,event) {
+    this.onDisConnect = function (host, event) {
         engine.mRsp.onDisConnect && engine.mRsp.onDisConnect(host);
         if (host.endsWith(HttpConf.HOST_GATWAY_ADDR)) {
             engine.mEngineState = ENGE_STATE.HAVE_INIT;
-            if (event&&event.code&&(event.code===MvsCode.CODE_1000||event.code===MvsCode.CODE_1005)){
+            if (event && event.code && (event.code === MvsCode.CODE_1000 || event.code === MvsCode.CODE_1005)) {
                 MatchvsLog.logI("gateway close is friend");
-            } else{
+            }
+            else {
                 this.clearAllBeatTimer();
                 engine.mHotelNetWork && engine.mHotelNetWork.close();
-                ErrorRspWork(engine.mRsp.errorResponse, MvsCode.NetWorkErr, "("+event.code+") "+"gateway network error");
+                ErrorRspWork(engine.mRsp.errorResponse, MvsCode.NetWorkErr, "(" + event.code + ") " + "gateway network error");
             }
-            clearInterval(this.gtwTimer);
-        } else if (host.endsWith(HttpConf.HOST_HOTEL_ADDR)) {
+            MVS.ticker.clearInterval(this.gtwTimer);
+        }
+        else if (host.endsWith(HttpConf.HOST_HOTEL_ADDR)) {
             MatchvsLog.logI("hotel disconnect");
-            if (event&&event.code&&(event.code===MvsCode.CODE_1000||event.code===MvsCode.CODE_1005)){
+            if (event && event.code && (event.code === MvsCode.CODE_1000 || event.code === MvsCode.CODE_1005)) {
                 MatchvsLog.logI("hotel close is friend");
-            } else{
+            }
+            else {
                 engine.mEngineState = ENGE_STATE.HAVE_INIT;
                 this.clearAllBeatTimer();
                 engine.mNetWork && engine.mNetWork.close();
-                ErrorRspWork(engine.mRsp.errorResponse, MvsCode.NetWorkErr, "("+event.code+") "+"hotel network error");
+                ErrorRspWork(engine.mRsp.errorResponse, MvsCode.NetWorkErr, "(" + event.code + ") " + "hotel network error");
             }
             //如果房间服务器断开了(包括异常断开情况)就把定时器关掉
-            clearInterval(this.mHotelTimer);
+
+            MVS.ticker.clearInterval(this.mHotelTimer);
             //退出房间状态取消,这里只能一个个状态取消，不能使用 = 号，不然出现先断开gateway 再断开 hotel状态码就不对
             engine.mEngineState &= ~ENGE_STATE.JOIN_ROOMING;
             engine.mEngineState &= ~ENGE_STATE.LEAVE_ROOMING;
             engine.mEngineState &= ~ENGE_STATE.IN_ROOM;
             engine.mEngineState &= ~ENGE_STATE.CREATEROOM;
         }
-
-        MatchvsLog.logI("EngineState",engine.mEngineState);
+        MatchvsLog.logI("EngineState", engine.mEngineState);
     };
 };
 
@@ -23400,6 +23663,11 @@ function LoginOutRspWork() {
 
 function GetRoomListRspWork() {
     this.doSubHandle = function (event, engine) {
+        var status = event.payload.getStatus();
+        if(status !== 200){
+            engine.mRsp.getRoomListResponse && engine.mRsp.getRoomListResponse(event.payload.getStatus(), null);
+            ErrorRspWork(engine.mRsp.errorResponse,event.payload.getStatus(), "get room list error ");
+        }
         var roominfolist = event.payload.getRoominfoList();
         var roomList = [];
         for (var i = 0; i < roominfolist.length; i++) {
@@ -23410,7 +23678,7 @@ function GetRoomListRspWork() {
                 roominfolist[i].getCanwatch(),
                 utf8ByteArrayToString(roominfolist[i].getRoomproperty()));
         }
-        engine.mRsp.getRoomListResponse && engine.mRsp.getRoomListResponse(event.payload.getStatus(), roomList);
+        engine.mRsp.getRoomListResponse && engine.mRsp.getRoomListResponse(status, roomList);
     }
 
 }
@@ -23423,6 +23691,10 @@ function DisConnectRspWork() {
 
 function KickPlayerRspWork() {
     this.doSubHandle = function (event, engine) {
+        var status = event.payload.getStatus();
+        if( status != 200 ){
+            ErrorRspWork(engine.mRsp.errorResponse,event.payload.getStatus(), "kick player error ");
+        }
         engine.mRsp.kickPlayerResponse && engine.mRsp.kickPlayerResponse(new MsKickPlayerRsp(
             event.payload.getStatus(),
             event.payload.getOwner(),
@@ -23433,7 +23705,8 @@ function KickPlayerRspWork() {
 function KickPlayerNotifyWork() {
     this.doSubHandle = function (event, engine) {
         if (event.payload.getUserid().toString() === (""+engine.mUserID) && event.hotelTimer != null) {
-            clearInterval(event.hotelTimer);
+
+            MVS.ticker.clearInterval(event.hotelTimer);
             engine.mEngineState &= ~ENGE_STATE.IN_ROOM;
             engine.mEngineState |= ENGE_STATE.HAVE_LOGIN;
             engine.mHotelNetWork.close();
@@ -23640,6 +23913,9 @@ function MatchvsEngine() {
      * @param {number} gameID
      */
     this.premiseInit = function (response, endPoint, gameID) {
+        if( undefined === endPoint || endPoint === ""){
+            return -1;
+        }
         this.mRsp = response;
         this.mGameID = gameID;
         HttpConf.HOST_GATWAY_ADDR = "wss://"+endPoint;
@@ -23702,6 +23978,12 @@ function MatchvsEngine() {
         if ((this.mEngineState & ENGE_STATE.HAVE_LOGIN) === ENGE_STATE.HAVE_LOGIN) return -6;     // 已经登录，请勿重复登录
         if ((this.mEngineState & ENGE_STATE.LOGOUTING) === ENGE_STATE.LOGOUTING) return -11;       // 正在登出
 
+        var ak = new MVS.AppKeyCheck();
+
+
+        if(!ak.isInvailed(pAppKey)){
+            return -26;
+        }
         if (!(undefined === this.mNetWork || null === this.mNetWork)) {
             this.mNetWork.close();
         }
@@ -23742,24 +24024,25 @@ function MatchvsEngine() {
 
     /**
      *
-     * @param createRoomInfo {MsCreateRoomInfo}
+     * @param cinfo {MsCreateRoomInfo}
      * @param userProfile
      * @returns {number}
      */
-    this.createRoom = function (createRoomInfo, userProfile) {
+    this.createRoom = function (cinfo, userProfile) {
         var ret = commEngineStateCheck(this.mEngineState, this.mEngineState, 2);
         if (ret !== 0) return ret;
         if (userProfile.length > 512) return -21;
+        if (cinfo.maxPlayer > MVSCONFIG.MAXPLAYER_LIMIT || cinfo.maxPlayer < MVSCONFIG.MINPLAYER_LIMIT) return -20;
         var roomInfo = new RoomInfo(0
-            , createRoomInfo.roomName
-            , createRoomInfo.maxPlayer
-            , createRoomInfo.mode
-            , createRoomInfo.canWatch
-            , createRoomInfo.visibility
-            , createRoomInfo.roomProperty
+            , cinfo.roomName
+            , cinfo.maxPlayer
+            , cinfo.mode
+            , cinfo.canWatch
+            , cinfo.visibility
+            , cinfo.roomProperty
             , 0);
         var playInfo = new PlayerInfo(this.mUserID, userProfile);
-        var buf = this.mProtocol.roomCreate(createRoomInfo.maxPlayer, 0, this.mGameID, roomInfo, playInfo);
+        var buf = this.mProtocol.roomCreate(cinfo.maxPlayer, 0, this.mGameID, roomInfo, playInfo);
         if (buf.byteLength > 1024 || userProfile.length > 512) return -21;
         this.mEngineState |= ENGE_STATE.CREATEROOM;//设置用户正在创建房间
         this.mNetWork.send(buf);
@@ -23809,7 +24092,7 @@ function MatchvsEngine() {
     this.joinRandomRoom = function (maxPlayer, userProfile) {
         var ret = commEngineStateCheck(this.mEngineState, this.mEngineState, 2);
         if (ret !== 0) return ret;
-        if (maxPlayer > MVSCONFIG.MAXPLAYER_LIMIT || maxPlayer <= 0) return -20;
+        if (maxPlayer > MVSCONFIG.MAXPLAYER_LIMIT || maxPlayer < MVSCONFIG.MINPLAYER_LIMIT) return -20;
         if (userProfile.length > 512) return -21;
         var roomJoin = new MsRoomJoin(MsEnum.JoinRoomType.joinRandomRoom, this.mUserID,
             0, this.mGameID, maxPlayer, 0, 0,
@@ -23832,6 +24115,7 @@ function MatchvsEngine() {
         if (userProfile.length > 512) return -21;
         if (typeof matchinfo !== "object") return -1;
         if (typeof userProfile !== "string") return -1;
+        if (matchinfo.maxPlayer > MVSCONFIG.MAXPLAYER_LIMIT || matchinfo.maxPlayer < MVSCONFIG.MINPLAYER_LIMIT) return -20;
         var roomJoin = new MsRoomJoin(MsEnum.JoinRoomType.joinRoomWithProperty, this.mUserID,
             1, this.mGameID, matchinfo.maxPlayer, matchinfo.mode, matchinfo.canWatch, userProfile, matchinfo.tags);
         var buf = this.mProtocol.joinRoomWithProperties(roomJoin);
@@ -23995,7 +24279,7 @@ function MatchvsResponse() {
      *
      * @param status
      * @param roomUserInfoList
-     * @param roomInfo
+     * @param roomInfo {MsRoomInfo}
      */
     this.joinRoomResponse = function (status, roomUserInfoList, roomInfo) {
 
@@ -24140,7 +24424,7 @@ function MatchvsResponse() {
     };
     /**
      *
-     * @param srcUid {number}
+     * @param srcUserID {number}
      * @param groups {Array<string>}
      * @param cpProto {string}
      */
@@ -24288,6 +24572,7 @@ MatchvsEngine.prototype.heartBeat = function () {
     } else {
         roomID = Instance.mRoomInfo.getRoomid();
     }
+    if((Instance.mEngineState & ENGE_STATE.LOGOUTING) === ENGE_STATE.LOGOUTING){return ;}
     var buf = Instance.mProtocol.heartBeat(Instance.mGameID, roomID);
     Instance.mNetWork.send(buf);
     MatchvsLog.logI("gateway heartBeat");
@@ -24427,8 +24712,8 @@ MatchvsEngine.prototype.sendEventGroup = function (data, groups) {
  */
 MatchvsEngine.prototype.hotelHeartBeat = function () {
     var _engine = M_ENGINE;
-    this.mEngineState |= ENGE_STATE.IN_ROOM;
-    this.mEngineState |= ENGE_STATE.HAVE_LOGIN;
+    _engine.mEngineState |= ENGE_STATE.IN_ROOM;
+    _engine.mEngineState |= ENGE_STATE.HAVE_LOGIN;
     var buf = _engine.mProtocol.hotelHeartBeat(_engine.mGameID, _engine.mRoomInfo.getRoomid(), _engine.mUserID);
     _engine.mHotelNetWork.send(buf);
     MatchvsLog.logI("hotel heartBeat");
@@ -24447,14 +24732,13 @@ MatchvsEngine.prototype.registerUser = function () {
     var cacheUserInfo = LocalStore_Load(cacheKey);
     if (cacheUserInfo) {
         var obj = JSON.parse(cacheUserInfo);
-        this.mRsp.registerUserResponse(new MsRegistRsp(obj.status, obj.data.userid, obj.data.token, obj.data.nickname, obj.data.avatar));
+        this.mRsp.registerUserResponse(new MsRegistRsp(obj.status+"", obj.data.userid, obj.data.token, obj.data.nickname, obj.data.avatar));
         MatchvsLog.logI("load user info from cache:" + obj);
         return 0;
     }
     var uri = "/wc3/regit.do";
     var url = HttpConf.REGISTER_USER_URL + uri + "?mac=0" + "&deviceid=" + deviceid + "&channel=" + channel + "&pid=13" + "&version=" + gameVersion;
     var rep = new MatchvsNetWorkCallBack();
-    new MatchvsHttp(rep).get(url);
     rep.rsp = this.mRsp.registerUserResponse;
     rep.onMsg = function (buf) {
         var obj = JSON.parse(buf);
@@ -24462,13 +24746,15 @@ MatchvsEngine.prototype.registerUser = function () {
             LocalStore_Save(cacheKey, buf);
             this.rsp(new MsRegistRsp(obj.status, obj.data.userid, obj.data.token, obj.data.nickname, obj.data.avatar));
         } else {
-            this.rsp(new MsRegistRsp(obj.status, 0, "0", buf, ""));
+            this.rsp(new MsRegistRsp(obj.status, 0, "err", buf, "err"));
         }
 
     };
     rep.onErr = function (errCode, errMsg) {
-        this.rsp(new MsRegistRsp(errCode, 0, "0", errMsg, ""));
+        //err code is 0 on weixin game platform
+        this.rsp(new MsRegistRsp(errCode===0?-1:errCode, 0, "err", errMsg, "err"));
     };
+    new MatchvsHttp(rep).get(url);
     return 0;
 };
 
@@ -24481,10 +24767,10 @@ MatchvsEngine.prototype.getHostList = function () {
     var channel = this.mChannel;
     var platform = this.mPlatform;
     var uri = "/v1/gateway/query";
-    var url = "https://sdk.matchvs.com" + uri + "?mac=0" + "&gameid=" + gameId + "&channel=" + channel + "&platform=" + platform + "&useWSSProxy=1";
+    var isUseWSS  = isNeedUseWSS();
+    var url = "https://sdk.matchvs.com" + uri + "?mac=0" + "&gameid=" + gameId + "&channel=" + channel + "&platform=" + platform + (isUseWSS?"&useWSSProxy=1":"");
     var rep = new MatchvsNetWorkCallBack();
     var engine = this;
-    new MatchvsHttp(rep).get(url);
     rep.onMsg = function (buf) {
         var obj = JSON.parse(buf);
         if (obj.status === 200) {
@@ -24493,9 +24779,7 @@ MatchvsEngine.prototype.getHostList = function () {
             var http = "https://";
             var port = "";
             HttpConf.REGISTER_USER_URL = http + obj.data.vsuser;
-            var websocket = "wss://";
-            // var wss = (obj.data.wssProxy == "192.168.8.7")?"ws://":"wss://";
-            HttpConf.HOST_GATWAY_ADDR = websocket + obj.data.wssProxy;
+            HttpConf.HOST_GATWAY_ADDR = (isUseWSS?"wss://":"ws://") + (isUseWSS?obj.data.wssProxy:(obj.data.engine+":7001"));
             HttpConf.CMSNS_URL = http + obj.data.cmsns;
             HttpConf.VS_OPEN_URL = http + obj.data.vsopen;
             HttpConf.VS_PAY_URL = http + obj.data.vspay;
@@ -24507,6 +24791,7 @@ MatchvsEngine.prototype.getHostList = function () {
         console.error("getHostListErrCode" + errCode + " getHostListErrMsg" + errMsg);
         engine.mRsp.errorResponse(errCode, errMsg);
     };
+    new MatchvsHttp(rep).get(url);
     return 0;
 };
 
@@ -24741,5 +25026,5 @@ window.LocalStore_Clear= LocalStore_Clear;
 window.MsReopenRoomResponse=MsReopenRoomResponse;
 window.MsReopenRoomNotify=MsReopenRoomNotify;
 window.MatchvsHttp = MatchvsHttp;
-     
+ 
     

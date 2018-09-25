@@ -85,6 +85,7 @@ cc.Class({
         this.timer = 0;
         var myScorce = {userID:GLB.userID,Score:this.score};
         this.userScores.push(myScorce);
+        this.scoreDisplays0.string = myScorce.userID + ":"+myScorce.Score ;
         this.starDuration = this.maxStarDuration - this.minStarDuration;
         this.gameTime = 9999;
         this.roomidLabel.string = "房间号:" + GLB.roomID;
@@ -129,7 +130,7 @@ cc.Class({
             }
             GLB.isGameOver = true;
             mvs.engine.leaveRoom("");
-            cc.director.loadScene('lobby');
+            cc.director.loadScene('Lobby');
         });
 
 
@@ -162,23 +163,29 @@ cc.Class({
         this.node.on(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
         this.node.on(msg.PLAYER_POSINTON,this.onEvent , this);
         this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
+        this.node.on(msg.MATCHVS_LEAVE_ROOM,this.onEvent ,this);
         this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
         this.node.on(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.setFrameSyncResponse, this);
     },
     
     onEvent :function (event) {
+        var eventData = event.detail;
+        if (eventData == undefined) {
+            eventData = event;
+        }
         switch(event.type) {
             case msg.MATCHVS_ROOM_DETAIL:
-                for (var i = 0; i <event.detail.rsp.userInfos.length;i++) {
-                    if (event.detail.rsp.userInfos[i].userId !== GLB.userID) {
-                        this.userInfos.push(event.detail.rsp.userInfos[i]);
+                GLB.ownew = eventData.rsp.owner;
+                for (var i = 0; i <eventData.rsp.userInfos.length;i++) {
+                    if (eventData.rsp.userInfos[i].userID !== GLB.userID) {
+                        this.userInfos.push(eventData.rsp.userInfos[i]);
                         var userScore = {userID:0,Score:0};
-                        userScore.userID = event.detail.rsp.userInfos[i].userId;
+                        userScore.userID = eventData.rsp.userInfos[i].userID;
                         userScore.Score = 0;
                         this.userScores.push(userScore);
                     }
                 }
-                if (event.detail.rsp.owner === GLB.userID) {
+                if (eventData.rsp.owner === GLB.userID) {
                     GLB.isRoomOwner = true;
                     // 创建星星
                     this.spawnNewStar();
@@ -196,22 +203,22 @@ cc.Class({
             case msg.MATCHVS_SEND_EVENT_RSP:
                 break;
             case msg.MATCHVS_SEND_EVENT_NOTIFY:
-                this.onNewWorkGameEvent(event.detail.eventInfo);
+                this.onNewWorkGameEvent(eventData.eventInfo);
                 break;
             case msg.MATCHVS_ERROE_MSG:
-                this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-                cc.director.loadScene('login');
+                this.labelLog("[Err]errCode:"+eventData.errorCode+" errMsg:"+eventData.errorMsg);
+                cc.director.loadScene('Login');
                 break;
             case msg.MATCHVS_FRAME_UPDATE:
-                var rsp = event.detail;
-                for (var i = 0; i < rsp.frameItems.length; i++) {
-                    var info = rsp.frameItems[i];
+                // var rsp = event.detail;
+                for (var i = 0; i < eventData.data.frameItems.length; i++) {
+                    var info = eventData.data.frameItems[i];
                     this.onNewWorkGameEvent(info);
                 }
                 break;
             case msg.PLAYER_POSINTON:
                 if (this.newStar != undefined) {
-                    if (Math.abs(event.detail.x - GLB.NEW_STAR_POSITION) < 15) {
+                    if (Math.abs(eventData.x - GLB.NEW_STAR_POSITION) < 15) {
                         if (this.newStar.active) {
                             this.newStar.active = false;
                             var frameData = JSON.stringify({
@@ -231,10 +238,12 @@ cc.Class({
                 break;
             case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
                 this.labelLog("leaveRoomNotify");
-                this.gameOver();
+                if(!GLB.isGameOver) {
+                    this.gameOver();
+                }
                 break;
             case msg.MATCHVS_NETWORK_STATE_NOTIFY:
-                this.networkStateNotify(event.detail);
+                this.networkStateNotify(eventData.netNotify);
                 break;
         }
     },
@@ -243,7 +252,7 @@ cc.Class({
      * 设置帧率
      */
     setFrameRate () {
-        var  result =  engine.prototype.setFrameSync(GLB.FRAME_RATE);
+        var result =  engine.prototype.setFrameSync(GLB.FRAME_RATE);
         if (result !== 0) {
             this.labelLog('设置帧同步率失败,错误码:' + result);
         }
@@ -251,7 +260,9 @@ cc.Class({
 
     update: function (dt) {
         if (this.timer > this.gameTime)
-            return this.gameOver();
+            if(!GLB.isGameOver) {
+                this.gameOver();
+            }
         this.timer += dt
     },
 
@@ -283,7 +294,6 @@ cc.Class({
                 this.updatePlayerMoveDirection(event);
             } else if (event.action === GLB.EVENT_GAIN_SCORE) {
                 this.refreshScore(event);
-                console.log('得分');
             } else if (event.action === GLB.GAME_RECONNECT) {
                 this.reconnection(event.cpProto);
 
@@ -340,7 +350,7 @@ cc.Class({
         this.newStar = cc.instantiate(this.starPrefab)
         this.node.addChild(this.newStar)
 
-        this.newStar.setPosition(cc.p(position.x, position.y))
+        this.newStar.setPosition(cc.v2(position.x, position.y))
         this.newStar.getComponent('Star').game = this;
         this.newStar.active = true;
         this.timer = 0
@@ -351,7 +361,8 @@ cc.Class({
      * 发送创建星星事件
      */
     spawnNewStar: function () {
-        if (!GLB.isRoomOwner) return;    // 只有房主可创建星星
+        if (!GLB.isRoomOwner)
+            return;    // 只有房主可创建星星
 
         var event = {
             action: GLB.EVENT_NEW_START,
@@ -367,9 +378,9 @@ cc.Class({
 
     // 随机返回'新的星星'的位置
     getNewStarPosition: function () {
-        var randX = cc.randomMinus1To1() * this.starMaxX;
+        var randX = this.randomMinus1To1() * this.starMaxX;
         var randY = -90;
-        return cc.p(randX, randY)
+        return cc.v2(randX, randY)
     },
 
 
@@ -378,7 +389,6 @@ cc.Class({
         if (event != undefined) {
             for (var i = 0; i < this.userScores.length;i++) {
                 if (event.userID == this.userScores[i].userID) {
-                    console.log(event.userID+"得分了");
                     this.userScores[i].Score ++;
                     this.scoreDisplays[i].string = this.userScores[i].userID + ':' + this.userScores[i].Score;
                 }
@@ -393,10 +403,11 @@ cc.Class({
     gameOver: function () {
         GLB.isGameOver = true;
         for (var i = 0, l = this.players.length; i < l; i++) {
-            this.players[i].stopAllActions()
+            this.players[i].stopAllActions();
+            this.players[i].destroy();
         }
         mvs.engine.leaveRoom("");
-        cc.director.loadScene('result');
+        cc.director.loadScene('Result');
     },
 
     labelLog: function (info) {
@@ -435,6 +446,7 @@ cc.Class({
         this.node.off(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
         this.node.off(msg.PLAYER_POSINTON,this.onEvent , this);
         this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
+        this.node.off(msg.MATCHVS_LEAVE_ROOM,this.onEvent ,this);
         this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
         this.node.off(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.setFrameSyncResponse, this);
     },
@@ -446,5 +458,9 @@ cc.Class({
         }
         GLB.syncFrame = false;
         GLB.isGameOver = true;
+    },
+
+    randomMinus1To1 :function() {
+        return 2 * (Math.random() - .5);
     }
 });
