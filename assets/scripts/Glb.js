@@ -34,7 +34,7 @@ var obj = {
     syncFrame: false,
     FRAME_RATE: 20,
     roomID: 0,
-    playertime: 30,
+    playertime: 120,
     first: null,
     second: null,
     third: null,
