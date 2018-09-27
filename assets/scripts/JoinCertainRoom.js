@@ -65,7 +65,7 @@ cc.Class({
             cc.director.loadScene('Login');
         } else if (event.type == msg.MATCHVS_JOIN_ROOM_RSP) {
             GLB.roomID = this.roomID.string;
-            cc.director.loadScene("Matchvs");
+            cc.director.loadScene("CreateRoom");
         }
     },
 

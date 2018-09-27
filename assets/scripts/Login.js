@@ -1,6 +1,7 @@
 /**
  * 登录
  */
+var mvs = require("Matchvs");
 var GLB = require("Glb");
 var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");

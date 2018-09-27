@@ -17,15 +17,7 @@
   ],
   "design-resolution-height": 720,
   "design-resolution-width": 1280,
-  "excluded-modules": [
-    "VideoPlayer",
-    "WebView",
-    "Audio",
-    "AudioSource",
-    "Physics",
-    "Intersection",
-    "Native NetWork"
-  ],
+  "excluded-modules": [],
   "fit-height": true,
   "fit-width": true,
   "group-list": [
