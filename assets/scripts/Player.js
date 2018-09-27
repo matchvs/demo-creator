@@ -53,17 +53,14 @@ cc.Class({
     },
 
     onLoad: function () {
-        // if (this.node != undefined && this.node != null) {
-            this.rightAnimNode = this.node.getChildByName("rightAnimNode");
-            this.leftAnimNode = this.node.getChildByName("leftAnimNode");
-            this.animRightComp = this.rightAnimNode.getComponent(cc.Animation);
-            this.animLeftComp = this.leftAnimNode.getComponent(cc.Animation);
-            this.playerSpriteRight = this.rightAnimNode.getComponent(cc.Sprite);
+        this.rightAnimNode = this.node.getChildByName("rightAnimNode");
+        this.leftAnimNode = this.node.getChildByName("leftAnimNode");
+        this.animRightComp = this.rightAnimNode.getComponent(cc.Animation);
+        this.animLeftComp = this.leftAnimNode.getComponent(cc.Animation);
+        this.playerSpriteRight = this.rightAnimNode.getComponent(cc.Sprite);
 
-            this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
-            this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
-        // }
-        console.log("xxxxxxxx",this.playerSpriteRight.node.x);
+        this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
+        this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
         var self = this;
         if (this.isAllowInput) {
             this.postionSampler = setInterval(function () {
@@ -174,8 +171,8 @@ cc.Class({
 
 
     onDestroy: function () {
+        cc.eventManager.removeListener(this.mouseListener);
         console.log("人物节点销毁");
         this.postionSampler && clearInterval(this.postionSampler);
-        cc.eventManager.removeListener(this.mouseListener);
     }
 });
