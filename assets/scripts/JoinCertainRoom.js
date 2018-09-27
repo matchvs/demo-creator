@@ -54,6 +54,7 @@ cc.Class({
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.on(msg.MATCHVS_JOIN_ROOM_RSP, this.onEvent, this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
     /**
@@ -61,11 +62,20 @@ cc.Class({
      * @param event
      */
     onEvent:function (event) {
+        var eventData = event.detail;
+        if (eventData == undefined) {
+            eventData = event;
+        }
         if (event.type == msg.MATCHVS_ERROE_MSG) {
             cc.director.loadScene('Login');
         } else if (event.type == msg.MATCHVS_JOIN_ROOM_RSP) {
             GLB.roomID = this.roomID.string;
             cc.director.loadScene("CreateRoom");
+        } else if (event.type == msg.MATCHVS_NETWORK_STATE_NOTIFY) {
+            if (eventData.netNotify.userID == GLB.userID && eventData.netNotify.state === 1) {
+                console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                cc.director.loadScene("Login");
+            }
         }
     },
 
@@ -75,6 +85,7 @@ cc.Class({
     removeEvent:function () {
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.off(msg.MATCHVS_JOIN_ROOM_RSP, this.onEvent, this);
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
 

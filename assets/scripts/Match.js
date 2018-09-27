@@ -44,26 +44,24 @@ cc.Class({
         this.initEvent(self);
         this.nameViewList = [[this.playerNameTwo,this.playerTwoLayout,this.playerTwoLabel],
             [this.playerNameThree,this.playerThreeLayout,this.playerThreeLabel]];
-        if (GLB.syncFrame) {
-            self.matchingWay.string = "帧同步模式" ;
-        }
-        // this.nameViewList[0][1].node.color = '#ffffff';
-        // self.playerTwoLayout.node.color.a = 255;
-        // self.playerTwoLayout.node.color.r = 139;
-        // self.playerTwoLayout.node.color.g = 215;
-        // self.playerTwoLayout.node.color.b = 224;
-        // console.log(JSON.stringify(self.playerTwoLayout.node.color.a)+'node');
         self.nickName.string = '用户ID：'+ GLB.userID;
-        if (GLB.matchType === GLB.RANDOM_MATCH) {
-            engine.prototype.joinRandomRoom(GLB.MAX_PLAYER_COUNT, "这里是负载信息");
+        var matchinfo = new mvs.MsMatchInfo();
+        if (GLB.syncFrame) {
+            matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
+            matchinfo.mode = 0;
+            matchinfo.canWatch = 1;
+            matchinfo.tags = GLB.frameInfo;
+            self.matchingWay.string = "帧同步模式" ;
+            engine.prototype.joinRoomWithProperties(matchinfo, "Matchvs帧同步模式");
+        } else if (GLB.matchType === GLB.RANDOM_MATCH) {
+            engine.prototype.joinRandomRoom(GLB.MAX_PLAYER_COUNT, "随机匹配");
         } else if (GLB.matchType === GLB.PROPERTY_MATCH) {
-            var matchinfo = new mvs.MsMatchInfo();
             matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
             matchinfo.mode = 0;
             matchinfo.canWatch = 1;
             matchinfo.tags =  GLB.tagsInfo;
             self.matchingWay.string = "自定义属性匹配" ;
-            engine.prototype.joinRoomWithProperties(matchinfo,"Matchvs");
+            engine.prototype.joinRoomWithProperties(matchinfo,"自定义属性匹配");
         }
 
         this.back.on(cc.Node.EventType.TOUCH_END, function (event) {
@@ -97,6 +95,7 @@ cc.Class({
         this.node.on(msg.MATCHVS_JOIN_OPEN_RSP,this.onEvent,this);
         this.node.on(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
         this.node.on(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
     /**
@@ -125,20 +124,34 @@ cc.Class({
                 break;
             case msg.MATCHVS_JOIN_OVER_NOTIFY:
                 checkBox.isChecked = false;
+                console.log("关闭");
                 break;
             case msg.MATCHVS_JOIN_OVER_RSP:
                 checkBox.isChecked = false;
+                console.log("关闭");
                 break;
             case msg.MATCHVS_JOIN_OPEN_RSP:
                 checkBox.isChecked = true;
+                console.log("打开");
                 break;
             case msg.MATCHVS_JOIN_OPEN_NOTIFY:
                 checkBox.isChecked = true;
+                console.log("打开");
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 GLB.roomID = "";
                 cc.director.loadScene("Login")
-                break
+                break;
+            case msg.MATCHVS_NETWORK_STATE_NOTIFY:
+                if (eventData.netNotify.state === 1) {
+                    if (eventData.netNotify.userID == GLB.userID ) {
+                        console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                        cc.director.loadScene("Login");
+                    } else {
+                        engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间");
+                    }
+                }
+                break;
         }
 
     },
@@ -167,9 +180,13 @@ cc.Class({
         this.node.off(msg.MATCHVS_JOIN_OPEN_RSP,this.onEvent,this);
         this.node.off(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
         this.node.off(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
-
+    /**
+     * 进入房间业务逻辑
+     * @param userInfoList
+     */
     joinRoom: function (userInfoList) {
         this.labelRoomID.string = userInfoList.roomID;
         GLB.roomID = userInfoList.roomID;

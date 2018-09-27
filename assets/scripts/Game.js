@@ -420,6 +420,10 @@ cc.Class({
         if (netNotify.owner === GLB.userID) {
             GLB.isRoomOwner = true;
         }
+        if (netNotify.userID == GLB.userID && netNotify.state === 1) {
+            console.log("netNotify.userID :"+netNotify.userID +"netNotify.state: "+netNotify.state)
+            cc.director.loadScene("Login");
+        }
 
         console.log("玩家：" + netNotify.userID + " state:" + netNotify.state);
         if (netNotify.state === 2) {

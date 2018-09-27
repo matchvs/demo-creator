@@ -173,7 +173,9 @@ cc.Class({
                 }
                 break;
             case msg.MATCHVS_NETWORK_STATE_NOTIFY:
-                engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间");
+                if (eventData.netNotify.state === 1) {
+                    engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间");
+                }
                 break;
         }
     },

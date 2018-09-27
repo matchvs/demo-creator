@@ -71,6 +71,8 @@ cc.Class({
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.on(msg.MATCHVS_ROOM_LIST_EX,this.onEvent, this);
         this.node.on(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent, this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+
     },
 
     /**
@@ -87,7 +89,7 @@ cc.Class({
                 this.getRoomListExResponse(eventData.rsp);
                 break;
             case msg.MATCHVS_ERROE_MSG:
-                if (event.detail.errorCode == 405) {
+                if (eventData.errorCode == 405) {
                     this.labelLog("房间人数已满");
                     return;
                 }
@@ -98,6 +100,12 @@ cc.Class({
                 GLB.roomID = eventData.userInfoList.roomID;
                 this.labelLog("加入指定房间成功, roomID:" +  GLB.roomID);
                 cc.director.loadScene('CreateRoom');
+                break;
+            case msg.MATCHVS_NETWORK_STATE_NOTIFY:
+                if (eventData.netNotify.userID == GLB.userID && eventData.netNotify.state === 1) {
+                    console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                    cc.director.loadScene("Login");
+                }
                 break;
         }
 
@@ -110,6 +118,7 @@ cc.Class({
         this.refreshNumText.string = '获取列表次数'+ refreshNum;
         this.totalCount  = roomListExInfo.total;
         this.content.height = this.totalCount * (this.itemTemplate.height + this.spacing) + this.spacing; // get total content height
+        this.content.removeAllChildren(true);
         for(var i = 0; i < roomListExInfo.total; i++) {
             let item = cc.instantiate(this.itemTemplate);
             this.content.addChild(item);
@@ -135,6 +144,7 @@ cc.Class({
     removeEvent:function () {
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.off(msg.MATCHVS_ROOM_LIST_EX,this.onEvent, this);
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
 

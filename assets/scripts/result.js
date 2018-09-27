@@ -61,27 +61,38 @@ cc.Class({
     initEvent:function (self) {
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+
     },
     
     
     onEvent:function (event) {
+        var eventData = event.detail;
+        if (eventData == undefined) {
+            eventData = event;
+        }
         switch (event.type){
             case msg.MATCHVS_ERROE_MSG:
                 console.log("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 cc.director.loadScene('Login');
             break;
+            case msg.MATCHVS_NETWORK_STATE_NOTIFY:
+                if (eventData.netNotify.userID == GLB.userID && eventData.netNotify.state === 1) {
+                    console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                    cc.director.loadScene("Login");
+                }
+            break;
         }
 
     },
 
-    start () {
-    },
 
     onDestroy() {
         GLB.number1 = 0;
         GLB.number2 = 0;
         GLB.number3 = 0;
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     }
 
 });

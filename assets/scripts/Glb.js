@@ -18,6 +18,7 @@ var obj = {
     isWX:false,
     matchType: 1,
     tagsInfo: {"title": "A"},
+    frameInfo: {"title" : "frameInfo"},
     userID: 0,
     name: "",
     avatar: "",

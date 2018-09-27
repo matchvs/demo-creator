@@ -168,7 +168,7 @@ MatchvsDemoResponse.prototype.joinOpenResponse =function (rsp) {
 MatchvsDemoResponse.prototype.joinOverResponse = function (rsp) {
     if(rsp.status == 200) {
         console.log("房间关闭成功");
-        this.context.node.emit(msg.MATCHVS_JOIN_OVER_RSP,{rsp,type:msg.MATCHVS_JOIN_OPEN_RSP});
+        this.context.node.emit(msg.MATCHVS_JOIN_OVER_RSP,{rsp,type:msg.MATCHVS_JOIN_OVER_RSP});
     } else  {
         console.log("房间关闭失败"+rsp.status);
     }
@@ -189,7 +189,7 @@ MatchvsDemoResponse.prototype.joinOverNotify = function (notify) {
 MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
     if (leaveRoomRsp.status == 200) {
         console.log("离开房间成功");
-        if (this.context != null) {
+        if(this.context.node.emit != null) {
             this.context.node.emit(msg.MATCHVS_LEAVE_ROOM,{leaveRoomRsp,type:msg.MATCHVS_LEAVE_ROOM});
         }
     } else {
