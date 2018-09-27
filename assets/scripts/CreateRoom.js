@@ -120,6 +120,7 @@ cc.Class({
         this.node.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
         this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
         this.node.on(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent ,this);
     },
 
     /**
@@ -167,7 +168,12 @@ cc.Class({
                 }
                 break;
             case msg.MATCHVS_ERROE_MSG:
-                cc.director.loadScene('Login');
+                if (eventData.errorCode != 400) {
+                    cc.director.loadScene('Login');
+                }
+                break;
+            case msg.MATCHVS_NETWORK_STATE_NOTIFY:
+                engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间");
                 break;
         }
     },
@@ -243,11 +249,6 @@ cc.Class({
      */
     removeView:function (info) {
         var userID = info.userID;
-        // if (info.userID == undefined) {
-        //     userID = info.userId;
-        // } else {
-        //     userID = ;
-        // }
         for(var i = 0; i < this.userList.length;i++ ) {
             if(userID == this.userList[i].userId) {
                 this.userList.splice(i,1);
@@ -260,19 +261,14 @@ cc.Class({
         if (userID== GLB.userID) {
             this.leaveRoom1();
         }
-        // if (info.cpProto != undefined) {
-        //     console.log(JSON.parse(info.cpProto));
-        //     var name = JSON.parse(info.cpProto).name;
-        //     for(var a = 0; a < this.nameViewList.length; a++) {
-        //         if(name == this.nameViewList[a].string) {
-        //             if(info)
-        //
-        //         }
-        //     }
-        //     if(name == GLB.name) {
-        //         this.leaveRoom1();
-        //     }
-        // }
+
+        for(var i = 0; i < this.userIDViewList.length;i++) {
+            if (info.owner == this.userIDViewList[i].string) {
+                this.userOwnewLogoList[i].active = true;
+            }
+        }
+
+
         if (info.owner === GLB.userID) {
             this.ownerLogo.active = true;
             GLB.isRoomOwner = true;
@@ -313,6 +309,7 @@ cc.Class({
         this.node.off(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
         this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
         this.node.off(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent ,this);
     },
 
 
@@ -334,9 +331,5 @@ cc.Class({
         cc.director.loadScene('Game')
     },
 
-    // labelLog: function (info) {
-    //     this.labelInfo.string += '\n' + info;
-    // },
 
-    
 });

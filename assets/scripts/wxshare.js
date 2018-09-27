@@ -58,8 +58,8 @@ function getWxUserInfo(data) {
             reject(res);
             console.log("fail", res);
             return '';
-        }});
-
+        }
+    });
 }
 
 
@@ -67,28 +67,32 @@ function getWxUserInfo(data) {
  * 获取用户OpenID
  */
 function getUserOpenID(obj) {
-    var callObj = obj;
-    wx.login({
-        success: function (res) {
-            var wcode = res.code;
-            wx.request({
-                url: wxShareConf.getOpenIDAddr,
-                method: "GET",
-                data: {
-                    code: wcode
-                },
-                success: function (res) {
-                    console.log(res.data);
-                    return obj(res.data);
-                }
-            });
-        },
-        fail: function (res) {
-            obj.fail(res);
-            console.log(res.data);
-            return obj(res.data);
-        },
-    });
+    try{
+        var callObj = obj;
+        wx.login({
+            success: function (res) {
+                var wcode = res.code;
+                wx.request({
+                    url: wxShareConf.getOpenIDAddr,
+                    method: "GET",
+                    data: {
+                        code: wcode
+                    },
+                    success: function (res) {
+                        console.log(res.data);
+                        return obj(res.data);
+                    }
+                });
+            },
+            fail: function (res) {
+                obj.fail(res);
+                console.log(res.data);
+                return obj(res.data);
+            },
+        });
+    } catch(error){
+        console.log("getUserOpenID for error:"+ error.message);
+    }
 }
 
 

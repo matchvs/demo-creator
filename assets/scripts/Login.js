@@ -128,6 +128,7 @@ cc.Class({
                 });
             });
         } catch (error) {
+            console.warn("getUserFromWeChat for error:"+error.message);
             console.log("不是在微信平台，调用不进行绑定！");
             engine.prototype.registerUser();
         }
