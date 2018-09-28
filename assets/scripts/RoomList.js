@@ -91,6 +91,12 @@ cc.Class({
             case msg.MATCHVS_ERROE_MSG:
                 if (eventData.errorCode == 405) {
                     this.labelLog("房间人数已满");
+                    console.warn("房间人数已满");
+                    return;
+                }
+                if (eventData.errorCode === 406) {
+                    this.labelLog("房间已joinOver");
+                    console.warn("房间已joinOver");
                     return;
                 }
                 this.labelLog("[Err]errCode:"+eventData.errorCode+" errMsg:"+eventData.errorMsg);
