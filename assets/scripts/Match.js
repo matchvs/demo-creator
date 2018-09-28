@@ -146,7 +146,9 @@ cc.Class({
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 GLB.roomID = "";
-                cc.director.loadScene("Login")
+                if (eventData.errorCode != 400) {
+                    cc.director.loadScene('Login');
+                }
                 break;
             case msg.MATCHVS_KICK_PLAYER:
                 this.removeView(eventData.kickPlayerRsp);
