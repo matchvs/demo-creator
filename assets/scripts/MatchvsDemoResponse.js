@@ -314,11 +314,11 @@ MatchvsDemoResponse.prototype.sendEventNotify = function (eventInfo) {
 
 MatchvsDemoResponse.prototype.setFrameSyncResponse = function (rsp) {
     this.context.node.emit(msg.MATCHVS_SET_FRAME_SYNC_RSP,{rsp,type:msg.MATCHVS_SET_FRAME_SYNC_RSP});
-    if (rsp.mStatus == 200) {
+    if (rsp.status == 200) {
         console.log('帧率设置成功');
-    } else if (rsp.mStatus ==519 ) {
+    } else if (rsp.status ==519 ) {
         console.log('帧率设置失败,重复设置');
-    } else if (rsp.mStatus == 500) {
+    } else if (rsp.status == 500) {
         console.log('帧率设置失败,帧率需被1000整除');
     }
 }

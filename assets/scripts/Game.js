@@ -270,9 +270,9 @@ cc.Class({
     },
 
     setFrameSyncResponse: function (rsp) {
-        this.labelLog('setFrameSyncResponse, status=' + rsp.detail.mStatus);
-        if (rsp.detail.mStatus !== 200) {
-            this.labelLog('设置同步帧率失败，status=' + rsp.mStatus);
+        this.labelLog('setFrameSyncResponse, status=' + rsp.detail.status);
+        if (rsp.detail.status !== 200) {
+            this.labelLog('设置同步帧率失败，status=' + rsp.status);
         } else {
             this.labelLog('设置同步帧率成功, 帧率为:' + GLB.FRAME_RATE);
         }
