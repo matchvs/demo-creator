@@ -68,10 +68,14 @@ cc.Class({
         }
         if (event.type == msg.MATCHVS_ERROE_MSG) {
             if (eventData.errorCode === 405 ) {
+                this.errorHint.node.active = true;
+                this.errorHint.string = "房间已满"
                 console.warn("房间已满");
                 return;
             }
             if (eventData.errorCode === 406) {
+                this.errorHint.node.active = true;
+                this.errorHint.string = "房间已经关闭"
                 console.warn("房间已joinOver");
                 return;
             }
