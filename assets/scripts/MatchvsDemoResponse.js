@@ -109,7 +109,7 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
  * @param error
  */
 MatchvsDemoResponse.prototype.errorResponse = function (errorCode,errorMsg) {
-    console.log("发生错误了！！！！！！！！！！！！！");
+    console.log("发生错误了！！！");
     this.context.node.emit(msg.MATCHVS_ERROE_MSG, {errorCode,errorMsg,type:msg.MATCHVS_ERROE_MSG});
 };
 

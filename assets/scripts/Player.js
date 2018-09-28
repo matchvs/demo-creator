@@ -71,7 +71,7 @@ cc.Class({
                 }
                 var frameData = JSON.stringify({
                     "userID": GLB.userID,
-                    "action": GLB.EVENT_PLAYER_POSINTON_CHANGED,
+                    "action": msg.EVENT_PLAYER_POSINTON_CHANGED,
                     "x": self.getPostion(),
                     "arrow": self.isUserInputing
                 });
@@ -91,7 +91,7 @@ cc.Class({
 
             }, 1000 / GLB.FPS);
             // 初始化键盘输入监听
-            this.setInputControl(self);
+            this.addEventManageListener();
         }
     },
 
@@ -123,10 +123,9 @@ cc.Class({
 
 
     },
-    setInputControl: function (self) {
-        cc.eventManager.removeListener(this.mouseListener);
-        // var self = this;
-        var onTouch = function (touch) {
+    onTouch : function (touch) {
+        var self = this;
+        try{
             var touchLoc = touch.getLocation();
             if (touchLoc.x >= cc.winSize.width / 3) {
                 self.isUserInputing = GLB.ARROW_RIGHT;
@@ -135,15 +134,30 @@ cc.Class({
                 self.isUserInputing = GLB.ARROW_LEFT;
                 self.onPostionChanged(self.playerSpriteRight.node.x - self.speed, self.isUserInputing);
             }
-        };
+        } catch(error){
+            console.warn(error.message);
+            cc.eventManager.removeListener(self.mouseListener);
+            self.addEventManageListener();
+        }
+
+    },
+
         //2.0 需要手动移除
+
+
+
+    addEventManageListener :function() {
+        var self = this
+        if (this.mouseListener != null) {
+            cc.eventManager.removeListener(this.mouseListener);
+        }
         this.mouseListener = cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             fakeMove: Number,
             onTouchBegan: function (touch, event) {
-                onTouch(touch);
+                self.onTouch(touch);
                 this.fakeMove = setInterval(function () {
-                    onTouch(touch);
+                   self.onTouch(touch);
                 },GLB.FPS);
                 return true;
             },

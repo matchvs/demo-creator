@@ -225,12 +225,12 @@ cc.Class({
                         if (this.newStar.active) {
                             this.newStar.active = false;
                             var frameData = JSON.stringify({
-                                "action": GLB.EVENT_GAIN_SCORE,
+                                "action": msg.EVENT_GAIN_SCORE,
                                 "userID": GLB.userID,
                             });
                             engine.prototype.sendEventEx(frameData);
                             var event = {
-                                action: GLB.EVENT_NEW_START,
+                                action: msg.EVENT_NEW_START,
                                 position: this.getNewStarPosition()
                             };
                             this.createStarNode(event.position)
@@ -289,15 +289,15 @@ cc.Class({
     onNewWorkGameEvent : function(info) {
         if (info && info.cpProto) {
             var event = JSON.parse(info.cpProto);
-            if (event.action === GLB.EVENT_NEW_START) {
+            if (event.action === msg.EVENT_NEW_START) {
                 // 收到创建星星的消息通知，根据消息给的坐标创建星星
                 this.createStarNode(event.position)
-            } else if (event.action === GLB.EVENT_PLAYER_POSINTON_CHANGED) {
+            } else if (event.action === msg.EVENT_PLAYER_POSINTON_CHANGED) {
                 // console.log(new Date().getSeconds(), "收到位移消息"+event.x);
                 this.updatePlayerMoveDirection(event);
-            } else if (event.action === GLB.EVENT_GAIN_SCORE) {
+            } else if (event.action === msg.EVENT_GAIN_SCORE) {
                 this.refreshScore(event);
-            } else if (event.action === GLB.GAME_RECONNECT) {
+            } else if (event.action === msg.GAME_RECONNECT) {
                 this.reconnection(event.cpProto);
 
             }
@@ -368,7 +368,7 @@ cc.Class({
             return;    // 只有房主可创建星星
 
         var event = {
-            action: GLB.EVENT_NEW_START,
+            action: msg.EVENT_NEW_START,
             position: this.getNewStarPosition()
         };
         var result = mvs.engine.sendEvent(JSON.stringify(event))
@@ -432,7 +432,7 @@ cc.Class({
         if (netNotify.state === 2) {
             console.log("玩家已经重连进来");
             var event = {
-                action: GLB.GAME_RECONNECT,
+                action: msg.GAME_RECONNECT,
                 cpProto: this.userScores
             };
             setTimeout(function() {

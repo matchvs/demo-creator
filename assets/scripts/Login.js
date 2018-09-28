@@ -52,7 +52,6 @@ cc.Class({
         this.independent.on(cc.Node.EventType.TOUCH_END,function (event) {
             cc.director.loadScene("independent");
         });
-        this.labelLog(GLB.lastErrMsg);
     },
 
     /**

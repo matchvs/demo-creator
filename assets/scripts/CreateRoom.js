@@ -60,7 +60,6 @@ cc.Class({
         }
         this.initEvent(self);
         this.kickPlayer2.on(cc.Node.EventType.TOUCH_END, function(event){
-            // var userID = self.kickPlayerName(self.labelUserID2.string);
             var userID = self.labelUserID2.string;
             if (userID != undefined && userID != 2) {
                 engine.prototype.kickPlayer(userID,self.labelUserName2.string);
@@ -70,7 +69,6 @@ cc.Class({
             }
         });
         this.kickPlayer3.on(cc.Node.EventType.TOUCH_END, function(event){
-            // var userID = self.kickPlayerName(self.labelUserID3.string);
             var userID = self.labelUserID3.string;
             if (userID != undefined && userID != 3) {
                 engine.prototype.kickPlayer(userID,self.labelUserName3.string);
