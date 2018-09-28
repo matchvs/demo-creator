@@ -31,6 +31,15 @@ var msg = {
     EVENT_GAME_START :"EVENT_GAME_START",
     NEW_STAR_POSITION : "NEW_STAR_POSITION",
     PLAYER_POSINTON : "PLAYER_POSINTON",
+    DESTROY_NODE : "DESTROY_NODE",
+
+
+    GAME_START_EVENT: "gameStart",
+    EVENT_NEW_START: "newStar",
+    PLAYER_MOVE_EVENT: "playerMove",
+    EVENT_GAIN_SCORE: "gainScore",
+    EVENT_PLAYER_POSINTON_CHANGED: "playerPosition",
+    GAME_RECONNECT:"Reconnect",
 };
 
 module.exports = msg;

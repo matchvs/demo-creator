@@ -31,7 +31,7 @@ cc.Class({
             selt.premiseInit(endPoint,gameID);
         });
         this.backButton.on(cc.Node.EventType.TOUCH_END,function (event) {
-            cc.director.loadScene('login');
+            cc.director.loadScene('Login');
         })
     },
     /**
@@ -64,6 +64,13 @@ cc.Class({
     },
 
     onEvent(event) {
+        var eventData;
+        try{
+            eventData = event.detail;
+        } catch(error){
+            console.warn(error.message);
+            eventData = event;
+        }
         switch (event.type){
             case msg.MATCHVS_INIT:
                 var token = this.tokenEditBox.getComponent(cc.EditBox).string;
@@ -75,7 +82,7 @@ cc.Class({
                 }
                 break;
             case msg.MATCHVS_LOGIN:
-                    cc.director.loadScene("lobby");
+                    cc.director.loadScene("Lobby");
                 break;
         }
     },

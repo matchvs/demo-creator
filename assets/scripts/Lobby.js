@@ -17,16 +17,6 @@ cc.Class({
         createRoom: cc.Node,
         returnLogin: cc.Node,
         buttonSyncFrame: cc.Node,
-        labelInfo: {
-            default: null,
-            type: cc.Label
-        },
-
-        errorMsg: {
-            default: null,
-            type: cc.Label
-        },
-
 
         nickName: {
             default:null,
@@ -41,7 +31,7 @@ cc.Class({
     onLoad:function () {
         var self = this;
         this.initEvent(self);
-        this.nickName.string = GLB.name;
+        this.nickName.string = "用户ID："+ GLB.name;
         console.log('avatar url', GLB.avatar);
         if (GLB.isWX) {
             let image = wx.createImage();
@@ -70,33 +60,38 @@ cc.Class({
         this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(event){
             engine.prototype.logout();
             engine.prototype.uninit();
-            cc.director.loadScene('login');
+            cc.director.loadScene('Login');
         });
 
         // 随机匹配
         this.randomMatch.on(cc.Node.EventType.TOUCH_END, function(event){
             GLB.matchType = GLB.RANDOM_MATCH; // 修改匹配方式为随机匹配
-            self.labelLog('开始随机匹配');
-            cc.director.loadScene('match');
+            GLB.syncFrame = false;
+           // self.labelLog('开始随机匹配');
+            cc.director.loadScene('Match');
         });
 
         // 自定义属性匹配
         this.selfDefMatch.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.director.loadScene("selfDefMatch");
+            GLB.syncFrame = false;
+            cc.director.loadScene("SelfDefMatch");
         });
 
         // 查看房间列表
         this.roomList.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.director.loadScene("roomList");
+            GLB.syncFrame = false;
+            cc.director.loadScene("RoomList");
         });
 
         // 加入指定房间
         this.joinCertainRoom.on(cc.Node.EventType.TOUCH_END, function(event){
-            cc.director.loadScene("joinCertainRoom");
+            GLB.syncFrame = false;
+            cc.director.loadScene("JoinCertainRoom");
         }); 
 
         // 创建房间
         this.createRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+            GLB.syncFrame = false;
             var create = new mvs.MsCreateRoomInfo();
             create.name = 'roomName';
             create.maxPlayer = GLB.MAX_PLAYER_COUNT;
@@ -104,15 +99,13 @@ cc.Class({
             create.canWatch = 0;
             create.visibility = 1;
             create.roomProperty = '白天模式';
-            engine.prototype.createRoom(create,"china");
+            engine.prototype.createRoom(create,"Matchvs");
         });
 
         this.buttonSyncFrame.on(cc.Node.EventType.TOUCH_END, function(event){
             GLB.syncFrame = true;
-            self.labelLog('准备开启帧同步');
             GLB.matchType = GLB.RANDOM_MATCH; // 修改匹配方式为随机匹配
-            self.labelLog('开始随机匹配');
-            cc.director.loadScene('match');
+            cc.director.loadScene('Match');
         });
 
     },
@@ -124,6 +117,8 @@ cc.Class({
         response.prototype.init(self);
         this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
         this.node.on(msg.MATCHVS_CREATE_ROOM,this.onEvent,this);
+        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+
     },
 
     /**
@@ -131,12 +126,20 @@ cc.Class({
      * @param event
      */
     onEvent:function (event) {
+        var eventData = event.detail;
+        if (eventData == undefined) {
+            eventData = event;
+        }
         if (event.type == msg.MATCHVS_ERROE_MSG) {
-            this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-            cc.director.loadScene('login');
+            cc.director.loadScene('Login');
         } else if (event.type == msg.MATCHVS_CREATE_ROOM) {
-            GLB.roomID = event.detail.rsp.roomID;
-            cc.director.loadScene("createRoom");
+            GLB.roomID = eventData.rsp.roomID;
+            cc.director.loadScene("CreateRoom");
+        } else if (event.type == msg.MATCHVS_NETWORK_STATE_NOTIFY){
+            if (eventData.netNotify.userID == GLB.userID && eventData.netNotify.state === 1) {
+                console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                cc.director.loadScene("Login");
+            }
         }
     },
 
@@ -146,11 +149,7 @@ cc.Class({
     removeEvent:function () {
         this.node.off(msg.MATCHVS_CREATE_ROOM,this.onEvent, this);
         this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-    },
-
-
-    labelLog: function (info) {
-        this.labelInfo.string += '\n' + info;
+        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
 

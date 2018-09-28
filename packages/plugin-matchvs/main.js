@@ -2,12 +2,14 @@
 
 module.exports = {
     load() {
-        // execute when package loaded
+        Editor.log('load!');
     },
 
     unload() {
         // execute when package unloaded
     },
+
+
 
     // register your ipc messages here
     messages: {
@@ -23,6 +25,9 @@ module.exports = {
         'clicked'() {
             Editor.log('Button clicked!');
         },
+        // 'scene:ready'(){
+        //     Editor.success('All Scene is Ready!   It will Check The Version');
+        // },
         'popup-create-menu'(event, x, y, data) {
             let electron = require('electron');
             let BrowserWindow = electron.BrowserWindow;

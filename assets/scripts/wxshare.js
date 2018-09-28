@@ -1,7 +1,7 @@
 var wxShareConf = {
     getOpenIDAddr:"http://test79open.matchvs.com/getOpenID?" //传入code获取微信openID的服务端地址
 }
-
+var engine = require("MatchvsEngine");
 /**
  * 获取启动参数
  */
@@ -55,11 +55,15 @@ function getWxUserInfo(data) {
             return data(res.userInfo);
         },
         fail: function (res) {
-            reject(res);
+            // reject(res);
+            if (res.errMsg == "getUserInfo:fail scope unauthorized") {
+                console.warn("getWxUserInfo error");
+                engine.prototype.registerUser();
+            }
             console.log("fail", res);
-            return '';
-        }});
-
+            return "";
+        }
+    });
 }
 
 
@@ -89,6 +93,7 @@ function getUserOpenID(obj) {
             return obj(res.data);
         },
     });
+
 }
 
 

@@ -7,7 +7,7 @@
   "includeAnySDK": false,
   "includeSDKBox": false,
   "inlineSpriteFrames": true,
-  "inlineSpriteFrames_native": true,
+  "inlineSpriteFrames_native": false,
   "jailbreakPlatform": false,
   "md5Cache": false,
   "mergeStartScene": false,
@@ -26,8 +26,8 @@
     "orientation": "portrait"
   },
   "renderMode": "0",
-  "startScene": "458cbdf5-efc9-4be6-87d3-040eaae36764",
-  "title": "24",
+  "startScene": "5333efe9-5cb8-4d80-ac32-fd3c440e6857",
+  "title": "2",
   "webOrientation": "auto",
   "wechatgame": {
     "appid": "",

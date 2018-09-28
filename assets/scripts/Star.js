@@ -35,7 +35,7 @@ cc.Class({
         var playerPos = this.game.players[0].getPosition();
         // this.game.players[0].node.x;
         // 根据两点位置计算两点之间距离
-        var dist = cc.pDistance(this.node.position, playerPos);
+        var dist = this.pDistance(this.node.position, playerPos);
         return dist;
     },
 
@@ -60,5 +60,24 @@ cc.Class({
         var opacityRatio = Math.max(1 - this.game.timer/this.game.starDuration, 0.01);
         var minOpacity = 50;
         this.node.opacity = minOpacity + Math.floor(opacityRatio * (255 - minOpacity));
+    },
+
+    pDistance :function(v1, v2) {
+        return this.pLength(this.pSub(v1, v2));
+    },
+
+    pLength : function(v) {
+        return Math.sqrt(this.pLengthSQ(v));
+    },
+
+    pSub :function(v1, v2) {
+        return cc.v2(v1.x - v2.x, v1.y - v2.y);
+    },
+    pLengthSQ : function(v) {
+        return this.pDot(v, v);
+    },
+
+    pDot : function(v1, v2) {
+        return v1.x * v2.x + v1.y * v2.y;
     },
 });

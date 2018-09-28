@@ -1,6 +1,7 @@
 /**
  * 登录
  */
+var mvs = require("Matchvs");
 var GLB = require("Glb");
 var engine = require("MatchvsEngine");
 var response = require("MatchvsDemoResponse");
@@ -13,7 +14,6 @@ cc.Class({
         gameIdInput: cc.Node,
         appKeyInput: cc.Node,
         secret: cc.Node,
-        alphaRadio: cc.Node,
         confirm: cc.Node,
         clear: cc.Node,
         independent: cc.Node,
@@ -30,7 +30,6 @@ cc.Class({
     onLoad: function () {
         var self = this;
         this.initEvent(self);
-        this.alphaRadio.getComponent(cc.Toggle).isChecked = true;
         this.confirm.on(cc.Node.EventType.TOUCH_END, function (event) {
             // 获取用户输入的参数
             if (Number(self.gameIdInput.getComponent(cc.EditBox).string) != 0) {
@@ -42,22 +41,9 @@ cc.Class({
             if (self.secret.getComponent(cc.EditBox).string != "") {
                 GLB.secret = self.secret.getComponent(cc.EditBox).string;
             }
-            var alpha = self.alphaRadio.getComponent(cc.Toggle).isChecked;
-            if (alpha === true) {
-                GLB.platform = 'alpha';
-            } else {
-                GLB.platform = 'release';
-            }
-            console.log('platform:'+GLB.platform);
             engine.prototype.init(GLB.channel,GLB.platform,GLB.gameID);
         });
         this.clear.on(cc.Node.EventType.TOUCH_END, function (event) {
-            self.gameIdInput.getComponent(cc.EditBox).string = '';
-            self.gameIdInput.getComponent(cc.EditBox).placeholder = '请输入gameID';
-            self.appKeyInput.getComponent(cc.EditBox).string =  '';
-            self.appKeyInput.getComponent(cc.EditBox).placeholder = '请输入gameKey';
-            self.secret.getComponent(cc.EditBox).string = '';
-            self.secret.getComponent(cc.EditBox).placeholder = '请输入secret';
             if (LocalStore_Clear) {
                 LocalStore_Clear()
             }
@@ -66,7 +52,6 @@ cc.Class({
         this.independent.on(cc.Node.EventType.TOUCH_END,function (event) {
             cc.director.loadScene("independent");
         });
-        this.labelLog(GLB.lastErrMsg);
     },
 
     /**
@@ -80,7 +65,6 @@ cc.Class({
         this.node.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
         this.node.on(msg.MATCHVS_LOGIN,this.onEvent,this);
         this.node.on(msg.MATCHVS_WX_BINDING,this.onEvent,this);
-        this.node.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
     },
 
 
@@ -89,47 +73,49 @@ cc.Class({
      * @param event
      */
     onEvent:function (event) {
+        var eventData = event.detail;
+        if (eventData == undefined) {
+            eventData = event;
+        }
         switch (event.type){
             case msg.MATCHVS_INIT:
                 this.labelLog('初始化成功');
                 this.getUserFromWeChat(this);
                 break;
             case msg.MATCHVS_REGISTER_USER:
-                userInfo = event.detail.msg;
-                console.log(userInfo);
-                this.login(userInfo.id,userInfo.token);
+                this.login(eventData.userInfo.id,eventData.userInfo.token);
                 break;
             case msg.MATCHVS_LOGIN:
-                var MsLoginRsp = event.detail.MsLoginRsp;
-                if (MsLoginRsp.roomID != null && MsLoginRsp.roomID !== '0') {
-                    console.log("开始重连"+ MsLoginRsp.roomID);
+                if (eventData.MsLoginRsp.roomID != null && eventData.MsLoginRsp.roomID !== '0') {
+                    console.log("开始重连"+ eventData.MsLoginRsp.roomID);
                     engine.prototype.reconnect();
                 } else {
-                    cc.director.loadScene("lobby");
+                    cc.director.loadScene("Lobby");
                 }
                 break;
             case msg.MATCHVS_RE_CONNECT:
-                var reConnect  = event.detail.roomUserInfoList;
-                engine.prototype.getRoomDetail(reConnect.roomID);
-                GLB.roomID = reConnect.roomID;
-                break;
-            case msg.MATCHVS_ERROE_MSG:
-                this.labelLog("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
-                break;
-            case msg.MATCHVS_WX_BINDING:
-                engine.prototype.login(event.detail.val.userid,event.detail.val.token);
-                break;
-            case msg.MATCHVS_ROOM_DETAIL:
-                if (event.detail.rsp.state == 1) {
-                    cc.director.loadScene('createRoom');
-                } else {
-                    cc.director.loadScene("game");
-                }
-                if (event.detail.rsp.owner == GLB.userID) {
+                GLB.roomID = eventData.roomUserInfoList.roomID;
+                if (eventData.roomUserInfoList.owner == GLB.userID) {
                     GLB.isRoomOwner = true;
                 } else {
                     GLB.isRoomOwner = false;
                 }
+                if (eventData.roomUserInfoList.state == 1) {
+                    if (eventData.roomUserInfoList.roomProperty == "") {
+                        engine.prototype.leaveRoom();
+                        cc.director.loadScene("Lobby");
+                    } else  {
+                        cc.director.loadScene('CreateRoom');
+                    }
+                } else {
+                    cc.director.loadScene("Game");
+                }
+                break;
+            case msg.MATCHVS_ERROE_MSG:
+                this.labelLog("[Err]errCode:"+eventData.errorCode+" errMsg:"+eventData.errorMsg);
+                break;
+            case msg.MATCHVS_WX_BINDING:
+                engine.prototype.login(eventData.data.userid,eventData.data.token);
                 break;
         }
     },
@@ -145,6 +131,7 @@ cc.Class({
                 });
             });
         } catch (error) {
+            console.warn("getUserFromWeChat for error:"+error.message);
             console.log("不是在微信平台，调用不进行绑定！");
             engine.prototype.registerUser();
         }
@@ -224,7 +211,6 @@ cc.Class({
                 }
             }
         };
-        //sign=md5(appKey&gameID=value1&openID=value2&session=value3&thirdFlag=value4&appSecret)
         let params = "gameID="+GLB.gameID+"&openID="+wxUserInfo.openInfos.data.openid+"&session="+wxUserInfo.openInfos.data.session_key+"&thirdFlag=1";
         //计算签名
         let signstr = this.getSign(params);
