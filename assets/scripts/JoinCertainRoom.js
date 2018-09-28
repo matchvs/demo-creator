@@ -67,6 +67,14 @@ cc.Class({
             eventData = event;
         }
         if (event.type == msg.MATCHVS_ERROE_MSG) {
+            if (eventData.errorCode === 405 ) {
+                console.warn("房间已满");
+                return;
+            }
+            if (eventData.errorCode === 406) {
+                console.warn("房间已joinOver");
+                return;
+            }
             cc.director.loadScene('Login');
         } else if (event.type == msg.MATCHVS_JOIN_ROOM_RSP) {
             GLB.roomID = this.roomID.string;
