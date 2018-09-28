@@ -110,7 +110,6 @@ cc.Class({
                 } else {
                     cc.director.loadScene("Game");
                 }
-
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 this.labelLog("[Err]errCode:"+eventData.errorCode+" errMsg:"+eventData.errorMsg);
