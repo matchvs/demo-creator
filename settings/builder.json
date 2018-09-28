@@ -25,14 +25,14 @@
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait"
   },
+  "renderMode": "0",
   "startScene": "5333efe9-5cb8-4d80-ac32-fd3c440e6857",
-  "title": "1",
+  "title": "2",
   "webOrientation": "auto",
   "wechatgame": {
     "appid": "",
     "orientation": "landscape"
   },
   "xxteaKey": "f134fe96-f183-44",
-  "zipCompressJs": true,
-  "renderMode": "0"
+  "zipCompressJs": true
 }
