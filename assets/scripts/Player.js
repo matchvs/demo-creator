@@ -124,6 +124,7 @@ cc.Class({
 
     },
     setInputControl: function (self) {
+        cc.eventManager.removeListener(this.mouseListener);
         // var self = this;
         var onTouch = function (touch) {
             var touchLoc = touch.getLocation();
