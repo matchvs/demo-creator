@@ -102,7 +102,12 @@ cc.Class({
                     GLB.isRoomOwner = false;
                 }
                 if (eventData.roomUserInfoList.state == 1) {
-                    cc.director.loadScene('CreateRoom');
+                    if (eventData.roomUserInfoList.roomProperty == "") {
+                        engine.prototype.leaveRoom();
+                        cc.director.loadScene("Lobby");
+                    } else  {
+                        cc.director.loadScene('CreateRoom');
+                    }
                 } else {
                     cc.director.loadScene("Game");
                 }

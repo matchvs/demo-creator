@@ -33,5 +33,6 @@
     "orientation": "landscape"
   },
   "xxteaKey": "f134fe96-f183-44",
-  "zipCompressJs": true
+  "zipCompressJs": true,
+  "renderMode": "0"
 }

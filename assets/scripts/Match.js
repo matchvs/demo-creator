@@ -31,11 +31,14 @@ cc.Class({
             default: null,
             type: cc.Label
         },
+        labelUserID2:cc.Label,
+        labelUserID3:cc.Label,
         back: cc.Node,
         joinopen: cc.Node,
         nickName:cc.Label,
         userList :[],
-        nameViewList:[]
+        nameViewList:[],
+        userIDfontSize:26,
     },
 
 
@@ -44,6 +47,7 @@ cc.Class({
         this.initEvent(self);
         this.nameViewList = [[this.playerNameTwo,this.playerTwoLayout,this.playerTwoLabel],
             [this.playerNameThree,this.playerThreeLayout,this.playerThreeLabel]];
+        this.userIDViewList = [this.labelUserID2,this.labelUserID3];
         self.nickName.string = '用户ID：'+ GLB.userID;
         var matchinfo = new mvs.MsMatchInfo();
         if (GLB.syncFrame) {
@@ -96,6 +100,8 @@ cc.Class({
         this.node.on(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
         this.node.on(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
         this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+        this.node.on(msg.MATCHVS_KICK_PLAYER, this.onEvent, this)
+        this.node.on(msg.MATCHVS_KICK_PLAYER_NOTIFY, this.onEvent, this)
     },
 
     /**
@@ -142,13 +148,15 @@ cc.Class({
                 GLB.roomID = "";
                 cc.director.loadScene("Login")
                 break;
+            case msg.MATCHVS_KICK_PLAYER:
+                this.removeView(eventData.kickPlayerRsp);
+                break;
+            case msg.MATCHVS_KICK_PLAYER_NOTIFY:
+                this.removeView(eventData.kickPlayerNotify);
+                break;
             case msg.MATCHVS_NETWORK_STATE_NOTIFY:
                 if (eventData.netNotify.state === 1) {
-                    if (eventData.netNotify.userID != GLB.userID ) {
-                        console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
-                        this.kickPlayerName(eventData.netNotify.userID);
-                        cc.director.loadScene("Login");
-                    }
+                    engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间")
                 }
                 break;
         }
@@ -180,6 +188,8 @@ cc.Class({
         this.node.off(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
         this.node.off(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
         this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+        this.node.off(msg.MATCHVS_KICK_PLAYER, this.onEvent, this)
+        this.node.off(msg.MATCHVS_KICK_PLAYER_NOTIFY, this.onEvent, this)
     },
 
     /**
@@ -207,6 +217,8 @@ cc.Class({
             var info = JSON.parse(userList[i].userProfile);
             if (this.nameViewList[i][0].string === "") {
                 this.nameViewList[i][0].string = info.name;
+                this.userIDViewList[i].string = userList[i].userID;
+                this.userIDViewList[i].fontSize = this.userIDfontSize;
                 // this.nameViewList[i][1].node.color = '#96E8B5';
             }
         }
@@ -223,16 +235,18 @@ cc.Class({
      */
     removeView:function (info) {
         for(var i = 0; i < this.userList.length;i++ ) {
-            if(info.userId == this.userList[i].userId) {
+            if(info.userID == this.userList[i].userID) {
                 this.userList.splice(i,1);
-            }
-        }
-        var name = JSON.parse(info.cpProto).name;
-        for(var i = 0; i < this.nameViewList.length; i++) {
-            if(name == this.nameViewList[i][0].string) {
                 this.nameViewList[i][0].string = "";
+                this.userIDViewList[i].string = i+2;
+                this.userIDViewList[i].fontSize = 80;
             }
         }
+        // var name = JSON.parse(info.cpProto).name;
+        // for(var i = 0; i < this.nameViewList.length; i++) {
+        //     if(name == this.nameViewList[i][0].string) {
+        //     }
+        // }
     },
 
     kickPlayerName :function (userID) {
