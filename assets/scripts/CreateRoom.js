@@ -192,14 +192,7 @@ cc.Class({
         }
     },
     
-    // kickPlayerName :function (name) {
-    //     for (var i in  this.userList) {
-    //         var obj = JSON.parse(this.userList[i].userProfile);
-    //         if (obj.name == name) {
-    //             return this.userList[i].userId
-    //         }
-    //     }
-    // },
+
 
 
     /**

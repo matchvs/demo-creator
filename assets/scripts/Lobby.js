@@ -66,27 +66,32 @@ cc.Class({
         // 随机匹配
         this.randomMatch.on(cc.Node.EventType.TOUCH_END, function(event){
             GLB.matchType = GLB.RANDOM_MATCH; // 修改匹配方式为随机匹配
+            GLB.syncFrame = false;
            // self.labelLog('开始随机匹配');
             cc.director.loadScene('Match');
         });
 
         // 自定义属性匹配
         this.selfDefMatch.on(cc.Node.EventType.TOUCH_END, function(event){
+            GLB.syncFrame = false;
             cc.director.loadScene("SelfDefMatch");
         });
 
         // 查看房间列表
         this.roomList.on(cc.Node.EventType.TOUCH_END, function(event){
+            GLB.syncFrame = false;
             cc.director.loadScene("RoomList");
         });
 
         // 加入指定房间
         this.joinCertainRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+            GLB.syncFrame = false;
             cc.director.loadScene("JoinCertainRoom");
         }); 
 
         // 创建房间
         this.createRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+            GLB.syncFrame = false;
             var create = new mvs.MsCreateRoomInfo();
             create.name = 'roomName';
             create.maxPlayer = GLB.MAX_PLAYER_COUNT;

@@ -86,6 +86,7 @@ cc.Class({
         var myScorce = {userID:GLB.userID,Score:this.score};
         this.userScores.push(myScorce);
         this.scoreDisplays0.string = myScorce.userID + ":"+myScorce.Score ;
+        GLB.number1 = GLB.userID + ':' + this.score;
         this.starDuration = this.maxStarDuration - this.minStarDuration;
         this.gameTime = 9999;
         this.roomidLabel.string = "房间号:" + GLB.roomID;
@@ -198,6 +199,8 @@ cc.Class({
                     this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = this.userScores[i].userID;
                     this.scoreDisplays[i].string = this.userScores[i].userID + ":"+this.userScores[i].Score ;
                 }
+                GLB.number2 = this.userScores[1].userID + ':' + this.userScores[1].Score;
+                GLB.number3 = this.userScores[2].userID + ':' + this.userScores[2].Score;
                 this.players[0].getChildByName("playerLabel").getComponent(cc.Label).string = GLB.userID;
                 break;
             case msg.MATCHVS_SEND_EVENT_RSP:

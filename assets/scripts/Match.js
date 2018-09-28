@@ -144,11 +144,10 @@ cc.Class({
                 break;
             case msg.MATCHVS_NETWORK_STATE_NOTIFY:
                 if (eventData.netNotify.state === 1) {
-                    if (eventData.netNotify.userID == GLB.userID ) {
+                    if (eventData.netNotify.userID != GLB.userID ) {
                         console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                        this.kickPlayerName(eventData.netNotify.userID);
                         cc.director.loadScene("Login");
-                    } else {
-                        engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间");
                     }
                 }
                 break;
@@ -208,7 +207,7 @@ cc.Class({
             var info = JSON.parse(userList[i].userProfile);
             if (this.nameViewList[i][0].string === "") {
                 this.nameViewList[i][0].string = info.name;
-                this.nameViewList[i][1].node.color = '#96E8B5';
+                // this.nameViewList[i][1].node.color = '#96E8B5';
             }
         }
         if (this.userList.length == GLB.MAX_PLAYER_COUNT-1) {
@@ -232,6 +231,23 @@ cc.Class({
         for(var i = 0; i < this.nameViewList.length; i++) {
             if(name == this.nameViewList[i][0].string) {
                 this.nameViewList[i][0].string = "";
+            }
+        }
+    },
+
+    kickPlayerName :function (userID) {
+        for (var i in  this.userList) {
+            if(userID == this.userList[i].userId) {
+                this.userList.splice(i,1);
+            }
+            var obj = JSON.parse(this.userList[i].userProfile);
+            if (obj.userID == userID) {
+                for(var i = 0; i < this.nameViewList.length; i++) {
+                    if(this.userList[i].name == this.nameViewList[i][0].string) {
+                        this.nameViewList[i][0].string = "";
+                        return;
+                    }
+                }
             }
         }
     },
