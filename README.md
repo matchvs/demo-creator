@@ -1,6 +1,6 @@
 # Matchvs_demo_creator
 
-**注意** 本demo只支持creator1.X版本，因为creator2.0修改了部分API，暂不支持。
+**注意** 本demo支持creator1.X，creator2.X版本，如果有什么不明白的地方，可以加入Matchvs官网技术支持群450335262。欢迎你对我们的产品提出建议。
 
 用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，下面是游戏内同步效果图。
 
@@ -11,6 +11,8 @@
 文件路径demo/assets/script/Matchvs.js
 
 Matchvs.js文件主要用于加载插件以及在native环境下加载JSB。
+
+在V3.7.4.3版本中使用最新SDK插件，在Native环境下不在使用JSB的的方式去加载。
 
 ## 2：Matcvhs SDK使用的封装
 
@@ -69,6 +71,15 @@ scripts 放的是对应的JS文件。
 login —> Lobby -> Match -> game -> result -> Lobby;
 
 登陆 ——》大厅 ——》 随机匹配 ——》游戏场景 ——》 结算页面 ——》大厅。
+
+
+### 5：Change Log
+
+V3.7.4.3
+
+1：优化demoUI，对demo页面进行美化。
+
+2：demo进行creator2.0+版本的适配工作。支持了creator全版本。
 
 
 
