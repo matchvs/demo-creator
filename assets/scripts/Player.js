@@ -141,21 +141,25 @@ cc.Class({
         }
 
     },
-    
+
     //2.0 需要手动移除
     addEventManageListener :function() {
+        console.log("addEventManageListener");
         var self = this
         if (this.mouseListener != null) {
             cc.eventManager.removeListener(this.mouseListener);
         }
         this.mouseListener = cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            fakeMove: Number,
+            fakeMove: null,
             onTouchBegan: function (touch, event) {
+                console.log("begin move ");
                 self.onTouch(touch);
-                this.fakeMove = setInterval(function () {
-                   self.onTouch(touch);
-                },GLB.FPS);
+                if (this.fakeMove == null) {
+                    this.fakeMove = setInterval(function () {
+                        self.onTouch(touch);
+                    },GLB.FPS);
+                }
                 return true;
             },
             onTouchMoved: function (touch) {
@@ -163,7 +167,9 @@ cc.Class({
                 return true;
             },
             onTouchEnded: function (touch, event) {
+                console.log("begin let go");
                 clearInterval(this.fakeMove);
+                this.fakeMove = null;
                 self.isUserInputing = GLB.ARROW_STOP;
                 self.onPostionChanged(self.playerSpriteRight.node.x, self.isUserInputing);
             }
