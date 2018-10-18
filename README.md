@@ -1,4 +1,6 @@
 # Matchvs_demo_creator
+- [官网](http://www.matchvs.com/serviceDownload)
+- [在线体验链接](http://demo.matchvs.com/demo-creator/)
 
 **注意** 本demo支持creator1.X，creator2.X版本，如果有什么不明白的地方，可以加入Matchvs官网技术支持群450335262。欢迎你对我们的产品提出建议。
 
