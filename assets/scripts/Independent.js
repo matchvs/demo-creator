@@ -23,11 +23,11 @@ cc.Class({
     start () {
         var selt = this;
         this.initEvent(selt);
-        var endPoint = this.endPointEditBox.getComponent(cc.EditBox).string;
-        var gameID = this.gameIDEditBox.getComponent(cc.EditBox).string;
-        GLB.appKey = this.keyEditBox.getComponent(cc.EditBox).string;
-        GLB.secret = this.secretEditBox.getComponent(cc.EditBox).string;
         this.confirmButton.on(cc.Node.EventType.TOUCH_END, function (event) {
+            var endPoint = selt.endPointEditBox.getComponent(cc.EditBox).string;
+            var gameID = selt.gameIDEditBox.getComponent(cc.EditBox).string;
+            GLB.appKey = selt.keyEditBox.getComponent(cc.EditBox).string;
+            GLB.secret = selt.secretEditBox.getComponent(cc.EditBox).string;
             selt.premiseInit(endPoint,gameID);
         });
         this.backButton.on(cc.Node.EventType.TOUCH_END,function (event) {

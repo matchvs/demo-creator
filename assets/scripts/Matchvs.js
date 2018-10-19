@@ -14,7 +14,7 @@ try {
     MsRoomFilterEx  = jsMatchvs.MsRoomFilterEx ;
     LocalStore_Clear = jsMatchvs.LocalStore_Clear;
 } catch (e) {
-	console.warn("load matchvs JSB fail,"+e.message);
+	console.warn("load matchvs fail,"+e.message);
 }
 module.exports = {
     engine: engine,

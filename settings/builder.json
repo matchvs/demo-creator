@@ -10,7 +10,7 @@
   "inlineSpriteFrames_native": false,
   "jailbreakPlatform": false,
   "md5Cache": false,
-  "mergeStartScene": false,
+  "mergeStartScene": true,
   "oauthLoginServer": "",
   "optimizeHotUpdate": false,
   "orientation": {
@@ -27,7 +27,7 @@
   },
   "renderMode": "0",
   "startScene": "5333efe9-5cb8-4d80-ac32-fd3c440e6857",
-  "title": "2",
+  "title": "MatchvsDemo-Creator",
   "webOrientation": "auto",
   "wechatgame": {
     "appid": "",
