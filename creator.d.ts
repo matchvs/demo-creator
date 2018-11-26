@@ -7952,6 +7952,7 @@ declare module cc {
 		    cc.log("this is callback");
 		}, node);
 		// remove touch end event listener
+
 		node.off(cc.Node.EventType.TOUCH_END, touchEnd, node);
 		// remove all touch end event listeners
 		node.off(cc.Node.EventType.TOUCH_END);

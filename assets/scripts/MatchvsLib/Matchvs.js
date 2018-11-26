@@ -1,12 +1,12 @@
-var engine;
-var response = {};
-var MsMatchInfo;
-var MsCreateRoomInfo;
-var MsRoomFilterEx;
-var LocalStore_Clear;
+let engine;
+let response = {};
+let MsMatchInfo;
+let MsCreateRoomInfo;
+let MsRoomFilterEx;
+let LocalStore_Clear;
 try {
     console.log("load matchvs");
-    var jsMatchvs = require("matchvs.all");
+    let jsMatchvs = require("matchvs.all");
     engine = new jsMatchvs.MatchvsEngine();
     response = new jsMatchvs.MatchvsResponse();
     MsMatchInfo = jsMatchvs.MsMatchInfo;

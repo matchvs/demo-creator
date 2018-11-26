@@ -1,4 +1,4 @@
-//定义了Matchvs网路事件
+//定义了Matchvs网络事件
 var msg = {
 
     MATCHVS_INIT : "MATCHVS_INIT",
@@ -31,7 +31,6 @@ var msg = {
     EVENT_GAME_START :"EVENT_GAME_START",
     NEW_STAR_POSITION : "NEW_STAR_POSITION",
     PLAYER_POSINTON : "PLAYER_POSINTON",
-    DESTROY_NODE : "DESTROY_NODE",
 
 
     GAME_START_EVENT: "gameStart",

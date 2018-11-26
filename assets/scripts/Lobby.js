@@ -1,11 +1,11 @@
 /**
  * 大厅页面
  */
-var engine = require("MatchvsEngine");
-var response = require("MatchvsDemoResponse");
-var GLB = require("Glb");
-var mvs = require("Matchvs");
-var msg = require("MatvhvsMessage");
+let engine = require("MatchvsLib/MatchvsEngine");
+let GLB = require("Glb");
+let mvs = require("MatchvsLib/Matchvs");
+let msg = require("MatchvsLib/MatvhvsMessage");
+
 cc.Class({
     extends: cc.Component,
 
@@ -29,11 +29,11 @@ cc.Class({
     },
 
     onLoad:function () {
-        var self = this;
-        this.initEvent(self);
+        let self = this;
+        this.initEvent();
         this.nickName.string = "用户ID："+ GLB.name;
         console.log('avatar url', GLB.avatar);
-        if (GLB.isWX) {
+        if (typeof(wx) !== 'undefined') {
             let image = wx.createImage();
             image.onload = () => {
                 try {
@@ -44,7 +44,7 @@ cc.Class({
                 } catch (e) {
                     console.log('wx onload image error');
                 }
-            }
+            };
             image.src = GLB.avatar;
         } else {
             cc.loader.load(GLB.avatar, function (err, res) {
@@ -52,19 +52,17 @@ cc.Class({
                     console.error('load avatar image error', err);
                     return;
                 }
-                var frame = new cc.SpriteFrame(res);
-                self.avatar111.spriteFrame  = frame;
+                self.avatar111.spriteFrame  = new cc.SpriteFrame(res);
             }) ;
         }
         // 返回登录
-        this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.returnLogin.on(cc.Node.EventType.TOUCH_END, function(){
             engine.prototype.logout();
-            engine.prototype.uninit();
             cc.director.loadScene('Login');
         });
 
         // 随机匹配
-        this.randomMatch.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.randomMatch.on(cc.Node.EventType.TOUCH_END, function(){
             GLB.matchType = GLB.RANDOM_MATCH; // 修改匹配方式为随机匹配
             GLB.syncFrame = false;
            // self.labelLog('开始随机匹配');
@@ -72,27 +70,27 @@ cc.Class({
         });
 
         // 自定义属性匹配
-        this.selfDefMatch.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.selfDefMatch.on(cc.Node.EventType.TOUCH_END, function(){
             GLB.syncFrame = false;
             cc.director.loadScene("SelfDefMatch");
         });
 
         // 查看房间列表
-        this.roomList.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.roomList.on(cc.Node.EventType.TOUCH_END, function(){
             GLB.syncFrame = false;
             cc.director.loadScene("RoomList");
         });
 
         // 加入指定房间
-        this.joinCertainRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.joinCertainRoom.on(cc.Node.EventType.TOUCH_END, function(){
             GLB.syncFrame = false;
             cc.director.loadScene("JoinCertainRoom");
         }); 
 
         // 创建房间
-        this.createRoom.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.createRoom.on(cc.Node.EventType.TOUCH_END, function(){
             GLB.syncFrame = false;
-            var create = new mvs.MsCreateRoomInfo();
+            let create = new mvs.MsCreateRoomInfo();
             create.name = 'roomName';
             create.maxPlayer = GLB.MAX_PLAYER_COUNT;
             create.mode = 0;
@@ -102,7 +100,7 @@ cc.Class({
             engine.prototype.createRoom(create,"Matchvs");
         });
 
-        this.buttonSyncFrame.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.buttonSyncFrame.on(cc.Node.EventType.TOUCH_END, function(){
             GLB.syncFrame = true;
             GLB.matchType = GLB.RANDOM_MATCH; // 修改匹配方式为随机匹配
             cc.director.loadScene('Match');
@@ -113,31 +111,26 @@ cc.Class({
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    initEvent:function (self) {
-        response.prototype.init(self);
-        this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.on(msg.MATCHVS_CREATE_ROOM,this.onEvent,this);
-        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
-
+    initEvent () {
+        cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_CREATE_ROOM,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
     /**
      * 接收事件
      * @param event
      */
-    onEvent:function (event) {
-        var eventData = event.detail;
-        if (eventData == undefined) {
-            eventData = event;
-        }
-        if (event.type == msg.MATCHVS_ERROE_MSG) {
+    onEvent (event) {
+        let eventData = event.data;
+        if (event.type === msg.MATCHVS_ERROE_MSG) {
             cc.director.loadScene('Login');
-        } else if (event.type == msg.MATCHVS_CREATE_ROOM) {
+        } else if (event.type === msg.MATCHVS_CREATE_ROOM) {
             GLB.roomID = eventData.rsp.roomID;
             cc.director.loadScene("CreateRoom");
-        } else if (event.type == msg.MATCHVS_NETWORK_STATE_NOTIFY){
-            if (eventData.netNotify.userID == GLB.userID && eventData.netNotify.state === 1) {
-                console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+        } else if (event.type === msg.MATCHVS_NETWORK_STATE_NOTIFY){
+            if (eventData.netNotify.userID === GLB.userID && eventData.netNotify.state === 1) {
+                console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state);
                 cc.director.loadScene("Login");
             }
         }
@@ -146,10 +139,10 @@ cc.Class({
     /**
      * 移除监听
      */
-    removeEvent:function () {
-        this.node.off(msg.MATCHVS_CREATE_ROOM,this.onEvent, this);
-        this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+    removeEvent() {
+        cc.systemEvent.off(msg.MATCHVS_ERROE_MSG,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_CREATE_ROOM,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent);
     },
 
 

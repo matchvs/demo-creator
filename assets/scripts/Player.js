@@ -1,7 +1,6 @@
-var GLB = require("Glb");
-var mvs = require("Matchvs");
-var engine = require("MatchvsEngine");
-var msg = require("MatvhvsMessage");
+let GLB = require("Glb");
+let engine = require("MatchvsLib/MatchvsEngine");
+let msg = require("MatchvsLib/MatvhvsMessage");
 cc.Class({
     extends: cc.Component,
 
@@ -61,7 +60,7 @@ cc.Class({
 
         this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
         this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
-        var self = this;
+        let self = this;
         if (this.isAllowInput) {
             this.postionSampler = setInterval(function () {
                 if (GLB.isGameOver === true) {
@@ -69,20 +68,19 @@ cc.Class({
                     clearInterval(self.postionSampler);
                     return;
                 }
-                var frameData = JSON.stringify({
+                let frameData = JSON.stringify({
                     "userID": GLB.userID,
                     "action": msg.EVENT_PLAYER_POSINTON_CHANGED,
                     "x": self.getPostion(),
                     "arrow": self.isUserInputing
                 });
-                var  x = self.getPostion();
+                let  x = self.getPostion();
                 self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x:x,type:msg.PLAYER_POSINTON});
                 // if (self.isDebug){
                 //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
                 // } else  {
                 //     engine.prototype.sendEvent(frameData);
                 // }
-
                 if (GLB.syncFrame === true) {
                     engine.prototype.sendFrameEvent(frameData);
                 } else {
@@ -124,9 +122,9 @@ cc.Class({
 
     },
     onTouch : function (touch) {
-        var self = this;
+        let self = this;
         try{
-            var touchLoc = touch.getLocation();
+            let touchLoc = touch.getLocation();
             if (touchLoc.x >= cc.winSize.width / 3) {
                 self.isUserInputing = GLB.ARROW_RIGHT;
                 self.onPostionChanged(self.playerSpriteRight.node.x + self.speed, self.isUserInputing);
@@ -145,14 +143,14 @@ cc.Class({
     //2.0 需要手动移除
     addEventManageListener :function() {
         console.log("addEventManageListener");
-        var self = this
+        let self = this;
         if (this.mouseListener != null) {
             cc.eventManager.removeListener(this.mouseListener);
         }
         this.mouseListener = cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             fakeMove: null,
-            onTouchBegan: function (touch, event) {
+            onTouchBegan: function (touch) {
                 console.log("begin move ");
                 self.onTouch(touch);
                 if (this.fakeMove == null) {
@@ -162,11 +160,11 @@ cc.Class({
                 }
                 return true;
             },
-            onTouchMoved: function (touch) {
+            onTouchMoved: function () {
                 // onTouch(touch);
                 return true;
             },
-            onTouchEnded: function (touch, event) {
+            onTouchEnded: function () {
                 console.log("begin let go");
                 clearInterval(this.fakeMove);
                 this.fakeMove = null;
@@ -179,8 +177,8 @@ cc.Class({
 
     // 随机返回'新的星星'的位置
     getNewStarPosition: function () {
-        var randX = cc.randomMinus1To1() * this.starMaxX;
-        var randY = -90;
+        let randX = cc.randomMinus1To1() * this.starMaxX;
+        let randY = -90;
         return cc.p(randX, randY)
     },
 

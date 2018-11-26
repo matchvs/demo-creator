@@ -1,8 +1,7 @@
-var engine = require("MatchvsEngine");
-var response = require("MatchvsDemoResponse");
-var mvs = require("Matchvs");
-var GLB = require("Glb");
-var msg = require("MatvhvsMessage");
+let engine = require("MatchvsLib/MatchvsEngine");
+let mvs = require("MatchvsLib/Matchvs");
+let GLB = require("Glb");
+let msg = require("MatchvsLib/MatvhvsMessage");
 cc.Class({
     extends: cc.Component,
 
@@ -43,13 +42,13 @@ cc.Class({
 
 
     onLoad: function () {
-        var self = this;
-        this.initEvent(self);
+        let self = this;
+        this.initEvent();
         this.nameViewList = [[this.playerNameTwo,this.playerTwoLayout,this.playerTwoLabel],
             [this.playerNameThree,this.playerThreeLayout,this.playerThreeLabel]];
         this.userIDViewList = [this.labelUserID2,this.labelUserID3];
         self.nickName.string = '用户ID：'+ GLB.userID;
-        var matchinfo = new mvs.MsMatchInfo();
+        let matchinfo = new mvs.MsMatchInfo();
         if (GLB.syncFrame) {
             matchinfo.maxPlayer = GLB.MAX_PLAYER_COUNT;
             matchinfo.mode = 0;
@@ -68,12 +67,12 @@ cc.Class({
             engine.prototype.joinRoomWithProperties(matchinfo,"自定义属性匹配");
         }
 
-        this.back.on(cc.Node.EventType.TOUCH_END, function (event) {
+        this.back.on(cc.Node.EventType.TOUCH_END, function () {
             GLB.roomID = "";
             engine.prototype.leaveRoom();
         });
-        var isOpen = true;
-        this.joinopen.on(cc.Node.EventType.TOUCH_END, function (event) {
+        let isOpen = true;
+        this.joinopen.on(cc.Node.EventType.TOUCH_END, function () {
             isOpen = !isOpen;
             if(isOpen){
                 engine.prototype.joinOpen();
@@ -88,20 +87,19 @@ cc.Class({
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    initEvent:function (self) {
-        response.prototype.init(self);
-        this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.on(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent,this);
-        this.node.on(msg.MATCHVS_JOIN_ROOM_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_LEAVE_ROOM,this.onEvent,this);
-        this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_JOIN_OPEN_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_JOIN_OPEN_RSP,this.onEvent,this);
-        this.node.on(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
-        this.node.on(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_KICK_PLAYER, this.onEvent, this)
-        this.node.on(msg.MATCHVS_KICK_PLAYER_NOTIFY, this.onEvent, this)
+    initEvent:function () {
+        cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_JOIN_ROOM_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_LEAVE_ROOM,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_JOIN_OPEN_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_JOIN_OPEN_RSP,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_KICK_PLAYER,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_KICK_PLAYER_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
     },
 
     /**
@@ -109,17 +107,14 @@ cc.Class({
      * @param event
      */
     onEvent:function (event) {
-        var eventData = event.detail;
-        if (eventData == undefined) {
-            eventData = event;
-        }
-        var checkBox = this.joinopen.getComponent(cc.Toggle);
+        let eventData = event.data;
+        let checkBox = this.joinopen.getComponent(cc.Toggle);
         switch (event.type) {
             case msg.MATCHVS_JOIN_ROOM_RSP:
                 this.joinRoom(eventData.userInfoList);
                 break;
             case msg.MATCHVS_JOIN_ROOM_NOTIFY:
-                this.userList.push(eventData.roomUserInfo)
+                this.userList.push(eventData.roomUserInfo);
                 this.initUserView(this.userList);
                 break;
             case msg.MATCHVS_LEAVE_ROOM:
@@ -146,7 +141,7 @@ cc.Class({
                 break;
             case msg.MATCHVS_ERROE_MSG:
                 GLB.roomID = "";
-                if (eventData.errorCode != 400) {
+                if (eventData.errorCode !== 400) {
                     cc.director.loadScene('Login');
                 }
                 break;
@@ -158,7 +153,7 @@ cc.Class({
                 break;
             case msg.MATCHVS_NETWORK_STATE_NOTIFY:
                 if (eventData.netNotify.state === 1) {
-                    engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间")
+                    engine.prototype.kickPlayer(eventData.netNotify.userID,"你断线了，被提出房间");
                 }
                 break;
         }
@@ -178,20 +173,19 @@ cc.Class({
     /**
      * 取消事件监听
      */
-    removeEvent:function (self) {
-        response.prototype.init(self);
-        this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.off(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent,this);
-        this.node.off(msg.MATCHVS_JOIN_ROOM_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_LEAVE_ROOM,this.onEvent,this);
-        this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_JOIN_OPEN_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_JOIN_OPEN_RSP,this.onEvent,this);
-        this.node.off(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent,this);
-        this.node.off(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_KICK_PLAYER, this.onEvent, this)
-        this.node.off(msg.MATCHVS_KICK_PLAYER_NOTIFY, this.onEvent, this)
+    removeEvent:function () {
+        cc.systemEvent.off(msg.MATCHVS_ERROE_MSG,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_JOIN_ROOM_RSP,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_JOIN_ROOM_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_LEAVE_ROOM,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_JOIN_OPEN_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_JOIN_OPEN_RSP,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_JOIN_OVER_RSP,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_JOIN_OVER_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_KICK_PLAYER,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_KICK_PLAYER_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent);
     },
 
     /**
@@ -204,7 +198,7 @@ cc.Class({
         this.playerNameOne.string = GLB.name;
         this.userList = userInfoList;
         this.initUserView(this.userList);
-        if (this.userList.length == GLB.MAX_PLAYER_COUNT-1) {
+        if (this.userList.length === GLB.MAX_PLAYER_COUNT-1) {
             engine.prototype.joinOver();
             this.startGame();
         }
@@ -215,8 +209,8 @@ cc.Class({
      * @param userList
      */
     initUserView :function(userList){
-        for(var i = 0; i < userList.length; i++) {
-            var info = JSON.parse(userList[i].userProfile);
+        for(let i = 0; i < userList.length; i++) {
+            let info = JSON.parse(userList[i].userProfile);
             if (this.nameViewList[i][0].string === "") {
                 this.nameViewList[i][0].string = info.name;
                 this.userIDViewList[i].string = userList[i].userID;
@@ -224,7 +218,7 @@ cc.Class({
                 // this.nameViewList[i][1].node.color = '#96E8B5';
             }
         }
-        if (this.userList.length == GLB.MAX_PLAYER_COUNT-1) {
+        if (this.userList.length === GLB.MAX_PLAYER_COUNT-1) {
             engine.prototype.joinOver();
             this.startGame();
             //1 是游戏已经开始
@@ -233,33 +227,28 @@ cc.Class({
 
     /**
      * 玩家退出将玩家的信息从页面上消失
-     * @param userID
+     * @param info
      */
     removeView:function (info) {
-        for(var i = 0; i < this.userList.length;i++ ) {
-            if(info.userID == this.userList[i].userID) {
+        for(let i = 0; i < this.userList.length;i++ ) {
+            if(info.userID === this.userList[i].userID) {
                 this.userList.splice(i,1);
                 this.nameViewList[i][0].string = "";
                 this.userIDViewList[i].string = i+2;
                 this.userIDViewList[i].fontSize = 80;
             }
         }
-        // var name = JSON.parse(info.cpProto).name;
-        // for(var i = 0; i < this.nameViewList.length; i++) {
-        //     if(name == this.nameViewList[i][0].string) {
-        //     }
-        // }
     },
 
     kickPlayerName :function (userID) {
-        for (var i in  this.userList) {
-            if(userID == this.userList[i].userId) {
+        for (let i in  this.userList) {
+            if(userID === this.userList[i].userID) {
                 this.userList.splice(i,1);
             }
-            var obj = JSON.parse(this.userList[i].userProfile);
-            if (obj.userID == userID) {
-                for(var i = 0; i < this.nameViewList.length; i++) {
-                    if(this.userList[i].name == this.nameViewList[i][0].string) {
+            let obj = JSON.parse(this.userList[i].userProfile);
+            if (obj.userID === userID) {
+                for(let i = 0; i < this.nameViewList.length; i++) {
+                    if(this.userList[i].name === this.nameViewList[i][0].string) {
                         this.nameViewList[i][0].string = "";
                         return;
                     }

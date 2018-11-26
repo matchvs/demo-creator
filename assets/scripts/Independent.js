@@ -1,7 +1,6 @@
-var engine = require("MatchvsEngine");
-var response = require("MatchvsDemoResponse");
-var msg = require("MatvhvsMessage");
-var GLB = require("Glb");
+let engine = require("MatchvsLib/MatchvsEngine");
+let msg = require("MatchvsLib/MatvhvsMessage");
+let GLB = require("Glb");
 cc.Class({
     extends: cc.Component,
 
@@ -21,16 +20,16 @@ cc.Class({
     },
 
     start () {
-        var selt = this;
-        this.initEvent(selt);
-        this.confirmButton.on(cc.Node.EventType.TOUCH_END, function (event) {
-            var endPoint = selt.endPointEditBox.getComponent(cc.EditBox).string;
-            var gameID = selt.gameIDEditBox.getComponent(cc.EditBox).string;
+        let selt = this;
+        this.initEvent();
+        this.confirmButton.on(cc.Node.EventType.TOUCH_END, function () {
+            let endPoint = selt.endPointEditBox.getComponent(cc.EditBox).string;
+            let gameID = selt.gameIDEditBox.getComponent(cc.EditBox).string;
             GLB.appKey = selt.keyEditBox.getComponent(cc.EditBox).string;
             GLB.secret = selt.secretEditBox.getComponent(cc.EditBox).string;
             selt.premiseInit(endPoint,gameID);
         });
-        this.backButton.on(cc.Node.EventType.TOUCH_END,function (event) {
+        this.backButton.on(cc.Node.EventType.TOUCH_END,function () {
             cc.director.loadScene('Login');
         })
     },
@@ -38,7 +37,7 @@ cc.Class({
      * 初始化
      */
     premiseInit(enPoint,gameID){
-        if (enPoint == '' && gameID =='') {
+        if (enPoint === '' && gameID === '') {
             this.labelLog("enPoint或gameID不能为空");
         } else {
             GLB.gameID = Number(gameID);
@@ -57,25 +56,17 @@ cc.Class({
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    initEvent:function (self) {
-        response.prototype.init(self);
-        this.node.on(msg.MATCHVS_INIT, this.onEvent, this);
-        this.node.on(msg.MATCHVS_LOGIN,this.onEvent,this);
+    initEvent:function () {
+        cc.systemEvent.on(msg.MATCHVS_INIT,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_LOGIN,this.onEvent,this);
     },
 
     onEvent(event) {
-        var eventData;
-        try{
-            eventData = event.detail;
-        } catch(error){
-            console.warn(error.message);
-            eventData = event;
-        }
         switch (event.type){
             case msg.MATCHVS_INIT:
-                var token = this.tokenEditBox.getComponent(cc.EditBox).string;
-                var userID = this.userIDEditBox.getComponent(cc.EditBox).string;
-                if (userID == '' && token == '') {
+                let token = this.tokenEditBox.getComponent(cc.EditBox).string;
+                let userID = this.userIDEditBox.getComponent(cc.EditBox).string;
+                if (userID === '' && token === '') {
                     this.labelLog("userID和token不能为空");
                 } else {
                     this.login(userID,token);
@@ -97,8 +88,8 @@ cc.Class({
 
 
     removeEvent() {
-        this.node.off(msg.MATCHVS_INIT, this.onEvent, this);
-        this.node.off(msg.MATCHVS_LOGIN,this.onEvent,this);
+        cc.systemEvent.off(msg.MATCHVS_INIT,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_LOGIN,this.onEvent);
     },
 
     onDestroy() {

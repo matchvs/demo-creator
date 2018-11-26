@@ -1,7 +1,4 @@
-var engine = require("MatchvsEngine");
-var response = require("MatchvsDemoResponse");
-var GLB = require("Glb");
-var msg = require("MatvhvsMessage");
+let GLB = require("Glb");
 cc.Class({
     extends: cc.Component,
 
@@ -19,9 +16,9 @@ cc.Class({
 
 
     onLoad () {
-        var self = this;
+        let self = this;
         self.nickName.string = '用户ID：'+ GLB.userID;
-        this.startMatch.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.startMatch.on(cc.Node.EventType.TOUCH_END, function(){
             if (self.odd.isChecked) {
                 GLB.tagsInfo={"title": "A"};
             } else {
@@ -30,14 +27,14 @@ cc.Class({
             GLB.matchType = GLB.PROPERTY_MATCH;
             cc.director.loadScene('Match');
         });
-        this.returnLobby.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.returnLobby.on(cc.Node.EventType.TOUCH_END, function(){
             cc.director.loadScene('Lobby');
         });
     },
 
     startGame: function () {
-        this.labelLog('游戏即将开始')
-        cc.director.loadScene('game')
+        this.labelLog('游戏即将开始');
+        cc.director.loadScene('game');
     },
 
 });

@@ -1,8 +1,8 @@
-var mvs = require("Matchvs");
-var GLB = require("Glb");
-var msg = require("MatvhvsMessage");
-var engine = require("MatchvsEngine");
-var response = require("MatchvsDemoResponse");
+let mvs = require("MatchvsLib/Matchvs");
+let GLB = require("Glb");
+let msg = require("MatchvsLib/MatvhvsMessage");
+let engine = require("MatchvsLib/MatchvsEngine");
+
 cc.Class({
     extends: cc.Component,
 
@@ -34,13 +34,6 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
-
-        // 音频资源
-        // scoreAudio: {
-        //     default: null,
-        //     url: cc.AudioClip
-        // },
-
         delay: cc.Label,
         maxDelay: cc.Label,
         minDelay: cc.Label,
@@ -83,7 +76,7 @@ cc.Class({
         engine.prototype.getRoomDetail(GLB.roomID);
         this.scoreDisplays = [this.scoreDisplays0,this.scoreDisplays1, this.scoreDisplays2];
         this.timer = 0;
-        var myScorce = {userID:GLB.userID,Score:this.score};
+        let myScorce = {userID:GLB.userID,Score:this.score};
         this.userScores.push(myScorce);
         this.scoreDisplays0.string = myScorce.userID + ":"+myScorce.Score ;
         GLB.number1 = GLB.userID + ':' + this.score;
@@ -95,7 +88,7 @@ cc.Class({
         this.groundY = this.ground.y + this.ground.height / 2;
         this.compensation = 50;
         this.starMaxX = this.node.width / 2;
-        if (GLB.mapType == "黑夜模式") {
+        if (GLB.mapType === "黑夜模式") {
             this.ground.opacity =  40;
         }
         cc.director.getCollisionManager().enabled = true;
@@ -104,33 +97,33 @@ cc.Class({
         if (GLB.syncFrame === true) {
             this.labelsyncrate.string = "同步帧率:" + GLB.FRAME_RATE;
         }
-        var self = this;
-        this.initEvent(self);
-        this.buttonSubscribe.on(cc.Node.EventType.TOUCH_END, function (event) {
-            var result = mvs.engine.subscribeEventGroup(["MatchVS"], ["hello"]);
+        let self = this;
+        this.initEvent();
+        this.buttonSubscribe.on(cc.Node.EventType.TOUCH_END, function () {
+            let result = mvs.engine.subscribeEventGroup(["MatchVS"], ["hello"]);
             if (result !== 0)
                 self.labelLog('订阅分组失败,错误码:' + result);
             mvs.response.subscribeEventGroupResponse = self.subscribeEventGroupResponse.bind(self);
         });
-        this.buttonUnsubscribe.on(cc.Node.EventType.TOUCH_END, function (event) {
-            var result = mvs.engine.subscribeEventGroup(["hello"], ["MatchVS"]);
+        this.buttonUnsubscribe.on(cc.Node.EventType.TOUCH_END, function () {
+            let result = mvs.engine.subscribeEventGroup(["hello"], ["MatchVS"]);
             if (result !== 0)
                 self.labelLog('取消订阅分组失败,错误码:' + result);
             mvs.response.subscribeEventGroupResponse = self.subscribeEventGroupResponse.bind(self);
         });
-        this.buttonSend.on(cc.Node.EventType.TOUCH_END, function (event) {
-            var result = mvs.engine.sendEventGroup("分组消息测试", ["MatchVS"]);
+        this.buttonSend.on(cc.Node.EventType.TOUCH_END, function () {
+            let result = mvs.engine.sendEventGroup("分组消息测试", ["MatchVS"]);
             if (result !== 0)
                 self.labelLog('发送分组消息失败,错误码:' + result);
             mvs.response.sendEventGroupResponse = self.sendEventGroupResponse.bind(self);
             mvs.response.sendEventGroupNotify = self.sendEventGroupNotify.bind(self);
         });
-        this.buttonLeaveRoom.on(cc.Node.EventType.TOUCH_END, function (event) {
-            for (var i = 0, l = self.players.length; i < l; i++) {
+        this.buttonLeaveRoom.on(cc.Node.EventType.TOUCH_END, function () {
+            for (let i = 0, l = self.players.length; i < l; i++) {
                 self.players[i].stopAllActions()
             }
             GLB.isGameOver = true;
-            mvs.engine.leaveRoom("");
+            engine.prototype.leaveRoom();
             cc.director.loadScene('Lobby');
         });
 
@@ -145,7 +138,7 @@ cc.Class({
             if (self.labelGameoverTime.string === "2") {
                 GLB.isGameOver = true;
             }
-            if (self.labelGameoverTime.string == "0") {
+            if (self.labelGameoverTime.string === "0") {
                 self.gameOver();
             }
         }, 1000);
@@ -155,32 +148,28 @@ cc.Class({
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    initEvent:function (self) {
-        response.prototype.init(self);
-        this.node.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
-        this.node.on(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
-        this.node.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
-        this.node.on(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
-        this.node.on(msg.PLAYER_POSINTON,this.onEvent , this);
-        this.node.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
-        this.node.on(msg.MATCHVS_LEAVE_ROOM,this.onEvent ,this);
-        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
-        this.node.on(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.setFrameSyncResponse, this);
+    initEvent:function () {
+        cc.systemEvent.on(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_FRAME_UPDATE,this.onEvent,this);
+        cc.systemEvent.on(msg.PLAYER_POSINTON,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_LEAVE_ROOM,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.onEvent,this);
     },
     
     onEvent :function (event) {
-        var eventData = event.detail;
-        if (eventData == undefined) {
-            eventData = event;
-        }
+        let eventData = event.data;
         switch(event.type) {
             case msg.MATCHVS_ROOM_DETAIL:
                 GLB.ownew = eventData.rsp.owner;
-                for (var i = 0; i <eventData.rsp.userInfos.length;i++) {
+                for (let i = 0; i <eventData.rsp.userInfos.length;i++) {
                     if (eventData.rsp.userInfos[i].userID !== GLB.userID) {
                         this.userInfos.push(eventData.rsp.userInfos[i]);
-                        var userScore = {userID:0,Score:0};
+                        let userScore = {userID:0,Score:0};
                         userScore.userID = eventData.rsp.userInfos[i].userID;
                         userScore.Score = 0;
                         this.userScores.push(userScore);
@@ -190,11 +179,11 @@ cc.Class({
                     GLB.isRoomOwner = true;
                     // 创建星星
                     this.spawnNewStar();
-                    if (GLB.syncFrame == true) {
+                    if (GLB.syncFrame === true) {
                         this.setFrameRate();
                     }
                 }
-                for (var i = 1; i < this.players.length; i++) {
+                for (let i = 1; i < this.players.length; i++) {
                     (!this.players[i]) && (this.players[i] = this.node.getChildByName("Player" + (i + 1)).node);
                     this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string = this.userScores[i].userID;
                     this.scoreDisplays[i].string = this.userScores[i].userID + ":"+this.userScores[i].Score ;
@@ -213,27 +202,27 @@ cc.Class({
                 cc.director.loadScene('Login');
                 break;
             case msg.MATCHVS_FRAME_UPDATE:
-                // var rsp = event.detail;
-                for (var i = 0; i < eventData.data.frameItems.length; i++) {
-                    var info = eventData.data.frameItems[i];
+                // let rsp = event.detail;
+                for (let i = 0; i < eventData.data.frameItems.length; i++) {
+                    let info = eventData.data.frameItems[i];
                     this.onNewWorkGameEvent(info);
                 }
                 break;
             case msg.PLAYER_POSINTON:
-                if (this.newStar != undefined) {
+                if (this.newStar !== undefined) {
                     if (Math.abs(eventData.x - GLB.NEW_STAR_POSITION) < 15) {
                         if (this.newStar.active) {
                             this.newStar.active = false;
-                            var frameData = JSON.stringify({
+                            let frameData = JSON.stringify({
                                 "action": msg.EVENT_GAIN_SCORE,
                                 "userID": GLB.userID,
                             });
-                            engine.prototype.sendEventEx(frameData);
-                            var event = {
+                            engine.prototype.sendEventEx(0,frameData);
+                            let event = {
                                 action: msg.EVENT_NEW_START,
                                 position: this.getNewStarPosition()
                             };
-                            this.createStarNode(event.position)
+                            this.createStarNode(event.position);
                             engine.prototype.sendEvent(JSON.stringify(event));
                         }
                     }
@@ -255,7 +244,7 @@ cc.Class({
      * 设置帧率
      */
     setFrameRate () {
-        var result =  engine.prototype.setFrameSync(GLB.FRAME_RATE);
+        let result = engine.prototype.setFrameSync(GLB.FRAME_RATE);
         if (result !== 0) {
             this.labelLog('设置帧同步率失败,错误码:' + result);
         }
@@ -288,7 +277,7 @@ cc.Class({
 
     onNewWorkGameEvent : function(info) {
         if (info && info.cpProto) {
-            var event = JSON.parse(info.cpProto);
+            let event = JSON.parse(info.cpProto);
             if (event.action === msg.EVENT_NEW_START) {
                 // 收到创建星星的消息通知，根据消息给的坐标创建星星
                 this.createStarNode(event.position)
@@ -309,8 +298,8 @@ cc.Class({
      * @param event
      */
     reconnection :function (event) {
-        for (var a = 0; a <this.userScores.length; a++) {
-            for (var i = 0; i <event.length; i++) {
+        for (let a = 0; a <this.userScores.length; a++) {
+            for (let i = 0; i <event.length; i++) {
                 if (this.userScores[a].userID=== event[i].userID ) {
                     console.log(this.userScores[a].Score, event[i].Score);
                     this.userScores[a].Score = event[i].Score;
@@ -326,8 +315,8 @@ cc.Class({
 
     // 更新每个玩家的移动方向
     updatePlayerMoveDirection: function (event) {
-        if (event.userID != GLB.userID) {
-            var player = this.getPlayerByUserId(event.userID);
+        if (event.userID !== GLB.userID) {
+            let player = this.getPlayerByUserId(event.userID);
             if (player) {
                 player.onPostionChanged(event.x, event.arrow);
             } else {
@@ -337,8 +326,8 @@ cc.Class({
     },
 
     getPlayerByUserId: function (userId) {
-        for (var i = 0; i < this.players.length; i++) {
-            if (this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string == userId) {
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string === userId) {
                 return this.players[i].getComponent("Player");
             }
         }
@@ -346,17 +335,17 @@ cc.Class({
 
     // 根据坐标位置创建星星节点
     createStarNode: function (position) {
-        for (var i = 0; i < this.node.children.length; i++) {
-            var child = this.node.children[i];
+        for (let i = 0; i < this.node.children.length; i++) {
+            let child = this.node.children[i];
             if (child.name === 'star') child.destroy();
         }
-        this.newStar = cc.instantiate(this.starPrefab)
-        this.node.addChild(this.newStar)
+        this.newStar = cc.instantiate(this.starPrefab);
+        this.node.addChild(this.newStar);
 
-        this.newStar.setPosition(cc.v2(position.x, position.y))
+        this.newStar.setPosition(cc.v2(position.x, position.y));
         this.newStar.getComponent('Star').game = this;
         this.newStar.active = true;
-        this.timer = 0
+        this.timer = 0;
         GLB.NEW_STAR_POSITION = position.x;
     },
 
@@ -367,11 +356,11 @@ cc.Class({
         if (!GLB.isRoomOwner)
             return;    // 只有房主可创建星星
 
-        var event = {
+        let event = {
             action: msg.EVENT_NEW_START,
             position: this.getNewStarPosition()
         };
-        var result = mvs.engine.sendEvent(JSON.stringify(event))
+        let result = engine.prototype.sendEvent(JSON.stringify(event))
         if (!result || result.result !== 0)
             return console.error('创建星星事件发送失败');
 
@@ -381,17 +370,17 @@ cc.Class({
 
     // 随机返回'新的星星'的位置
     getNewStarPosition: function () {
-        var randX = this.randomMinus1To1() * this.starMaxX;
-        var randY = -90;
+        let randX = this.randomMinus1To1() * this.starMaxX;
+        let randY = -90;
         return cc.v2(randX, randY)
     },
 
 
     //玩家得分
     refreshScore: function (event) {
-        if (event != undefined) {
-            for (var i = 0; i < this.userScores.length;i++) {
-                if (event.userID == this.userScores[i].userID) {
+        if (event !== undefined) {
+            for (let i = 0; i < this.userScores.length;i++) {
+                if (event.userID === this.userScores[i].userID) {
                     this.userScores[i].Score ++;
                     this.scoreDisplays[i].string = this.userScores[i].userID + ':' + this.userScores[i].Score;
                 }
@@ -405,11 +394,11 @@ cc.Class({
     // 游戏结束
     gameOver: function () {
         GLB.isGameOver = true;
-        for (var i = 0, l = this.players.length; i < l; i++) {
+        for (let i = 0, l = this.players.length; i < l; i++) {
             this.players[i].stopAllActions();
             this.players[i].destroy();
         }
-        mvs.engine.leaveRoom("");
+        engine.prototype.leaveRoom();
         cc.director.loadScene('Result');
     },
 
@@ -423,15 +412,15 @@ cc.Class({
         if (netNotify.owner === GLB.userID) {
             GLB.isRoomOwner = true;
         }
-        if (netNotify.userID == GLB.userID && netNotify.state === 1) {
-            console.log("netNotify.userID :"+netNotify.userID +"netNotify.state: "+netNotify.state)
+        if (netNotify.userID === GLB.userID && netNotify.state === 1) {
+            console.log("netNotify.userID :"+netNotify.userID +"netNotify.state: "+netNotify.state);
             cc.director.loadScene("Login");
         }
 
         console.log("玩家：" + netNotify.userID + " state:" + netNotify.state);
         if (netNotify.state === 2) {
             console.log("玩家已经重连进来");
-            var event = {
+            let event = {
                 action: msg.GAME_RECONNECT,
                 cpProto: this.userScores
             };
@@ -446,16 +435,16 @@ cc.Class({
      * 移除监听
      */
     removeEvent:function () {
-        this.node.off(msg.MATCHVS_ROOM_DETAIL,this.onEvent,this);
-        this.node.off(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent,this);
-        this.node.off(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
-        this.node.off(msg.MATCHVS_FRAME_UPDATE,this.onEvent ,this);
-        this.node.off(msg.PLAYER_POSINTON,this.onEvent , this);
-        this.node.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent, this);
-        this.node.off(msg.MATCHVS_LEAVE_ROOM,this.onEvent ,this);
-        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
-        this.node.off(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.setFrameSyncResponse, this);
+        cc.systemEvent.off(msg.MATCHVS_ROOM_DETAIL,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_SEND_EVENT_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_SEND_EVENT_RSP,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_ERROE_MSG,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_FRAME_UPDATE,this.onEvent);
+        cc.systemEvent.off(msg.PLAYER_POSINTON,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_LEAVE_ROOM_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_LEAVE_ROOM,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent);
+        cc.systemEvent.off(msg.MATCHVS_SET_FRAME_SYNC_RSP,this.onEvent);
     },
 
     onDestroy: function () {

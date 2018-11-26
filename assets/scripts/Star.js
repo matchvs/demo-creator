@@ -17,14 +17,13 @@ cc.Class({
     },
 
     onCollisionEnter: function (other, self) {
-        console.log("碰撞生效了！！！！！！")
+        console.log("碰撞生效了！！！！！！");
         if (self.tag === 0) {
             // this.view.active = true;
             // this.label.string = "you win";
         } else {
             // this.view.active = true;
             // this.label.string = "you lose";
-
         }
     },
 
@@ -32,10 +31,10 @@ cc.Class({
 
     getPlayerDistance: function () {
         // 根据 player 节点位置判断距离
-        var playerPos = this.game.players[0].getPosition();
+        let playerPos = this.game.players[0].getPosition();
         // this.game.players[0].node.x;
         // 根据两点位置计算两点之间距离
-        var dist = this.pDistance(this.node.position, playerPos);
+        let dist = this.pDistance(this.node.position, playerPos);
         return dist;
     },
 
@@ -49,7 +48,7 @@ cc.Class({
     },
 
     // called every frame
-    update: function (dt) {
+    update: function () {
         // 每帧判断和主角之间的距离是否小于收集距离
         if (this.getPlayerDistance() < this.pickRadius) {
             // 调用收集行为
@@ -57,8 +56,8 @@ cc.Class({
             return;
         }
         // 根据 Game 脚本中的计时器更新星星的透明度
-        var opacityRatio = Math.max(1 - this.game.timer/this.game.starDuration, 0.01);
-        var minOpacity = 50;
+        let opacityRatio = Math.max(1 - this.game.timer/this.game.starDuration, 0.01);
+        let minOpacity = 50;
         this.node.opacity = minOpacity + Math.floor(opacityRatio * (255 - minOpacity));
     },
 

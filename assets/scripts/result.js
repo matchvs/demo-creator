@@ -1,8 +1,5 @@
-// var mvs = require("Matchvs");
-
-var GLB = require("Glb");
-var response = require("MatchvsDemoResponse");
-var msg = require("MatvhvsMessage");
+let GLB = require("Glb");
+let msg = require("MatchvsLib/MatvhvsMessage");
 
 cc.Class({
     extends: cc.Component,
@@ -20,34 +17,34 @@ cc.Class({
 
 
     onLoad () {
-        var self = this;
+        let self = this;
         this.sortScore(self);
-        this.initEvent(self);
-        this.buttonBack.on(cc.Node.EventType.TOUCH_END, function(event){
+        this.initEvent();
+        this.buttonBack.on(cc.Node.EventType.TOUCH_END, function(){
             cc.director.loadScene('Lobby');
         });
     },
 
     sortScore() {
-        var nums = [GLB.number1,GLB.number2,GLB.number3];
-        for(var i = 0; i < nums.length;i++) {
-            var num = nums[i].split(":")
+        let nums = [GLB.number1,GLB.number2,GLB.number3];
+        for(let i = 0; i < nums.length;i++) {
+            let num = nums[i].split(":");
             //如果自己是房主
             this.showNum(num);
         }
     },
 
     showNum(num) {
-        var IDS = [this.oneID,this.twoID];
-        var scoreS = [this.oneScore,this.twoScore];
-        if (num[0] == GLB.ownew) {
+        let IDS = [this.oneID,this.twoID];
+        let scoreS = [this.oneScore,this.twoScore];
+        if (num[0] === GLB.ownew) {
             this.ownerID .string= num[0];
             this.ownerScore.string = num[1];
         } else {
-            for(var i = 0; i < IDS.length ;i++) {
+            for(let i = 0; i < IDS.length ;i++) {
                 if(IDS[i].string === "") {
                     IDS[i].string = num[0];
-                    scoreS[i].string = num[1]
+                    scoreS[i].string = num[1];
                     return;
                 }
             }
@@ -58,27 +55,22 @@ cc.Class({
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    initEvent:function (self) {
-        response.prototype.init(self);
-        this.node.on(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
-
+    initEvent:function () {
+        cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent);
+        cc.systemEvent.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent);
     },
     
     
     onEvent:function (event) {
-        var eventData = event.detail;
-        if (eventData == undefined) {
-            eventData = event;
-        }
+        let eventData = event.data;
         switch (event.type){
             case msg.MATCHVS_ERROE_MSG:
                 console.log("[Err]errCode:"+event.detail.errorCode+" errMsg:"+event.detail.errorMsg);
                 cc.director.loadScene('Login');
             break;
             case msg.MATCHVS_NETWORK_STATE_NOTIFY:
-                if (eventData.netNotify.userID == GLB.userID && eventData.netNotify.state === 1) {
-                    console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state)
+                if (eventData.netNotify.userID === GLB.userID && eventData.netNotify.state === 1) {
+                    console.log("netNotify.userID :"+eventData.netNotify.userID +"netNotify.state: "+eventData.netNotify.state);
                     cc.director.loadScene("Login");
                 }
             break;
@@ -91,8 +83,8 @@ cc.Class({
         GLB.number1 = 0;
         GLB.number2 = 0;
         GLB.number3 = 0;
-        this.node.off(msg.MATCHVS_ERROE_MSG, this.onEvent, this);
-        this.node.off(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent);
+        cc.systemEvent.on(msg.MATCHVS_NETWORK_STATE_NOTIFY,this.onEvent);
     }
 
 });

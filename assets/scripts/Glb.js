@@ -1,9 +1,7 @@
-var obj = {
+let obj = {
     RANDOM_MATCH: 1,  // 随机匹配
     PROPERTY_MATCH: 2,  // 属性匹配
     MAX_PLAYER_COUNT: 3,
-
-
     channel: 'Matchvs',
     platform: 'alpha',
     gameID: 200978,
@@ -35,10 +33,7 @@ var obj = {
     mapType: "",
     FPS:30,//数据帧每秒采样次数
 };
-/**
- * 去重复item
- * @returns {Array}
- */
-
 
 module.exports = obj;
+
+window['obj'] = obj; //这步不能少
