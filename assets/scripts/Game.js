@@ -135,10 +135,8 @@ cc.Class({
         GLB.isGameOver = false;
         this.countDown = setInterval(function () {
             self.labelGameoverTime.string = self.labelGameoverTime.string - 1;
-            if (self.labelGameoverTime.string === "2") {
+            if (self.labelGameoverTime.string === 0) {
                 GLB.isGameOver = true;
-            }
-            if (self.labelGameoverTime.string === "0") {
                 self.gameOver();
             }
         }, 1000);
@@ -327,7 +325,7 @@ cc.Class({
 
     getPlayerByUserId: function (userId) {
         for (let i = 0; i < this.players.length; i++) {
-            if (this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string === userId) {
+            if (this.players[i].getChildByName("playerLabel").getComponent(cc.Label).string == userId) {
                 return this.players[i].getComponent("Player");
             }
         }

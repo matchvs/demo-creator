@@ -37,8 +37,8 @@ cc.Class({
     showNum(num) {
         let IDS = [this.oneID,this.twoID];
         let scoreS = [this.oneScore,this.twoScore];
-        if (num[0] === GLB.ownew) {
-            this.ownerID .string= num[0];
+        if (num[0] == GLB.ownew) {
+            this.ownerID .string = num[0];
             this.ownerScore.string = num[1];
         } else {
             for(let i = 0; i < IDS.length ;i++) {

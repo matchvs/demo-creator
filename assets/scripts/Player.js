@@ -75,7 +75,10 @@ cc.Class({
                     "arrow": self.isUserInputing
                 });
                 let  x = self.getPostion();
-                self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x:x,type:msg.PLAYER_POSINTON});
+                // self.node.parent.getComponent("Game").node.emit(msg.PLAYER_POSINTON, {x:x,type:msg.PLAYER_POSINTON});
+                let event = new cc.Event(msg.PLAYER_POSINTON,true);
+                event["data"] = {x:x,type:msg.PLAYER_POSINTON};
+                cc.systemEvent.dispatchEvent(event);
                 // if (self.isDebug){
                 //     self.node.parent.getComponent("Game").onNewWorkGameEvent({"cpProto":frameData}); //remove me, This is for Test only
                 // } else  {
