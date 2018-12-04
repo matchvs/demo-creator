@@ -361,7 +361,7 @@ cc.Class({
             position: this.getNewStarPosition()
         };
         let result = engine.prototype.sendEvent(JSON.stringify(event))
-        if (!result || result.result !== 0)
+        if (result !== 0)
             return console.error('创建星星事件发送失败');
 
         this.createStarNode(event.position);

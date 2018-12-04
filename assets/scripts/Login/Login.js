@@ -34,8 +34,7 @@ cc.Class({
             }
             if (self.appKeyInput.getComponent(cc.EditBox).string !== "")
                 GLB.appKey = self.appKeyInput.getComponent(cc.EditBox).string;
-
-            // engine.prototype.init(GLB.channel,GLB.platform,GLB.gameID);
+            engine.prototype.init(GLB.channel,GLB.platform,GLB.gameID);
         });
         this.clear.on(cc.Node.EventType.TOUCH_END, function () {
             if (LocalStore_Clear) {
