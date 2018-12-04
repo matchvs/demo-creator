@@ -27,38 +27,36 @@ export default class NewClass extends cc.Component {
     private AppKey:string = "4fd4a67c10e84e259a2c3c417b9114f4";
 
     start () {
-        let self = this;
-        self.Engine = new MatchvsEngine();
-        self.Response = new MatchvsResponse();
-        this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
-            if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0  && self.appKeyInput.string === "" && self.appKeyInput.placeholder === ""){
-                return;
-            }
-            if (self.appKeyInput.string === "") {
-                self.AppKey = self.appKeyInput.placeholder;
-            } else {
-                self.AppKey = self.appKeyInput.string;
-            }
-            if (Number(self.gameIdInput.string) === 0) {
-                self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.placeholder));
-            }else {
-                self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.string));
-            }
+        // let self = this;
+        // self.Engine = new MatchvsEngine();
+        // self.Response = new MatchvsResponse();
+        // this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
+        //     if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0  && self.appKeyInput.string === "" && self.appKeyInput.placeholder === ""){
+        //         return;
+        //     }
+        //     if (self.appKeyInput.string === "") {
+        //         self.AppKey = self.appKeyInput.placeholder;
+        //     } else {
+        //         self.AppKey = self.appKeyInput.string;
+        //     }
+        //     if (Number(self.gameIdInput.string) === 0) {
+        //         self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.placeholder));
+        //     }else {
+        //         self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.string));
+        //     }
+        //
+        // });
 
-        });
-
-        self.initEvent();
+        // self.initEvent();
     }
 
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
     private initEvent () {
-        if (this.Response !== undefined) {
-            this.Response.initResponse = this.initRsp.bind(this);
-            this.Response.registerUserResponse = this.registerUserRsp.bind(this);
-            this.Response.loginResponse = this.loginRsp.bind(this);
-        }
+        this.Response.initResponse = this.initRsp.bind(this);
+        this.Response.registerUserResponse = this.registerUserRsp.bind(this);
+        this.Response.loginResponse = this.loginRsp.bind(this);
     }
 
     /**

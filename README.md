@@ -75,7 +75,19 @@ login —> Lobby -> Match -> game -> result -> Lobby;
 登陆 ——》大厅 ——》 随机匹配 ——》游戏场景 ——》 结算页面 ——》大厅。
 
 
-### 5：Change Log
+### 5：TS登陆代码与JS登陆代码的切换。
+
+  1：文件地址demo/assets/script/Login/Login.js
+	
+	需要使用JS代码进行登陆操作时候需要注册 Login.Ts代码中的start方法内的代码注释即可。
+  
+  2: 文件地址demo/assets/script/Login/Login.Ts
+		
+	需要使用Ts代码进行登陆操作时候需要注册 Login.js代码中的start方法内的代码注释即可。 	
+		
+**注意** Ts代码仅编写了登陆页面作为参考。没有做后续的功能。如果需要查看所有功能请使用JS代码进行调试。
+		
+### 6：Change Log
 
 V3.7.4.3
 

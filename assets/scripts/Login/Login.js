@@ -52,12 +52,12 @@ cc.Class({
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
     initEvent:function () {
-        // cc.systemEvent.on(msg.MATCHVS_INIT,this.onEvent,this);
-        // cc.systemEvent.on(msg.MATCHVS_RE_CONNECT,this.onEvent,this);
-        // cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
-        // cc.systemEvent.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
-        // cc.systemEvent.on(msg.MATCHVS_LOGIN,this.onEvent,this);
-        // cc.systemEvent.on(msg.MATCHVS_WX_BINDING,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_INIT,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_RE_CONNECT,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_ERROE_MSG,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_REGISTER_USER,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_LOGIN,this.onEvent,this);
+        cc.systemEvent.on(msg.MATCHVS_WX_BINDING,this.onEvent,this);
     },
 
 
