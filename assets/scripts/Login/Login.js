@@ -25,7 +25,6 @@ cc.Class({
      * load 显示页面
      */
     onLoad: function () {
-
         let self = this;
         this.initEvent();
         this.confirm.on(cc.Node.EventType.TOUCH_END, function () {

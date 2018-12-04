@@ -18,6 +18,7 @@ MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
     console.log("初始化result"+result);
     return result;
 };
+
 /**
  * 独立部署使用的初始化接口
  * @param {string} endPoint

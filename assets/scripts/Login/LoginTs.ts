@@ -21,13 +21,15 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Node)
     labelInfo: cc.Label = null;
-    private Engine:MatchvsEngine = new MatchvsEngine();
-    private Response:MatchvsResponse =  new MatchvsResponse();
+    private Engine:MatchvsEngine;
+    private Response:MatchvsResponse;
     private GameID:number = 200978;
     private AppKey:string = "4fd4a67c10e84e259a2c3c417b9114f4";
 
     start () {
         let self = this;
+        self.Engine = new MatchvsEngine();
+        self.Response = new MatchvsResponse();
         this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
             if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0  && self.appKeyInput.string === "" && self.appKeyInput.placeholder === ""){
                 return;
@@ -52,9 +54,11 @@ export default class NewClass extends cc.Component {
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
     private initEvent () {
-        this.Response.initResponse = this.initRsp.bind(this);
-        this.Response.registerUserResponse = this.registerUserRsp.bind(this);
-        this.Response.loginResponse = this.loginRsp.bind(this);
+        if (this.Response !== undefined) {
+            this.Response.initResponse = this.initRsp.bind(this);
+            this.Response.registerUserResponse = this.registerUserRsp.bind(this);
+            this.Response.loginResponse = this.loginRsp.bind(this);
+        }
     }
 
     /**
