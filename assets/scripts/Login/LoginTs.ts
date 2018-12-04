@@ -23,8 +23,8 @@ export default class NewClass extends cc.Component {
     labelInfo: cc.Label = null;
     private Engine:MatchvsEngine = new MatchvsEngine();
     private Response:MatchvsResponse =  new MatchvsResponse();
-    private GameID:number = 0;
-    private AppKey:string = "";
+    private GameID:number = 200978;
+    private AppKey:string = "4fd4a67c10e84e259a2c3c417b9114f4";
 
     start () {
         let self = this;
@@ -32,13 +32,11 @@ export default class NewClass extends cc.Component {
             if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0  && self.appKeyInput.string === "" && self.appKeyInput.placeholder === ""){
                 return;
             }
-
             if (self.appKeyInput.string === "") {
-                self.AppKey = self.appKeyInput.string;
-            } else {
                 self.AppKey = self.appKeyInput.placeholder;
+            } else {
+                self.AppKey = self.appKeyInput.string;
             }
-
             if (Number(self.gameIdInput.string) === 0) {
                 self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.placeholder));
             }else {
@@ -111,7 +109,7 @@ export default class NewClass extends cc.Component {
      * @param token
      */
     login (id, token) {
-        this.labelLog('开始登录...用户ID:' + id + " gameID " + "200978");
+        // this.labelLog('开始登录...用户ID:' + id + " gameID " + "200978");
         this.Engine.login(id,token,this.GameID,1,this.AppKey,"0");
     }
 
