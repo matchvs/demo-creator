@@ -1,6 +1,6 @@
-let mvs = require("MatchvsLib/Matchvs");
-let msg = require("assets/scripts/MatchvsLib/MatvhvsMessage");
-let GLB = require("assets/scripts/Glb");
+let mvs = require("Matchvs");
+let msg = require("MatvhvsMessage");
+let GLB = require("../interface/Glb");
 function MatchvsDemoResponse() {
 
 }

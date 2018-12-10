@@ -1,4 +1,4 @@
-let GLB = require("Glb");
+let GLB = require("../interface/Glb");
 cc.Class({
     extends: cc.Component,
 

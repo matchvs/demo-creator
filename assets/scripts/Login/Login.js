@@ -1,9 +1,9 @@
 /**
  * 登录
  */
-let GLB = require("assets/scripts/Glb");
-let engine = require("assets/scripts/MatchvsLib/MatchvsEngine");
-let msg = require("assets/scripts/MatchvsLib/MatvhvsMessage");
+let GLB = require("../interface/Glb");
+let engine = require("../MatchvsLib/MatchvsEngine");
+let msg = require("../MatchvsLib/MatvhvsMessage");
 
 cc.Class({
     extends: cc.Component,

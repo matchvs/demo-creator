@@ -1,7 +1,7 @@
 var wxShareConf = {
     getOpenIDAddr:"http://test79open.matchvs.com/getOpenID?" //传入code获取微信openID的服务端地址
 }
-var engine = require("assets/scripts/MatchvsLib/MatchvsEngine");
+let engine = require("../MatchvsLib/MatchvsEngine");
 /**
  * 获取启动参数
  */

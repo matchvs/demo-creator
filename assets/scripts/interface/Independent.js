@@ -1,5 +1,5 @@
-let engine = require("MatchvsLib/MatchvsEngine");
-let msg = require("MatchvsLib/MatvhvsMessage");
+let engine = require("../MatchvsLib/MatchvsEngine");
+let msg = require("../MatchvsLib/MatvhvsMessage");
 let GLB = require("Glb");
 cc.Class({
     extends: cc.Component,
