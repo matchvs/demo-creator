@@ -239,6 +239,9 @@ cc.Class({
         let md5Str = hex_md5(str);
         console.log(md5Str);
         return md5Str;
-    }
+    },
+
+
+
 
 });

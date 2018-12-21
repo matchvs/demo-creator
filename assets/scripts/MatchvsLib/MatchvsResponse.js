@@ -129,7 +129,8 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
     if (status === 200) {
         console.log("进入房间成功");
         userInfoList.roomID = roomInfo.roomID;
-        MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_JOIN_ROOM_RSP,{userInfoList:userInfoList,type:msg.MATCHVS_JOIN_ROOM_RSP});
+        var player ={userID:GLB.userID,userName: GLB.name};
+        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(userInfoList,"joinRoom",player,roomInfo.owner);
     } else {
         console.log("进入房间失败"+status);
     }
@@ -141,6 +142,8 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
  */
 MatchvsDemoResponse.prototype.joinRoomNotify = function (roomUserInfo) {
     console.log(roomUserInfo.userID+"加入了房间");
+    var player ={userID:roomUserInfo.userID,userName: roomUserInfo.userProfile};
+    MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(roomUserInfo,"joinRoomNotify",player,0);
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_JOIN_ROOM_NOTIFY,{roomUserInfo:roomUserInfo,type:msg.MATCHVS_JOIN_ROOM_NOTIFY});
 };
 
@@ -195,6 +198,8 @@ MatchvsDemoResponse.prototype.joinOverNotify = function (notify) {
 MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
     if (leaveRoomRsp.status === 200) {
         console.log("离开房间成功");
+        var player ={userID:leaveRoomRsp.userID,userName: leaveRoomRsp.cpProto};
+        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(leaveRoomRsp,"leaveRoom",player,0);
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_LEAVE_ROOM,{leaveRoomRsp,type:msg.MATCHVS_LEAVE_ROOM});
     } else {
         console.log("离开房间失败"+leaveRoomRsp.status);
@@ -206,6 +211,8 @@ MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
  * @param leaveRoomInfo
  */
 MatchvsDemoResponse.prototype.leaveRoomNotify = function (leaveRoomInfo) {
+    var player ={userID:leaveRoomInfo.userID,userName: leaveRoomInfo.cpProto};
+    MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(leaveRoomInfo,"leaveRoom",player,leaveRoomInfo.owner);
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_LEAVE_ROOM_NOTIFY,{leaveRoomInfo:leaveRoomInfo,type:msg.MATCHVS_LEAVE_ROOM_NOTIFY});
 };
 
@@ -229,6 +236,8 @@ MatchvsDemoResponse.prototype.getRoomListExResponse = function (rsp) {
 MatchvsDemoResponse.prototype.createRoomResponse = function (rsp) {
     if (rsp.status === 200) {
         console.log("创建指定类型房间接口成功");
+        var player ={userID:GLB.userID,userName:  GLB.name};
+        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify([],"joinRoom",player,GLB.userID);
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_CREATE_ROOM,{rsp:rsp,type:msg.MATCHVS_CREATE_ROOM});
     } else {
         console.log("创建指定类型房间接口失败 status" + rsp.status);
@@ -242,6 +251,8 @@ MatchvsDemoResponse.prototype.createRoomResponse = function (rsp) {
 MatchvsDemoResponse.prototype.kickPlayerResponse = function (kickPlayerRsp) {
     if (kickPlayerRsp.status === 200) {
         console.log("踢出指定玩家成功");
+        var player ={userID:kickPlayerRsp.userID,userName: ""};
+        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(kickPlayerRsp,"leaveRoom",player,kickPlayerRsp.owner);
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_KICK_PLAYER,{kickPlayerRsp:kickPlayerRsp,type:msg.MATCHVS_KICK_PLAYER} );
     } else {
         console.log("踢出指定玩家失败 status" + kickPlayerRsp.status);
@@ -254,6 +265,8 @@ MatchvsDemoResponse.prototype.kickPlayerResponse = function (kickPlayerRsp) {
  */
 MatchvsDemoResponse.prototype.kickPlayerNotify = function (kickPlayerNotify) {
     console.log("踢出指定玩家通知");
+    var player ={userID:kickPlayerNotify.userID,userName: kickPlayerNotify.cpProto};
+    MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(kickPlayerNotify,"leaveRoom",player,kickPlayerNotify.owner);
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_KICK_PLAYER_NOTIFY, {kickPlayerNotify:kickPlayerNotify,type:msg.MATCHVS_KICK_PLAYER_NOTIFY});
 };
 
@@ -341,6 +354,79 @@ MatchvsDemoResponse.prototype.onMsg = function (buf) {
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_WX_BINDING,{data:data.data,type:msg.MATCHVS_WX_BINDING});
 };
 
+let userList = new Array();
+/**
+ * 房间内玩家变化接口
+ * @param data 进入房间的数据
+ * @param action 动作类型 例如 加入  退出
+ * @param userID 执行动作的玩家
+ * @param ownerID 房间的房主ID
+ */
+MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify = function (data,action,player,ownerID) {
+    switch (action) {
+        case "joinRoom":
+            userList = data;
+            userList.push(player);
+            break;
+        case "joinRoomNotify":
+            userList.push(player);
+            break;
+        case "leaveRoom":
+            for(var i = 0; i < userList.length;i++) {
+                if (player.userID === userList[i].userID) {
+                    userList.length = 0;
+                    break;
+                }
+                if (userList[i].userID === player.userID) {
+                    userList.splice(i,1);
+                }
+            }
+            break;
+    }
+    userList.sort(MatchvsDemoResponse.prototype.sortNumber);
+    for(var i = 0; i < userList.length;i++) {
+        if (ownerID === userList[i].userID) {
+            MatchvsDemoResponse.prototype.swapArray(userList,i,0);
+        }
+    }
+    MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_ROOM_USERLIST_CHANGE_NOTIFY,{userList:userList,type:msg.MATCHVS_ROOM_USERLIST_CHANGE_NOTIFY});
+};
+
+/**
+ * 排序
+ * @param obj1
+ * @param obj2
+ * @returns {number}
+ */
+MatchvsDemoResponse.prototype.sortNumber = function(obj1,obj2) {
+    var userID1 = obj1.userID;
+    var userID2 = obj2.userID;
+    if (userID1 < userID2) {
+        return -1;
+    } else if (userID1 > userID2) {
+        return 1;
+    } else {
+        return 0;
+    }
+};
+
+/**
+ * 交换位置，把房主放到第一位
+ * @param arr
+ * @param index1
+ * @param index2
+ * @returns {*}
+ */
+MatchvsDemoResponse.prototype.swapArray = function(arr, index1, index2) {
+    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+    return arr;
+};
+
+/**
+ * 全局发送消息
+ * @param action
+ * @param data
+ */
 MatchvsDemoResponse.prototype.sendEventToUI = function (action,data) {
     let event = new cc.Event(action,true);
     event["data"] = data;

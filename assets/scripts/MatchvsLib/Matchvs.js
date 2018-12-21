@@ -6,7 +6,7 @@ let MsRoomFilterEx;
 let LocalStore_Clear;
 try {
     console.log("load matchvs");
-    let jsMatchvs = require("matchvs.all");
+    let jsMatchvs = require("../matchvs/matchvsjssdk/matchvs.all");
     engine = new jsMatchvs.MatchvsEngine();
     response = new jsMatchvs.MatchvsResponse();
     MsMatchInfo = jsMatchvs.MsMatchInfo;

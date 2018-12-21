@@ -94,6 +94,54 @@ function getUserOpenID(obj) {
         },
     });
 
+    /**创建用户信息按钮*/
+   function  CreateUserInfoButton(callBackSucc,BackGroundImageUrl,backgroundColor,color) {
+        var sysInfo = wx.getSystemInfoSync();
+        var left = (sysInfo.screenWidth / 2) - 100;
+        var top = (sysInfo.screenHeight / 2) + 80;
+        let button = wx.createUserInfoButton({
+            type: 'image',
+            image: BackGroundImageUrl,
+            style: {
+                left: left,
+                top: top,
+                width: 200,
+                height: 40,
+                backgroundColor:backgroundColor === undefined ? backgroundColor : '#ff0000',
+                color: color === undefined ? color : '#ffffff',
+                borderColor: "",
+                borderWidth: 1,
+                borderRadius: 4,
+                textAlign: 'center',
+                fontSize: 16,
+                lineHeight: 4,
+            },
+            withCredentials: true
+        });
+        button.onTap((re) => {
+            wx.getSetting({
+                success: (res) => {
+                    if (!res.authSetting['scope.userInfo']) {
+                        button.show();
+                    } else {
+                        //授权成功
+                        let userData = {
+                            encryptedData: re.encryptedData,
+                            iv: re.iv
+                        }
+                        button.destroy();
+                        callBackSucc(userData, re.userInfo);
+                    }
+                },
+                //申请授权失败
+                fail: (res) => {
+                },
+                complete: (res) => {
+                }
+            });
+        });
+    }
+
 }
 
 
