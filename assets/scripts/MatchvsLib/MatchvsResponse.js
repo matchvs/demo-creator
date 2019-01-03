@@ -129,6 +129,7 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
     if (status === 200) {
         console.log("进入房间成功");
         userInfoList.roomID = roomInfo.roomID;
+        MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_JOIN_ROOM_RSP,{userInfoList:userInfoList,type:msg.MATCHVS_JOIN_ROOM_RSP});
         var player ={userID:GLB.userID,userName: GLB.name};
         MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(userInfoList,"joinRoom",player,roomInfo.owner);
     } else {
