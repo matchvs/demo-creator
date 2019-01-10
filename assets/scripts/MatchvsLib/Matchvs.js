@@ -6,13 +6,13 @@ let MsRoomFilterEx;
 let LocalStore_Clear;
 try {
     console.log("load matchvs");
-    let jsMatchvs = require("../matchvs/matchvsjssdk/matchvs.all");
-    engine = new jsMatchvs.MatchvsEngine();
-    response = new jsMatchvs.MatchvsResponse();
-    MsMatchInfo = jsMatchvs.MsMatchInfo;
-    MsCreateRoomInfo = jsMatchvs.MsCreateRoomInfo;
-    MsRoomFilterEx  = jsMatchvs.MsRoomFilterEx ;
-    LocalStore_Clear = jsMatchvs.LocalStore_Clear;
+    // let jsMatchvs = require("../matchvs/matchvsjssdk/matchvs.all");
+    engine = new window.MatchvsEngine();
+    response = new window.MatchvsResponse();
+    MsMatchInfo = window.MsMatchInfo;
+    MsCreateRoomInfo = window.MsCreateRoomInfo;
+    MsRoomFilterEx  = window.MsRoomFilterEx ;
+    LocalStore_Clear = window.LocalStore_Clear;
 } catch (e) {
 	console.warn("load matchvs fail,"+e.message);
 }

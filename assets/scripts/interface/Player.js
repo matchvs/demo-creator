@@ -41,10 +41,14 @@ cc.Class({
 
 
     onPostionChanged(x, arrow) {
-        this.playerSpriteRight.node.x = x;
-        this.playerSpriteLeft.node.x = x;
-        this.playAnimation(arrow);
-        this.playerLabel.node.x = x;
+        try{
+            this.playerSpriteRight.node.x = x;
+            this.playerSpriteLeft.node.x = x;
+            this.playAnimation(arrow);
+            this.playerLabel.node.x = x;
+        } catch(error){
+            console.log(error.message);
+        }
     },
 
     getPostion: function () {
@@ -57,7 +61,6 @@ cc.Class({
         this.animRightComp = this.rightAnimNode.getComponent(cc.Animation);
         this.animLeftComp = this.leftAnimNode.getComponent(cc.Animation);
         this.playerSpriteRight = this.rightAnimNode.getComponent(cc.Sprite);
-
         this.playerSpriteLeft = this.leftAnimNode.getComponent(cc.Sprite);
         this.playerLabel = this.node.getChildByName("playerLabel").getComponent(cc.Label);
         let self = this;
@@ -98,30 +101,33 @@ cc.Class({
 
 
     playAnimation: function (arrow) {
-        if (arrow === GLB.ARROW_STOP) {
-            this.animRightComp.stop();
-            this.animLeftComp.stop();
-            this.lastArrow = GLB.ARROW_STOP;
-        } else if (arrow === GLB.ARROW_RIGHT) {
-            if (this.lastArrow !== GLB.ARROW_RIGHT) {
-                this.animLeftComp.stop();
-                this.animRightComp.play();
-                this.rightAnimNode.active = true;
-                this.leftAnimNode.active = false;
-            }
-            this.lastArrow = GLB.ARROW_RIGHT;
-        } else if (arrow === GLB.ARROW_LEFT) {
-            if (this.lastArrow !== GLB.ARROW_LEFT) {
-                this.animLeftComp.play();
+        try{
+            if (arrow === GLB.ARROW_STOP) {
                 this.animRightComp.stop();
-                this.rightAnimNode.active = false;
-                this.leftAnimNode.active = true;
+                this.animLeftComp.stop();
+                this.lastArrow = GLB.ARROW_STOP;
+            } else if (arrow === GLB.ARROW_RIGHT) {
+                if (this.lastArrow !== GLB.ARROW_RIGHT) {
+                    this.animLeftComp.stop();
+                    this.animRightComp.play();
+                    this.rightAnimNode.active = true;
+                    this.leftAnimNode.active = false;
+                }
+                this.lastArrow = GLB.ARROW_RIGHT;
+            } else if (arrow === GLB.ARROW_LEFT) {
+                if (this.lastArrow !== GLB.ARROW_LEFT) {
+                    this.animLeftComp.play();
+                    this.animRightComp.stop();
+                    this.rightAnimNode.active = false;
+                    this.leftAnimNode.active = true;
+                }
+                this.lastArrow = GLB.ARROW_LEFT;
+            } else {
+                console.warn("unknown arrow");
             }
-            this.lastArrow = GLB.ARROW_LEFT;
-        } else {
-            console.warn("unknown arrow");
+        } catch(error){
+            console.log(error.message);
         }
-
 
     },
     onTouch : function (touch) {
@@ -145,36 +151,39 @@ cc.Class({
 
     //2.0 需要手动移除
     addEventManageListener :function() {
-        console.log("addEventManageListener");
-        let self = this;
-        if (this.mouseListener != null) {
-            cc.eventManager.removeListener(this.mouseListener);
-        }
-        this.mouseListener = cc.eventManager.addListener({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            fakeMove: null,
-            onTouchBegan: function (touch) {
-                console.log("begin move ");
-                self.onTouch(touch);
-                if (this.fakeMove == null) {
-                    this.fakeMove = setInterval(function () {
-                        self.onTouch(touch);
-                    },GLB.FPS);
-                }
-                return true;
-            },
-            onTouchMoved: function () {
-                // onTouch(touch);
-                return true;
-            },
-            onTouchEnded: function () {
-                console.log("begin let go");
-                clearInterval(this.fakeMove);
-                this.fakeMove = null;
-                self.isUserInputing = GLB.ARROW_STOP;
-                self.onPostionChanged(self.playerSpriteRight.node.x, self.isUserInputing);
+        try{
+            let self = this;
+            if (this.mouseListener != null) {
+                cc.eventManager.removeListener(this.mouseListener);
             }
-        }, self.node);
+            this.mouseListener = cc.eventManager.addListener({
+                event: cc.EventListener.TOUCH_ONE_BY_ONE,
+                fakeMove: null,
+                onTouchBegan: function (touch) {
+                    console.log("begin move ");
+                    self.onTouch(touch);
+                    if (this.fakeMove == null) {
+                        this.fakeMove = setInterval(function () {
+                            self.onTouch(touch);
+                        },GLB.FPS);
+                    }
+                    return true;
+                },
+                onTouchMoved: function () {
+                    // onTouch(touch);
+                    return true;
+                },
+                onTouchEnded: function () {
+                    console.log("begin let go");
+                    clearInterval(this.fakeMove);
+                    this.fakeMove = null;
+                    self.isUserInputing = GLB.ARROW_STOP;
+                    self.onPostionChanged(self.playerSpriteRight.node.x, self.isUserInputing);
+                }
+            }, self.node);
+        } catch(error){
+            console.log(error.message);
+        }
     },
 
 
