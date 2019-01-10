@@ -7,8 +7,8 @@ let LocalStore_Clear;
 try {
     console.log("load matchvs");
     // let jsMatchvs = require("../matchvs/matchvsjssdk/matchvs.all");
-    engine = new window.MatchvsEngine();
-    response = new window.MatchvsResponse();
+    engine =  new MatchvsEngine();
+    response = new MatchvsResponse();
     MsMatchInfo = window.MsMatchInfo;
     MsCreateRoomInfo = window.MsCreateRoomInfo;
     MsRoomFilterEx  = window.MsRoomFilterEx ;
