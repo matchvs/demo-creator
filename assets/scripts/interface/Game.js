@@ -210,7 +210,7 @@ cc.Class({
             case msg.PLAYER_POSINTON:
                 if (this.newStar !== undefined) {
                     if (Math.abs(eventData.x - GLB.NEW_STAR_POSITION) < 15) {
-                        if (this.newStar.active) {
+                        if (this.newStar.active !==null && this.newStar.active !== undefined) {
                             this.newStar.active = false;
                             let frameData = JSON.stringify({
                                 "action": msg.EVENT_GAIN_SCORE,
