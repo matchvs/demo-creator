@@ -208,23 +208,27 @@ cc.Class({
                 }
                 break;
             case msg.PLAYER_POSINTON:
-                if (this.newStar !== undefined) {
-                    if (Math.abs(eventData.x - GLB.NEW_STAR_POSITION) < 15) {
-                        if (this.newStar.active !==null && this.newStar.active !== undefined) {
-                            this.newStar.active = false;
-                            let frameData = JSON.stringify({
-                                "action": msg.EVENT_GAIN_SCORE,
-                                "userID": GLB.userID,
-                            });
-                            engine.prototype.sendEventEx(0,frameData);
-                            let event = {
-                                action: msg.EVENT_NEW_START,
-                                position: this.getNewStarPosition()
-                            };
-                            this.createStarNode(event.position);
-                            engine.prototype.sendEvent(JSON.stringify(event));
+                try{
+                    if (this.newStar !== undefined) {
+                        if (Math.abs(eventData.x - GLB.NEW_STAR_POSITION) < 15) {
+                            if (this.newStar.active !== null && this.newStar.active !== undefined) {
+                                this.newStar.active = false;
+                                let frameData = JSON.stringify({
+                                    "action": msg.EVENT_GAIN_SCORE,
+                                    "userID": GLB.userID,
+                                });
+                                engine.prototype.sendEventEx(0,frameData);
+                                let event = {
+                                    action: msg.EVENT_NEW_START,
+                                    position: this.getNewStarPosition()
+                                };
+                                this.createStarNode(event.position);
+                                engine.prototype.sendEvent(JSON.stringify(event));
+                            }
                         }
                     }
+                } catch(error){
+                    console.log(error.message);
                 }
                 break;
             case msg.MATCHVS_LEAVE_ROOM_NOTIFY:
