@@ -13,14 +13,10 @@ function MatchvsDemoEngine() {
  * @param gameID
  */
 MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
-    try{
         response.prototype.bind();
         let result = mvs.engine.init(mvs.response, channel, platform, gameID);
         console.log("初始化result"+result);
         return result;
-    } catch(error){
-        console.log(error.message);
-    }
 };
 
 /**

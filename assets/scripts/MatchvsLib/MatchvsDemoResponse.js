@@ -135,8 +135,8 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
         console.log("进入房间成功");
         userInfoList.roomID = roomInfo.roomID;
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_JOIN_ROOM_RSP,{userInfoList:userInfoList,type:msg.MATCHVS_JOIN_ROOM_RSP});
-        var player ={userID:GLB.userID,userName: GLB.name};
-        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(userInfoList,"joinRoom",player,roomInfo.owner);
+        // var player ={userID:GLB.userID,userName: GLB.name};
+        // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(userInfoList,"joinRoom",player,roomInfo.owner);
     } else {
         console.log("进入房间失败"+status);
     }
@@ -148,8 +148,8 @@ MatchvsDemoResponse.prototype.joinRoomResponse = function (status, userInfoList,
  */
 MatchvsDemoResponse.prototype.joinRoomNotify = function (roomUserInfo) {
     console.log(roomUserInfo.userID+"加入了房间");
-    var player ={userID:roomUserInfo.userID,userName: roomUserInfo.userProfile};
-    MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(roomUserInfo,"joinRoomNotify",player,0);
+    // var player ={userID:roomUserInfo.userID,userName: roomUserInfo.userProfile};
+    // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(roomUserInfo,"joinRoomNotify",player,0);
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_JOIN_ROOM_NOTIFY,{roomUserInfo:roomUserInfo,type:msg.MATCHVS_JOIN_ROOM_NOTIFY});
 };
 
@@ -204,8 +204,8 @@ MatchvsDemoResponse.prototype.joinOverNotify = function (notify) {
 MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
     if (leaveRoomRsp.status === 200) {
         console.log("离开房间成功");
-        var player ={userID:leaveRoomRsp.userID,userName: leaveRoomRsp.cpProto};
-        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(leaveRoomRsp,"leaveRoom",player,0);
+        // var player ={userID:leaveRoomRsp.userID,userName: leaveRoomRsp.cpProto};
+        // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(leaveRoomRsp,"leaveRoom",player,0);
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_LEAVE_ROOM,{leaveRoomRsp,type:msg.MATCHVS_LEAVE_ROOM});
     } else {
         console.log("离开房间失败"+leaveRoomRsp.status);
@@ -217,8 +217,8 @@ MatchvsDemoResponse.prototype.leaveRoomResponse = function (leaveRoomRsp) {
  * @param leaveRoomInfo
  */
 MatchvsDemoResponse.prototype.leaveRoomNotify = function (leaveRoomInfo) {
-    var player ={userID:leaveRoomInfo.userID,userName: leaveRoomInfo.cpProto};
-    MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(leaveRoomInfo,"leaveRoom",player,leaveRoomInfo.owner);
+    // var player ={userID:leaveRoomInfo.userID,userName: leaveRoomInfo.cpProto};
+    // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(leaveRoomInfo,"leaveRoom",player,leaveRoomInfo.owner);
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_LEAVE_ROOM_NOTIFY,{leaveRoomInfo:leaveRoomInfo,type:msg.MATCHVS_LEAVE_ROOM_NOTIFY});
 };
 
@@ -242,8 +242,8 @@ MatchvsDemoResponse.prototype.getRoomListExResponse = function (rsp) {
 MatchvsDemoResponse.prototype.createRoomResponse = function (rsp) {
     if (rsp.status === 200) {
         console.log("创建指定类型房间接口成功");
-        var player ={userID:GLB.userID,userName:  GLB.name};
-        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify([],"joinRoom",player,GLB.userID);
+        // var player ={userID:GLB.userID,userName:  GLB.name};
+        // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify([],"joinRoom",player,GLB.userID);
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_CREATE_ROOM,{rsp:rsp,type:msg.MATCHVS_CREATE_ROOM});
     } else {
         console.log("创建指定类型房间接口失败 status" + rsp.status);
@@ -257,8 +257,8 @@ MatchvsDemoResponse.prototype.createRoomResponse = function (rsp) {
 MatchvsDemoResponse.prototype.kickPlayerResponse = function (kickPlayerRsp) {
     if (kickPlayerRsp.status === 200) {
         console.log("踢出指定玩家成功");
-        var player ={userID:kickPlayerRsp.userID,userName: ""};
-        MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(kickPlayerRsp,"leaveRoom",player,kickPlayerRsp.owner);
+        // var player ={userID:kickPlayerRsp.userID,userName: ""};
+        // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(kickPlayerRsp,"leaveRoom",player,kickPlayerRsp.owner);
         MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_KICK_PLAYER,{kickPlayerRsp:kickPlayerRsp,type:msg.MATCHVS_KICK_PLAYER} );
     } else {
         console.log("踢出指定玩家失败 status" + kickPlayerRsp.status);
@@ -271,8 +271,8 @@ MatchvsDemoResponse.prototype.kickPlayerResponse = function (kickPlayerRsp) {
  */
 MatchvsDemoResponse.prototype.kickPlayerNotify = function (kickPlayerNotify) {
     console.log("踢出指定玩家通知");
-    var player ={userID:kickPlayerNotify.userID,userName: kickPlayerNotify.cpProto};
-    MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(kickPlayerNotify,"leaveRoom",player,kickPlayerNotify.owner);
+    // var player ={userID:kickPlayerNotify.userID,userName: kickPlayerNotify.cpProto};
+    // MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify(kickPlayerNotify,"leaveRoom",player,kickPlayerNotify.owner);
     MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_KICK_PLAYER_NOTIFY, {kickPlayerNotify:kickPlayerNotify,type:msg.MATCHVS_KICK_PLAYER_NOTIFY});
 };
 
@@ -395,7 +395,7 @@ MatchvsDemoResponse.prototype.roomUserInfoListChangeNotify = function (data,acti
             MatchvsDemoResponse.prototype.swapArray(userList,i,0);
         }
     }
-    MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_ROOM_USERLIST_CHANGE_NOTIFY,{userList:userList,type:msg.MATCHVS_ROOM_USERLIST_CHANGE_NOTIFY});
+    // MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_ROOM_USERLIST_CHANGE_NOTIFY,{userList:userList,type:msg.MATCHVS_ROOM_USERLIST_CHANGE_NOTIFY});
 };
 
 /**
