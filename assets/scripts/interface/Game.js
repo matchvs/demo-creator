@@ -136,7 +136,7 @@ cc.Class({
         GLB.isGameOver = false;
         this.countDown = setInterval(function () {
             self.labelGameoverTime.string = self.labelGameoverTime.string - 1;
-            if (self.labelGameoverTime.string === 0) {
+            if (self.labelGameoverTime.string == 0) {
                 GLB.isGameOver = true;
                 self.gameOver();
             }

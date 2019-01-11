@@ -23,7 +23,7 @@ let obj = {
     syncFrame: false,
     FRAME_RATE: 20,
     roomID: 0,
-    playertime: 120,
+    playertime: 60,
     isGameOver: false,
     NEW_STAR_POSITION : 0,
     number1: "",
