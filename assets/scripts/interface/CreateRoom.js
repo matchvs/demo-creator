@@ -1,4 +1,4 @@
-let engine = require("../MatchvsLib/MatchvsEngine");
+let engine = require("../MatchvsLib/MatchvsDemoEngine");
 let GLB = require("Glb");
 let msg = require("../MatchvsLib/MatvhvsMessage");
 cc.Class({
@@ -154,7 +154,7 @@ cc.Class({
                 this.removeView(eventData.leaveRoomInfo)
                 break;
             case msg.MATCHVS_SEND_EVENT_NOTIFY:
-                let  data = JSON.parse(eventData.eventInfo.cpProto);
+                let data = JSON.parse(eventData.eventInfo.cpProto);
                 if (data.action == msg.EVENT_GAME_START) {
                     this.startGame();
                 }
@@ -252,6 +252,10 @@ cc.Class({
                 this.userOwnewLogoList[i].active = true;
             }
         }
+
+
+
+
         if (info.owner === GLB.userID) {
             this.ownerLogo.active = true;
             GLB.isRoomOwner = true;
@@ -304,12 +308,12 @@ cc.Class({
     },
 
 
-    leaveRoom1 :function () {
+    leaveRoom1:function () {
         GLB.roomID = ""
         cc.director.loadScene('Lobby');
     },
 
-    startGame: function () {
+    startGame:function () {
         cc.director.loadScene('Game')
     },
 

@@ -18,11 +18,11 @@ Matchvs.js文件主要用于加载插件以及在native环境下加载JSB。
 
 ## 2：Matcvhs SDK使用的封装
 
- 1: 文件路径demo/assets/script/MatchvsEngine.js
+ 1: 文件路径demo/assets/script/MatchvsDemoEngine.js
 
 主要封装了Matchvs SDK的主要功能请求。 例如 login ，registerUser等。
 
- 2: 文件路径demo/assets/script/MatchvsResponse.js
+ 2: 文件路径demo/assets/script/MatchvsDemoResponse.js
 
 主要封装了Matchvs SDK的主要功能请求的异步回调，以及一部分通知。例如 loginResponse joinRoomNotify。 在这里收到对应的通知或通知以后，在通过 cocos的事件传递机制把对应的数据传递出去，
 

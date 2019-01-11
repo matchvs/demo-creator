@@ -46,12 +46,17 @@ MatchvsDemoResponse.prototype.bind = function () {
  * 初始化回调
  */
 MatchvsDemoResponse.prototype.initResponse =function (status) {
-    if (status === 200) {
-        console.log("初始化成功");
-        MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_INIT,{status:status,type:msg.MATCHVS_INIT});
-    } else {
-        console.log("初始化失败"+status);
+    try{
+        if (status === 200) {
+            console.log("初始化成功");
+            MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_INIT,{status:status,type:msg.MATCHVS_INIT});
+        } else {
+            console.log("初始化失败"+status);
+        }
+    } catch(error){
+        console.log(error.message);
     }
+
 };
 
 /**

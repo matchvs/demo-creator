@@ -1,4 +1,4 @@
-var engine = require("../MatchvsLib/MatchvsEngine");
+var engine = require("../MatchvsLib/MatchvsDemoEngine");
 cc.Class({
     extends: cc.Component,
 

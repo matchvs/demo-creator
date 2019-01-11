@@ -36,4 +36,4 @@ let obj = {
 
 module.exports = obj;
 
-window['obj'] = obj; //这步不能少
+// window['obj'] = obj; //这步不能少

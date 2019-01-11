@@ -1,7 +1,7 @@
 /**
  * 大厅页面
  */
-let engine = require("../MatchvsLib/MatchvsEngine");
+let engine = require("../MatchvsLib/MatchvsDemoEngine");
 let GLB = require("Glb");
 let mvs = require("../MatchvsLib/Matchvs");
 let msg = require("../MatchvsLib/MatvhvsMessage");

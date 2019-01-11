@@ -1,4 +1,4 @@
-let engine = require("../MatchvsLib/MatchvsEngine");
+let engine = require("../MatchvsLib/MatchvsDemoEngine");
 let msg = require("../MatchvsLib/MatvhvsMessage");
 let GLB = require("Glb");
 cc.Class({

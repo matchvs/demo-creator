@@ -1,10 +1,13 @@
 /**
  * 登录
  */
-let GLB = require("../interface/Glb");
-let engine = require("../MatchvsLib/MatchvsEngine");
-let msg = require("../MatchvsLib/MatvhvsMessage");
 
+let GLB = require("../interface/Glb");
+console.log("GLB:"+JSON.stringify(GLB));
+let engine = require("../MatchvsLib/MatchvsDemoEngine");
+console.log("engine:"+JSON.stringify(engine));
+let msg = require("../MatchvsLib/MatvhvsMessage");
+console.log("msg:"+JSON.stringify(msg));
 cc.Class({
     extends: cc.Component,
 
@@ -162,6 +165,17 @@ cc.Class({
     onDestroy () {
         this.removeEvent();
         console.log("Login页面销毁");
+    },
+
+    setUserData(GameID,userID,key,value,appKey,appSecret,platform) {
+        let request = new  XMLHttpRequest();
+        let url;
+        if(platform === "release"){
+            url = "https://vsuser.matchvs.com/wc6/thirdBind.do?"
+        }else if(platform === "alpha"){
+            url= "https://alphavsuser.matchvs.com/wc6/thirdBind.do?";
+        }
+        request.open("GET",url,true);
     },
 
     /**

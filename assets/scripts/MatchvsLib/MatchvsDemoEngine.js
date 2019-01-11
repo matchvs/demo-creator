@@ -1,6 +1,6 @@
 let mvs = require("Matchvs");
 let Glb = require("../interface/Glb");
-let response = require("assets/scripts/MatchvsLib/MatchvsResponse");
+let response = require("assets/scripts/MatchvsLib/MatchvsDemoResponse");
 
 function MatchvsDemoEngine() {
 
@@ -13,10 +13,14 @@ function MatchvsDemoEngine() {
  * @param gameID
  */
 MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
-    response.prototype.bind();
-    let result = mvs.engine.init(mvs.response, channel, platform, gameID);
-    console.log("初始化result"+result);
-    return result;
+    try{
+        response.prototype.bind();
+        let result = mvs.engine.init(mvs.response, channel, platform, gameID);
+        console.log("初始化result"+result);
+        return result;
+    } catch(error){
+        console.log(error.message);
+    }
 };
 
 /**
