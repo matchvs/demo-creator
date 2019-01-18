@@ -1,0 +1,130 @@
+{
+  "configs": [
+    {
+      "appid": "620960061",
+      "services": [
+        {
+          "enable": true,
+          "service_id": "241"
+        }
+      ]
+    }
+  ],
+  "game": {
+    "appid": "620960061",
+    "cid": "10627",
+    "name": "创建测试2"
+  },
+  "services": [
+    {
+      "service_id": "244",
+      "service_name": "声网",
+      "service_icon": "https://test-account.cocos.com/uploads/client_icon/date(\"Y-m-d\")/340186930b9ec6ee83f899fcaf7a2715.png",
+      "service_desc": "稳定、低耗、76ms超低延时、全球200+数据中心覆盖；变声器、超高音质、听声辩位等丰富玩法极速接入；全平台支持：Android、iOS、Web。",
+      "service_title": "游戏内置实时音频SDK",
+      "service_guide_url": "https://docs.agora.io/cn/Interactive Gaming/game_cocos?platform=Cocos",
+      "service_sample_url": null,
+      "service_dev_url": "https://staging-dashboard.agora.io",
+      "service_type": "3",
+      "service_type_zh": "公司和个人游戏",
+      "support_platform": [
+        "Android",
+        "iOS",
+        "HTML5"
+      ],
+      "package_download_url": "",
+      "service_component_name": "service-agora",
+      "package_versions": [
+      ]
+    },
+    {
+      "service_id": "241",
+      "service_name": "Matchvs",
+      "service_icon": "https://test-account.cocos.com/uploads/client_icon/date(\"Y-m-d\")/3d632573cadc2051db1349ecfbc3205a.png",
+      "service_desc": "通过SDK接入快速实现联网功能、帧同步、国内外多节点、服务器独立部署、gameServer自定义游戏服务端逻辑。",
+      "service_title": "专业成熟的移动游戏联网与服务端解决方案",
+      "service_guide_url": "http://www.matchvs.com/service",
+      "service_sample_url": "http://www.matchvs.com/serviceCourse",
+      "service_dev_url": "http://wiki.kobox.tv:9099/cocosLogin",
+      "service_type": "2",
+      "service_type_zh": "仅支持公司游戏",
+      "support_platform": [
+        "Android",
+        "iOS",
+        "HTML5"
+      ],
+      "package_download_url": "https://dream2913.gitee.io/ccserviceplugins/service-matchvs/1.0.5_3.7.7.3.zip",
+      "service_component_name": "service-matchvs",
+      "package_versions": [
+      ]
+    },
+    {
+      "service_id": "235",
+      "service_name": "Cocos Analytics",
+      "service_icon": "https://test-account.cocos.com/client/8a6899e9a2f90c656e06aa4b66ee7965.png",
+      "service_desc": "提供最核心最基本的数据、标准化界面功能简洁易用、数据准确性最好",
+      "service_title": "精准了解游戏的新增、活跃、留存、付费等数据",
+      "service_guide_url": "https://analytics.cocos.com/docs",
+      "service_sample_url": "https://github.com/cocos-creator/tutorial-dark-slash",
+      "service_dev_url": "http://analytics.cocos.com/realtime/jump_to/<app_id>",
+      "service_type": "3",
+      "service_type_zh": "公司和个人游戏",
+      "support_platform": [
+        "Android",
+        "iOS",
+        "HTML5"
+      ],
+      "package_download_url": "http://dream2913.gitee.io/ccserviceplugins/service-analytics/1.0.0_1.0.5.zip",
+      "service_component_name": "service-analytics",
+      "package_versions": [
+        "1.0.0_2.3",
+        "1.0.0_1.0.5"
+      ]
+    },
+    {
+      "service_id": "237",
+      "service_name": "AnySDK",
+      "service_icon": "https://test-account.cocos.com/uploads/client_icon/date(\"Y-m-d\")/5a275d47981e94ac7061a26cec95192e.png",
+      "service_desc": "800+渠道、支持多平台多引擎、安全稳定的本地打包工具",
+      "service_title": "800+渠道、支持多平台多引擎、安全稳定的本地打包工具",
+      "service_guide_url": "http://docs.anysdk.com/rapid-experience/introduce",
+      "service_sample_url": "http://github.com/AnySDK",
+      "service_dev_url": "http://test-dev.anysdk.com",
+      "service_type": "2",
+      "service_type_zh": "仅支持公司游戏",
+      "support_platform": [
+        "Android",
+        "iOS",
+        "HTML5"
+      ],
+      "package_download_url": "http://dream2913.gitee.io/ccserviceplugins/service-anysdk/1.0.0_2.2.5.zip",
+      "service_component_name": "service-anysdk",
+      "package_versions": [
+        "1.0.0_2.2.5"
+      ]
+    },
+    {
+      "service_id": "243",
+      "service_name": "CocosAds-Test",
+      "service_icon": "https://test-account.cocos.com/uploads/client_icon/date(\"Y-m-d\")/56a1e8f6129bb72d56864c742def28d7.png",
+      "service_desc": "服务面板《快速体验插件开发之旅》测试用服务。",
+      "service_title": "服务面板《快速体验插件开发之旅》测试用服务。",
+      "service_guide_url": "",
+      "service_sample_url": "",
+      "service_dev_url": "",
+      "service_type": "0",
+      "service_type_zh": "不支持游戏",
+      "support_platform": [
+        "Android",
+        "iOS",
+        "HTML5"
+      ],
+      "package_download_url": "",
+      "service_component_name": "service-cocosads",
+      "package_versions": [
+        "1.0.0_2.2.5"
+      ]
+    }
+  ],
+  "needExecNative": true
+}

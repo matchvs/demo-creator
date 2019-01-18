@@ -1,4 +1,12 @@
 {
+  "android-instant": {
+    "REMOTE_SERVER_ROOT": "",
+    "host": "",
+    "pathPattern": "",
+    "recordPath": "",
+    "scheme": "https",
+    "skipRecord": false
+  },
   "encryptJs": false,
   "excludeScenes": [],
   "fb-instant-games": {},
@@ -20,20 +28,12 @@
     "orientation": "portrait"
   },
   "startScene": "5333efe9-5cb8-4d80-ac32-fd3c440e6857",
-  "title": "1",
+  "title": "3432",
   "webOrientation": "auto",
   "wechatgame": {
     "appid": "",
     "orientation": "landscape"
   },
   "xxteaKey": "f134fe96-f183-44",
-  "zipCompressJs": true,
-  "android-instant": {
-    "REMOTE_SERVER_ROOT": "",
-    "pathPattern": "",
-    "scheme": "https",
-    "host": "",
-    "skipRecord": false,
-    "recordPath": ""
-  }
+  "zipCompressJs": true
 }
