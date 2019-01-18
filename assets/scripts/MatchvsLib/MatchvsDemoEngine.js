@@ -229,7 +229,9 @@ MatchvsDemoEngine.prototype.sendEventEx = function (type,msg) {
  * @returns {DataView|number|*}
  */
 MatchvsDemoEngine.prototype.setFrameSync = function (frameRate) {
-    let result = mvs.engine.setFrameSync(frameRate);
+    let enableGS = 1;
+    let other = {cacheFrameMS:0};
+    let result = mvs.engine.setFrameSync(frameRate,enableGS,other);
     console.log('设置帧率 result：'+result);
     return result;
 };
