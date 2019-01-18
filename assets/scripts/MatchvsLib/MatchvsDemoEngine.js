@@ -12,9 +12,10 @@ function MatchvsDemoEngine() {
  * @param platform
  * @param gameID
  */
-MatchvsDemoEngine.prototype.init = function(channel, platform, gameID){
+MatchvsDemoEngine.prototype.init = function(channel, platform){
         response.prototype.bind();
-        let result = mvs.engine.init(mvs.response, channel, platform, gameID);
+        let gameVersion = 1;
+        let result = mvs.engine.init(mvs.response, channel, platform,Glb.gameID,Glb.appKey,gameVersion);
         console.log("初始化result"+result);
         return result;
 };
@@ -42,16 +43,14 @@ MatchvsDemoEngine.prototype.registerUser = function() {
 };
 
 /**
- * 注册
+ * 登录
  * @param userID
  * @param token
  * @returns {DataView|*|number|void}
  */
 MatchvsDemoEngine.prototype.login = function(userID,token){
     let DeviceID = 'abcdef';
-    let gatewayID = 0;
-    let result = mvs.engine.login(userID, token, Glb.gameID, Glb.gameVersion,
-        Glb.appKey, Glb.secret, DeviceID, gatewayID);
+    let result = mvs.engine.login(userID, token,DeviceID);
     console.log("登录result"+result);
     return result;
 };

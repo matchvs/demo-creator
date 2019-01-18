@@ -3,11 +3,8 @@
  */
 
 let GLB = require("../interface/Glb");
-console.log("GLB:"+JSON.stringify(GLB));
 let engine = require("../MatchvsLib/MatchvsDemoEngine");
-console.log("engine:"+JSON.stringify(engine));
 let msg = require("../MatchvsLib/MatvhvsMessage");
-console.log("msg:"+JSON.stringify(msg));
 cc.Class({
     extends: cc.Component,
 
