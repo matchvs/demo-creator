@@ -242,7 +242,8 @@ MatchvsDemoEngine.prototype.setFrameSync = function (frameRate) {
  * @returns {DataView|number|*}
  */
 MatchvsDemoEngine.prototype.sendFrameEvent = function (cpProto) {
-    let result = mvs.engine.sendFrameEvent(cpProto);
+    let op = 0; // 0-只发送客户端 1-只发送GS 2-客户端和GS
+    let result = mvs.engine.sendFrameEvent(cpProto,op);
     return result;
 };
 
