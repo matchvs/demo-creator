@@ -21,39 +21,41 @@ export default class NewClass extends cc.Component {
 
     @property(cc.Node)
     labelInfo: cc.Label = null;
-    private Engine:MatchvsEngine;
-    private Response:MatchvsResponse;
-    private GameID:number = 200978;
-    private AppKey:string = "4fd4a67c10e84e259a2c3c417b9114f4";
+    private Engine: MatchvsEngine;
+    private Response: MatchvsResponse;
+    private GameID: number = 200978;
+    private AppKey: string = "4fd4a67c10e84e259a2c3c417b9114f4";
+    private ms: MsRoomInfo;
 
-    start () {
-        // let self = this;
-        // self.Engine = new MatchvsEngine();
-        // self.Response = new MatchvsResponse();
-        // this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
-        //     if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0  && self.appKeyInput.string === "" && self.appKeyInput.placeholder === ""){
-        //         return;
-        //     }
-        //     if (self.appKeyInput.string === "") {
-        //         self.AppKey = self.appKeyInput.placeholder;
-        //     } else {
-        //         self.AppKey = self.appKeyInput.string;
-        //     }
-        //     if (Number(self.gameIdInput.string) === 0) {
-        //         self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.placeholder));
-        //     }else {
-        //         self.Engine.init(self.Response,"Matchvs","alpha",Number(self.gameIdInput.string));
-        //     }
-        //
-        // });
+    start() {
+        let self = this;
+        self.Engine = new MatchvsEngine();
+        self.Response = new MatchvsResponse();
+        this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
+            if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0 && self.appKeyInput.string === "" && self.appKeyInput.placeholder === "") {
+                return;
+            }
+            if (self.appKeyInput.string === "") {
+                self.AppKey = self.appKeyInput.placeholder;
+            } else {
+                self.AppKey = self.appKeyInput.string;
+            }
+            const gameVersion = 1;
+            if (Number(self.gameIdInput.string) === 0) {
+                self.Engine.init(self.Response, "Matchvs", "alpha", Number(self.gameIdInput.placeholder), this.AppKey, gameVersion);
+            } else {
+                self.Engine.init(self.Response, "Matchvs", "alpha", Number(self.gameIdInput.string), this.AppKey, gameVersion);
+            }
 
-        // self.initEvent();
+        });
+
+        self.initEvent();
     }
 
     /**
      * 注册对应的事件监听和把自己的原型传递进入，用于发送事件使用
      */
-    private initEvent () {
+    private initEvent() {
         this.Response.initResponse = this.initRsp.bind(this);
         this.Response.registerUserResponse = this.registerUserRsp.bind(this);
         this.Response.loginResponse = this.loginRsp.bind(this);
@@ -77,8 +79,8 @@ export default class NewClass extends cc.Component {
      * @param userInfo
      */
     registerUserRsp(userInfo) {
-        if  (userInfo.status === 0) {
-            this.login(userInfo.userID,userInfo.token);
+        if (userInfo.status === 0) {
+            this.login(userInfo.userID, userInfo.token);
             console.log("Ts版本 注册成功");
         } else {
             console.log("Ts版本 注册失败");
@@ -90,7 +92,7 @@ export default class NewClass extends cc.Component {
      * @param loginRsp
      */
     loginRsp(loginRsp) {
-        if  (loginRsp.status === 200) {
+        if (loginRsp.status === 200) {
             console.log("Ts版本 登录成功");
             if (loginRsp.roomID !== null && loginRsp.roomID !== '0') {
                 this.Engine.leaveRoom("");
@@ -110,16 +112,17 @@ export default class NewClass extends cc.Component {
      * @param id
      * @param token
      */
-    login (id, token) {
+    login(id, token) {
         // this.labelLog('开始登录...用户ID:' + id + " gameID " + "200978");
-        this.Engine.login(id,token,this.GameID,1,this.AppKey,"0");
+        const deviceID = "abcd01";
+        this.Engine.login(id, token, deviceID);
     }
 
     /**
      * 页面log打印
      * @param info
      */
-    labelLog (info) {
+    labelLog(info) {
         this.labelInfo.string += '\n[LOG]: ' + info;
     }
 

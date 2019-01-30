@@ -15,7 +15,12 @@ function MatchvsDemoEngine() {
 MatchvsDemoEngine.prototype.init = function(channel, platform){
         response.prototype.bind();
         let gameVersion = 1;
-        let result = mvs.engine.init(mvs.response, channel, platform,Glb.gameID,Glb.appKey,gameVersion);
+        let result;
+        if (Glb.isJD) {
+             result= mvs.engine.init(mvs.response, channel, platform,Glb.jdGameID,Glb.jdAppKey,gameVersion);
+        } else {
+            result= mvs.engine.init(mvs.response, channel, platform,Glb.gameID,Glb.appKey,gameVersion);
+        }
         console.log("初始化result"+result);
         return result;
 };

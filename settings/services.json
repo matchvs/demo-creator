@@ -35,6 +35,8 @@
       "package_download_url": "",
       "service_component_name": "service-agora",
       "package_versions": [
+      ],
+      "build_platform": [
       ]
     },
     {
@@ -56,6 +58,8 @@
       "package_download_url": "https://dream2913.gitee.io/ccserviceplugins/service-matchvs/1.0.5_3.7.7.3.zip",
       "service_component_name": "service-matchvs",
       "package_versions": [
+      ],
+      "build_platform": [
       ]
     },
     {
@@ -79,6 +83,8 @@
       "package_versions": [
         "1.0.0_2.3",
         "1.0.0_1.0.5"
+      ],
+      "build_platform": [
       ]
     },
     {
@@ -101,6 +107,8 @@
       "service_component_name": "service-anysdk",
       "package_versions": [
         "1.0.0_2.2.5"
+      ],
+      "build_platform": [
       ]
     },
     {
@@ -123,6 +131,8 @@
       "service_component_name": "service-cocosads",
       "package_versions": [
         "1.0.0_2.2.5"
+      ],
+      "build_platform": [
       ]
     }
   ],

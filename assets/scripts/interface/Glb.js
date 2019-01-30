@@ -31,6 +31,9 @@ let obj = {
     ownew:0, //只为做分数展示时判断使用
     mapType: "",
     FPS:30,//数据帧每秒采样次数
+    isJD:true,
+    jdGameID:19,
+    jdAppKey:"5e1b9972d30c43649e4153fa8e574316#J",
 };
 
 module.exports = obj;
