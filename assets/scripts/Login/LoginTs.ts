@@ -28,28 +28,28 @@ export default class NewClass extends cc.Component {
     private ms: MsRoomInfo;
 
     start() {
-        let self = this;
-        self.Engine = new MatchvsEngine();
-        self.Response = new MatchvsResponse();
-        this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
-            if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0 && self.appKeyInput.string === "" && self.appKeyInput.placeholder === "") {
-                return;
-            }
-            if (self.appKeyInput.string === "") {
-                self.AppKey = self.appKeyInput.placeholder;
-            } else {
-                self.AppKey = self.appKeyInput.string;
-            }
-            const gameVersion = 1;
-            if (Number(self.gameIdInput.string) === 0) {
-                self.Engine.init(self.Response, "Matchvs", "alpha", Number(self.gameIdInput.placeholder), this.AppKey, gameVersion);
-            } else {
-                self.Engine.init(self.Response, "Matchvs", "alpha", Number(self.gameIdInput.string), this.AppKey, gameVersion);
-            }
-
-        });
-
-        self.initEvent();
+        // let self = this;
+        // self.Engine = new MatchvsEngine();
+        // self.Response = new MatchvsResponse();
+        // this.confirm.on(cc.Node.EventType.TOUCH_END, function () {
+        //     if (Number(self.gameIdInput.string) === 0 && Number(self.gameIdInput.placeholder) === 0 && self.appKeyInput.string === "" && self.appKeyInput.placeholder === "") {
+        //         return;
+        //     }
+        //     if (self.appKeyInput.string === "") {
+        //         self.AppKey = self.appKeyInput.placeholder;
+        //     } else {
+        //         self.AppKey = self.appKeyInput.string;
+        //     }
+        //     const gameVersion = 1;
+        //     if (Number(self.gameIdInput.string) === 0) {
+        //         self.Engine.init(self.Response, "Matchvs", "alpha", Number(self.gameIdInput.placeholder), this.AppKey, gameVersion);
+        //     } else {
+        //         self.Engine.init(self.Response, "Matchvs", "alpha", Number(self.gameIdInput.string), this.AppKey, gameVersion);
+        //     }
+        //
+        // });
+        //
+        // self.initEvent();
     }
 
     /**

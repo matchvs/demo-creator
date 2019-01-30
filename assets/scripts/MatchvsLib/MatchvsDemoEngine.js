@@ -17,7 +17,7 @@ MatchvsDemoEngine.prototype.init = function(channel, platform){
         let gameVersion = 1;
         let result;
         if (Glb.isJD) {
-             result= mvs.engine.init(mvs.response, channel, platform,Glb.jdGameID,Glb.jdAppKey,gameVersion);
+             result= mvs.engine.init(mvs.response, "jdge", platform,Glb.jdGameID,Glb.jdAppKey,gameVersion);
         } else {
             result= mvs.engine.init(mvs.response, channel, platform,Glb.gameID,Glb.appKey,gameVersion);
         }
