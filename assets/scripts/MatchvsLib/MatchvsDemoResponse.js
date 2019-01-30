@@ -121,7 +121,7 @@ MatchvsDemoResponse.prototype.reconnectResponse = function (status,roomUserInfoL
  */
 MatchvsDemoResponse.prototype.errorResponse = function (errorCode,errorMsg) {
     console.log("发生错误了！！！");
-    MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_ERROE_MSG, {errorCode,errorMsg,type:msg.MATCHVS_ERROE_MSG});
+    MatchvsDemoResponse.prototype.sendEventToUI(msg.MATCHVS_ERROE_MSG, {"errorCode":errorCode,"errorMsg":errorMsg,type:msg.MATCHVS_ERROE_MSG});
 };
 
 /**
