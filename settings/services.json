@@ -33,6 +33,7 @@
         "HTML5"
       ],
       "package_download_url": "",
+      "package_version_desc": "",
       "service_component_name": "service-agora",
       "package_versions": [
       ],
@@ -56,10 +57,26 @@
         "HTML5"
       ],
       "package_download_url": "https://dream2913.gitee.io/ccserviceplugins/service-matchvs/1.0.5_3.7.7.3.zip",
+      "package_version_desc": "2019-01-17 11:00:00 <br>SDK版本：v3.7.7.3 <br>1. 增加 断线补帧接口 getOffLineData <br>2. 修改 login 接口和 init 接口参数，去掉重复参数。 <br>3. 修复 sendEvent 有新用户刚刚进入房间的时候收不到第一条消息。 <br>4. 修改 接口调用返回错误码，内部逻辑修改，功能不变。 <br>5. 增加 组队匹配 接口<br>6. 修复 组队开始匹配开始一次后不能再次匹配问题。 <br>7. 修复egret里检测不到网络断线问题。 <br>8. 其他内部代码的一些优化。 ",
       "service_component_name": "service-matchvs",
       "package_versions": [
+        "1.0.3_3.7.6.4",
+        "1.0.5_3.7.7.3"
       ],
       "build_platform": [
+        "web-mobile",
+        "web-desktop",
+        "fb-instant-games",
+        "wechatgame",
+        "wechatgame-subcontext",
+        "qqplay",
+        "android",
+        "android-instant",
+        "ios",
+        "mac",
+        "quickgame",
+        "qgame",
+        "huawei"
       ]
     },
     {
@@ -79,9 +96,9 @@
         "HTML5"
       ],
       "package_download_url": "http://dream2913.gitee.io/ccserviceplugins/service-analytics/1.0.0_1.0.5.zip",
+      "package_version_desc": "",
       "service_component_name": "service-analytics",
       "package_versions": [
-        "1.0.0_2.3",
         "1.0.0_1.0.5"
       ],
       "build_platform": [
@@ -104,6 +121,7 @@
         "HTML5"
       ],
       "package_download_url": "http://dream2913.gitee.io/ccserviceplugins/service-anysdk/1.0.0_2.2.5.zip",
+      "package_version_desc": "",
       "service_component_name": "service-anysdk",
       "package_versions": [
         "1.0.0_2.2.5"
@@ -128,6 +146,7 @@
         "HTML5"
       ],
       "package_download_url": "",
+      "package_version_desc": "",
       "service_component_name": "service-cocosads",
       "package_versions": [
         "1.0.0_2.2.5"

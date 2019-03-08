@@ -1,10 +1,10 @@
 # Matchvs_demo_creator
-- [官网](http://www.matchvs.com/serviceDownload)
+- [官网](http://home-ge.matrix.jdcloud.com/serviceGuide)
 - [在线体验链接](http://demo.matchvs.com/demo-creator/)
 
-**注意** 本demo支持creator1.X，creator2.X版本，如果有什么不明白的地方，可以加入Matchvs官网技术支持群450335262。欢迎你对我们的产品提出建议。
+**注意** 本demo支持creator1.X，creator2.X版本，有疑问可以在控制台发送工单或发邮件咨询 ：hanyongxiang@jd.com。欢迎你对我们的产品提出建议。
 
-用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，下面是游戏内同步效果图。
+用京东云战 SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，下面是游戏内同步效果图。
 
 ![conv_ops](demo.gif) 
 
@@ -16,15 +16,15 @@ Matchvs.js文件主要用于加载插件以及在native环境下加载JSB。
 
 在V3.7.4.3版本中使用最新SDK插件，在Native环境下不在使用JSB的的方式去加载。
 
-## 2：Matcvhs SDK使用的封装
+## 2：京东云战 SDK使用的封装
 
  1: 文件路径demo/assets/script/MatchvsDemoEngine.js
 
-主要封装了Matchvs SDK的主要功能请求。 例如 login ，registerUser等。
+主要封装了京东云战SDK的主要功能请求。 例如 login ，registerUser等。
 
  2: 文件路径demo/assets/script/MatchvsDemoResponse.js
 
-主要封装了Matchvs SDK的主要功能请求的异步回调，以及一部分通知。例如 loginResponse joinRoomNotify。 在这里收到对应的通知或通知以后，在通过 cocos的事件传递机制把对应的数据传递出去，
+主要封装了京东云战 SDK的主要功能请求的异步回调，以及一部分通知。例如 loginResponse joinRoomNotify。 在这里收到对应的通知或通知以后，在通过 cocos的事件传递机制把对应的数据传递出去，
 
 [cocos 事件传递机制参考地址 ](http://docs.cocos.com/creator/manual/zh/scripting/events.html?h=%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92)
 
