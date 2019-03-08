@@ -1,5 +1,4 @@
-let GLB = require("Glb");
-let platform = "alpha";
+let GLB = require("../interface/Glb");
 let DataStoreHost = GLB.platform === "release"? "https://vsopen.matchvs.com":"https://alphavsopen.matchvs.com";
 let getGameData = "/wc5/getUserData.do?";
 let setGameData = "/wc5/setUserData.do?";

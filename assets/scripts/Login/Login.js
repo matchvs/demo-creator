@@ -164,16 +164,7 @@ cc.Class({
         console.log("Login页面销毁");
     },
 
-    setUserData(GameID,userID,key,value,appKey,appSecret,platform) {
-        let request = new  XMLHttpRequest();
-        let url;
-        if(platform === "release"){
-            url = "https://vsuser.matchvs.com/wc6/thirdBind.do?"
-        }else if(platform === "alpha"){
-            url= "https://alphavsuser.matchvs.com/wc6/thirdBind.do?";
-        }
-        request.open("GET",url,true);
-    },
+
 
     /**
      * 绑定微信OpenID 返回用户信息
@@ -213,9 +204,6 @@ cc.Class({
         let params = "gameID="+GLB.gameID+"&openID="+wxUserInfo.openInfos.data.openid+"&session="+wxUserInfo.openInfos.data.session_key+"&thirdFlag=1";
         //计算签名
         let signstr = this.getSign(params);
-        //重组参数
-        // params = "userID=0&"+params+"&sign="+signstr;
-
         let jsonParam ={
             userID:0,
             gameID:GLB.gameID,
@@ -225,7 +213,6 @@ cc.Class({
             sign:signstr
         };
         req.send(jsonParam);
-
     },
 
     getBindOpenIDAddr :function(channel, platform){
