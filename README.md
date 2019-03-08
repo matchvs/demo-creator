@@ -1,5 +1,12 @@
 # Matchvs_demo_creator
-用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，本demo开始使用的creator版本为1.9.3,因为creator修改了部分API，暂不支持。
+- [官网](http://www.matchvs.com/serviceDownload)
+- [在线体验链接](http://demo.matchvs.com/demo-creator/)
+
+**注意** 本demo支持creator1.X，creator2.X版本，如果有什么不明白的地方，可以加入Matchvs官网技术支持群450335262。欢迎你对我们的产品提出建议。
+
+用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，下面是游戏内同步效果图。
+
+![conv_ops](demo.gif) 
 
 ## 1：加载插件
 
@@ -7,9 +14,11 @@
 
 Matchvs.js文件主要用于加载插件以及在native环境下加载JSB。
 
+在V3.7.4.3版本中使用最新SDK插件，在Native环境下不在使用JSB的的方式去加载。
+
 ## 2：Matcvhs SDK使用的封装
 
- 1: 文件路径demo/assets/script/MatchvsEngine.js
+ 1: 文件路径demo/assets/script/MatchvsDemoEngine.js
 
 主要封装了Matchvs SDK的主要功能请求。 例如 login ，registerUser等。
 
@@ -65,6 +74,26 @@ login —> Lobby -> Match -> game -> result -> Lobby;
 
 登陆 ——》大厅 ——》 随机匹配 ——》游戏场景 ——》 结算页面 ——》大厅。
 
+
+### 5：TS登陆代码与JS登陆代码的切换。
+
+  1：文件地址demo/assets/script/Login/Login.js
+	
+	需要使用JS代码进行登陆操作时候需要注册 Login.Ts代码中的start方法内的代码注释即可。
+  
+  2: 文件地址demo/assets/script/Login/Login.Ts
+		
+	需要使用Ts代码进行登陆操作时候需要注册 Login.js代码中的start方法内的代码注释即可。 	
+		
+**注意** Ts代码仅编写了登陆页面作为参考。没有做后续的功能。如果需要查看所有功能请使用JS代码进行调试。
+		
+### 6：Change Log
+
+V3.7.4.3
+
+1：优化demoUI，对demo页面进行美化。
+
+2：demo进行creator2.0+版本的适配工作。支持了creator全版本。
 
 
 
