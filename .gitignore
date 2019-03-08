@@ -4,3 +4,6 @@ local/
 .idea/
 build/
 packages/plugin-matchvs/matchvs/matchvsnative/
+settings/builder.json
+settings/project.json
+settings/services.json
