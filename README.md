@@ -2,7 +2,7 @@
 - [官网](http://www.matchvs.com/serviceDownload)
 - [在线体验链接](http://demo.matchvs.com/demo-creator/)
 
-**注意** 本demo支持creator1.X，creator2.X版本，如果有什么不明白的地方，可以加入Matchvs官网技术支持群450335262。欢迎你对我们的产品提出建议。
+**注意** 本demo支持creator1.X，creator2.X版本，如果有什么不明白的地方，可以加入Matchvs官网技术支持群（450335262（已满）)3群：769148220。欢迎你对我们的产品提出建议。
 
 用Matchvs SDK 和 creator 开发的多人摘星星，用于演示多人匹配、数据传输、帧同步、消息订阅等功能，下面是游戏内同步效果图。
 
